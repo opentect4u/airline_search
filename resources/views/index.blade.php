@@ -82,7 +82,7 @@
                             <div class="form-group">
                                 <label>Departure Date</label>
                                 <div id="datetimepicker" class="input-group">
-                                    <input type="text" name="date_of_birth" placeholder="dd/mm/yyyy" class="form-control border-right-0" data-format="dd-MM-yyyy">
+                                    <input type="text" name="departure_date" id="departure_date" placeholder="dd-mm-yyyy" class="form-control border-right-0" data-format="dd-MM-yyyy">
                                     <div class="input-group-append add-on">
                                       <span class="input-group-text bg-white pl-0"><i class="lar la-calendar-alt"></i></span>
                                     </div>
@@ -93,7 +93,7 @@
                             <div class="form-group">
                                 <label>Returning Date</label>
                                 <div id="datetimepicker" class="input-group">
-                                    <input type="text" name="date_of_birth" placeholder="dd/mm/yyyy" class="form-control border-right-0" data-format="dd-MM-yyyy">
+                                    <input type="text" name="returning_date" id="" placeholder="dd-mm-yyyy" class="form-control border-right-0" data-format="dd-MM-yyyy">
                                     <div class="input-group-append add-on">
                                       <span class="input-group-text bg-white pl-0"><i class="lar la-calendar-alt"></i></span>
                                     </div>
@@ -557,43 +557,49 @@
 
 </div>
 
+
+@endsection
+@section('script')
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script> -->
 <script type="text/javascript">
     $( document ).ready(function() {
-        // alert('hii');
         var path = "{{ route('searchairport') }}";
-        $('input.search_input').typeahead({
-            source:  function (query, process) {
-            return $.get(path, { query: query }, function (data) {
-                alert(data);
-                    return process(data);
+
+         // Set the Options for "Bloodhound" suggestion engine
+         var engine = new Bloodhound({
+                    remote: {
+                        // url: '/find?q=%QUERY%',
+                        url: path+'?q=%QUERY%',
+                        wildcard: '%QUERY%'
+                    },
+                    datumTokenizer: Bloodhound.tokenizers.whitespace('q'),
+                    queryTokenizer: Bloodhound.tokenizers.whitespace
                 });
-            }
+
+
+        $(".search_input").typeahead({
+                    hint: true,
+                    highlight: true,
+                    minLength: 1
+                }, {
+                    source: engine.ttAdapter(),
+
+                    // This will be appended to "tt-dataset-" to form the class name of the suggestion menu.
+                    name: 'airportList',
+
+                    // the key from the array we want to display (name,id,email,etc...)
+                    templates: {
+                        empty: [
+                            '<div class="list-group search-results-dropdown"><div class="list-group-item">Nothing found.</div></div>'
+                        ],
+                        header: [
+                            '<div class="list-group search-results-dropdown">'
+                        ],
+                        suggestion: function (data) {
+                            return '<span class="list-group-item">' + data + '</span>'
+                        }
+                    }
         });
-
-        // $(".search-input").typeahead({
-        //             hint: true,
-        //             highlight: true,
-        //             minLength: 1
-        //         }, {
-        //             source: engine.ttAdapter(),
-
-        //             // This will be appended to "tt-dataset-" to form the class name of the suggestion menu.
-        //             name: 'airportList',
-
-        //             // the key from the array we want to display (name,id,email,etc...)
-        //             templates: {
-        //                 empty: [
-        //                     '<div class="list-group search-results-dropdown"><div class="list-group-item">Nothing found.</div></div>'
-        //                 ],
-        //                 header: [
-        //                     '<div class="list-group search-results-dropdown">'
-        //                 ],
-        //                 suggestion: function (data) {
-        //                     return '<span class="list-group-item">' + data + '</span>'
-        //                 }
-        //             }
-        //});
     });
 </script>
 @endsection

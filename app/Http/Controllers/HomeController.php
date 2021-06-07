@@ -11,9 +11,19 @@ class HomeController extends Controller
         return view('index');
     }
 
-    public function SearchAirport(Request $request){
+    public function SearchAirport1(Request $request){
         $query=$request->input('query');
-        $data = AirportCodes::select("name","code")->where("name","LIKE","%{$query}%")->where("code","LIKE","%{$query}%")->get();
+        $data = AirportCodes::select("name","code")
+        // ->where("code","LIKE","%{$query}%")
+        ->where("name","LIKE","%{$query}%")
+        ->orWhere("code","LIKE","%{$query}%")
+        ->get();
         return response()->json($data);
+        // return response($data);
+    }
+    public function SearchAirport(Request $request){
+        return AirportCodes::search($request->get('q'))->select('name','code')->get()->map(function($airport){
+            return $airport->name . '('. $airport->code.')';
+        });
     }
 }

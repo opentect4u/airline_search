@@ -22,7 +22,7 @@ Route::get('/test',[App\Http\Controllers\TestController::class,'Test']);
 Route::get('/',[App\Http\Controllers\HomeController::class,'ShowIndex']);
 Route::get('/index',[App\Http\Controllers\HomeController::class,'ShowIndex'])->name('index');
 Route::get('/searchairport',[App\Http\Controllers\HomeController::class,'SearchAirport'])->name('searchairport');
-Route::post('/searchairport',[App\Http\Controllers\HomeController::class,'SearchAirport'])->name('searchairport');
+// Route::post('/searchairport',[App\Http\Controllers\HomeController::class,'SearchAirport'])->name('searchairport');
 
 
 Route::get('/flights',[App\Http\Controllers\FlightsController::class,'Search'])->name('flights');

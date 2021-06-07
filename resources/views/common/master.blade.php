@@ -5,6 +5,8 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+
         <meta name="description" content=""/>
         <meta name="keywords" content=""/>
         <!--css start-->
@@ -22,8 +24,16 @@
         <!-- css close-->
 
 <!-- start adding development time -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script> 
+      <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script> -->
+  
+        <script type="text/javascript">
+            $.ajaxSetup ( {
+                headers: {
+                    'X-CSRF-TOKEN': $ ( 'meta[name="csrf-token"]' ).attr ( 'content' )
+                }
+            } );
+        </script>
 <!-- end adding development time -->
 
     </head>
@@ -196,5 +206,13 @@ $(document).ready(function(){
   });
 })
 </script>
+
+<!-- start add some javascript -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script>
+<!-- <script src="{{ asset('public/js/typeahead.bundle.min.js') }}"></script> -->
+<!-- end add some javascript -->
+@yield('script')
+
 </body>
 </html>
