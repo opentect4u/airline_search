@@ -4,7 +4,7 @@
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                             <i class="las la-bars"></i>
                           </button>
-                        <a class="navbar-brand logo" href="{{route('index')}}"><img src="{{ asset('public//images/logo.png') }}" alt="logo" class="img-fluid"/></a>
+                        <a class="navbar-brand logo" href="{{route('index')}}"><img src="{{ asset('public/images/logo.png') }}" alt="logo" class="img-fluid"/></a>
 
                         <div class="d-block d-md-none ml-auto">
                             <a href="#" class="btn btn-sm btn-default"><i class="las la-headset"></i> Support</a>
@@ -14,10 +14,10 @@
                         <div class="collapse navbar-collapse" id="navbarNav">
                             <ul class="navbar-nav  nav-pills" >
                                 <li class="nav-item active">
-                                    <a class="nav-link" href="#flight">Flights</a>
+                                    <a class="nav-link" href="{{route('index')}}#flight">Flights</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#hotel">Hotels</a>
+                                    <a class="nav-link" href="{{route('index')}}#hotel">Hotels</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="#">Flights & Hotels</a>

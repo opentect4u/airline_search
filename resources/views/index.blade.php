@@ -50,7 +50,7 @@
 
         <div class="tab-content">
             <div id="flight" class="tab-pane active">
-                <form method="post" action="">
+                <form method="get" action="{{route('flights')}}">
                     <div class="form-group">
                         <ul class="cld__selectors">
                             <li><a href="#" class="active">One way</a></li>
@@ -60,29 +60,29 @@
                     </div>
                     <div class="form-group">
                         <div class="custom-control custom-checkbox custom-control-inline">
-                            <input type="checkbox" class="custom-control-input" id="direct_flight" name="example1" value="">
+                            <input type="checkbox" class="custom-control-input" id="direct_flight" name="direct_flight"  value="DF">
                             <label class="custom-control-label text-dark" for="direct_flight">Direct flights only</label>
                           </div>
                         <div class="custom-control custom-checkbox custom-control-inline">
-                            <input type="checkbox" class="custom-control-input" id="flexi" name="example1">
+                            <input type="checkbox" class="custom-control-input" id="flexi" name="flexi"  value="F">
                             <label class="custom-control-label text-dark" for="flexi">
                                 Flexi (+/- 3 days)</label>
                         </div>
                     </div>
                     <div class="form-group">
                         <label>From</label>
-                        <input type="text" name="addFrom" placeholder="(IXC) | Chandigarh Airport" class="form-control search_input">
+                        <input type="text" name="addFrom" id="addFrom" placeholder="(IXC) | Chandigarh Airport" class="form-control search_input">
                     </div>
                     <div class="form-group">
                         <label>To</label>
-                        <input type="text" name="addTo" placeholder="(BOM) | Chhatrapati Shivaji Int'l Airport" class="form-control search_input">
+                        <input type="text" name="addTo" id="addTo" placeholder="(BOM) | Chhatrapati Shivaji Int'l Airport" class="form-control search_input">
                     </div>
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
                                 <label>Departure Date</label>
-                                <div id="datetimepicker" class="input-group">
-                                    <input type="text" name="departure_date" id="departure_date" placeholder="dd-mm-yyyy" class="form-control border-right-0" data-format="dd-MM-yyyy">
+                                <div id="departure_date_datetimepicker" class="input-group">
+                                    <input type="text" name="departure_date" id="departure_date" value="<?php echo date('d-m-Y')?>" placeholder="dd-mm-yyyy" class="form-control border-right-0" data-format="dd-MM-yyyy">
                                     <div class="input-group-append add-on">
                                       <span class="input-group-text bg-white pl-0"><i class="lar la-calendar-alt"></i></span>
                                     </div>
@@ -126,7 +126,7 @@
                                 <div class="col-6 px-2">
                                     <div class="form-group">
                                         <label>Children <small>(2-15 yrs)</small></label>
-                                        <select name="adults" class="custom-select">
+                                        <select name="children" id="children" class="custom-select">
                                             <option selected>0</option>
                                             <option value="1">1</option>
                                             <option value="2">2</option>
@@ -143,7 +143,7 @@
                                 <div class="col-6 px-2">
                                     <div class="form-group">
                                         <label>Infant <small>(0-23 mths)</small></label>
-                                        <select name="adults" class="custom-select">
+                                        <select id="infant" name="infant" class="custom-select">
                                             <option selected>0</option>
                                             <option value="1">1</option>
                                             <option value="2">2</option>
@@ -155,7 +155,7 @@
                                 <div class="col-6 px-2">
                                     <div class="form-group">
                                         <label>Travel Class</label>
-                                        <select name="travel-class" class="custom-select">
+                                        <select name="travel_class" class="custom-select">
                                             <option value="Economy" selected>Economy</option>
                                             <option value="Business">Business</option>
                                             <option value="First Class">First Class</option>
@@ -166,8 +166,8 @@
                             </div>
                         </div>
                     </div>
-                    <!-- <button type="submit" class="btn btn-primary">Search Flight</button> -->
-                    <a href="flights.php" class="btn btn-primary">Search Flight</a>
+                    <button type="submit" id="flight_submit" name="" class="btn btn-primary">Search Flight</button>
+                    <!-- <a href="flights.php" class="btn btn-primary">Search Flight</a> -->
                 </form>
             </div>
             <div id="hotel" class="tab-pane fade mt-3">
@@ -600,6 +600,32 @@
                         }
                     }
         });
+
+        jQuery('#departure_date_datetimepicker').datetimepicker({
+            pickTime: false,
+            autoclose: true, 
+            startDate: new Date(),
+            todayHighlight: true,
+            autoclose: true,
+      });
+
+      $('#flight_submit').click(function(){
+        // alert("hii");
+        var addFrom=$('#addFrom').val();
+        var addTo=$('#addTo').val();
+        if(addFrom===""){
+            alert('Please enter From');
+            return false;
+        }else if(addTo===""){
+            alert('Please enter To');
+            return false;
+        }
+        // alert(addFrom);
+        // path='<?php echo route('flights');?>';
+        // var url=("{{route('flights')}}")
+        // window.location.href(path);
+        // window.location.assign(url);
+      })
     });
 </script>
 @endsection

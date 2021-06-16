@@ -25,8 +25,9 @@ Route::get('/searchairport',[App\Http\Controllers\HomeController::class,'SearchA
 // Route::post('/searchairport',[App\Http\Controllers\HomeController::class,'SearchAirport'])->name('searchairport');
 
 
-Route::get('/flights',[App\Http\Controllers\FlightsController::class,'Search'])->name('flights');
-Route::get('/flightDetails',[App\Http\Controllers\FlightsController::class,'FlightDetails'])->name('flightDetails');
+Route::get('/flights',[App\Http\Controllers\FlightController::class,'Search'])->name('flights');
+Route::post('/flightDetails',[App\Http\Controllers\FlightController::class,'FlightDetails'])->name('flightDetails');
+// Route::get('/flightDetails',[App\Http\Controllers\FlightsController::class,'FlightDetails'])->name('flightDetails');
 Route::get('/passengerDetails',[App\Http\Controllers\FlightsController::class,'PassengerDetails'])->name('passengerDetails');
 Route::get('/payment',[App\Http\Controllers\FlightsController::class,'Payment'])->name('payment');
 Route::get('/confirmBooking',[App\Http\Controllers\FlightsController::class,'ConfirmBooking'])->name('confirmBooking');
