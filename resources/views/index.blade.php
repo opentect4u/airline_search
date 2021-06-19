@@ -53,8 +53,8 @@
                 <form method="get" action="{{route('flights')}}">
                     <div class="form-group">
                         <ul class="cld__selectors">
-                            <li><a href="#" class="active">One way</a></li>
-                            <li><a href="#">Round trip</a></li>
+                            <li><a href="#" class="active" id="one_way">One way</a></li>
+                            <li><a href="#" id="round_trip">Round trip</a></li>
                             <li><a href="multi-city.php">Multi city</a></li>
                         </ul>
                     </div>
@@ -92,7 +92,7 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label>Returning Date</label>
-                                <div id="datetimepicker" class="input-group">
+                                <div id="returning_date_datetimepicker" class="input-group">
                                     <input type="text" name="returning_date" id="" placeholder="dd-mm-yyyy" class="form-control border-right-0" data-format="dd-MM-yyyy">
                                     <div class="input-group-append add-on">
                                       <span class="input-group-text bg-white pl-0"><i class="lar la-calendar-alt"></i></span>
@@ -103,15 +103,15 @@
                     </div>
                     <div class="form-group">
                         <label>Passangers & Class</label>
-                        <input type="text" name="" placeholder="1 Adult, 2 Child, Economy" class="form-control" onclick="traveller_selection();">
+                        <input type="text" name="" id="flight_travel_details" placeholder="1 Adult,  Economy" class="form-control" onclick="traveller_selection();">
                     
                         <div id="traveller_selection" style="display:none;">
                             <div class="row m-0">
                                 <div class="col-6 px-2">
                                     <div class="form-group">
                                         <label>Adults <small>(12+ yrs)</small></label>
-                                        <select name="adults" class="custom-select">
-                                            <option selected>1</option>
+                                        <select name="adults" id="adults" class="custom-select">
+                                            <option value="1">1</option>
                                             <option value="2">2</option>
                                             <option value="3">3</option>
                                             <option value="4">4</option>
@@ -155,7 +155,7 @@
                                 <div class="col-6 px-2">
                                     <div class="form-group">
                                         <label>Travel Class</label>
-                                        <select name="travel_class" class="custom-select">
+                                        <select name="travel_class" id="travel_class" class="custom-select">
                                             <option value="Economy" selected>Economy</option>
                                             <option value="Business">Business</option>
                                             <option value="First Class">First Class</option>
@@ -607,25 +607,122 @@
             startDate: new Date(),
             todayHighlight: true,
             autoclose: true,
-      });
+        });
+        jQuery('#returning_date_datetimepicker').datetimepicker({
+            pickTime: false,
+            autoclose: true, 
+            startDate: new Date(),
+            todayHighlight: true,
+            autoclose: true,
+        });
+        $("#returning_date_datetimepicker").click(function(){
+            // alert("hii");
+            // $('#one_way').removeAttr('class');
+            // $('#round_trip').attr('class','active');
+        });
 
-      $('#flight_submit').click(function(){
-        // alert("hii");
-        var addFrom=$('#addFrom').val();
-        var addTo=$('#addTo').val();
-        if(addFrom===""){
-            alert('Please enter From');
-            return false;
-        }else if(addTo===""){
-            alert('Please enter To');
-            return false;
-        }
-        // alert(addFrom);
-        // path='<?php echo route('flights');?>';
-        // var url=("{{route('flights')}}")
-        // window.location.href(path);
-        // window.location.assign(url);
-      })
+        $("#adults").change(function(){
+            // alert("hii");
+            var adults=$('#adults').val();
+            var children=$('#children').val();
+            var infant=$('#infant').val();
+            var travel_class=$('#travel_class').val();
+            // alert(adults);
+            if(infant>0 && children>0){
+                var val=adults+' Adults, '+children+' Child, '+infant+' Infant, '+travel_class;
+            }else if(infant>0){
+                var val=adults+' Adults, '+infant+' Infant, '+travel_class;
+            }else if(children>0){
+                var val=adults+' Adults, '+children+' Child, '+travel_class;
+            }else{
+                var val=adults+' Adults, '+travel_class;
+            }
+            $('#flight_travel_details').removeAttr('placeholder');
+            $('#flight_travel_details').attr('placeholder',val);
+            
+        });
+
+        $("#children").change(function(){
+            // alert("hii");
+            var adults=$('#adults').val();
+            var children=$('#children').val();
+            var infant=$('#infant').val();
+            var travel_class=$('#travel_class').val();
+            // alert(adults);
+            if(infant>0 && children>0){
+                var val=adults+' Adults, '+children+' Child, '+infant+' Infant, '+travel_class;
+            }else if(infant>0){
+                var val=adults+' Adults, '+infant+' Infant, '+travel_class;
+            }else if(children>0){
+                var val=adults+' Adults, '+children+' Child, '+travel_class;
+            }else{
+                var val=adults+' Adults, '+travel_class;
+            }
+            $('#flight_travel_details').removeAttr('placeholder');
+            $('#flight_travel_details').attr('placeholder',val);
+            
+        });
+        $("#infant").change(function(){
+            // alert("hii");
+            var adults=$('#adults').val();
+            var children=$('#children').val();
+            var infant=$('#infant').val();
+            var travel_class=$('#travel_class').val();
+            // alert(adults);
+            if(infant>0 && children>0){
+                var val=adults+' Adults, '+children+' Child, '+infant+' Infant, '+travel_class;
+            }else if(infant>0){
+                var val=adults+' Adults, '+infant+' Infant, '+travel_class;
+            }else if(children>0){
+                var val=adults+' Adults, '+children+' Child, '+travel_class;
+            }else{
+                var val=adults+' Adults, '+travel_class;
+            }
+            $('#flight_travel_details').removeAttr('placeholder');
+            $('#flight_travel_details').attr('placeholder',val);
+            
+        });
+        $("#travel_class").change(function(){
+            // alert("hii");
+            var adults=$('#adults').val();
+            var children=$('#children').val();
+            var infant=$('#infant').val();
+            var travel_class=$('#travel_class').val();
+            // alert(adults);
+            if(infant>0 && children>0){
+                var val=adults+' Adults, '+children+' Child, '+infant+' Infant, '+travel_class;
+            }else if(infant>0){
+                var val=adults+' Adults, '+infant+' Infant, '+travel_class;
+            }else if(children>0){
+                var val=adults+' Adults, '+children+' Child, '+travel_class;
+            }else{
+                var val=adults+' Adults, '+travel_class;
+            }
+            $('#flight_travel_details').removeAttr('placeholder');
+            $('#flight_travel_details').attr('placeholder',val);
+            
+        });
+
+      
+
+        $('#flight_submit').click(function(){
+            // alert("hii");
+            var addFrom=$('#addFrom').val();
+            var addTo=$('#addTo').val();
+            if(addFrom===""){
+                alert('Please enter From');
+                return false;
+            }else if(addTo===""){
+                alert('Please enter To');
+                return false;
+            }
+            // alert(addFrom);
+            // path='<?php echo route('flights');?>';
+            // var url=("{{route('flights')}}")
+            // window.location.href(path);
+            // window.location.assign(url);
+        })
+
     });
 </script>
 @endsection
