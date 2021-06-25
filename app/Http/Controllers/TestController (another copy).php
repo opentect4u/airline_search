@@ -122,9 +122,11 @@ public function parseOutput($content){	//parse the Search response to get values
 	//echo $LowFareSearchRsp;
 	$xml = simplexml_load_String("$LowFareSearchRsp", null, null, 'SOAP', true);	
 	
-	if(!$xml){
-        trigger_error("Encoding Error!", E_USER_ERROR);
-    }
+	// if($xml)
+	// 	echo "Processing! Please wait!";
+	// else{
+	// 	trigger_error("Encoding Error!", E_USER_ERROR);
+	// }
 
 	$Results = $xml->children('SOAP',true);
 	foreach($Results->children('SOAP',true) as $fault){
@@ -146,6 +148,7 @@ public function parseOutput($content){	//parse the Search response to get values
 		foreach($lowFare->children('air',true) as $airPriceSol){	
             		
 			if(strcmp($airPriceSol->getName(),'AirPricingSolution') == 0){		
+               		
 				$count = $count + 1;
 				file_put_contents($fileName, "Air Pricing Solutions Details ".$count.":\r\n", FILE_APPEND);
 				file_put_contents($fileName,"--------------------------------------\r\n", FILE_APPEND);
@@ -159,120 +162,52 @@ public function parseOutput($content){	//parse the Search response to get values
                         foreach($journey->children('air', true) as $segmentRef){	
                            						
 							if(strcmp($segmentRef->getName(),'AirSegmentRef') == 0){								
-                                $details=[];
+                                
                                 foreach($segmentRef->attributes() as $a => $b){	
                                    
 									$segment = $this->ListAirSegments($b, $lowFare);
 									foreach($segment->attributes() as $c => $d){
                                         if(strcmp($c, "Origin") == 0){
-                                            // $journeydetails->push(['From'=>$d]);
-                                            $details["From"]=$d;
+                                            $journeydetails->push(['From'=>$d]);
 											file_put_contents($fileName,"From ".$d."\r\n", FILE_APPEND);
 										}
 										if(strcmp($c, "Destination") == 0){
-                                            // $journeydetails->push(['To'=>$d]);
-                                            $details["To"]=$d;
+                                            $journeydetails->push(['To'=>$d]);
 											file_put_contents($fileName,"To ".$d."\r\n", FILE_APPEND);
 										}
 										if(strcmp($c, "Carrier") == 0){		
-                                            // $journeydetails->push(['Airline'=>$d]);	
-                                            $details["Airline"]=$d;								
+                                            $journeydetails->push(['Airline'=>$d]);									
 											file_put_contents($fileName,"Airline: ".$d."\r\n", FILE_APPEND);	
 										}
 										if(strcmp($c, "FlightNumber") == 0){	
-                                            // $journeydetails->push(['flight'=>$d]);
-                                            $details["Flight"]=$d;
+                                            $journeydetails->push(['flight'=>$d]);
 											file_put_contents($fileName,"Flight ".$d."\r\n", FILE_APPEND);
 										}
 										if(strcmp($c, "DepartureTime") == 0){	
-                                            // $journeydetails->push(['Depart'=>$d]);	
-                                            $details["Depart"]=$d;										
+                                            $journeydetails->push(['Depart'=>$d]);										
 											file_put_contents($fileName,"Depart ".$d."\r\n", FILE_APPEND);	
 										}
 										if(strcmp($c, "ArrivalTime") == 0){	
-                                            // $journeydetails->push(['Arrive'=>$d]);
-                                            $details["Arrive"]=$d;
+                                            $journeydetails->push(['Arrive'=>$d]);										
 											file_put_contents($fileName,"Arrive ".$d."\r\n", FILE_APPEND);	
-										
-                                        }	
-                                       
+										}	
+
+									
 									}
                                  
 								}
                                 
-                                $journeydetails->push($details);
-									
+                              
 							}
 						}	
 						 $Journey->push(['journey'=>collect($journeydetails)]);				
 											
 					}					
 				}
-               // Price Details
-                foreach($airPriceSol->children('air',true) as $priceInfo){
-                    $flightPrice = [];
-                    if(strcmp($priceInfo->getName(),'AirPricingInfo') == 0){
-                        foreach($priceInfo->attributes() as $e => $f){
-                            if(strcmp($e, "ApproximateBasePrice") == 0){
-                                // $flightPrice->push('Approx. Base Price: '.$f);
-                                $flightPrice['Approx Base Price'] = $f;
-                                // array_push($flightPrice, 'Approx. Base Price: '.$f);
-                            }
-                            if(strcmp($e, "ApproximateTaxes") == 0){
-                                // $flightPrice->push('Approx Taxes: '.$f);
-                                $flightPrice['Approx Taxes'] = $f;
-                                // array_push($flightPrice, 'Approx. Taxes: '.$f);
-                            }
-                            if(strcmp($e, "ApproximateTotalPrice") == 0){
-                                // $flightPrice->push('Approx Total Value: '.$f);
-                                $flightPrice['Approx Total Value'] = $f;
-                                // array_push($flightPrice, 'Approx. Total Price: '.$f);
-                            }
-                            if(strcmp($e, "BasePrice") == 0){
-                                // $flightPrice->push('Base Price'.$f);
-                                $flightPrice['Base Price'] = $f;
-                                // array_push($flightPrice, 'Base Price: '.$f);
-                            }
-                            if(strcmp($e, "Taxes") == 0){
-                                // $flightPrice->push('Taxes '.$f);
-                                $flightPrice['Taxes'] = $f;
-                                // array_push($flightPrice, 'Taxes: '.$f);
-                            }
-                            if(strcmp($e, "TotalPrice") == 0){
-                                // $flightPrice->push('Total Price '.$f);
-                                $flightPrice['Total Price'] = $f;
-                                // array_push($flightPrice, 'Total Price: '.$f);
-                            }
-
-                        }
-                        foreach($priceInfo->children('air',true) as $bookingInfo){
-                            if(strcmp($bookingInfo->getName(),'BookingInfo') == 0){
-                                foreach($bookingInfo->attributes() as $e => $f){
-                                    if(strcmp($e, "CabinClass") == 0){
-                                        // $flightPrice->push('Cabin Class'.$f);
-                                        // $flightPrice[$e] = $f;
-                                        $flightPrice['Cabin Class'] = $f;
-                                        // array_push($flightPrice, 'Cabin Class'.$f);
-                                    }
-                                }
-                            }
-                        }
-                    
-                    }
-                    if(count($flightPrice)){
-                          $Journey->push(['price'=>$flightPrice]);
-                        // $flight['price'] = collect($flightPrice);
-                    }
-
-                }
-			
-                $data->push(['flight'=>collect($Journey)]);
-                file_put_contents($fileName,"\r\n", FILE_APPEND);
- 
-            
-            
-            }
-
+				
+               $data->push(['flight'=>collect($Journey)]);
+               file_put_contents($fileName,"\r\n", FILE_APPEND);
+			}
 			
 		}
 	}
