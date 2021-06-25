@@ -310,71 +310,72 @@ EOM;
         // $cal_approxBaseFare= ($approxBaseFare * $adults);
         // $cal_taxes= ($taxes * $adults);
         // return $v1;
-        $flights=json_decode($request->flights);
-        foreach($flights as $datass){
-            // echo $datass;
-            print_r($datass) ;
-            // foreach($datass[0] as $journeys){
-            //     for ($i=0; $i < count($journeys); $i++) { 
-            //         echo $journeys[$i]['To'];
-            //         // echo "<br/><br/>";
-            //     }
-            // }
-        }
-        return json_decode($request->flights);
-        // $flightFrom =  str_replace(')','',explode('(',$request->addFrom)[1]);
-        // $flightTo =  str_replace(')','',explode('(',$request->addTo)[1]);
-        $TARGETBRANCH = 'P7141733';
-        $CREDENTIALS = 'Universal API/uAPI4648209292-e1e4ba84:9Jw*C+4c/5';
-        $Provider = '1G'; // Any provider you want to use like 1G/1P/1V/ACH
-        $returnSearch = '';
-        $searchLegModifier = '';
-        // $PreferredDate = Carbon::parse($request->departure_date)->format('Y-m-d');
+//         $flights=json_decode($request->flights);
+//         foreach($flights as $datass){
+//             // echo $datass;
+//             print_r($datass) ;
+//             // foreach($datass[0] as $journeys){
+//             //     for ($i=0; $i < count($journeys); $i++) { 
+//             //         echo $journeys[$i]['To'];
+//             //         // echo "<br/><br/>";
+//             //     }
+//             // }
+//         }
+//         return json_decode($request->flights);
+//         // $flightFrom =  str_replace(')','',explode('(',$request->addFrom)[1]);
+//         // $flightTo =  str_replace(')','',explode('(',$request->addTo)[1]);
+//         $TARGETBRANCH = 'P7141733';
+//         $CREDENTIALS = 'Universal API/uAPI4648209292-e1e4ba84:9Jw*C+4c/5';
+//         $Provider = '1G'; // Any provider you want to use like 1G/1P/1V/ACH
+//         $returnSearch = '';
+//         $searchLegModifier = '';
+//         // $PreferredDate = Carbon::parse($request->departure_date)->format('Y-m-d');
 
-        $query = '<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
-        <soap:Body>
-           <air:AirPriceReq AuthorizedBy="user" TargetBranch="'.$TARGETBRANCH.'" FareRuleType="long" xmlns:air="http://www.travelport.com/schema/air_v42_0">
-              <BillingPointOfSaleInfo OriginApplication="UAPI" xmlns="http://www.travelport.com/schema/common_v42_0"/>
-              <air:AirItinerary>
-                 <air:AirSegment Key="'.$request->key.'" Group="0" Carrier="KQ" FlightNumber="'.$request->flight.'" Origin="'.$request->from.'" Destination="'.$request->to.'" DepartureTime="'.$request->depart.'" ArrivalTime="'.$request->arrive.'" FlightTime="'.$request->flightTime.'" Distance="'.$request->distance.'" ETicketability="Yes" Equipment="E90" ChangeOfPlane="false" ParticipantLevel="Secure Sell" LinkAvailability="true" PolledAvailabilityOption="Polled avail used" OptionalServicesIndicator="false" AvailabilitySource="S" AvailabilityDisplayType="Fare Shop/Optimal Shop" ProviderCode="1G" ClassOfService="W">
-                 </air:AirSegment>
-              </air:AirItinerary>
-              <air:AirPricingModifiers/>
-              <com:SearchPassenger Key="1" Code="ADT" xmlns:com="http://www.travelport.com/schema/common_v42_0"/>
-              <air:AirPricingCommand/>
-           </air:AirPriceReq>
-        </soap:Body>
-     </soap:Envelope>';
-            $message = <<<EOM
-$query
-EOM;
-        $auth = base64_encode($CREDENTIALS);
-        $soap_do = curl_init("https://apac.universal-api.pp.travelport.com/B2BGateway/connect/uAPI/AirService");
-        /*("https://americas.universal-api.pp.travelport.com/B2BGateway/connect/uAPI/AirService");*/
-        $header = array(
-            "Content-Type: text/xml;charset=UTF-8",
-            "Accept: gzip,deflate",
-            "Cache-Control: no-cache",
-            "Pragma: no-cache",
-            "SOAPAction: \"\"",
-            "Authorization: Basic $auth",
-            "Content-length: ".strlen($message),
-        );
-        curl_setopt($soap_do, CURLOPT_POSTFIELDS, $message);
-        curl_setopt($soap_do, CURLOPT_HTTPHEADER, $header);
-        curl_setopt($soap_do, CURLOPT_RETURNTRANSFER, true);
-        $return = curl_exec($soap_do);
-        curl_close($soap_do);
-        return $return ;
-        $content = $this->prettyPrint($return);
-        // return $content;
-        $flights = ($this->parseOutput($content));
-        return $flights;
-        return view('flights.flight-details',[
-            'per_flight_details'=>$request,
-            'cal_approxBaseFare'=>$cal_approxBaseFare,
-            'cal_taxes'=>$cal_taxes
-        ]);
+//         $query = '<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+//         <soap:Body>
+//            <air:AirPriceReq AuthorizedBy="user" TargetBranch="'.$TARGETBRANCH.'" FareRuleType="long" xmlns:air="http://www.travelport.com/schema/air_v42_0">
+//               <BillingPointOfSaleInfo OriginApplication="UAPI" xmlns="http://www.travelport.com/schema/common_v42_0"/>
+//               <air:AirItinerary>
+//                  <air:AirSegment Key="'.$request->key.'" Group="0" Carrier="KQ" FlightNumber="'.$request->flight.'" Origin="'.$request->from.'" Destination="'.$request->to.'" DepartureTime="'.$request->depart.'" ArrivalTime="'.$request->arrive.'" FlightTime="'.$request->flightTime.'" Distance="'.$request->distance.'" ETicketability="Yes" Equipment="E90" ChangeOfPlane="false" ParticipantLevel="Secure Sell" LinkAvailability="true" PolledAvailabilityOption="Polled avail used" OptionalServicesIndicator="false" AvailabilitySource="S" AvailabilityDisplayType="Fare Shop/Optimal Shop" ProviderCode="1G" ClassOfService="W">
+//                  </air:AirSegment>
+//               </air:AirItinerary>
+//               <air:AirPricingModifiers/>
+//               <com:SearchPassenger Key="1" Code="ADT" xmlns:com="http://www.travelport.com/schema/common_v42_0"/>
+//               <air:AirPricingCommand/>
+//            </air:AirPriceReq>
+//         </soap:Body>
+//      </soap:Envelope>';
+//             $message = <<<EOM
+// $query
+// EOM;
+//         $auth = base64_encode($CREDENTIALS);
+//         $soap_do = curl_init("https://apac.universal-api.pp.travelport.com/B2BGateway/connect/uAPI/AirService");
+//         /*("https://americas.universal-api.pp.travelport.com/B2BGateway/connect/uAPI/AirService");*/
+//         $header = array(
+//             "Content-Type: text/xml;charset=UTF-8",
+//             "Accept: gzip,deflate",
+//             "Cache-Control: no-cache",
+//             "Pragma: no-cache",
+//             "SOAPAction: \"\"",
+//             "Authorization: Basic $auth",
+//             "Content-length: ".strlen($message),
+//         );
+//         curl_setopt($soap_do, CURLOPT_POSTFIELDS, $message);
+//         curl_setopt($soap_do, CURLOPT_HTTPHEADER, $header);
+//         curl_setopt($soap_do, CURLOPT_RETURNTRANSFER, true);
+//         $return = curl_exec($soap_do);
+//         curl_close($soap_do);
+//         return $return ;
+//         $content = $this->prettyPrint($return);
+//         // return $content;
+//         $flights = ($this->parseOutput($content));
+//         return $flights;
+//         return view('flights.flight-details',[
+//             'per_flight_details'=>$request,
+//             'cal_approxBaseFare'=>$cal_approxBaseFare,
+//             'cal_taxes'=>$cal_taxes
+//         ]);
+        return view('flights.flight-details');
     }
 
     public function PassengerDetails(){
