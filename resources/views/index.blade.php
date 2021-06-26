@@ -92,10 +92,10 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label>Returning Date</label>
-                                <div id="returning_date_datetimepicker" class="input-group">
-                                    <input type="text" name="returning_date" id="" placeholder="dd-mm-yyyy" class="form-control border-right-0" data-format="dd-MM-yyyy">
-                                    <div class="input-group-append add-on">
-                                      <span class="input-group-text bg-white pl-0"><i class="lar la-calendar-alt"></i></span>
+                                <div id="returning_date_datetimepicker" class="input-group returning_date_datetimepickerclass">
+                                    <input type="text" name="returning_date" id="returning_date" placeholder="dd-mm-yyyy" class="form-control border-right-0 returning_date_datetimepickerclass" data-format="dd-MM-yyyy">
+                                    <div class="input-group-append add-on returning_date_datetimepickerclass">
+                                      <span class="input-group-text bg-white pl-0 returning_date_datetimepickerclass"><i class="lar la-calendar-alt returning_date_datetimepickerclass"></i></span>
                                     </div>
                                 </div>
                             </div>
@@ -615,11 +615,25 @@
             todayHighlight: true,
             autoclose: true,
         });
-        $("#returning_date_datetimepicker").click(function(){
+        $('.returning_date_datetimepickerclass').click(function(){
             // alert("hii");
-            // $('#one_way').removeAttr('class');
-            // $('#round_trip').attr('class','active');
+            $('#one_way').removeAttr('class');
+            $('#round_trip').attr('class','active');
         });
+        $(".returning_date_datetimepickerclass").blur(function(){
+            // alert("This input field has lost its focus.");
+            // alert($('#returning_date').val());
+            if($('#returning_date').val()==''){
+                $('#round_trip').removeAttr('class');
+                $('#one_way').attr('class','active');
+            }
+            
+        });
+        // returning_date
+        // $(".returning_date_datetimepickerclass").on('click', function(event){
+        //     alert("hii");
+            
+        // });
 
         $("#adults").change(function(){
             // alert("hii");

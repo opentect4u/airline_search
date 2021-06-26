@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
-
+use Orchestra\Parser\Xml\Facade as XmlParser;
+use Illuminate\Support\Arr;
 class UtilityController extends Controller
 {
     public function convert_number_to_words($number) {
@@ -146,5 +149,73 @@ class UtilityController extends Controller
         }
     
         return $string;
+    }
+
+    public function universal_API($xmldata,$api_url){
+        $CREDENTIALS =app('App\Http\Controllers\UniversalConfigAPIController')->CREDENTIALS();
+        $auth = base64_encode("$CREDENTIALS");
+        // $soap_do = curl_init("https://apac.universal-api.pp.travelport.com/B2BGateway/connect/uAPI/UniversalRecordService");
+        $soap_do = curl_init($api_url);
+        /*("https://americas.universal-api.pp.travelport.com/B2BGateway/connect/uAPI/AirService");*/
+        $header = array(
+            "Content-Type: text/xml;charset=UTF-8",
+            "Accept: gzip,deflate",
+            "Cache-Control: no-cache",
+            "Pragma: no-cache",
+            "SOAPAction: \"\"",
+            "Authorization: Basic $auth",
+            "Content-length: ".strlen($xmldata),
+        );
+        //        curl_setopt($soap_do, CURLOPT_SSL_VERIFYPEER, false);
+        //        curl_setopt($soap_do, CURLOPT_SSL_VERIFYHOST, false);
+        //        curl_setopt($soap_do, CURLOPT_POST, true );
+        curl_setopt($soap_do, CURLOPT_POSTFIELDS, $xmldata);
+        curl_setopt($soap_do, CURLOPT_HTTPHEADER, $header);
+        curl_setopt($soap_do, CURLOPT_RETURNTRANSFER, true);
+        $return = curl_exec($soap_do);
+        curl_close($soap_do);
+        return $return;
+    }
+
+    public function Universal_API_SearchXML($travel_class,$flightFrom,$flightTo,$SearchDate){
+        $Provider =app('App\Http\Controllers\UniversalConfigAPIController')->Provider();
+        $TARGETBRANCH =app('App\Http\Controllers\UniversalConfigAPIController')->TARGETBRANCH();
+        
+        $searchLegModifier = ' <air:AirLegModifiers>
+              	<air:PreferredCabins>
+              	<com:CabinClass xmlns="http://www.travelport.com/schema/common_v42_0" Type="'. $travel_class.'"></com:CabinClass>
+              	</air:PreferredCabins>
+              </air:AirLegModifiers>';
+   
+             
+      $message = <<<EOM
+      <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"> 
+      <soapenv:Body>
+         <air:LowFareSearchReq TraceId="trace" AuthorizedBy="user" SolutionResult="true" TargetBranch="$TARGETBRANCH" xmlns:air="http://www.travelport.com/schema/air_v42_0" xmlns:com="http://www.travelport.com/schema/common_v42_0">
+            <com:BillingPointOfSaleInfo OriginApplication="UAPI"/>
+            <air:SearchAirLeg>
+               <air:SearchOrigin>
+                  <com:Airport Code="$flightFrom"/>
+               </air:SearchOrigin>
+               <air:SearchDestination>
+                  <com:Airport Code="$flightTo"/>
+               </air:SearchDestination>
+               <air:SearchDepTime PreferredTime="$SearchDate">
+               </air:SearchDepTime>
+               $searchLegModifier
+            </air:SearchAirLeg>
+            <air:AirSearchModifiers>
+               <air:PreferredProviders>
+                  <com:Provider Code="$Provider"/>
+               </air:PreferredProviders>
+            </air:AirSearchModifiers>   
+            <com:SearchPassenger BookingTravelerRef="1" Code="ADT" xmlns:com="http://www.travelport.com/schema/common_v42_0"/>
+         </air:LowFareSearchReq>
+      </soapenv:Body>
+   </soapenv:Envelope>
+EOM;
+
+        return $message;
+
     }
 }

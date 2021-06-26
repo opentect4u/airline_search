@@ -17,6 +17,7 @@ public function Test(){
     $CREDENTIALS = 'Universal API/uAPI4648209292-e1e4ba84:9Jw*C+4c/5';
 $Provider = '1G';//1G/1V/1P/ACH
 $PreferredDate = date('Y-m-d', strtotime("+75 day"));
+$returnDate= date('Y-m-d', strtotime("+80 day"));
 $message = <<<EOM
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
    <soapenv:Header/>
@@ -33,6 +34,7 @@ $message = <<<EOM
             <air:SearchDepTime PreferredTime="$PreferredDate">
             </air:SearchDepTime>            
          </air:SearchAirLeg>
+         
          <air:AirSearchModifiers>
             <air:PreferredProviders>
                <com:Provider Code="$Provider"/>

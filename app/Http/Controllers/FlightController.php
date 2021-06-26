@@ -11,137 +11,63 @@ use Illuminate\Support\Arr;
 class FlightController extends Controller
 {
     public function search(Request $request){
-//        return $request;
-        $flightFrom =  str_replace(')','',explode('(',$request->addFrom)[1]);
-        $flightTo =  str_replace(')','',explode('(',$request->addTo)[1]);
-        $TARGETBRANCH = 'P7141733';
-        $CREDENTIALS = 'Universal API/uAPI4648209292-e1e4ba84:9Jw*C+4c/5';
-        $Provider = '1G'; // Any provider you want to use like 1G/1P/1V/ACH
-        $returnSearch = '';
-        $searchLegModifier = '';
-        $PreferredDate = Carbon::parse($request->departure_date)->format('Y-m-d');
-        if($request->travel_class != 'All'){
-            $searchLegModifier = ' <air:AirLegModifiers>
-              	<air:PreferredCabins>
-              	<com:CabinClass xmlns="http://www.travelport.com/schema/common_v42_0" Type="'. $request ->travel_class.'"></com:CabinClass>
-              	</air:PreferredCabins>
-              </air:AirLegModifiers>';
-        }
+        // return $request;
+        $return_flights=[];
+        $return_stops=[];
+        $return_airlines=[];
+        $flights=[];
+        $stops=[];
+        $airlines=[];
+        $var_flightFrom =  str_replace(')','',explode('(',$request->addFrom)[1]);
+        $var_flightTo =  str_replace(')','',explode('(',$request->addTo)[1]);
+        $var_PreferredDate = Carbon::parse($request->departure_date)->format('Y-m-d');
+        $var_direct_flight=$request->direct_flight;
+        $var_flexi=$request->flexi;
+
         if($request->returning_date != null) {
-            $returnDate = Carbon::parse($request->returning_date)->format('Y-m-d');
-            $returnSearch = '
-         <air:SearchAirLeg>
-            <air:SearchOrigin>
-               <com:Airport Code="'.$flightTo.'"/>
-            </air:SearchOrigin>
-            <air:SearchDestination>
-               <com:Airport Code="'.$flightFrom.'"/>
-            </air:SearchDestination>
-            <air:SearchDepTime PreferredTime="'.$returnDate.'">
-            </air:SearchDepTime>
-            '. $searchLegModifier.'
-         </air:SearchAirLeg>';
+            $var_returnDate = Carbon::parse($request->returning_date)->format('Y-m-d');
+            $travel_class=$request->travel_class;
+            $flightFrom=$var_flightTo;
+            $flightTo=$var_flightFrom;
+            $SearchDate=$var_returnDate;
+            $xmldata=app('App\Http\Controllers\UtilityController')->Universal_API_SearchXML($travel_class,$flightFrom,$flightTo,$SearchDate);
+            $api_url = "https://apac.universal-api.pp.travelport.com/B2BGateway/connect/uAPI/AirService";
+            $return_return =app('App\Http\Controllers\UtilityController')->universal_API($xmldata,$api_url);
+            $return_content = $this->prettyPrint($return_return);
+            // $return_flights = $this->parseOutput($return_content);
+            $return_stops=$this->Stops($flights,$var_direct_flight,$var_flexi);
+            $return_airlines=$this->Airline($flights,$var_direct_flight,$var_flexi);
         }
 
-        $query = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"> 
-        <soapenv:Body>
-           <air:LowFareSearchReq ReturnUpsellFare="true" TraceId="trace" AuthorizedBy="user" SolutionResult="true" TargetBranch="'.$TARGETBRANCH.'" xmlns:air="http://www.travelport.com/schema/air_v42_0" xmlns:com="http://www.travelport.com/schema/common_v42_0">
-              <com:BillingPointOfSaleInfo OriginApplication="UAPI"/>
-              <air:SearchAirLeg>
-                 <air:SearchOrigin>
-                    <com:Airport Code="'.$flightFrom.'"/>
-                 </air:SearchOrigin>
-                 <air:SearchDestination>
-                    <com:Airport Code="'.$flightTo.'"/>
-                 </air:SearchDestination>
-                 <air:SearchDepTime PreferredTime="'.$PreferredDate.'">
-                 </air:SearchDepTime>
-                 '. $searchLegModifier.'
-              </air:SearchAirLeg>
-             '. $returnSearch .'
-              <air:AirSearchModifiers>
-                 <air:PreferredProviders>
-                    <com:Provider Code="'.$Provider.'"/>
-                 </air:PreferredProviders>
-              </air:AirSearchModifiers>     
-              <com:SearchPassenger BookingTravelerRef="1" Code="ADT" xmlns:com="http://www.travelport.com/schema/common_v42_0"/>
-           </air:LowFareSearchReq>
-        </soapenv:Body>
-     </soapenv:Envelope>';
-            $message = <<<EOM
-$query
-EOM;
-        $auth = base64_encode("$CREDENTIALS");
-        $soap_do = curl_init("https://apac.universal-api.pp.travelport.com/B2BGateway/connect/uAPI/AirService");
-        /*("https://americas.universal-api.pp.travelport.com/B2BGateway/connect/uAPI/AirService");*/
-        $header = array(
-            "Content-Type: text/xml;charset=UTF-8",
-            "Accept: gzip,deflate",
-            "Cache-Control: no-cache",
-            "Pragma: no-cache",
-            "SOAPAction: \"\"",
-            "Authorization: Basic $auth",
-            "Content-length: ".strlen($message),
-        );
-        //        curl_setopt($soap_do, CURLOPT_SSL_VERIFYPEER, false);
-        //        curl_setopt($soap_do, CURLOPT_SSL_VERIFYHOST, false);
-        //        curl_setopt($soap_do, CURLOPT_POST, true );
-        curl_setopt($soap_do, CURLOPT_POSTFIELDS, $message);
-        curl_setopt($soap_do, CURLOPT_HTTPHEADER, $header);
-        curl_setopt($soap_do, CURLOPT_RETURNTRANSFER, true);
-        $return = curl_exec($soap_do);
-        curl_close($soap_do);
-        // return $return;
-        //    return $return;
+        $travel_class=$request->travel_class;
+        $flightFrom=$var_flightFrom;
+        $flightTo=$var_flightTo;
+        $SearchDate=$var_PreferredDate;
+        $xmldata=app('App\Http\Controllers\UtilityController')->Universal_API_SearchXML($travel_class,$flightFrom,$flightTo,$SearchDate);
+        $api_url = "https://apac.universal-api.pp.travelport.com/B2BGateway/connect/uAPI/AirService";
+        $return =app('App\Http\Controllers\UtilityController')->universal_API($xmldata,$api_url);
         $content = $this->prettyPrint($return);
-        // return $content;
         $flights = ($this->parseOutput($content));
+        $stops=$this->Stops($flights,$var_direct_flight,$var_flexi);
+        $airlines=$this->Airline($flights,$var_direct_flight,$var_flexi);
         // return $flights;
-        // return count($flights);
-        
-        $airlines = [];
-        $stops= [];
-        foreach($flights as $datas){
-            foreach($datas as $datass){
-                foreach($datass[0] as $journeys){
-                    for ($i=0; $i < count($journeys); $i++) { 
-                        // if($i==count($datass[0])){
-                        // echo $journeys[$i]['To'];
-                        // }
-                        array_push($airlines,$journeys[$i]['Airline']);
-                    }
-                    array_push($stops,count($journeys));
-                    // echo "<br/><br/>";
-                    // print_r($journeys) ;
-                    // echo $journeys[0]['Airline'];
-                    // echo "<br/><br/>";
-                }
-                foreach($datass[1] as $prices){
-                    // echo  $prices['Total Price'];
-                    // print_r($prices) ;
-                    // echo "<br/><br/>";
-                }
-                // print_r($flight) ;
-                // echo "<br/><br/>";
-            }
-            // print_r($datas) ;
-            // echo "<br/><br/>";
+
+        if($request->price_order == "price_order"){
+            // $flights= array_reverse(collect($flights)->toArray());
+            // $search = collect($search)->sortByDesc('available_from_dt')->toArray();
+
+        }else{
+            // $flights = collect($flights)->sortBy('Total Price')->toArray();
         }
-        $airlines = array_unique($airlines);
-        $stops = array_unique($stops);
-        // return $stops;
-
-        // if($request->price_order == "price_order"){
-        //     $flights= array_reverse(collect($flights)->toArray());
-        //     // $search = collect($search)->sortByDesc('available_from_dt')->toArray();
-
-        // }
         // return $request;
         return view('flights.flights',[
             'searched' => $request,
             'flights'=>$flights,
             'airlines'=>$airlines,
-            'stops'=>$stops
+            'stops'=>$stops,
+            'return_flights'=>$return_flights,
+            'return_stops'=>$return_stops,
+            'return_airlines'=>$return_airlines
         ]);
     }
     public function prettyPrint($result){
@@ -381,4 +307,45 @@ EOM;
     public function PassengerDetails(){
         return view('flights.passenger-details');
     }
+
+
+    public function Stops($data,$direct_flight,$flexi){
+        $stops= [];
+        foreach($data as $datas){
+            foreach($datas as $datass){
+                foreach($datass[0] as $journeys){
+                    if($direct_flight=="DF" && count($journeys)>1 && $flexi=="")
+                    {
+                        continue;
+                    }elseif ($direct_flight=="" && count($journeys)==1 && $flexi=="F") {
+                        continue;
+                    }
+                    array_push($stops,count($journeys)-1);
+                }
+            }
+        }
+        $stops = array_unique($stops);
+        return $stops;
+    }
+    public function Airline($data,$direct_flight,$flexi){
+        $airlines = [];
+        foreach($data as $datas){
+            foreach($datas as $datass){
+                foreach($datass[0] as $journeys){
+                    for ($i=0; $i < count($journeys); $i++) { 
+                    if($direct_flight=="DF" && count($journeys)>1 && $flexi=="")
+                    {
+                        continue;
+                    }elseif ($direct_flight=="" && count($journeys)==1 && $flexi=="F") {
+                        continue;
+                    }
+                        array_push($airlines,$journeys[$i]['Airline']);
+                    }
+                }
+            }
+        }
+        $airlines = array_unique($airlines);
+        return $airlines;
+    }
+
 }

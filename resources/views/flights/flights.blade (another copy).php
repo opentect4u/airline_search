@@ -171,10 +171,10 @@
                         @foreach($stops as $stop)
                         <!-- {{$stop}} -->
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="Stops{{$stop}}" name="Stops" value="Stops{{$stop}}" onclick="filter()">
+                            <input type="checkbox" class="custom-control-input" id="Stops{{$stop}}" onclick="filterStops('Stops{{$stop}}')">
                             <label class="custom-control-label" for="Stops{{$stop}}">
                             <?php 
-                            if($stop==0){ echo "Non Stop";}else{echo ($stop)." Stop";}
+                            if($stop==1){ echo "Non Stop";}else{echo ($stop-1)." Stop";}
                             ?>
                             </label>
                         </div>
@@ -195,20 +195,16 @@
                     <div class="filter-set">
                         <h6 class="font-weight-600">Departure </h6>
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="Departure16" name="Departure" value="Departure16" onclick="filter()">
-                            <label class="custom-control-label" for="Departure16">Before 6AM</label>
+                            <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
+                            <label class="custom-control-label" for="customCheck">6AM-12 Noon</label>
                         </div>
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="Departure612" name="Departure" value="Departure612" onclick="filter()">
-                            <label class="custom-control-label" for="Departure612">6AM-12 Noon</label>
+                            <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
+                            <label class="custom-control-label" for="customCheck">12 Noon-6PM</label>
                         </div>
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="Departure126" name="Departure" value="Departure126" onclick="filter()">
-                            <label class="custom-control-label" for="Departure126">12 Noon-6PM</label>
-                        </div>
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="Departure6" name="Departure" value="Departure6" onclick="filter()">
-                            <label class="custom-control-label" for="Departure6">After 6PM</label>
+                            <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
+                            <label class="custom-control-label" for="customCheck">After 6PM</label>
                         </div>
                     </div>
                     <div class="filter-set">
@@ -220,7 +216,7 @@
                         <h6 class="font-weight-600">Airlines </h6>
                         @foreach($airlines as $airline)
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="Airline{{$airline}}" name="Airline" value="Airline{{$airline}}" onclick="filter()" >
+                            <input type="checkbox" class="custom-control-input" id="Airline{{$airline}}" onclick="filterAirline('Airline{{$airline}}')" >
                             <label class="custom-control-label" for="Airline{{$airline}}">{{ $airline }}</label>
                         </div>
                         @endforeach
@@ -260,7 +256,7 @@
                         <div class="col-md-2">Arrival</div>
                         <div class="col-md-3 text-center">Price <i class="las la-long-arrow-alt-up" id="price_order"></i></div>
                     </div>
-                <?php $count=1; $flightCount=0;$DepartureTime="";$DepartureSlot="";?>
+                <?php $count=1; $flightCount=0;?>
                 @foreach($flights as $flight)
                 @foreach($flight as $flight_data)
                 @foreach($flight_data[0] as $datas)
@@ -273,25 +269,8 @@
                 @continue
                 @endif
                 
-                    <?php foreach($flight_data[0] as $datas){
-                    $DepartureTime =\Carbon\Carbon::parse($datas[0]['Depart'])->format('H:i'); 
-                    } ?>
-                     <?php
-                     if ($DepartureTime>=0 &&$DepartureTime<6) {
-                        $DepartureSlot="Departure16";
-                     }
-                     elseif ($DepartureTime>=6 &&$DepartureTime<=12) {
-                         $DepartureSlot="Departure612";
-                     }
-                     elseif ($DepartureTime>=12 &&$DepartureTime<=18) {
-                         $DepartureSlot="Departure126";
-                     }
-                     elseif ($DepartureTime>=18 &&$DepartureTime<=24) {
-                         $DepartureSlot="Departure6";
-                     }
-                     ?>
                 
-                <div class="flight-devider GlobalDiv {{$DepartureSlot}} Airline<?php foreach($flight_data[0] as $datas){ echo $datas[0]['Airline']; } ?> Stops<?php  foreach($flight_data[0] as $datas){ echo count($datas)-1; } ?>" data-GlobalDiv="1">
+                <div class="flight-devider Airline<?php foreach($flight_data[0] as $datas){ echo $datas[0]['Airline']; } ?> Stops<?php  foreach($flight_data[0] as $datas){ echo count($datas); } ?>">
                     <div class="row align-items-center">
                         <div class="col-md-3 mb-2 mb-md-0">
                             <div class="media">
@@ -303,7 +282,7 @@
                         </div>
                         <div class="col-md-2 col-4">
                             <small><i class="las la-plane-departure h6"></i> <?php foreach($flight_data[0] as $datas){ echo \Carbon\Carbon::parse($datas[0]['Depart'])->format('d M Y'); } ?></small>
-                            <h6 class="font-weight-bold mb-0"> <?php foreach($flight_data[0] as $datas){echo \Carbon\Carbon::parse($datas[0]['Depart'])->format('H:i'); } ?></h6>
+                            <h6 class="font-weight-bold mb-0"> <?php foreach($flight_data[0] as $datas){ echo \Carbon\Carbon::parse($datas[0]['Depart'])->format('h:i'); } ?></h6>
                             <span class="text-muted"><?php foreach($flight_data[0] as $datas){ echo $datas[0]['From']; }?></span>
                         </div>
                         <div class="col-md-2 text-center col-4">
@@ -317,7 +296,7 @@
                         </div>
                         <div class="col-md-2 col-4">
                             <small><i class="las la-plane-arrival h6"></i> <?php foreach($flight_data[0] as $datas){ echo \Carbon\Carbon::parse($datas[count($datas)-1]['Arrive'])->format('d M Y'); } ?></small>
-                            <h6 class="font-weight-bold mb-0"> <?php foreach($flight_data[0] as $datas){ echo \Carbon\Carbon::parse($datas[count($datas)-1]['Arrive'])->format('H:i'); } ?></h6>
+                            <h6 class="font-weight-bold mb-0"> <?php foreach($flight_data[0] as $datas){ echo \Carbon\Carbon::parse($datas[count($datas)-1]['Arrive'])->format('h:i'); } ?></h6>
                             <span class="text-muted"><?php foreach($flight_data[0] as $datas){  echo $datas[count($datas)-1]['To'];}?></span>
                         </div>
                        
@@ -971,124 +950,36 @@
         // window.location.assign(url);
       })
     });
-    
-    function filter()
-    {
-        // if ($("."+this.value).attr("data-GlobalDiv")==1) 
-        // $(".GlobalDiv").attr("data-GlobalDiv", "0")
-      var SearchCount=0;
-      var count=0;
-     
-        $(".GlobalDiv").attr("data-GlobalDiv", "0")
-        $(".GlobalDiv").hide();
-       
-       var arr=[];
-       var Departure=0;
-          $('input[name="Departure"]:checked').each(function() {
-          Departure=1
-          });
-          if (Departure==1) {
-            arr.push("Departure");
-          }
-       var Stops=0;
-       $('input[name="Stops"]:checked').each(function() {
-           Stops=1
-          });
-          if (Stops==1) {
-            arr.push("Stops");
-          }
-       var Airline=0;
-       $('input[name="Airline"]:checked').each(function() {
-        Airline=1
-          });
-          if (Airline==1) {
-            arr.push("Airline");
-          }
-          
-          $.each(arr, function( index, d ) {
-            SearchCount=1;
-            count+=1;
-            
-            $('input[name="'+d+'"]:checked').each(function() {
-            if (SearchCount==count) {
-                    $("."+this.value).show(); 
-                    $("."+this.value).attr("data-GlobalDiv", "1")  
-                    
+
+    function filterAirline(airline){
+            // console.log(document.querySelectorAll('.'+airline).length)
+            // console.log($("input[type=checkbox]:checked").val());
+            var i = 0;
+            while (i < document.querySelectorAll('.'+airline).length) {
+                if($("input[type=checkbox][id="+airline+"]:checked").val() === 'on'){
+                    document.getElementsByClassName(airline)[i].style.display = '';
+                } else{
+                    document.getElementsByClassName(airline)[i].style.display = 'none';
+                }
+                    i++;
             }
-            else if(count>SearchCount) 
-            {
-                if ($("."+this.value).attr("data-GlobalDiv")=="1") 
-                {
-                    $("."+this.value).show();     
-                }  
-            }
-          });
-          $('input[name="'+d+'"]:not(:checked)').each(function() {
-           
-                $("."+this.value).attr("data-GlobalDiv", "0")
-                $("."+this.value).hide();
 
-                
-              });
-          
-          });
-        //  if (Stops==1&&Airline==1) {
-        //     $('input[name="Stops"]:checked').each(function() {
-        //     count=1
-        //     GlobalSearchCount=1;
-
-        //     $("."+this.value).show();  
-        //             $("."+this.value).attr("data-GlobalDiv", "1")
-
-        //         if ($("."+this.value).attr("data-GlobalDiv")==1) 
-        //         {
+        }
+        function filterStops(stops){
+            // console.log(document.querySelectorAll('.'+airline).length)
+            // console.log($("input[type=checkbox]:checked").val());
+            var i = 0;
+            while (i < document.querySelectorAll('.'+stops).length) {
+                if($("input[type=checkbox][id="+stops+"]:checked").val() === 'on'){
+                    document.getElementsByClassName(stops)[i].style.display = 'block';
+                } else{
+                    document.getElementsByClassName(stops)[i].style.display = 'none';
                     
-        //         }  
-        //     } else {
-        //         $("."+this.value).show(); 
-        //         $("."+this.value).attr("data-GlobalDiv", "1")
-        //     }
-        //   });
-         
-        //   if(GlobalSearchCount==1)
-        //   {
-        //     $('input[name="Stops"]:not(:checked)').each(function() {
-        //         $("."+this.value).hide();
-        //         $("."+this.value).attr("data-GlobalDiv", "0")
-        //       });  
-        //   } 
-        //  }
-       
-         
-         
-         
-        //   $('input[name="Airline"]:checked').each(function() {
-        //     count=1
-        //     GlobalSearchCount=1;
-        //     if ($("."+this.value).attr("data-GlobalDiv")==1) 
-        //     {
-        //         $("."+this.value).show();
-        //     }
+                }
+                    i++;
+            }
 
-        //   });
-        //   if(GlobalSearchCount==1)
-        //   {
-        //     $('input[name="Airline"]:not(:checked)').each(function() {
-
-        //         $(".GlobalDiv").attr("data-GlobalDiv", "0")
-
-
-        //       });  
-        //   }
-
-          if(SearchCount==0)
-          {
-            $(".GlobalDiv").show();
-            $(".GlobalDiv").attr("data-GlobalDiv", "1")
-          }
-    }
-        
-        
+        }
 
     //sorting 
     $('#price_order').click(function(){

@@ -58,7 +58,7 @@ class FlightsController extends Controller
             '. $searchLegModifier.'
          </air:SearchAirLeg>
         '. $returnSearch .'
-         <air:AirSearchModifiers DistanceType="MI" IncludeFlightDetails="true">
+         <air:AirSearchModifiers >
             <air:PreferredProviders>
                <com:Provider Code="'.$Provider.'"/>
             </air:PreferredProviders>
@@ -218,7 +218,7 @@ EOM;
                 }
             }
             
-            // return $data;
+            return $data;
             $airlines = [];
             $stops= [];
             // return count($data);
