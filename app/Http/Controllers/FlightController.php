@@ -34,9 +34,10 @@ class FlightController extends Controller
             $api_url = "https://apac.universal-api.pp.travelport.com/B2BGateway/connect/uAPI/AirService";
             $return_return =app('App\Http\Controllers\UtilityController')->universal_API($xmldata,$api_url);
             $return_content = $this->prettyPrint($return_return);
-            // $return_flights = $this->parseOutput($return_content);
-            $return_stops=$this->Stops($flights,$var_direct_flight,$var_flexi);
-            $return_airlines=$this->Airline($flights,$var_direct_flight,$var_flexi);
+            $return_flights = $this->parseOutput($return_content);
+            $return_stops=$this->Stops($return_flights,$var_direct_flight,$var_flexi);
+            $return_airlines=$this->Airline($return_flights,$var_direct_flight,$var_flexi);
+            // return $return_stops;
         }
 
         $travel_class=$request->travel_class;
@@ -53,11 +54,18 @@ class FlightController extends Controller
         // return $flights;
 
         if($request->price_order == "price_order"){
-            // $flights= array_reverse(collect($flights)->toArray());
+            $flights= array_reverse(collect($flights)->toArray());
             // $search = collect($search)->sortByDesc('available_from_dt')->toArray();
 
-        }else{
-            // $flights = collect($flights)->sortBy('Total Price')->toArray();
+        }
+        // else{
+        //     // $flights = collect($flights)->sortBy('Total Price')->toArray();
+        // }
+        if($request->departure_order == "ASC"){
+            $flights = collect($flights)->sortBy('Depart')->toArray();
+            // return $flights;
+        }else if($request->departure_order == "DESC"){
+
         }
         // return $request;
         return view('flights.flights',[
@@ -236,19 +244,35 @@ class FlightController extends Controller
         // $cal_approxBaseFare= ($approxBaseFare * $adults);
         // $cal_taxes= ($taxes * $adults);
         // return $v1;
-//         $flights=json_decode($request->flights);
-//         foreach($flights as $datass){
-//             // echo $datass;
-//             print_r($datass) ;
-//             // foreach($datass[0] as $journeys){
-//             //     for ($i=0; $i < count($journeys); $i++) { 
-//             //         echo $journeys[$i]['To'];
-//             //         // echo "<br/><br/>";
-//             //     }
-//             // }
-//         }
-//         return json_decode($request->flights);
-//         // $flightFrom =  str_replace(')','',explode('(',$request->addFrom)[1]);
+        // return $request->flights;
+        $flights=json_decode($request->flights);
+        // return  $flights;
+        // echo count($flights[0]);
+        $data='';
+        foreach($flights[0] as $journeys){
+            // echo count($journeys);
+            for ($i=0; $i < count($journeys); $i++) { 
+                //    print_r($journeys[$i]); 
+            //    echo '<air:AirSegment Key="'.get_object_vars($journeys[$i]->Key)[0].'" Group="'.get_object_vars($journeys[$i]->Group)[0].'" Carrier="'.get_object_vars($journeys[$i]->Airline)[0].'" FlightNumber="'.get_object_vars($journeys[$i]->Flight)[0].'" Origin="'.get_object_vars($journeys[$i]->From)[0].'" Destination="'.get_object_vars($journeys[$i]->To)[0].'" DepartureTime="'.get_object_vars($journeys[$i]->Depart)[0].'" ArrivalTime="'.get_object_vars($journeys[$i]->Arrive)[0].'" FlightTime="'.get_object_vars($journeys[$i]->FlightTime)[0].'" Distance="'.get_object_vars($journeys[$i]->Distance)[0].'" ETicketability="Yes" Equipment="E90" ChangeOfPlane="false" ParticipantLevel="Secure Sell" LinkAvailability="true" PolledAvailabilityOption="Polled avail used" OptionalServicesIndicator="false" AvailabilitySource="S" AvailabilityDisplayType="Fare Shop/Optimal Shop" ProviderCode="'.$Provider.'" ClassOfService="W"></air:AirSegment>';
+               echo  get_object_vars($journeys[$i]->Key)[0]; echo "<br/>";
+               echo  get_object_vars($journeys[$i]->Group)[0]; echo "<br/>";
+               echo  get_object_vars($journeys[$i]->Airline)[0]; echo "<br/>";
+               echo  get_object_vars($journeys[$i]->Flight)[0]; echo "<br/>";
+               echo  get_object_vars($journeys[$i]->From)[0]; echo "<br/>";
+               echo  get_object_vars($journeys[$i]->To)[0]; echo "<br/>";
+               echo  get_object_vars($journeys[$i]->Depart)[0]; echo "<br/>";
+               echo  get_object_vars($journeys[$i]->Arrive)[0]; echo "<br/>";
+               echo  get_object_vars($journeys[$i]->FlightTime)[0]; echo "<br/>";
+               echo  get_object_vars($journeys[$i]->Distance)[0]; echo "<br/>";
+                    
+            }
+        }
+        // echo  $data;
+        // foreach($flights[1] as $prices){
+        //     
+        // }
+        // return json_decode($request->flights);
+//         // $flightFrom =  str_replace('Key)','',explode('(',$request->addFrom)[1]);
 //         // $flightTo =  str_replace(')','',explode('(',$request->addTo)[1]);
 //         $TARGETBRANCH = 'P7141733';
 //         $CREDENTIALS = 'Universal API/uAPI4648209292-e1e4ba84:9Jw*C+4c/5';
@@ -257,20 +281,21 @@ class FlightController extends Controller
 //         $searchLegModifier = '';
 //         // $PreferredDate = Carbon::parse($request->departure_date)->format('Y-m-d');
 
-//         $query = '<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
-//         <soap:Body>
-//            <air:AirPriceReq AuthorizedBy="user" TargetBranch="'.$TARGETBRANCH.'" FareRuleType="long" xmlns:air="http://www.travelport.com/schema/air_v42_0">
-//               <BillingPointOfSaleInfo OriginApplication="UAPI" xmlns="http://www.travelport.com/schema/common_v42_0"/>
-//               <air:AirItinerary>
-//                  <air:AirSegment Key="'.$request->key.'" Group="0" Carrier="KQ" FlightNumber="'.$request->flight.'" Origin="'.$request->from.'" Destination="'.$request->to.'" DepartureTime="'.$request->depart.'" ArrivalTime="'.$request->arrive.'" FlightTime="'.$request->flightTime.'" Distance="'.$request->distance.'" ETicketability="Yes" Equipment="E90" ChangeOfPlane="false" ParticipantLevel="Secure Sell" LinkAvailability="true" PolledAvailabilityOption="Polled avail used" OptionalServicesIndicator="false" AvailabilitySource="S" AvailabilityDisplayType="Fare Shop/Optimal Shop" ProviderCode="1G" ClassOfService="W">
-//                  </air:AirSegment>
-//               </air:AirItinerary>
-//               <air:AirPricingModifiers/>
-//               <com:SearchPassenger Key="1" Code="ADT" xmlns:com="http://www.travelport.com/schema/common_v42_0"/>
-//               <air:AirPricingCommand/>
-//            </air:AirPriceReq>
-//         </soap:Body>
-//      </soap:Envelope>';
+        $query = '<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+        <soap:Body>
+           <air:AirPriceReq AuthorizedBy="user" TargetBranch="'.$TARGETBRANCH.'" FareRuleType="long" xmlns:air="http://www.travelport.com/schema/air_v42_0">
+              <BillingPointOfSaleInfo OriginApplication="UAPI" xmlns="http://www.travelport.com/schema/common_v42_0"/>
+              <air:AirItinerary>
+              
+                <air:AirSegment Key="'.$request->key.'" Group="0" Carrier="KQ" FlightNumber="'.$request->flight.'" Origin="'.$request->from.'" Destination="'.$request->to.'" DepartureTime="'.$request->depart.'" ArrivalTime="'.$request->arrive.'" FlightTime="'.$request->flightTime.'" Distance="'.$request->distance.'" ETicketability="Yes" Equipment="E90" ChangeOfPlane="false" ParticipantLevel="Secure Sell" LinkAvailability="true" PolledAvailabilityOption="Polled avail used" OptionalServicesIndicator="false" AvailabilitySource="S" AvailabilityDisplayType="Fare Shop/Optimal Shop" ProviderCode="1G" ClassOfService="W">
+                </air:AirSegment>
+              </air:AirItinerary>
+              <air:AirPricingModifiers/>
+              <com:SearchPassenger Key="1" Code="ADT" xmlns:com="http://www.travelport.com/schema/common_v42_0"/>
+              <air:AirPricingCommand/>
+           </air:AirPriceReq>
+        </soap:Body>
+     </soap:Envelope>';
 //             $message = <<<EOM
 // $query
 // EOM;
@@ -301,7 +326,7 @@ class FlightController extends Controller
 //             'cal_approxBaseFare'=>$cal_approxBaseFare,
 //             'cal_taxes'=>$cal_taxes
 //         ]);
-        return view('flights.flight-details');
+        // return view('flights.flight-details');
     }
 
     public function PassengerDetails(){

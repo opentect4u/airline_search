@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Orchestra\Parser\Xml\Facade as XmlParser;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Hash;
 
 class TestController extends Controller
 {

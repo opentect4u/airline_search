@@ -44,8 +44,8 @@
                 <input type="hidden" name="direct_flight" id="direct_flight" value="{{isset($searched->direct_flight)?$searched->direct_flight:''}}">
                 <div class="form-group">
                     <ul class="cld__selectors">
-                        <li><a href="#" class="active">One way</a></li>
-                        <li><a href="#">Round trip</a></li>
+                        <li><a href="#" class="active" id="one_way">One way</a></li>
+                        <li><a href="#" id="round_trip">Round trip</a></li>
                     </ul>
                 </div>
                 <div class="row">
@@ -75,10 +75,10 @@
                     <div class="col-md-2 col-6">
                         <div class="form-group">
                             <label>Returning Date</label>
-                            <div id="datetimepicker" class="input-group">
-                                <input type="text" name="returning_date" placeholder="dd-mm-yyyy" class="form-control border-right-0" data-format="dd-MM-yyyy">
-                                <div class="input-group-append add-on">
-                                <span class="input-group-text bg-white pl-0"><i class="lar la-calendar-alt"></i></span>
+                            <div id="returning_date_datetimepicker" class="input-group returning_date_datetimepickerclass">
+                                <input type="text" name="returning_date" id="returning_date" placeholder="dd-mm-yyyy" class="form-control border-right-0 returning_date_datetimepickerclass" data-format="dd-MM-yyyy" value={{ isset($searched->returning_date)? \Carbon\Carbon::parse($searched->returning_date)->format('d-m-Y'):'' }}>
+                                <div class="input-group-append add-on returning_date_datetimepickerclass">
+                                <span class="input-group-text bg-white pl-0 returning_date_datetimepickerclass"><i class="lar la-calendar-alt returning_date_datetimepickerclass"></i></span>
                                 </div>
                             </div>
                         </div>
@@ -179,18 +179,6 @@
                             </label>
                         </div>
                         @endforeach
-                        <!-- <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="Stops{{$stop}}" name="example1">
-                            <label class="custom-control-label" for="Stops{{$stop}}"></label>
-                        </div>
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
-                            <label class="custom-control-label" for="customCheck">1 Stop</label>
-                        </div>
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
-                            <label class="custom-control-label" for="customCheck">1+ Stop</label>
-                        </div> -->
                     </div>
                     <div class="filter-set">
                         <h6 class="font-weight-600">Departure </h6>
@@ -213,8 +201,23 @@
                     </div>
                     <div class="filter-set">
                         <h6 class="font-weight-600">Price Range</h6>
-                        <label for="customRange"><i class="fas fa-rupee-sign"></i> 26,000/-</label>
-                        <input type="range" class="custom-range" id="customRange" name="points1">
+                        <label for="onwwayRange"><i class="fas fa-rupee-sign" id="amount"></i> </label>
+                        <input type="range" class="custom-range" id="onwwayRange" name="onwwayRange">
+                        <input type="hidden" class="custom-range" id="onwwayRange_minprice" name="onwwayRange_minprice" value="<?php 
+                            foreach($flights[0] as $flight){
+                                foreach($flight[1] as $prices){ 
+                                    echo (str_replace('GBP','',$prices['Total Price'])*100);
+                                }
+                            }
+                        ?>">
+                        <input type="hidden" class="custom-range" id="onwwayRange_maxprice" name="onwwayRange_maxprice" value="<?php 
+                            foreach($flights[(count($flights)-1)] as $flight){
+                                foreach($flight[1] as $prices){ 
+                                    echo (str_replace('GBP','',$prices['Total Price'])*100);
+                                }
+                            }
+                        ?>">
+                        
                     </div>
                     <div class="filter-set">
                         <h6 class="font-weight-600">Airlines </h6>
@@ -224,22 +227,6 @@
                             <label class="custom-control-label" for="Airline{{$airline}}">{{ $airline }}</label>
                         </div>
                         @endforeach
-                        <!-- <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
-                            <label class="custom-control-label" for="customCheck">Air Asia</label>
-                        </div>
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
-                            <label class="custom-control-label" for="customCheck">Go Air</label>
-                        </div>
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
-                            <label class="custom-control-label" for="customCheck">IndiGo</label>
-                        </div>
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
-                            <label class="custom-control-label" for="customCheck">Vistara</label>
-                        </div> -->
                     </div>
                 </div>
             </div>
@@ -255,16 +242,19 @@
                     </div>
                     <div class="row row-heading d-none d-md-flex">
                         <div class="col-md-3">Airlines</div>
-                        <div class="col-md-2">Departure</div>
+                        <div class="col-md-2" data-departureordervalue="ASC" id="departure_order" style="cursor: pointer;">Departure<i class="las la-long-arrow-alt-up"></i><i class="las la-long-arrow-alt-down"></i></div>
                         <div class="col-md-2 text-center">Duration</div>
                         <div class="col-md-2">Arrival</div>
-                        <div class="col-md-3 text-center">Price <i class="las la-long-arrow-alt-up" id="price_order"></i></div>
+                        <div class="col-md-3 text-center" id="price_order" style="cursor: pointer;">Price <i class="las la-long-arrow-alt-up"></i><i class="las la-long-arrow-alt-down"></i></div>
                     </div>
-                <?php $count=1; $flightCount=0;$DepartureTime="";$DepartureSlot="";?>
+             <div class="MainDiv">
+                <?php $count=1; $flightCount=0;$DepartureTime="";$DepartureSlot="";$DepartureTimeOrder =[];?>
                 @foreach($flights as $flight)
                 @foreach($flight as $flight_data)
                 @foreach($flight_data[0] as $datas)
-                <?php $rrr=count($datas);?>
+                <?php $rrr=count($datas);
+                array_push($DepartureTimeOrder,\Carbon\Carbon::parse($datas[0]['Depart'])->format('H:i'));
+                ?>
                 @endforeach
                 
                 @if($searched->direct_flight == 'DF' && $rrr>1 && $searched->flexi=="")
@@ -291,7 +281,7 @@
                      }
                      ?>
                 
-                <div class="flight-devider GlobalDiv {{$DepartureSlot}} Airline<?php foreach($flight_data[0] as $datas){ echo $datas[0]['Airline']; } ?> Stops<?php  foreach($flight_data[0] as $datas){ echo count($datas)-1; } ?>" data-GlobalDiv="1">
+                 <div id="SortDeparture{{$count}}" class="flight-devider GlobalDiv {{$DepartureSlot}} Airline<?php foreach($flight_data[0] as $datas){ echo $datas[0]['Airline']; } ?> Stops<?php  foreach($flight_data[0] as $datas){ echo count($datas)-1; } ?>" data-GlobalDiv="1" data-TotalpriceDiv="<?php foreach($flight_data[1] as $prices){ echo (str_replace('GBP','',$prices['Total Price'] )*100); } ?>" data-Deprature-time="<?php foreach($flight_data[0] as $datas){echo \Carbon\Carbon::parse($datas[0]['Depart'])->format('H:i'); } ?>">
                     <div class="row align-items-center">
                         <div class="col-md-3 mb-2 mb-md-0">
                             <div class="media">
@@ -480,12 +470,12 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <?php $count++; ?>
+                 </div>
+                 <?php $count++; ?>
                 
-                @endforeach
-                @endforeach
-               
+                 @endforeach
+                 @endforeach
+                </div> 
                 
             </div>
         </div>
@@ -516,7 +506,7 @@
                             <input type="checkbox" checked class="custom-control-input" id="return_Stops{{$stop}}" onclick="filterStops('return_Stops{{$stop}}')">
                             <label class="custom-control-label" for="return_Stops{{$stop}}">
                             <?php 
-                            if($stop==1){ echo "Non Stop";}else{echo ($stop-1)." Stop";}
+                            if($stop==0){ echo "Non Stop";}else{echo ($stop)." Stop";}
                             ?>
                             </label>
                         </div>
@@ -819,10 +809,18 @@
     </div>
 </section>
 @endif
+
+<!-- <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" /> -->
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" /> -->
+
 @endsection
 
 @section('script')
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script> -->
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>   -->
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>   -->
+		
 <script type="text/javascript">
     $( document ).ready(function() {
         var path = "{{ route('searchairport') }}";
@@ -869,9 +867,36 @@
             startDate: new Date(),
             todayHighlight: true,
             autoclose: true,
-      });
+        });
+        var returning_date ='<?php echo $searched->returning_date;?>';
+        if (returning_date!='') {
+            $('#one_way').removeAttr('class');
+            $('#round_trip').attr('class','active');  
+        }
 
-      $("#adults").change(function(){
+        jQuery('#returning_date_datetimepicker').datetimepicker({
+            pickTime: false,
+            autoclose: true, 
+            startDate: new Date(),
+            todayHighlight: true,
+            autoclose: true,
+        });
+        $('.returning_date_datetimepickerclass').click(function(){
+            // alert("hii");
+            $('#one_way').removeAttr('class');
+            $('#round_trip').attr('class','active');
+        });
+        $(".returning_date_datetimepickerclass").blur(function(){
+            // alert("This input field has lost its focus.");
+            // alert($('#returning_date').val());
+            if($('#returning_date').val()==''){
+                $('#round_trip').removeAttr('class');
+                $('#one_way').attr('class','active');
+            }
+            
+        });
+
+        $("#adults").change(function(){
             // alert("hii");
             var adults=$('#adults').val();
             var children=$('#children').val();
@@ -953,85 +978,115 @@
             
         });
 
-      $('#flight_submit').click(function(){
-        // alert("hii");
-        var addFrom=$('#addFrom').val();
-        var addTo=$('#addTo').val();
-        if(addFrom===""){
-            alert('Please enter From');
-            return false;
-        }else if(addTo===""){
-            alert('Please enter To');
-            return false;
-        }
-        // alert(addFrom);
-        // path='<?php echo route('flights');?>';
-        // var url=("{{route('flights')}}")
-        // window.location.href(path);
-        // window.location.assign(url);
-      })
+        $('#flight_submit').click(function(){
+            // alert("hii");
+            var addFrom=$('#addFrom').val();
+            var addTo=$('#addTo').val();
+            if(addFrom===""){
+                alert('Please enter From');
+                return false;
+            }else if(addTo===""){
+                alert('Please enter To');
+                return false;
+            }
+            // alert(addFrom);
+            // path='<?php echo route('flights');?>';
+            // var url=("{{route('flights')}}")
+            // window.location.href(path);
+            // window.location.assign(url);
+        });
+
+        // $("#onwwayRange").slider({
+        //     range: true,
+        //     min: 1000,
+        //     max: 20000,
+        //     values: [ 100, 200 ],
+        //     slide:function(event, ui){
+        //         // alert(ui.values[0]);
+        //         // $("#minimum_range").val(ui.values[0]);
+        //         // $("#maximum_range").val(ui.values[1]);
+        //         // load_product(ui.values[0], ui.values[1]);
+        //     }
+        // });
+        var v1 = $('#onwwayRange_minprice').val();
+        var v2 = $('#onwwayRange_maxprice').val();
+        
+
+        $("#onwwayRange").slider({
+        range: true,
+        min: v1,
+        max: v2,
+        values: [v1, v2],
+        slide: function(event, ui) {
+            $("#amount").html( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+            v1 = ui.values[ 0 ];
+            v2 = ui.values[ 1 ];
+            }
+        });
+        $("#amount").html("<i class='las la-pound-sign'></i>" + $("#onwwayRange" ).slider( "values", 0 ) + " - <i class='las la-pound-sign'></i>" + $("#onwwayRange").slider("values", 1));
+        
+
     });
     
     function filter()
     {
         // if ($("."+this.value).attr("data-GlobalDiv")==1) 
         // $(".GlobalDiv").attr("data-GlobalDiv", "0")
-      var SearchCount=0;
-      var count=0;
+        var SearchCount=0;
+        var count=0;
      
         $(".GlobalDiv").attr("data-GlobalDiv", "0")
         $(".GlobalDiv").hide();
        
-       var arr=[];
-       var Departure=0;
-          $('input[name="Departure"]:checked').each(function() {
+        var arr=[];
+        var Departure=0;
+        $('input[name="Departure"]:checked').each(function() {
           Departure=1
-          });
-          if (Departure==1) {
+        });
+        if (Departure==1) {
             arr.push("Departure");
-          }
-       var Stops=0;
-       $('input[name="Stops"]:checked').each(function() {
+        }
+        var Stops=0;
+        $('input[name="Stops"]:checked').each(function() {
            Stops=1
-          });
-          if (Stops==1) {
+        });
+        if (Stops==1) {
             arr.push("Stops");
-          }
-       var Airline=0;
-       $('input[name="Airline"]:checked').each(function() {
-        Airline=1
-          });
-          if (Airline==1) {
+        }
+        var Airline=0;
+        $('input[name="Airline"]:checked').each(function() {
+            Airline=1
+        });
+        if (Airline==1) {
             arr.push("Airline");
-          }
+        }
           
-          $.each(arr, function( index, d ) {
+        $.each(arr, function( index, d ) {
             SearchCount=1;
             count+=1;
             
             $('input[name="'+d+'"]:checked').each(function() {
-            if (SearchCount==count) {
+                if (SearchCount==count) {
                     $("."+this.value).show(); 
-                    $("."+this.value).attr("data-GlobalDiv", "1")  
-                    
-            }
-            else if(count>SearchCount) 
-            {
-                if ($("."+this.value).attr("data-GlobalDiv")=="1") 
+                    $("."+this.value).attr("data-GlobalDiv", "1") ; 
+                }
+                else if(count>SearchCount) 
                 {
-                    $("."+this.value).show();     
-                }  
-            }
-          });
-          $('input[name="'+d+'"]:not(:checked)').each(function() {
-           
+                    if ($("."+this.value).attr("data-GlobalDiv")=="1") 
+                    {
+                        $("."+this.value).show();     
+                    }  
+                }
+            });
+            $('input[name="'+d+'"]:not(:checked)').each(function() {
+            
                 $("."+this.value).attr("data-GlobalDiv", "0")
                 $("."+this.value).hide();
 
-                
-              });
+                    
+            });
           
-          });
+        });
         //  if (Stops==1&&Airline==1) {
         //     $('input[name="Stops"]:checked').each(function() {
         //     count=1
@@ -1105,5 +1160,49 @@
         window.location.assign(newurl);
 
     });
+
+    $('#departure_order').click(function(){
+            // alert("hii");
+            var order_val=$("#departure_order").attr("data-departureordervalue");
+            // alert(order_val);
+            var DepartureTimeOrder=[];
+            var DepartureTimeOrder=<?php 
+            $ddd=[];
+            $DepartureTimeOrder=array_unique($DepartureTimeOrder);
+            foreach($DepartureTimeOrder as $val){
+                array_push($ddd,$val);
+            }
+            echo json_encode($ddd);
+            ?>;
+         
+            if(order_val=="ASC"){
+                for (let index = 0; index < DepartureTimeOrder.sort().length; index++) {
+                    for (let Divindex = 1; Divindex <=$('.GlobalDiv').length; Divindex++) {
+                    var dataDepraturetime=$("#SortDeparture"+Divindex).attr("data-Deprature-time")
+                    if (dataDepraturetime==DepartureTimeOrder[index]) {
+                    $(".MainDiv").append($("#SortDeparture"+Divindex));
+                    }
+                
+                    
+                  }
+                }
+                $("#departure_order").attr("data-departureordervalue", "DESC");
+            } 
+            else{
+               for (let index = 0; index < DepartureTimeOrder.sort().reverse().length; index++) {
+                    for (let Divindex = 1; Divindex <=$('.GlobalDiv').length; Divindex++) {
+                    var dataDepraturetime=$("#SortDeparture"+Divindex).attr("data-Deprature-time")
+                    if (dataDepraturetime==DepartureTimeOrder[index]) {
+                    $(".MainDiv").append($("#SortDeparture"+Divindex));
+                    }
+                
+                    
+                 }
+               }
+                $("#departure_order").attr("data-departureordervalue", "DESC"); 
+            }
+
+    });
+
 </script>
 @endsection
