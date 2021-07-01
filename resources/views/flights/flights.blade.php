@@ -392,15 +392,15 @@
                                 <table class="table">
                                     <tr>
                                         <td>Base Fare (1 Adult)</td>
-                                        <td><i class="fas fa-rupee-sign"></i> <?php foreach($flight_data[1] as $prices){ echo str_replace('GBP','',$prices['Approx Base Price'] );} ?></td>
+                                        <td><i class="las la-pound-sign"></i> <?php foreach($flight_data[1] as $prices){ echo str_replace('GBP','',$prices['Approx Base Price'] );} ?></td>
                                     </tr>
                                     <tr>
                                         <td>Taxes and Fees (1 Adult)</td>
-                                        <td><i class="fas fa-rupee-sign"></i> <?php foreach($flight_data[1] as $prices){ echo str_replace('GBP','',$prices['Taxes'] );} ?></td>
+                                        <td><i class="las la-pound-sign"></i> <?php foreach($flight_data[1] as $prices){ echo str_replace('GBP','',$prices['Taxes'] );} ?></td>
                                     </tr>
                                     <tr>
                                         <td>Total Fare (1 Adult)</td>
-                                        <td><i class="fas fa-rupee-sign"></i> <?php foreach($flight_data[1] as $prices){ echo str_replace('GBP','',$prices['Total Price'] );} ?></td>
+                                        <td><i class="las la-pound-sign"></i> <?php foreach($flight_data[1] as $prices){ echo str_replace('GBP','',$prices['Total Price'] );} ?></td>
                                     </tr>
                                 </table>
                             </div>
@@ -1236,8 +1236,8 @@
                 // alert(obj.baggageallowanceinfo);
                 $('#loading_small').hide();
                 $('#loading_small').empty();
-                var changepenalty=obj.changepenalty.replace('GBP','');
-                var cancelpenalty=obj.cancelpenalty.replace('GBP','');
+                var changepenalty='<i class="las la-pound-sign"></i>'+obj.changepenalty.replace('GBP','');
+                var cancelpenalty='<i class="las la-pound-sign"></i>'+obj.cancelpenalty.replace('GBP','');
                 var baggageallowanceinfo=obj.baggageallowanceinfo+"gs";
                 var carryonallowanceinfo=obj.carryonallowanceinfo+"gs";
                 
