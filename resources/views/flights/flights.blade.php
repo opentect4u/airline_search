@@ -825,7 +825,7 @@
 		
 <script type="text/javascript">
     $( document ).ready(function() {
-        // $('#loading').hide();
+        $('#loading').hide();
         var path = "{{ route('searchairport') }}";
 
          // Set the Options for "Bloodhound" suggestion engine
