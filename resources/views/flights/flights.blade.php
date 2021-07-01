@@ -151,7 +151,7 @@
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <button type="submit" id="flight_submit" class="btn btn-primary">Search</button>
+                        <button type="submit" id="flight_submit" class="btn btn-primary" onclick="showLoder();">Search</button>
                     </div>
                 </div>
             </form>
@@ -317,10 +317,12 @@
                             <form action="{{ route('flightDetails') }}" method="POST">
                                 @csrf
                                 <input type="text" name="flights" value="{{$flight_data}}" hidden>
+                                <input type="text" name="addFrom" value="{{ $searched->addFrom }}" hidden>
+                                <input type="text" name="addTo" value="{{ $searched->addTo }}" hidden>
                                 <input type="text" name="adults" value="{{ $searched->adults }}" hidden>
                                 <input type="text" name="children" value="{{ $searched->children }}" hidden>
                                 <input type="text" name="infant" value="{{ $searched->infant }}" hidden>
-                                <button type="submit" class="btn btn-primary" >Book Now</button>
+                                <button type="submit" class="btn btn-primary" onclick="showLoder();">Book Now</button>
                             </form>
                             <br>
                             <a href="#" class="mt-1 d-inline-block h5" data-toggle="collapse" data-target="#flight-details{{ $count }}">View flight details</a>
@@ -823,6 +825,7 @@
 		
 <script type="text/javascript">
     $( document ).ready(function() {
+        // $('#loading').hide();
         var path = "{{ route('searchairport') }}";
 
          // Set the Options for "Bloodhound" suggestion engine
@@ -1206,7 +1209,11 @@
 
     // baggage_rules
     function BaggageCancelRule(count,flights){
-        // alert(flights);
+        // alert(flights);    
+        var loading ='<img id="loading-image-small" src="{{ asset('public/loder-small.gif') }}" alt="Loading..." style=" position: absolute;top: 100px;left: 431px;z-index: 100;"/>';
+        $('#loading_small').append(loading);
+        $('#loading_small').show();
+
         $("#cancellation"+count).empty();
         $("#reschedule"+count).empty();
         $("#checkIn"+count).empty();
@@ -1226,6 +1233,8 @@
                 // alert(data);
                 var obj = JSON.parse ( data );
                 // alert(obj.baggageallowanceinfo);
+                $('#loading_small').hide();
+                $('#loading_small').empty();
                 var changepenalty=obj.changepenalty.replace('GBP','');
                 var cancelpenalty=obj.cancelpenalty.replace('GBP','');
                 var baggageallowanceinfo=obj.baggageallowanceinfo+"gs";
@@ -1239,6 +1248,9 @@
             }
         });
 
+    }
+    function showLoder(){
+        $('#loading').show();
     }
 </script>
 @endsection

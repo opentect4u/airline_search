@@ -124,6 +124,7 @@ EOM;
                                                 // print_r($jsons4);
                                                 // echo "<br/><br/>"; 
                                                 $details1=[];
+                                                // please check this position
                                                 foreach($jsons4 as $g => $jsons5){
                                                     //  print_r($jsons5);
                                                     //     echo "<br/>";

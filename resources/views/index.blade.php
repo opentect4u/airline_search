@@ -563,6 +563,7 @@
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script> -->
 <script type="text/javascript">
     $( document ).ready(function() {
+        $('#loading').hide();
         var path = "{{ route('searchairport') }}";
 
          // Set the Options for "Bloodhound" suggestion engine
@@ -729,6 +730,8 @@
             }else if(addTo===""){
                 alert('Please enter To');
                 return false;
+            }else{
+                $('#loading').show();
             }
             // alert(addFrom);
             // path='<?php echo route('flights');?>';

@@ -24,6 +24,39 @@
         <!-- css close-->
 
 <!-- start adding development time -->
+      <style>
+        #loading {
+          position: fixed;
+          display: block;
+          width: 100%;
+          height: 100%;
+          top: 0;
+          left: 0;
+          text-align: center;
+          opacity: 0.7;
+          background-color: #fff;
+          z-index: 99;
+        }
+        #loading_small {
+          position: fixed;
+          display: block;
+          width: 100%;
+          height: 100%;
+          top: 0;
+          left: 0;
+          text-align: center;
+          opacity: 0.7;
+          background-color: #fff;
+          z-index: 99;
+        }
+
+        #loading-image {
+          position: absolute;
+          top: 100px;
+          left: 549px;
+          z-index: 100;
+        }
+      </style>
       <script src="https://code.jquery.com/jquery-3.3.0.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script> 
       <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script> -->
@@ -39,6 +72,11 @@
 
     </head>
     <body data-spy="scroll" data-target=".hotel-details-navbar" data-offset="130">
+      <div id="loading">
+      <img id="loading-image" src="{{ asset('public/loder.gif') }}" alt="Loading..." />
+      </div>
+      <div id="loading_small">
+      </div>
         <section>
             @include('common.header')
             
@@ -205,7 +243,11 @@ $(document).ready(function(){
   $(".filter-open").click(function(){
     $(".filters_wrapper").toggleClass("active");
   });
-})
+  $(window).on('load', function () {
+    $('#loading').hide();
+    $('#loading_small').hide();
+  });
+});
 </script>
 
 <!-- start add some javascript -->

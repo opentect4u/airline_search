@@ -16,64 +16,56 @@
                 <div class="col-md-9">
                     <div class="card">
                         <h4 class="font-weight-500">Ticket Details</h4><hr>
-                        <h6 class="mb-0"><i class="fas fa-plane"></i> Chandigarh - Bangalore Friday, 29 Nov 2019
-                        <a href="javascript:void(0)" data-toggle="modal" data-target="#baggage-and-fare" class="float-right badge badge-success font-weight-400">Baggage and Fare Rules</a>
+                        <h6 class="mb-0"><i class="fas fa-plane"></i> {{$per_flight_details->addFrom}} - {{$per_flight_details->addTo}} <?php foreach($data[0] as $datas){ echo \Carbon\Carbon::parse($datas[0]['DepartureTime'])->format('d M Y'); } ?>
+                        <!-- <h6 class="mb-0"><i class="fas fa-plane"></i> Chandigarh - Bangalore Friday, 29 Nov 2019 -->
+                        <a href="javascript:void(0)" data-toggle="modal" data-target="#baggageAndFare" class="float-right badge badge-success font-weight-400">Baggage and Fare Rules</a>
                         </h6>
                         <hr>
-                        <?php 
-                            foreach($data[0] as $datas){
-                                // print_r($datas);
-                                // for ($i=0; $i < count($datas); $i++) { 
-                                //     echo $datas[$i];
-                                // }
-                                echo count($datas);
-                                // foreach($datas as $datas1){
-                                //     print_r($datas1);
-                                //     echo $datas1['key'];
-                                //     // for ($i=0; $i < count($datas1); $i++) { 
-                                //     //         echo $datas[$i];
-                                //     // } 
-                                // }
-                            }
-                        ?>
-                        <div class="row align-items-center">
-                            <div class="col-md-3">
-                                <div class="media">
-                                    <div class="media-left"><img src="assets/images/6E.png" alt="6E.png" style="width:40px;height:40px;" class="mr-2"/></div>
-                                    <div class="media-body align-self-center">
-                                        <h6 class="m-0">IndiGo<br><small class="text-muted">6E-491</small></h6>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <small><i class="las la-plane-departure h6"></i> 07 March 2021</small>
-                                <h6 class="font-weight-bold mb-0">10:45</h6>
-                                <span class="text-muted">Chandigarh</span>
-                            </div>
-                            <div class="col-md-2 text-center">
-                                <span class="exchange-arrow exchange-relative m-auto"><i class="las la-exchange-alt"></i></span>
-                                <h5 class="font-weight-600 mb-0 mt-2">02 h 55 m</h5>
-                                <small class="text-muted">Non stop</small>
-                            </div>
-                            <div class="col-md-2">
-                                <small><i class="las la-plane-arrival h6"></i> 07 March 2021</small>
-                                <h6 class="font-weight-bold mb-0">13:40</h6>
-                                <span class="text-muted">Mumbai</span>
-                            </div>
-                            <div class="col-md-3 text-center">
-                                <h3 class="font-weight-bold"><i class="las la-pound-sign"></i>85.00</h3>
-                            </div>
-                        </div>
-                        <p class="mt-3"><i class="las la-suitcase-rolling"></i> 15 Kgs Check-In, 7 Kgs Cabin</p>
                         
+                        @foreach($data[0] as $datas)
+                        @for ($i=0; $i < count($datas); $i++)
+                        @if($i>0)
                         <hr>
-                            <!-- <div class="col-md-12 text-center my-2">
-                            <span class="badge badge-pill badge-warning"><i class="far fa-clock"></i> DEL (New Delhi) 2h 20m Layover</span><br>
+                            <div class="col-md-12 text-center my-2">
+                            <span class="badge badge-pill badge-warning"><i class="far fa-clock"></i> {{$datas[$i]['Origin']}} {{\Carbon\Carbon::parse($datas[$i]['DepartureTime'])->diff(\Carbon\Carbon::parse($datas[($i-1)]['ArrivalTime']))->format('%Hh %Im')}} Layover</span><br>
                             <small> Re-Checkin your baggage</small>
                             </div>
-                        <hr> -->
-                        
+                        <hr>
+                        @endif
+                        <!-- {{$datas[$i]['key']}} -->
                         <div class="row align-items-center">
+                            <div class="col-md-3">
+                                <div class="media">
+                                    <div class="media-left"><img src="https://goprivate.wspan.com/sharedservices/images/airlineimages/logoAir{{$datas[$i]['Carrier']}}.gif" alt="6E.png" style="width:40px;height:40px;" class="mr-2"/></div>
+                                    <div class="media-body align-self-center">
+                                        <h6 class="m-0">{{$datas[$i]['Carrier']}}<br><small class="text-muted">{{$datas[$i]['Carrier']}}-{{$datas[$i]['FlightNumber']}}</small></h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <small><i class="las la-plane-departure h6"></i> {{\Carbon\Carbon::parse($datas[$i]['DepartureTime'])->format('d M Y')}}</small>
+                                <h6 class="font-weight-bold mb-0">{{\Carbon\Carbon::parse($datas[$i]['DepartureTime'])->format('H:s')}}</h6>
+                                <span class="text-muted">{{$datas[$i]['Origin']}}</span>
+                            </div>
+                            <div class="col-md-2 text-center">
+                                <span class="exchange-arrow exchange-relative m-auto"><i class="las la-exchange-alt"></i></span>
+                                <h5 class="font-weight-600 mb-0 mt-2">{{\Carbon\Carbon::parse($datas[$i]['DepartureTime'])->diff(\Carbon\Carbon::parse($datas[$i]['ArrivalTime']))->format('%Hh %Im')}}</h5>
+                                <!-- <small class="text-muted">Non stop</small> -->
+                            </div>
+                            <div class="col-md-2">
+                                <small><i class="las la-plane-arrival h6"></i> {{\Carbon\Carbon::parse($datas[$i]['ArrivalTime'])->format('d M Y')}}</small>
+                                <h6 class="font-weight-bold mb-0">{{\Carbon\Carbon::parse($datas[$i]['ArrivalTime'])->format('H:s')}}</h6>
+                                <span class="text-muted">{{$datas[$i]['Destination']}}</span>
+                            </div>
+                            <div class="col-md-3 text-center">
+                            @if(count($datas)==1)<h3 class="font-weight-bold"><i class="las la-pound-sign"></i>{{str_replace('GBP','',$data[2]['price']['TotalPrice'])}}</h3>@endif
+                            </div>
+                        </div>
+                        <p class="mt-3"><i class="las la-suitcase-rolling"></i> {{str_replace('K','',$data[1]['details']['baggageallowanceinfo'])}} Kgs Check-In, {{str_replace('K','',$data[1]['details']['carryonallowanceinfo'])}} Kgs Cabin</p>
+                        @endfor
+                        @endforeach
+
+                        <!-- <div class="row align-items-center">
                             <div class="col-md-3">
                                 <div class="media">
                                     <div class="media-left"><img src="assets/images/6E.png" alt="6E.png" style="width:40px;height:40px;" class="mr-2"/></div>
@@ -101,22 +93,22 @@
                                 <h3 class="font-weight-bold"><i class="las la-pound-sign"></i>85.00</h3>
                             </div>
                         </div>
-                        <p class="mt-3"><i class="las la-suitcase-rolling"></i> 15 Kgs Check-In, 7 Kgs Cabin</p>
+                        <p class="mt-3"><i class="las la-suitcase-rolling"></i> 15 Kgs Check-In, 7 Kgs Cabin</p> -->
                     </div>
                 </div>
 
                 <div class="col-md-3">
                     <div class="card">
                     <h4 class="font-weight-500 mb-0">Fare Summary</h4>
-                    <span class="text-muted">Travelers 1 Adult</span>
+                    <span class="text-muted">Travelers {{$per_flight_details->adults}} Adult</span>
                     <table class="table table-small mt-2">
                         <tr>
-                            <td>Base Fare x 1</td>
-                            <td class="text-right"><i class="las la-pound-sign"></i>80.00</td>
+                            <td>Base Fare x {{$per_flight_details->adults}}</td>
+                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$data[2]['price']['ApproximateBasePrice'])*$per_flight_details->adults),2)}}</td>
                         </tr>
                         <tr>
-                            <td>Taxes x 1</td>
-                            <td class="text-right"><i class="las la-pound-sign"></i>8.00</td>
+                            <td>Taxes x {{$per_flight_details->adults}}</td>
+                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$data[2]['price']['Taxes'])*$per_flight_details->adults),2)}}</td>
                         </tr>
                         <tr>
                             <td>Other taxes</td>
@@ -124,7 +116,7 @@
                         </tr>
                         <tr class="font-weight-bold bg-light">
                             <td>Total</td>
-                            <td class="text-right text-danger"><i class="las la-pound-sign"></i>88.00</td>
+                            <td class="text-right text-danger"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$data[2]['price']['ApproximateBasePrice'])*$per_flight_details->adults)+(str_replace('GBP','',$data[2]['price']['Taxes'])*$per_flight_details->adults),2)}}</td>
                         </tr>
                     </table>
                     <a href="{{route('passengerDetails')}}" class="btn btn-primary w-100">Book Now</a>
@@ -133,6 +125,69 @@
             </div>
         </div>
     </section>
+</div>
+
+<!-- The Modal -->
+<div class="modal fade" id="baggageAndFare">
+<div class="modal-dialog modal-dialog-centered">
+  <div class="modal-content">
+    <!-- Modal Header -->
+    <div class="modal-header">
+      <h4 class="modal-title">Baggage and Fare Rules</h4>
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+    </div>
+    <!-- Modal body -->
+    <div class="modal-body">
+      <ul class="nav nav-pills" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="pill" href="#fare_details">Fare Details</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="pill" href="#baggage_rules">Baggage Rules</a>
+        </li>
+      </ul>
+      <div class="tab-content row mt-3">
+        <div id="fare_details" class="container tab-pane active">
+          <table class="table table-bordered small">
+            <tr>
+              <td>Base Fare (1 Adult)</td>
+              <td><i class="las la-pound-sign"></i> {{str_replace('GBP','',$data[2]['price']['ApproximateBasePrice'])}}</td>
+            </tr>
+            <tr>
+              <td>Taxes and Fees (1 Adult)</td>
+              <td><i class="las la-pound-sign"></i> {{str_replace('GBP','',$data[2]['price']['Taxes'])}}</td>
+            </tr>
+            <tr>
+              <td>Total Fare (1 Adult)</td>
+              <td><i class="las la-pound-sign"></i> {{str_replace('GBP','',$data[2]['price']['TotalPrice'])}}</td>
+            </tr>
+          </table>
+        </div>
+        <div id="baggage_rules" class="container tab-pane fade">
+          <div class="media mb-3">
+            <div class="media-left"><img src="https://goprivate.wspan.com/sharedservices/images/airlineimages/logoAir<?php foreach($data[0] as $datas){echo $datas[0]['Carrier'];}?>.gif" alt="6E.png" style="width:50px;height:50px;" class="mr-2"/></div>
+            <div class="media-body align-self-center">
+              <h6 class="m-0"><?php foreach($data[0] as $datas){echo $datas[0]['Origin']."-".$datas[count($datas)-1]['Destination'];}?> <small class="text-muted"><?php foreach($data[0] as $datas){echo $datas[0]['Carrier']."-".$datas[0]['FlightNumber'];}?></small></h6>
+            </div>
+          </div>
+          <table class="table table-bordered small">
+            <tr>
+              <td>Baggage Type</td>
+              <td>Check-In</td>
+              <td>Cabin</td>
+            </tr>
+            <tr>
+              <td>Adult</td>
+              <td>{{str_replace('K','',$data[1]['details']['baggageallowanceinfo'])}} Kgs</td>
+              <td>{{str_replace('K','',$data[1]['details']['carryonallowanceinfo'])}} Kgs</td>
+            </tr>
+          </table>
+          <small>The baggage information is just for reference. Please Check with airline before check-in. For more information, visit IndiGo Airlines Website.</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 </div>
 
 @endsection

@@ -293,7 +293,7 @@ EOM;
         curl_setopt($soap_do, CURLOPT_RETURNTRANSFER, true);
         $return = curl_exec($soap_do);
         curl_close($soap_do);
-       
+        // return $return;
         $dom = new \DOMDocument();
         $dom->loadXML($return);
         $json = new \FluentDOM\Serializer\Json\RabbitFish($dom);
@@ -707,28 +707,25 @@ EOM;
             }
         }
         // return $data;
-        echo $data[1]['details']['changepenalty'];
-        echo $data[1]['details']['cancelpenalty'];
-        echo $data[1]['details']['baggageallowanceinfo'];
-        echo $data[1]['details']['carryonallowanceinfo'];
+        // echo $data[1]['details']['changepenalty'];
+        // echo $data[1]['details']['cancelpenalty'];
+        // echo $data[1]['details']['baggageallowanceinfo'];
+        // echo $data[1]['details']['carryonallowanceinfo'];
 
-        // $arrNewResult = array();
-        // $arrNewResult['changepenalty'] = $data[1]['details']['changepenalty'];
-        // $arrNewResult['cancelpenalty'] = $data[1]['details']['cancelpenalty'];
-        // $arrNewResult['baggageallowanceinfo'] = $data[1]['details']['baggageallowanceinfo'];
-        // $arrNewResult['carryonallowanceinfo'] = $data[1]['details']['carryonallowanceinfo'];
-        // $status_json = json_encode($arrNewResult);
-        // echo $status_json;
+       
         // echo $data[0]['journey'];
         // echo count($data[0]);
         // foreach($data[0] as $datas){
         //     echo count($datas);
+        //     for ($i=0; $i < count($datas); $i++) { 
+        //         echo $datas[$i]['key'];
+        //     }
         // }
         // return $request;
-        // return view('flights.flight-details',[
-        //     'per_flight_details'=>$request,
-        //     'data'=>$data
-        // ]);
+        return view('flights.flight-details',[
+            'per_flight_details'=>$request,
+            'data'=>$data
+        ]);
         // return view('flights.flight-details');
     }
 
