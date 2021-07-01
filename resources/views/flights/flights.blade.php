@@ -335,10 +335,10 @@
                                 <a class="nav-link" data-toggle="pill" href="#fare_details{{ $count }}">Fare Details</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="pill" href="#baggage_rules{{ $count }}">Baggage Rules</a>
+                                <a class="nav-link" data-toggle="pill" href="#baggage_rules{{ $count }}" onclick="BaggageCancelRule({{ $count }},{{$flight_data}});">Baggage Rules</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="pill" href="#cancellation_rules{{ $count }}">Cancellation Rules</a>
+                                <a class="nav-link" data-toggle="pill" href="#cancellation_rules{{ $count }}" onclick="BaggageCancelRule({{ $count }},{{$flight_data}});">Cancellation Rules</a>
                             </li>
                         </ul>
                         <!-- Tab panes -->
@@ -411,8 +411,8 @@
                                     </tr>
                                     <tr>
                                         <td>Adult</td>
-                                        <td>15 Kgs</td>
-                                        <td>7 Kgs</td>
+                                        <td id="checkIn{{ $count }}">15 Kgs</td>
+                                        <td id="cabin{{ $count }}">7 Kgs</td>
                                     </tr>
                                 </table>
                                 <small>The baggage information is just for reference. Please Check with airline before check-in. For more information, visit IndiGo Airlines Website.</small>
@@ -428,12 +428,12 @@
                                             </tr>
                                             <tr>
                                                 <td>2-72 hours</td>
-                                                <td><i class="fas fa-rupee-sign"></i> 3,500</td>
+                                                <td id="cancellation{{$count}}"><i class="las la-pound-sign"></i> 3,500</td>
                                             </tr>
-                                            <tr>
+                                            <!-- <tr>
                                                 <td>>72 hours</td>
                                                 <td><i class="fas fa-rupee-sign"></i> 3,000</td>
-                                            </tr>
+                                            </tr> -->
                                         </table>
                                     </div>
                                     <div class="col-md-6">
@@ -445,12 +445,12 @@
                                             </tr>
                                             <tr>
                                                 <td>2-72 hours</td>
-                                                <td><i class="fas fa-rupee-sign"></i> 3,000</td>
+                                                <td id="reschedule{{$count}}"><i class="fas fa-rupee-sign"></i> 3,000</td>
                                             </tr>
-                                            <tr>
+                                            <!-- <tr>
                                                 <td>>72 hours</td>
                                                 <td><i class="fas fa-rupee-sign"></i> 2,500</td>
-                                            </tr>
+                                            </tr> -->
                                         </table>
                                     </div>
                                 </div>
@@ -1204,5 +1204,41 @@
 
     });
 
+    // baggage_rules
+    function BaggageCancelRule(count,flights){
+        // alert(flights);
+        $("#cancellation"+count).empty();
+        $("#reschedule"+count).empty();
+        $("#checkIn"+count).empty();
+        $("#cabin"+count).empty();
+        var count=count;
+        var flights=flights;
+        
+        $.ajax({
+            type: "POST",
+            url: "{{ route('BaggageCancelRuleajax') }}",
+            data: {
+                "_token": "{{ csrf_token() }}",
+                count:count,
+                flights:flights
+            },
+            success: function(data){
+                // alert(data);
+                var obj = JSON.parse ( data );
+                // alert(obj.baggageallowanceinfo);
+                var changepenalty=obj.changepenalty.replace('GBP','');
+                var cancelpenalty=obj.cancelpenalty.replace('GBP','');
+                var baggageallowanceinfo=obj.baggageallowanceinfo+"gs";
+                var carryonallowanceinfo=obj.carryonallowanceinfo+"gs";
+                
+                $("#cancellation"+count).append(cancelpenalty);
+                $("#reschedule"+count).append(changepenalty);
+                $("#checkIn"+count).append(baggageallowanceinfo);
+                $("#cabin"+count).append(carryonallowanceinfo);
+
+            }
+        });
+
+    }
 </script>
 @endsection

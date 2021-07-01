@@ -27,7 +27,11 @@ Route::get('/searchairport',[App\Http\Controllers\HomeController::class,'SearchA
 
 // Route::get('/flights',[App\Http\Controllers\FlightsController::class,'Search'])->name('flights');
 Route::get('/flights',[App\Http\Controllers\FlightController::class,'Search'])->name('flights');
+// Route::post('/flightDetails',[App\Http\Controllers\FlightDetailsController::class,'FlightDetails'])->name('flightDetails');
 Route::post('/flightDetails',[App\Http\Controllers\FlightController::class,'FlightDetails'])->name('flightDetails');
+
+Route::post('/BaggageCancelRuleajax',[App\Http\Controllers\FlightDetailsController::class,'FlightDetails'])->name('BaggageCancelRuleajax');
+
 Route::post('/passengerDetails',[App\Http\Controllers\FlightsController::class,'PassengerDetails'])->name('passengerDetails');
 // Route::get('/flightDetails',[App\Http\Controllers\FlightsController::class,'FlightDetails'])->name('flightDetails');
 // Route::get('/passengerDetails',[App\Http\Controllers\FlightsController::class,'PassengerDetails'])->name('passengerDetails');

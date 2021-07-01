@@ -18,41 +18,61 @@
                         <h4 class="font-weight-500">Ticket Details</h4><hr>
                         <h6 class="mb-0"><i class="fas fa-plane"></i> Chandigarh - Bangalore Friday, 29 Nov 2019
                         <a href="javascript:void(0)" data-toggle="modal" data-target="#baggage-and-fare" class="float-right badge badge-success font-weight-400">Baggage and Fare Rules</a>
-                    </h6><hr>
-                    <div class="row align-items-center">
-                        <div class="col-md-3">
-                            <div class="media">
-                                <div class="media-left"><img src="assets/images/6E.png" alt="6E.png" style="width:40px;height:40px;" class="mr-2"/></div>
-                                <div class="media-body align-self-center">
-                                    <h6 class="m-0">IndiGo<br><small class="text-muted">6E-491</small></h6>
+                        </h6>
+                        <hr>
+                        <?php 
+                            foreach($data[0] as $datas){
+                                // print_r($datas);
+                                // for ($i=0; $i < count($datas); $i++) { 
+                                //     echo $datas[$i];
+                                // }
+                                echo count($datas);
+                                // foreach($datas as $datas1){
+                                //     print_r($datas1);
+                                //     echo $datas1['key'];
+                                //     // for ($i=0; $i < count($datas1); $i++) { 
+                                //     //         echo $datas[$i];
+                                //     // } 
+                                // }
+                            }
+                        ?>
+                        <div class="row align-items-center">
+                            <div class="col-md-3">
+                                <div class="media">
+                                    <div class="media-left"><img src="assets/images/6E.png" alt="6E.png" style="width:40px;height:40px;" class="mr-2"/></div>
+                                    <div class="media-body align-self-center">
+                                        <h6 class="m-0">IndiGo<br><small class="text-muted">6E-491</small></h6>
+                                    </div>
                                 </div>
                             </div>
+                            <div class="col-md-2">
+                                <small><i class="las la-plane-departure h6"></i> 07 March 2021</small>
+                                <h6 class="font-weight-bold mb-0">10:45</h6>
+                                <span class="text-muted">Chandigarh</span>
+                            </div>
+                            <div class="col-md-2 text-center">
+                                <span class="exchange-arrow exchange-relative m-auto"><i class="las la-exchange-alt"></i></span>
+                                <h5 class="font-weight-600 mb-0 mt-2">02 h 55 m</h5>
+                                <small class="text-muted">Non stop</small>
+                            </div>
+                            <div class="col-md-2">
+                                <small><i class="las la-plane-arrival h6"></i> 07 March 2021</small>
+                                <h6 class="font-weight-bold mb-0">13:40</h6>
+                                <span class="text-muted">Mumbai</span>
+                            </div>
+                            <div class="col-md-3 text-center">
+                                <h3 class="font-weight-bold"><i class="las la-pound-sign"></i>85.00</h3>
+                            </div>
                         </div>
-                        <div class="col-md-2">
-                            <small><i class="las la-plane-departure h6"></i> 07 March 2021</small>
-                            <h6 class="font-weight-bold mb-0">10:45</h6>
-                            <span class="text-muted">Chandigarh</span>
-                        </div>
-                        <div class="col-md-2 text-center">
-                            <span class="exchange-arrow exchange-relative m-auto"><i class="las la-exchange-alt"></i></span>
-                            <h5 class="font-weight-600 mb-0 mt-2">02 h 55 m</h5>
-                            <small class="text-muted">Non stop</small>
-                        </div>
-                        <div class="col-md-2">
-                            <small><i class="las la-plane-arrival h6"></i> 07 March 2021</small>
-                            <h6 class="font-weight-bold mb-0">13:40</h6>
-                            <span class="text-muted">Mumbai</span>
-                        </div>
-                        <div class="col-md-3 text-center">
-                            <h3 class="font-weight-bold"><i class="las la-pound-sign"></i>85.00</h3>
-                        </div>
-                    </div>
                         <p class="mt-3"><i class="las la-suitcase-rolling"></i> 15 Kgs Check-In, 7 Kgs Cabin</p>
-                        <hr><div class="col-md-12 text-center my-2">
+                        
+                        <hr>
+                            <!-- <div class="col-md-12 text-center my-2">
                             <span class="badge badge-pill badge-warning"><i class="far fa-clock"></i> DEL (New Delhi) 2h 20m Layover</span><br>
                             <small> Re-Checkin your baggage</small>
-                        </div>
-                        <hr>
+                            </div>
+                        <hr> -->
+                        
                         <div class="row align-items-center">
                             <div class="col-md-3">
                                 <div class="media">
