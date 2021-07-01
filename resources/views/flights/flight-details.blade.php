@@ -191,3 +191,10 @@
 </div>
 
 @endsection
+
+<script>
+    $( document ).ready(function() {
+        $('#loading').hide();
+        $('#loading_small').hide();
+    });
+</script>
