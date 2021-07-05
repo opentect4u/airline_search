@@ -19,15 +19,17 @@
                         <span class="badge badge-pill badge-warning">Note:</span> Please make sure you enter the Name as per your govt. photo id.
                     </div><hr>
                     <div class="passanger-details">
-                        <form>
+                    <form name="pass_details" method="POST" action="{{route('showpayment')}}">
+                    @csrf
+                        @for ($i=1; $i <= $per_flight_details->adults; $i++)
                         <div class="card-body border rounded set mb-3">
-                            <h6 class="font-weight-500 mb-3 bg-primary-light p-2"><i class="las la-user-circle"></i> Adult 1</h6>
+                            <h6 class="font-weight-500 mb-3 bg-primary-light p-2"><i class="las la-user-circle"></i> Adult {{$i}}</h6>
                             <div class="row">
                                 <div class="col-md-4 col-6">
                                     <div class="form-group">
                                         <label>Title</label>
-                                        <select class="form-control custom-select" name="">
-                                            <option value="Title">---Select---</option>
+                                        <select class="form-control custom-select" name="title{{$i}}" id="title{{$i}}" required>
+                                            <option value="">---Select---</option>
                                             <option value="Mr">Mr</option>
                                             <option value="Mrs">Mrs</option>
                                             <option value="Ms">Ms</option>
@@ -37,19 +39,19 @@
                                 <div class="col-md-4 col-6">
                                     <div class="form-group">
                                         <label>First Name</label>
-                                        <input type="text" class="form-control" placeholder="Enter first name">
+                                        <input type="text" name="first_name{{$i}}" id="first_name{{$i}}" required class="form-control" placeholder="Enter first name">
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-6">
                                     <div class="form-group">
                                         <label>Last Name</label>
-                                        <input type="text" class="form-control" placeholder="Enter last name">
+                                        <input type="text" name="last_name{{$i}}" id="last_name{{$i}}" required class="form-control" placeholder="Enter last name">
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-6">
                                     <div class="form-group">
                                         <label>Gender</label>
-                                        <select class="form-control custom-select" name="">
+                                        <select class="form-control custom-select" name="gender{{$i}}" id="gender{{$i}}" required>
                                             <option value="Male">Male</option>
                                             <option value="Male">Female</option>
                                         </select>
@@ -58,7 +60,7 @@
                                 <div class="col-md-4 col-6">
                                     <label>Date of birth</label>
                                     <div id="datetimepicker" class="input-group">
-                                        <input type="text" name="date_of_birth" placeholder="dd/mm/yyyy" class="form-control border-right-0" data-format="dd-MM-yyyy">
+                                        <input type="text" name="date_of_birth{{$i}}" id="date_of_birth{{$i}}" required placeholder="dd/mm/yyyy" class="form-control border-right-0" data-format="dd-MM-yyyy">
                                         <div class="input-group-append add-on">
                                         <span class="input-group-text bg-white pl-0"><i class="lar la-calendar-alt"></i></span>
                                         </div>
@@ -67,8 +69,8 @@
                                 <div class="col-md-4 col-6">
                                     <div class="form-group">
                                         <label>Seating</label>
-                                        <select class="form-control custom-select" name="">
-                                            <option value="">No preference</option>
+                                        <select class="form-control custom-select" name="seating{{$i}}" id="seating{{$i}}" required>
+                                            <option value="">-- No preference --</option>
                                             <option value="Aisle seat">Aisle seat</option>
                                             <option value="Bulkhead seat">Bulkhead seat</option>
                                             <option value="Cradle/Baby Basket seat">Cradle/Baby Basket seat</option>
@@ -87,7 +89,7 @@
                                 <div class="col-md-4 col-6">
                                     <div class="form-group">
                                         <label>Assistance</label>
-                                        <select class="form-control custom-select" name="">
+                                        <select class="form-control custom-select" name="assistance{{$i}}" id="assistance{{$i}}" required>
                                             <option value="Deaf">Deaf</option>
                                             <option value="Blind">Blind</option>
                                             <option value="Wheelchair">Wheelchair</option>
@@ -97,60 +99,21 @@
                                 <div class="col-md-4 col-6">
                                     <div class="form-group">
                                         <label>Meal</label>
-                                        <select class="form-control custom-select" name="">
-                                            <option value="Deaf">--</option>
+                                        <select class="form-control custom-select" name="meal{{$i}}" id="meal{{$i}}">
+                                            <option value="">0</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="card-body border rounded set mb-3">
-                            <h6 class="font-weight-500 mb-3 bg-primary-light p-2"><i class="las la-user-circle"></i> Adult 2</h6>
-                            <div class="row">
-                                <div class="col-md-4 col-6">
-                                    <div class="form-group">
-                                        <label>Title</label>
-                                        <select class="form-control custom-select" name="">
-                                            <option value="Title">---Select---</option>
-                                            <option value="Mr">Mr</option>
-                                            <option value="Mrs">Mrs</option>
-                                            <option value="Ms">Ms</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 col-6">
-                                    <div class="form-group">
-                                        <label>First Name</label>
-                                        <input type="text" class="form-control" placeholder="Enter first name">
-                                    </div>
-                                </div>
-                                <div class="col-md-4 col-6">
-                                    <div class="form-group">
-                                        <label>Last Name</label>
-                                        <input type="text" class="form-control" placeholder="Enter last name">
-                                    </div>
-                                </div>
-                                <div class="col-md-4 col-6">
-                                    <div class="form-group">
-                                        <label>Gender</label>
-                                        <select class="form-control custom-select" name="">
-                                            <option value="Male">Male</option>
-                                            <option value="Male">Female</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 col-6">
-                                    <label>Date of birth</label>
-                                    <div id="datetimepicker" class="input-group">
-                                        <input type="text" name="date_of_birth" placeholder="dd/mm/yyyy" class="form-control border-right-0" data-format="dd-MM-yyyy">
-                                        <div class="input-group-append add-on">
-                                        <span class="input-group-text bg-white pl-0"><i class="lar la-calendar-alt"></i></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body border rounded set mb-3">
+                        <!-- <div class="card-body border rounded set mb-3">
                             <h6 class="font-weight-500 mb-3 bg-primary-light p-2">Passenger Address</h6>
                             <div class="row">
                                 <div class="col-md-4 col-6">
@@ -202,8 +165,210 @@
                                     </div>
                                 </div>
                             </div>
+                        </div> -->
+                        @endfor
+                        @for ($i=1; $i <= $per_flight_details->children; $i++)
+                        <div class="card-body border rounded set mb-3">
+                            <h6 class="font-weight-500 mb-3 bg-primary-light p-2"><i class="las la-user-circle"></i> Adult {{$i}}</h6>
+                            <div class="row">
+                                <div class="col-md-4 col-6">
+                                    <div class="form-group">
+                                        <label>Title</label>
+                                        <select class="form-control custom-select" name="children_title{{$i}}" id="children_title{{$i}}" required>
+                                            <option value="">---Select---</option>
+                                            <option value="Mr">Mr</option>
+                                            <option value="Mrs">Mrs</option>
+                                            <option value="Ms">Ms</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-6">
+                                    <div class="form-group">
+                                        <label>First Name</label>
+                                        <input type="text" name="children_first_name{{$i}}" id="children_first_name{{$i}}" required class="form-control" placeholder="Enter first name">
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-6">
+                                    <div class="form-group">
+                                        <label>Last Name</label>
+                                        <input type="text" name="children_last_name{{$i}}" id="children_last_name{{$i}}" required class="form-control" placeholder="Enter last name">
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-6">
+                                    <div class="form-group">
+                                        <label>Gender</label>
+                                        <select class="form-control custom-select" name="children_gender{{$i}}" id="children_gender{{$i}}" required>
+                                            <option value="Male">Male</option>
+                                            <option value="Male">Female</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-6">
+                                    <label>Date of birth</label>
+                                    <div id="datetimepicker" class="input-group">
+                                        <input type="text" name="children_date_of_birth{{$i}}" id="children_date_of_birth{{$i}}" required placeholder="dd/mm/yyyy" class="form-control border-right-0" data-format="dd-MM-yyyy">
+                                        <div class="input-group-append add-on">
+                                        <span class="input-group-text bg-white pl-0"><i class="lar la-calendar-alt"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-6">
+                                    <div class="form-group">
+                                        <label>Seating</label>
+                                        <select class="form-control custom-select" name="children_seating{{$i}}" id="children_seating{{$i}}" required>
+                                            <option value="">-- No preference --</option>
+                                            <option value="Aisle seat">Aisle seat</option>
+                                            <option value="Bulkhead seat">Bulkhead seat</option>
+                                            <option value="Cradle/Baby Basket seat">Cradle/Baby Basket seat</option>
+                                            <option value="Exit seat">Exit seat</option>
+                                            <option value="Non smoking window seat">Non smoking window seat</option>
+                                            <option value="Suitable for disable seat">Suitable for disable seat</option>
+                                            <option value="Suitable for disable seat">Suitable for disable seat</option>
+                                            <option value="Legspace">Legspace</option>
+                                            <option value="Non smoking seat">Non smoking seat</option>
+                                            <option value="Overwing seat">Overwing seat</option>
+                                            <option value="Smoking seat">Smoking seat</option>
+                                            <option value="Window seat">Window seat</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-6">
+                                    <div class="form-group">
+                                        <label>Assistance</label>
+                                        <select class="form-control custom-select" name="children_assistance{{$i}}" id="children_assistance{{$i}}" required>
+                                            <option value="Deaf">Deaf</option>
+                                            <option value="Blind">Blind</option>
+                                            <option value="Wheelchair">Wheelchair</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-6">
+                                    <div class="form-group">
+                                        <label>Meal</label>
+                                        <select class="form-control custom-select" name="children_meal{{$i}}" id="children_meal{{$i}}">
+                                            <option value="">0</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <a href="payment.php" class="btn btn-primary">Proceed to payment</a>
+                        @endfor
+                        <!-- <div class="card-body border rounded set mb-3">
+                            <h6 class="font-weight-500 mb-3 bg-primary-light p-2"><i class="las la-user-circle"></i> Adult 2</h6>
+                            <div class="row">
+                                <div class="col-md-4 col-6">
+                                    <div class="form-group">
+                                        <label>Title</label>
+                                        <select class="form-control custom-select" name="">
+                                            <option value="Title">---Select---</option>
+                                            <option value="Mr">Mr</option>
+                                            <option value="Mrs">Mrs</option>
+                                            <option value="Ms">Ms</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-6">
+                                    <div class="form-group">
+                                        <label>First Name</label>
+                                        <input type="text" class="form-control" placeholder="Enter first name">
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-6">
+                                    <div class="form-group">
+                                        <label>Last Name</label>
+                                        <input type="text" class="form-control" placeholder="Enter last name">
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-6">
+                                    <div class="form-group">
+                                        <label>Gender</label>
+                                        <select class="form-control custom-select" name="">
+                                            <option value="Male">Male</option>
+                                            <option value="Male">Female</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-6">
+                                    <label>Date of birth</label>
+                                    <div id="datetimepicker" class="input-group">
+                                        <input type="text" name="date_of_birth" placeholder="dd/mm/yyyy" class="form-control border-right-0" data-format="dd-MM-yyyy">
+                                        <div class="input-group-append add-on">
+                                        <span class="input-group-text bg-white pl-0"><i class="lar la-calendar-alt"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+
+                        <div class="card-body border rounded set mb-3">
+                            <h6 class="font-weight-500 mb-3 bg-primary-light p-2">Passenger Address</h6>
+                            <div class="row">
+                                <div class="col-md-4 col-6">
+                                    <div class="form-group">
+                                        <label>Post code</label>
+                                        <input type="text" name="postcode" id="postcode" required class="form-control" placeholder="Enter post code">
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-6">
+                                    <div class="form-group">
+                                        <label>Address Line 1</label>
+                                        <input type="text" name="add_1" id="add_1" required class="form-control" placeholder="Enter Address Line 1">
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-6">
+                                    <div class="form-group">
+                                        <label>Address Line 2</label>
+                                        <input type="text" name="add_2" id="add_2" required class="form-control" placeholder="Enter Address Line 2">
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-6">
+                                    <div class="form-group">
+                                        <label>City</label>
+                                        <input type="text" name="city" id="city" required class="form-control" placeholder="Enter your town/city name">
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-6">
+                                    <div class="form-group">
+                                        <label>State code</label>
+                                        <input type="text" name="state_code" id="state_code" required class="form-control" placeholder="Enter your state code">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body border rounded set mb-3">
+                            <h6 class="font-weight-500 mb-3 bg-primary-light p-2">Contact Details</h6>
+                            <div class="row">
+                                <div class="col-md-6 col-6">
+                                    <div class="form-group">
+                                        <label>Email id</label>
+                                        <input type="email" name="email" id="email" required placeholder="Enter email id" class="form-control mb-2"/>
+                                        <small class="text-muted">Your ticket will be sent to this email address</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-6">
+                                    <div class="form-group">
+                                        <label>Mobile Number</label>
+                                        <input type="number" name="mob_no" id="mob_no" required placeholder="Enter" class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" name="flight" id="flight" value="{{$per_flight_details->flight}}">
+                        <input type="hidden" name="flights" id="flights" value="{{$per_flight_details->flights}}">
+                        <input type="hidden" name="addFrom" id="addFrom" value="{{$per_flight_details->addFrom}}">
+                        <input type="hidden" name="addTo" id="addTo" value="{{$per_flight_details->addTo}}">
+                        <input type="hidden" name="adults" id="adults" value="{{$per_flight_details->adults}}">
+                        <input type="hidden" name="children" id="children" value="{{$per_flight_details->children}}">
+                        <input type="hidden" name="infant" id="infant" value="{{$per_flight_details->infant}}">
+                        <button type="submit" class="btn btn-primary" onclick="showLoder();">Proceed to payment</button>
+                        <!-- <a href="payment.php" class="btn btn-primary">Proceed to payment</a> -->
                     </form>
                     </div>
                 </div>
@@ -211,15 +376,15 @@
             <div class="col-md-3">
                 <div class="card">
                     <h4 class="font-weight-500 mb-0">Fare Summary</h4>
-                    <span class="text-muted">Travelers 1 Adult</span>
+                    <span class="text-muted">Travelers {{$per_flight_details->adults}} Adult</span>
                     <table class="table table-small mt-2 mb-0">
                         <tr>
-                            <td>Base Fare x 1</td>
-                            <td class="text-right"><i class="las la-pound-sign"></i>80.00</td>
+                            <td>Base Fare x {{$per_flight_details->adults}}</td>
+                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$data[2]['price']['ApproximateBasePrice'])*$per_flight_details->adults),2)}}</td>
                         </tr>
                         <tr>
-                            <td>Taxes x 1</td>
-                            <td class="text-right"><i class="las la-pound-sign"></i>8.00</td>
+                            <td>Taxes x {{$per_flight_details->adults}}</td>
+                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$data[2]['price']['Taxes'])*$per_flight_details->adults),2)}}</td>
                         </tr>
                         <tr>
                             <td>Other taxes</td>
@@ -227,7 +392,7 @@
                         </tr>
                         <tr class="font-weight-bold bg-light">
                             <td>Total</td>
-                            <td class="text-right text-danger"><i class="las la-pound-sign"></i>88.00</td>
+                            <td class="text-right text-danger"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$data[2]['price']['ApproximateBasePrice'])*$per_flight_details->adults)+(str_replace('GBP','',$data[2]['price']['Taxes'])*$per_flight_details->adults),2)}}</td>
                         </tr>
                     </table>
                 </div>

@@ -32,8 +32,9 @@ Route::post('/flightDetails',[App\Http\Controllers\FlightController::class,'Flig
 
 Route::post('/BaggageCancelRuleajax',[App\Http\Controllers\FlightDetailsController::class,'FlightDetails'])->name('BaggageCancelRuleajax');
 
-Route::post('/passengerDetails',[App\Http\Controllers\FlightsController::class,'PassengerDetails'])->name('passengerDetails');
+Route::post('/passengerDetails',[App\Http\Controllers\PassengerDetailsController::class,'PassengerDetails'])->name('passengerDetails');
 // Route::get('/flightDetails',[App\Http\Controllers\FlightsController::class,'FlightDetails'])->name('flightDetails');
 // Route::get('/passengerDetails',[App\Http\Controllers\FlightsController::class,'PassengerDetails'])->name('passengerDetails');
-Route::get('/payment',[App\Http\Controllers\FlightsController::class,'Payment'])->name('payment');
+Route::post('/showpayment',[App\Http\Controllers\PaymentController::class,'ShowPayment'])->name('showpayment');
+
 Route::get('/confirmBooking',[App\Http\Controllers\FlightsController::class,'ConfirmBooking'])->name('confirmBooking');
