@@ -36,5 +36,11 @@ Route::post('/passengerDetails',[App\Http\Controllers\PassengerDetailsController
 // Route::get('/flightDetails',[App\Http\Controllers\FlightsController::class,'FlightDetails'])->name('flightDetails');
 // Route::get('/passengerDetails',[App\Http\Controllers\FlightsController::class,'PassengerDetails'])->name('passengerDetails');
 Route::post('/showpayment',[App\Http\Controllers\PaymentController::class,'ShowPayment'])->name('showpayment');
+Route::post('/paymentcredit',[App\Http\Controllers\PaymentController::class,'PaymentCredit'])->name('paymentcredit');
 
 Route::get('/confirmBooking',[App\Http\Controllers\FlightsController::class,'ConfirmBooking'])->name('confirmBooking');
+
+
+
+            // Multi City
+Route::get('/multicity',[App\Http\Controllers\multicity\HomeController::class,'Index'])->name('multicityindex');

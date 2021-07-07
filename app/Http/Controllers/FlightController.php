@@ -68,15 +68,27 @@ class FlightController extends Controller
 
         }
         // return $request;
-        return view('flights.flights',[
-            'searched' => $request,
-            'flights'=>$flights,
-            'airlines'=>$airlines,
-            'stops'=>$stops,
-            'return_flights'=>$return_flights,
-            'return_stops'=>$return_stops,
-            'return_airlines'=>$return_airlines
-        ]);
+        if($request->returning_date!=''){
+            return view('flights.flight-round',[
+                'searched' => $request,
+                'flights'=>$flights,
+                'airlines'=>$airlines,
+                'stops'=>$stops,
+                'return_flights'=>$return_flights,
+                'return_stops'=>$return_stops,
+                'return_airlines'=>$return_airlines
+            ]);
+        }else{
+            return view('flights.flights',[
+                'searched' => $request,
+                'flights'=>$flights,
+                'airlines'=>$airlines,
+                'stops'=>$stops,
+                'return_flights'=>$return_flights,
+                'return_stops'=>$return_stops,
+                'return_airlines'=>$return_airlines
+            ]);
+        }
     }
     public function prettyPrint($result){
         $dom = new \DOMDocument();

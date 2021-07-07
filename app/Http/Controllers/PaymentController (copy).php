@@ -503,7 +503,6 @@ EOM;
     public function PaymentCredit(Request $request){
         // return $request;
         $flight=json_decode($request->flight, true);
-        // return $flight;
         // return $flight[2];
         // return $flight[2]['price']['TotalPrice'];
         $datasegment='';
@@ -511,13 +510,9 @@ EOM;
             for ($i=0; $i < count($journeys); $i++) {
                 // echo get_object_vars($journeys[$i]->Key)[0];
                 // return $journeys[$i]['key'];
-                $datasegment.='<air:AirSegment Key="'.$journeys[$i]['key'].'" Group="'.$journeys[$i]['Group'].'" Carrier="'.$journeys[$i]['Carrier'].'" FlightNumber="'.$journeys[$i]['FlightNumber'].'" ProviderCode="1G" Origin="'.$journeys[$i]['Origin'].'" Destination="'.$journeys[$i]['Destination'].'" DepartureTime="'.$journeys[$i]['DepartureTime'].'" ArrivalTime="'.$journeys[$i]['ArrivalTime'].'" FlightTime="'.$journeys[$i]['FlightTime'].'" TravelTime="'.$journeys[$i]['TravelTime'].'" Distance="'.$journeys[$i]['Distance'].'" ClassOfService="'.$journeys[$i]['ClassOfService'].'" Equipment="E90" ChangeOfPlane="false" OptionalServicesIndicator="false" AvailabilitySource="S" ParticipantLevel="Secure Sell" LinkAvailability="true" PolledAvailabilityOption="O and D cache or polled status used with different local status" AvailabilityDisplayType="Fare Specific Fare Quote Unbooked">
-                <air:CodeshareInfo OperatingCarrier="'.$journeys[$i]['Carrier'].'"></air:CodeshareInfo>
-                <air:FlightDetails Key="" Origin="'.$journeys[$i]['Origin'].'" Destination="'.$journeys[$i]['Destination'].'" DepartureTime="'.$journeys[$i]['DepartureTime'].'" ArrivalTime="'.$journeys[$i]['ArrivalTime'].'" FlightTime="'.$journeys[$i]['FlightTime'].'" TravelTime="'.$journeys[$i]['TravelTime'].'" Distance="'.$journeys[$i]['Distance'].'"/>
-                </air:AirSegment>';
-                // $datasegment.='<AirSegment ProviderCode="1G" Key="'.$journeys[$i]['key'].'" Carrier="'.$journeys[$i]['Carrier'].'" ClassOfService="'.$journeys[$i]['ClassOfService'].'" Distance="'.$journeys[$i]['Destination'].'" TravelTime="'.$journeys[$i]['TravelTime'].'" FlightTime="'.$journeys[$i]['FlightTime'].'" ArrivalTime="'.$journeys[$i]['ArrivalTime'].'" DepartureTime="'.$journeys[$i]['DepartureTime'].'" Destination="'.$journeys[$i]['Destination'].'" Origin="'.$journeys[$i]['Origin'].'" FlightNumber="'.$journeys[$i]['FlightNumber'].'" Group="'.$journeys[$i]['Group'].'" AvailabilityDisplayType="Fare Specific Fare Quote Unbooked" OptionalServicesIndicator="false">
-                // <CodeshareInfo OperatingCarrier="'.$journeys[$i]['Carrier'].'"/>
-                // </AirSegment>';
+                $datasegment.='<AirSegment ProviderCode="1G" Key="'.$journeys[$i]['key'].'" Carrier="'.$journeys[$i]['Carrier'].'" ClassOfService="'.$journeys[$i]['ClassOfService'].'" Distance="'.$journeys[$i]['Destination'].'" TravelTime="'.$journeys[$i]['TravelTime'].'" FlightTime="'.$journeys[$i]['FlightTime'].'" ArrivalTime="'.$journeys[$i]['ArrivalTime'].'" DepartureTime="'.$journeys[$i]['DepartureTime'].'" Destination="'.$journeys[$i]['Destination'].'" Origin="'.$journeys[$i]['Origin'].'" FlightNumber="'.$journeys[$i]['FlightNumber'].'" Group="'.$journeys[$i]['Group'].'" AvailabilityDisplayType="Fare Specific Fare Quote Unbooked" OptionalServicesIndicator="false">
+                <CodeshareInfo OperatingCarrier="'.$journeys[$i]['Carrier'].'"/>
+                </AirSegment>';
             }
         }
         // return $datasegment;
@@ -528,31 +523,35 @@ EOM;
         $searchLegModifier = '';
         // $PreferredDate = Carbon::parse($request->departure_date)->format('Y-m-d');
 
-        $query = '<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+        $query = '<soap:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
         <soap:Body>
-            <univ:AirCreateReservationReq RetainReservation="Both" TraceId="trace" TargetBranch="'.$TARGETBRANCH.'" AuthorizedBy="user" xmlns:univ="http://www.travelport.com/schema/universal_v42_0">
-                <com:BillingPointOfSaleInfo OriginApplication="UAPI" xmlns:com="http://www.travelport.com/schema/common_v42_0"/>
-                <com:BookingTraveler Key="" TravelerType="ADT" xmlns:com="http://www.travelport.com/schema/common_v42_0">
-                    <com:BookingTravelerName Prefix="Mr" First="CARSTEN" Last="LINDELOEV"/>
-                    <com:PhoneNumber Key="" CountryCode="011" Location="DEN" Number="227-722-2454" Extension="22" AreaCode="222" Type="Home" Text="Abc-Xy"/>
-                    <com:Email Type="Home" EmailID="jtestora@travelport.com"/>
-                    <com:SSR Key="1" Type="DOCS" Status="HK" Carrier="AI" FreeText="P/CA/F9850356/GB/04JAN80/M/01JAN14/LINDELOEV/CARSTENGJELLERUPMr"/>
-                    <com:Address>
-                        <com:AddressName>Jan Restora</com:AddressName>
-                        <com:Street>6901 S. Havana</com:Street>
-                        <com:Street>Apt 3</com:Street>
-                        <com:City>Englewood</com:City>
-                        <com:State>CO</com:State>
-                        <com:PostalCode>80111</com:PostalCode>
-                        <com:Country>US</com:Country>
-                    </com:Address>
-                </com:BookingTraveler>
-                <GeneralRemark UseProviderNativeMode="true" TypeInGds="Basic" xmlns="http://www.travelport.com/schema/common_v42_0">
-                    <RemarkData>Booking 1</RemarkData>
-                </GeneralRemark>
-                <com:ContinuityCheckOverride Key="" xmlns:com="http://www.travelport.com/schema/common_v42_0">true</com:ContinuityCheckOverride>
-                <com:FormOfPayment Key="" Type="Credit" xmlns:com="http://www.travelport.com/schema/common_v42_0">
-                    <com:CreditCard Type="CA" Number="5555555555555557" ExpDate="2022-03" Name="JAYA KUMAR" CVV="123" Key="">
+            <air:AirCreateReservationReq RetainReservation="Both" ProviderCode="1G"  AuthorizedBy="user" TargetBranch="'.$TARGETBRANCH.'" xmlns="http://www.travelport.com/schema/universal_v42_0">
+                <BillingPointOfSaleInfo xmlns="http://www.travelport.com/schema/common_v42_0" OriginApplication="UAPI"/>
+                    <air:BookingTraveler xmlns="http://www.travelport.com/schema/common_v42_0" Nationality="US" Gender="M" DOB="1981-06-03" Age="40" TravelerType ="ADT" Key="">
+                        <BookingTravelerName Last="Smith" First="John" Prefix="Mr"/>
+                        <DeliveryInfo>
+                            <ShippingAddress Key="eldZazNFWWZLazVMZFZtSQ==">
+                                <Street>Via Augusta 59 5</Street>
+                                <City>Madrid</City>
+                                <State>IA</State>
+                                <PostalCode> 50156 </PostalCode>
+                                <Country>US</Country>
+                            </ShippingAddress>
+                        </DeliveryInfo>
+                        <PhoneNumber Number="123456789" AreaCode="303" CountryCode="1" Location="DEN"/>
+                        <Email EmailID="johnsmith@travelportuniversalapidemo.com"/>
+                        <SSR Carrier="AI" FreeText="P/GB/S12345678/GB/20JUL76/M/01JAN16/SMITH/JOHN" Type="DOCS"/>
+                        <Address>
+                            <AddressName>DemoSiteAddress</AddressName>
+                            <Street>Via Augusta 59 5</Street>
+                            <City>Madrid</City>
+                            <State>IA</State>
+                            <PostalCode> 50156 </PostalCode>
+                            <Country>US</Country>
+                        </Address>
+                    </air:BookingTraveler>
+                    <com:FormOfPayment Key="" Type="Credit" xmlns:com="http://www.travelport.com/schema/common_v42_0">
+                        <com:CreditCard Type="CA" Number="5555555555555557" ExpDate="2021-01" Name="JAYA KUMAR" CVV="123" Key="GAJOYrVu4hGShsrlYIhwmw==">
                         <com:BillingAddress>
                             <com:AddressName>Jan Testora</com:AddressName>
                             <com:Street>6901 S. Havana</com:Street>
@@ -562,20 +561,30 @@ EOM;
                             <com:PostalCode>8011</com:PostalCode>
                             <com:Country>AU</com:Country>
                         </com:BillingAddress>
-                    </com:CreditCard>
-                </com:FormOfPayment>
-                <air:AirPricingSolution Key="'.$flight[2]['price']['Key'].'" TotalPrice="'.$flight[2]['price']['TotalPrice'].'" BasePrice="'.$flight[2]['price']['BasePrice'].'" ApproximateTotalPrice="'.$flight[2]['price']['ApproximateTotalPrice'].'" ApproximateBasePrice="'.$flight[2]['price']['ApproximateBasePrice'].'" EquivalentBasePrice="'.$flight[2]['price']['EquivalentBasePrice'].'" Taxes="'.$flight[2]['price']['Taxes'].'" Fees="'.$flight[2]['price']['Fees'].'" ApproximateTaxes="'.$flight[2]['price']['ApproximateTaxes'].'" QuoteDate="'.$flight[2]['price']['QuoteDate'].'" xmlns:air="http://www.travelport.com/schema/air_v42_0">
-                    '.$datasegment.'
-                    <HostToken xmlns="http://www.travelport.com/schema/common_v42_0" Key="Bjcs8p/pWDKAbEuPAAAAAA==">GFB10101ADT00  01SIP                                   010001#GFB200010101NADTV3302AI0407700001991K#GFMCEIP302NAI04 AI ADTSIP</HostToken>
-                </air:AirPricingSolution>
-                <com:ActionStatus TicketDate="T*" Type="ACTIVE" ProviderCode="1G" xmlns:com="http://www.travelport.com/schema/common_v42_0"/>
-            </univ:AirCreateReservationReq>
+                        </com:CreditCard>
+                    </com:FormOfPayment>
+                    <AirPricingSolution xmlns="http://www.travelport.com/schema/air_v42_0" Key="Xc4epmBqWDKAc4oPFAAAAA==" Fees="'.$flight[2]['price']['Fees'].'" Taxes="'.$flight[2]['price']['Taxes'].'" EquivalentBasePrice="'.$flight[2]['price']['EquivalentBasePrice'].'" ApproximateBasePrice="'.$flight[2]['price']['ApproximateBasePrice'].'" ApproximateTotalPrice="'.$flight[2]['price']['ApproximateTotalPrice'].'" BasePrice="'.$flight[2]['price']['BasePrice'].'" TotalPrice="'.$flight[2]['price']['TotalPrice'].'">
+                        '.$datasegment.'
+                        <AirPricingInfo ProviderCode="1G" Key="" PlatingCarrier="AI" Taxes="'.$flight[2]['price']['Taxes'].'" ApproximateBasePrice="'.$flight[2]['price']['ApproximateBasePrice'].'" ApproximateTotalPrice="'.$flight[2]['price']['ApproximateTotalPrice'].'" BasePrice="'.$flight[2]['price']['BasePrice'].'" TotalPrice="'.$flight[2]['price']['TotalPrice'].'" PricingMethod="Auto">
+                            <FareInfo Key="" Destination="DEL" Origin="CCU" FareBasis="" PassengerTypeCode="ADT" EffectiveDate="2021-06-03T17:03:00.000+01:00" Amount="GBP699.00" DepartureDate="2021-09-26" FareFamily="" PromotionalFare="false">
+                                <FareRuleKey ProviderCode="1G" FareInfoRef=""> </FareRuleKey>
+                                <Brand Key=""/>
+                            </FareInfo>
+                            <BookingInfo FareInfoRef="" HostTokenRef="" SegmentRef="" CabinClass="Economy" BookingCode="C"/>
+                            <PassengerType BookingTravelerRef="eldZazNFWWZLazVMZFZtSQ==" Code="ADT"/>
+                        </AirPricingInfo>
+                        <HostToken xmlns = "http://www.travelport.com/schema/common_v42_0" Key=""> </HostToken>
+                    </AirPricingSolution>
+                    <ActionStatus ProviderCode="1G" xmlns="http://www.travelport.com/schema/common_v42_0" Type="ACTIVE" TicketDate="T*"/>
+                        <Payment xmlns="http://www.travelport.com/schema/common_v42_0" Key="" Type="Itinerary" Amount="'.$flight[2]['price']['TotalPrice'].'" FormOfPaymentRef="1"/>
+            </air:AirCreateReservationReq>
         </soap:Body>
-    </soap:Envelope>';
-            $message = <<<EOM
+        </soap:Envelope>';
+                $message = <<<EOM
 $query
 EOM;
-        $auth = base64_encode($CREDENTIALS);
+         
+    $auth = base64_encode($CREDENTIALS);
         // $soap_do = curl_init("https://apac.universal-api.pp.travelport.com/B2BGateway/connect/uAPI/UniversalRecordService");
         $soap_do = curl_init("https://apac.universal-api.pp.travelport.com/B2BGateway/connect/uAPI/AirService");
         /*("https://americas.universal-api.pp.travelport.com/B2BGateway/connect/uAPI/AirService");*/

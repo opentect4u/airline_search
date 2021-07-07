@@ -55,7 +55,7 @@
                         <ul class="cld__selectors">
                             <li><a href="#" class="active" id="one_way">One way</a></li>
                             <li><a href="#" id="round_trip">Round trip</a></li>
-                            <li><a href="multi-city.php">Multi city</a></li>
+                            <li><a href="{{route('multicityindex')}}">Multi city</a></li>
                         </ul>
                     </div>
                     <div class="form-group">

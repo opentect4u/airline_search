@@ -29,10 +29,11 @@
                                     <div class="form-group">
                                         <label>Title</label>
                                         <select class="form-control custom-select" name="title{{$i}}" id="title{{$i}}" required>
-                                            <option value="">---Select---</option>
                                             <option value="Mr">Mr</option>
                                             <option value="Mrs">Mrs</option>
                                             <option value="Ms">Ms</option>
+                                            <option value="Miss">Miss</option>
+                                            <option value="Mstr">Mstr</option>
                                         </select>
                                     </div>
                                 </div>
@@ -70,7 +71,7 @@
                                     <div class="form-group">
                                         <label>Seating</label>
                                         <select class="form-control custom-select" name="seating{{$i}}" id="seating{{$i}}" required>
-                                            <option value="">-- No preference --</option>
+                                            <option value="No preference">No preference</option>  
                                             <option value="Aisle seat">Aisle seat</option>
                                             <option value="Bulkhead seat">Bulkhead seat</option>
                                             <option value="Cradle/Baby Basket seat">Cradle/Baby Basket seat</option>
@@ -90,9 +91,10 @@
                                     <div class="form-group">
                                         <label>Assistance</label>
                                         <select class="form-control custom-select" name="assistance{{$i}}" id="assistance{{$i}}" required>
-                                            <option value="Deaf">Deaf</option>
-                                            <option value="Blind">Blind</option>
-                                            <option value="Wheelchair">Wheelchair</option>
+                                            <option selected="selected" value="No preference">No preference</option>
+                                            <option value="Overwing seat">Deaf</option>
+                                            <option value="Smoking seat">Blind</option>
+                                            <option value="Window seat">Wheelchair</option>
                                         </select>
                                     </div>
                                 </div>
@@ -100,14 +102,28 @@
                                     <div class="form-group">
                                         <label>Meal</label>
                                         <select class="form-control custom-select" name="meal{{$i}}" id="meal{{$i}}">
-                                            <option value="">0</option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
-                                            <option value="6">6</option>
-                                            <option value="7">7</option>
+                                            <option value="No preference">No preference</option>
+                                            <option value="BBML">Baby Meal</option>
+                                            <option value="BLML">Bland Meal</option>
+                                            <option value="CHML">Child Meal Meal</option>
+                                            <option value="DBML">Diabetic Meal</option>
+                                            <option value="FPML">Fruit Platter Meal</option>
+                                            <option value="GFML">Gluten Intolerant Meal</option>
+                                            <option value="HNML">Hindu Meal</option>
+                                            <option value="KSML">Kosher Meal</option>
+                                            <option value="LCML">Low Calorie Meal</option>
+                                            <option value="LFML">Low Fat Meal</option>
+                                            <option value="NLML">Low Lactose Meal</option>
+                                            <option value="LSML">Low Salt Meal</option>
+                                            <option value="MOML">Muslim Meal</option>
+                                            <option value="RVML">Raw Vegetarian Meal</option>
+                                            <option value="SFML">Seafood Meal</option>
+                                            <option value="SPML">Special Meal</option>
+                                            <option value="AVML">Vegetarian Hindu Meal</option>
+                                            <option value="VJML">Vegetarian Jain Meal</option>
+                                            <option value="VLML">Vegetarian Lacto-Ovo</option>
+                                            <option value="VGML">Vegetarian Meal</option>
+                                            <option value="VOML">Vegetarian Oriental Meal</option>
                                         </select>
                                     </div>
                                 </div>
@@ -169,16 +185,17 @@
                         @endfor
                         @for ($i=1; $i <= $per_flight_details->children; $i++)
                         <div class="card-body border rounded set mb-3">
-                            <h6 class="font-weight-500 mb-3 bg-primary-light p-2"><i class="las la-user-circle"></i> Adult {{$i}}</h6>
+                            <h6 class="font-weight-500 mb-3 bg-primary-light p-2"><i class="las la-user-circle"></i> Children {{$i}}</h6>
                             <div class="row">
                                 <div class="col-md-4 col-6">
                                     <div class="form-group">
                                         <label>Title</label>
                                         <select class="form-control custom-select" name="children_title{{$i}}" id="children_title{{$i}}" required>
-                                            <option value="">---Select---</option>
                                             <option value="Mr">Mr</option>
                                             <option value="Mrs">Mrs</option>
                                             <option value="Ms">Ms</option>
+                                            <option value="Miss">Miss</option>
+                                            <option value="Mstr">Mstr</option>
                                         </select>
                                     </div>
                                 </div>
@@ -236,9 +253,10 @@
                                     <div class="form-group">
                                         <label>Assistance</label>
                                         <select class="form-control custom-select" name="children_assistance{{$i}}" id="children_assistance{{$i}}" required>
-                                            <option value="Deaf">Deaf</option>
-                                            <option value="Blind">Blind</option>
-                                            <option value="Wheelchair">Wheelchair</option>
+                                            <option value="No preference">No preference</option>
+                                            <option value="Overwing seat">Deaf</option>
+                                            <option value="Smoking seat">Blind</option>
+                                            <option value="Window seat">Wheelchair</option>
                                         </select>
                                     </div>
                                 </div>
@@ -246,14 +264,28 @@
                                     <div class="form-group">
                                         <label>Meal</label>
                                         <select class="form-control custom-select" name="children_meal{{$i}}" id="children_meal{{$i}}">
-                                            <option value="">0</option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
-                                            <option value="6">6</option>
-                                            <option value="7">7</option>
+                                            <option value="No preference">No preference</option>
+                                            <option value="BBML">Baby Meal</option>
+                                            <option value="BLML">Bland Meal</option>
+                                            <option value="CHML">Child Meal Meal</option>
+                                            <option value="DBML">Diabetic Meal</option>
+                                            <option value="FPML">Fruit Platter Meal</option>
+                                            <option value="GFML">Gluten Intolerant Meal</option>
+                                            <option value="HNML">Hindu Meal</option>
+                                            <option value="KSML">Kosher Meal</option>
+                                            <option value="LCML">Low Calorie Meal</option>
+                                            <option value="LFML">Low Fat Meal</option>
+                                            <option value="NLML">Low Lactose Meal</option>
+                                            <option value="LSML">Low Salt Meal</option>
+                                            <option value="MOML">Muslim Meal</option>
+                                            <option value="RVML">Raw Vegetarian Meal</option>
+                                            <option value="SFML">Seafood Meal</option>
+                                            <option value="SPML">Special Meal</option>
+                                            <option value="AVML">Vegetarian Hindu Meal</option>
+                                            <option value="VJML">Vegetarian Jain Meal</option>
+                                            <option value="VLML">Vegetarian Lacto-Ovo</option>
+                                            <option value="VGML">Vegetarian Meal</option>
+                                            <option value="VOML">Vegetarian Oriental Meal</option>
                                         </select>
                                     </div>
                                 </div>
