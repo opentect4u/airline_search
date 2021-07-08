@@ -239,7 +239,7 @@
                         @foreach($return_stops as $stop)
                         <!-- {{$stop}} -->
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" checked class="custom-control-input" id="return_Stops{{$stop}}" onclick="filterStops('return_Stops{{$stop}}')">
+                            <input type="checkbox" class="custom-control-input" id="return_Stops{{$stop}}" name="return_Stops" value="return_Stops{{$stop}}" onclick="return_filter()">
                             <label class="custom-control-label" for="return_Stops{{$stop}}">
                             <?php 
                             if($stop==0){ echo "Non Stop";}else{echo ($stop)." Stop";}
@@ -263,16 +263,20 @@
                     <div class="filter-set">
                         <h6 class="font-weight-600">Departure </h6>
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
-                            <label class="custom-control-label" for="customCheck">6AM-12 Noon</label>
+                            <input type="checkbox" class="custom-control-input" id="ReturnDeparture16" name="ReturnDeparture" value="ReturnDeparture16" onclick="return_filter()">
+                            <label class="custom-control-label" for="ReturnDeparture16">Before 6AM</label>
                         </div>
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
-                            <label class="custom-control-label" for="customCheck">12 Noon-6PM</label>
+                            <input type="checkbox" class="custom-control-input" id="ReturnDeparture612" name="ReturnDeparture" value="ReturnDeparture612" onclick="return_filter()">
+                            <label class="custom-control-label" for="ReturnDeparture612">6AM-12 Noon</label>
                         </div>
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
-                            <label class="custom-control-label" for="customCheck">After 6PM</label>
+                            <input type="checkbox" class="custom-control-input" id="ReturnDeparture126" name="ReturnDeparture" value="ReturnDeparture126" onclick="return_filter()">
+                            <label class="custom-control-label" for="ReturnDeparture126">12 Noon-6PM</label>
+                        </div>
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="ReturnDeparture6" name="ReturnDeparture" value="ReturnDeparture6" onclick="return_filter()">
+                            <label class="custom-control-label" for="ReturnDeparture6">After 6PM</label>
                         </div>
                     </div>
                     <div class="filter-set">
@@ -284,7 +288,7 @@
                         <h6 class="font-weight-600">Airlines </h6>
                         @foreach($return_airlines as $airline)
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" checked class="custom-control-input" id="return_Airline{{$airline}}" onclick="filterAirline('return_Airline{{$airline}}')" >
+                            <input type="checkbox" class="custom-control-input" id="return_Airline{{$airline}}" name="return_Airline" value="return_Airline{{$airline}}" onclick="return_filter();" >
                             <label class="custom-control-label" for="return_Airline{{$airline}}">{{ $airline }}</label>
                         </div>
                         @endforeach
@@ -387,7 +391,8 @@
                                 <div class="col-md-3 mt-2 mt-md-0 text-center">
                                     <h3 class="font-weight-bold"><i class="las la-pound-sign"></i><?php foreach($flight_data[1] as $prices){ echo str_replace('GBP','',$prices['Total Price'] );} ?></h3>
                                     <!-- <a href="flight-details.php" class="btn btn-primary">Book Now</a> -->
-                                    <form action="{{ route('flightDetails') }}" method="POST">
+                                    <input type="radio" id="radioFlight{{$count}}" name="radioFlight" <?php if($count==1){echo 'checked="checked"';}?> onclick="OnwardFlightDetails({{$count}},{{$flight_data}},'{{$searched->addFrom}}','{{$searched->addTo}}',{{$searched->adults}},{{$searched->children}},{{$searched->infant}});" value="{{$flight_data}}">
+                                    <!-- <form action="{{ route('flightDetails') }}" method="POST">
                                         @csrf
                                         <input type="text" name="flights" value="{{$flight_data}}" hidden>
                                         <input type="text" name="addFrom" value="{{ $searched->addFrom }}" hidden>
@@ -396,7 +401,7 @@
                                         <input type="text" name="children" value="{{ $searched->children }}" hidden>
                                         <input type="text" name="infant" value="{{ $searched->infant }}" hidden>
                                         <button type="submit" class="btn btn-primary" onclick="showLoder();">Book Now</button>
-                                    </form>
+                                    </form> -->
                                     <br>
                                     <a href="#" class="mt-1 d-inline-block h5" data-toggle="collapse" data-target="#flight-details{{ $count }}">View flight details</a>
                                 </div>
@@ -566,23 +571,45 @@
                     <br/>
                     <div class="row row-heading d-none d-md-flex">
                         <div class="col-md-3">Airlines</div>
-                        <div class="col-md-2">Departure</div>
+                        <div class="col-md-2" data-departureordervalue="ASC" id="return_departure_order" style="cursor: pointer;">Departure<i class="las la-long-arrow-alt-up"></i><i class="las la-long-arrow-alt-down"></i></div>
                         <div class="col-md-2 text-center">Duration</div>
                         <div class="col-md-2">Arrival</div>
                         <div class="col-md-3 text-center">Price <i class="las la-long-arrow-alt-up" id="return_price_order"></i></div>
                     </div>
-                    <?php $count=1;?>
+                    <div class="ReturnMainDiv">
+                    <?php $count=1;$ReturnDepartureTime="";$ReturnDepartureSlot="";$ReturnDepartureTimeOrder =[];?>
                     @foreach($return_flights as $flight)
                     @foreach($flight as $flight_data)
-                    @if($searched->direct_flight == 'DF' && $searched->flexi == 'F')
-                    
-                    @elseif($searched->direct_flight == 'DF')
-                
-                    @elseif($searched->flexi == 'F')
-                    
-                    @else
-                    <!-- {{}} -->
-                    <div class="flight-devider return_Airline<?php foreach($flight_data[0] as $datas){ echo $datas[0]['Airline']; } ?> return_Stops<?php  foreach($flight_data[0] as $datas){ echo count($datas); } ?>">
+                    @foreach($flight_data[0] as $datas)
+                    <?php $return_rrr=count($datas);
+                    array_push($ReturnDepartureTimeOrder,\Carbon\Carbon::parse($datas[0]['Depart'])->format('H:i'));
+                    ?>
+                    @endforeach
+                    @if($searched->direct_flight == 'DF' && $return_rrr>1 && $searched->flexi=="")
+                    @continue
+                    @elseif($searched->flexi == 'F' && $return_rrr==1 && $searched->direct_flight=="")
+                    @continue
+                    @endif
+
+                    <?php foreach($flight_data[0] as $datas){
+                    $ReturnDepartureTime =\Carbon\Carbon::parse($datas[0]['Depart'])->format('H:i'); 
+                    } ?>
+                     <?php
+                     if ($ReturnDepartureTime>=0 &&$ReturnDepartureTime<6) {
+                        $ReturnDepartureSlot="ReturnDeparture16";
+                     }
+                     elseif ($ReturnDepartureTime>=6 &&$ReturnDepartureTime<=12) {
+                         $ReturnDepartureSlot="ReturnDeparture612";
+                     }
+                     elseif ($ReturnDepartureTime>=12 &&$ReturnDepartureTime<=18) {
+                         $ReturnDepartureSlot="ReturnDeparture126";
+                     }
+                     elseif ($ReturnDepartureTime>=18 &&$ReturnDepartureTime<=24) {
+                         $ReturnDepartureSlot="ReturnDeparture6";
+                     }
+                     ?>
+
+                    <div id="ReturnSortDeparture{{$count}}" class="flight-devider ReturnGlobalDiv {{$ReturnDepartureSlot}} return_Airline<?php foreach($flight_data[0] as $datas){ echo $datas[0]['Airline']; } ?> return_Stops<?php  foreach($flight_data[0] as $datas){ echo count($datas)-1; } ?> " return-data-GlobalDiv="1" data-Deprature-time="<?php foreach($flight_data[0] as $datas){echo \Carbon\Carbon::parse($datas[0]['Depart'])->format('H:i'); } ?>">
                         <div class="row align-items-center">
                             <div class="col-md-3 mb-2 mb-md-0">
                                 <div class="media">
@@ -594,7 +621,7 @@
                             </div>
                             <div class="col-md-2 col-4">
                                 <small><i class="las la-plane-departure h6"></i> <?php foreach($flight_data[0] as $datas){ echo \Carbon\Carbon::parse($datas[0]['Depart'])->format('d M Y'); } ?></small>
-                                <h6 class="font-weight-bold mb-0"> <?php foreach($flight_data[0] as $datas){ echo \Carbon\Carbon::parse($datas[0]['Depart'])->format('h:i'); } ?></h6>
+                                <h6 class="font-weight-bold mb-0"> <?php foreach($flight_data[0] as $datas){ echo \Carbon\Carbon::parse($datas[0]['Depart'])->format('H:i'); } ?></h6>
                                 <span class="text-muted"><?php foreach($flight_data[0] as $datas){ echo $datas[0]['From']; }?></span>
                             </div>
                             <div class="col-md-2 text-center col-4">
@@ -608,21 +635,22 @@
                             </div>
                             <div class="col-md-2 col-4">
                                 <small><i class="las la-plane-arrival h6"></i> <?php foreach($flight_data[0] as $datas){ echo \Carbon\Carbon::parse($datas[count($datas)-1]['Arrive'])->format('d M Y'); } ?></small>
-                                <h6 class="font-weight-bold mb-0"> <?php foreach($flight_data[0] as $datas){ echo \Carbon\Carbon::parse($datas[count($datas)-1]['Arrive'])->format('h:i'); } ?></h6>
+                                <h6 class="font-weight-bold mb-0"> <?php foreach($flight_data[0] as $datas){ echo \Carbon\Carbon::parse($datas[count($datas)-1]['Arrive'])->format('H:i'); } ?></h6>
                                 <span class="text-muted"><?php foreach($flight_data[0] as $datas){  echo $datas[count($datas)-1]['To'];}?></span>
                             </div>
                         
                             <div class="col-md-3 mt-2 mt-md-0 text-center">
                                 <h3 class="font-weight-bold"><i class="las la-pound-sign"></i><?php foreach($flight_data[1] as $prices){ echo str_replace('GBP','',$prices['Total Price'] );} ?></h3>
                                 <!-- <a href="flight-details.php" class="btn btn-primary">Book Now</a> -->
-                                <form action="{{ route('flightDetails') }}" method="POST">
+                                <input type="radio" id="radioReturnFlight{{$count}}" name="radioReturnFlight"  <?php if($count==1){echo 'checked="checked"';}?> onclick="ReturnFlightDetails({{$count}},{{$flight_data}},'{{$searched->addFrom}}','{{$searched->addTo}}',{{$searched->adults}},{{$searched->children}},{{$searched->infant}});" value="{{$flight_data}}">
+                                <!-- <form action="{{ route('flightDetails') }}" method="POST">
                                     @csrf
                                     <input type="text" name="flights" value="{{$flight_data}}" hidden>
                                     <input type="text" name="adults" value="{{ $searched->adults }}" hidden>
                                     <input type="text" name="children" value="{{ $searched->children }}" hidden>
                                     <input type="text" name="infant" value="{{ $searched->infant }}" hidden>
                                     <button type="submit" class="btn btn-primary" >Book Now</button>
-                                </form>
+                                </form> -->
                                 <br>
                                 <a href="#" class="mt-1 d-inline-block h5" data-toggle="collapse" data-target="#return_flight-details{{ $count }}">View flight details</a>
                             </div>
@@ -773,9 +801,10 @@
                         </div>
                     </div>
                     <?php $count++; ?>
-                    @endif
+
                     @endforeach
                     @endforeach
+                    </div>
                 </div>
             </div>
             @else
@@ -788,7 +817,131 @@
     </div>
     </div>
 </section>
+<style>
+    .splitviewStickyOuter{
+        position: fixed;
+        bottom: 10px;
+        width: 900px;
+        z-index: 12;
+        margin-left: 334px;
+    }   
+    .splitviewSticky {
+        border-radius: 4px;
+        box-shadow: 0 2px 4px 0 rgb(0 0 0 / 15%);
+        background-color: #0a223d;
+        padding: 12px;
+    }
+    .makeFlex {
+        /* display: -webkit-box;
+        display: -webkit-flex;
+        display: -moz-box;
+        display: -ms-flexbox; */
+        display: flex;
+    }
+    .whiteText{
+        color:white;
+    }
+    .stickyFlightDtl{
+        border-left: 2px solid white;
+        height: 100px;
+        margin-left:20px;
+    }
+    .appendLeft15{
+        margin-left: 10px;
+    }
+    .commonBookNow{
+        height: 50px;
+        margin-top: 25px;
+        margin-left: 193px;
+    }
+</style>
+@if(count($flights)>0)
+<div class="splitviewStickyOuter">
+    <div class="splitviewSticky makeFlex">
+    
+        <div class="appendLeft15">
+            <p class="whiteText appendBottom12">Onward</p>
+            <div class="makeFlex spaceBetween">
+                <div class="makeFlex">
+                    <div class="logoClass">
+                        <img id="img_Onward" src="https://goprivate.wspan.com/sharedservices/images/airlineimages/logoAir<?php foreach($flights[0] as $flight_data){foreach($flight_data[0] as $datas){ echo $datas[0]['Airline']; }} ?>.gif" alt="6E.png" style="width:40px;height:40px;" class="mr-2">
+                    </div>
+                    <div class="appendLeft10">
+                        <p class="whiteText blackFont fontSize16 appendBottom4" id="time_Onward"><?php foreach($flights[0] as $flight_data){foreach($flight_data[0] as $datas){echo \Carbon\Carbon::parse($datas[0]['Depart'])->format('H:i'); }} ?> → <?php foreach($flights[0] as $flight_data){foreach($flight_data[0] as $datas){ echo \Carbon\Carbon::parse($datas[count($datas)-1]['Arrive'])->format('H:i'); }} ?></p>
+                        <!-- <p class="skyBlueText fontSize12 pointer ">Flight Details</p> -->
+                    </div>
+                </div>
+                <span class="whiteText blackFont fontSize16" style="margin-left:20px;" id="price_Onward">£ <?php foreach($flights[0] as $flight_data){foreach($flight_data[1] as $prices){ echo str_replace('GBP','',$prices['Total Price'] );}} ?></span>
+            </div>
+        </div>
+        
 
+        
+        <div class="stickyFlightDtl appendLeft15">
+            <p class="whiteText appendBottom12" style="margin-left:5px;">Return</p>
+            <div class="makeFlex spaceBetween">
+                <div class="makeFlex">
+                    <div class="logoClass" style="margin-left:5px;">
+                        <img id="img_Return" src="https://goprivate.wspan.com/sharedservices/images/airlineimages/logoAir<?php foreach($return_flights[0] as $flight_data){foreach($flight_data[0] as $datas){ echo $datas[0]['Airline']; }} ?>.gif" alt="6E.png" style="width:40px;height:40px;" class="mr-2">
+                    </div>
+                    <div class="appendLeft10">
+                        <p class="whiteText blackFont fontSize16 appendBottom4" id="time_Return"><?php foreach($return_flights[0] as $flight_data){foreach($flight_data[0] as $datas){echo \Carbon\Carbon::parse($datas[0]['Depart'])->format('H:i'); }} ?> → <?php foreach($return_flights[0] as $flight_data){foreach($flight_data[0] as $datas){ echo \Carbon\Carbon::parse($datas[count($datas)-1]['Arrive'])->format('H:i'); }} ?></p>
+                        <!-- <p class="skyBlueText fontSize12 pointer ">Flight Details</p> -->
+                    </div>
+                </div>
+                <span class="whiteText blackFont fontSize16" style="margin-left:20px;" id="price_Return">£ <?php foreach($return_flights[0] as $flight_data){foreach($flight_data[1] as $prices){ echo str_replace('GBP','',$prices['Total Price'] );}} ?></span>
+            </div>
+        </div>
+        
+        <div class="makeFlex stickyFlightDtl appendLeft15">
+            <div class="makeFlex hrtlCenter pushRight">
+                <div class="textRight appendRight10">
+                    <p><span class="whiteText fontSize22 boldFont" style="margin-left:20px;">Total Price</p>
+                    <p><span class="whiteText fontSize22 boldFont" style="margin-left:20px;" id="totalPriceDiv">£ <?php   
+                    foreach($flights[0] as $flight_data){
+                        foreach($flight_data[1] as $prices){ 
+                            $val1= str_replace('GBP','',$prices['Total Price'] );
+                        }
+                    } 
+                    foreach($return_flights[0] as $flight_data){
+                        foreach($flight_data[1] as $prices){ 
+                            $val2= str_replace('GBP','',$prices['Total Price']);
+                        }
+                    }
+                    echo number_format(($val1+$val2),2);
+                    ?></span></p>
+                    <!-- <p class="skyBlueText fontSize12 pointer ">Fare Details</p> -->
+                </div>
+                <div class="makeFlex hrtlCenter">
+                    <form action="{{ route('roundflightDetails') }}" method="POST">
+                    @csrf
+                        @foreach($flights[0] as $datas)
+                        <input type="hidden" name="flights_data" id="flights_data" value="{{$datas}}" >
+                        <input type="hidden" name="total_price" id="total_price" value="<?php foreach($datas[1] as $prices){ 
+                            echo str_replace('GBP','',$prices['Total Price']);
+                        }?>" >
+                        @endforeach
+                        @foreach($return_flights[0] as $datas)
+                        <input type="hidden" name="return_flights_data" id="return_flights_data" value="{{$datas}}" >
+                        <input type="hidden" name="return_total_price" id="return_total_price" value="<?php foreach($datas[1] as $prices){ 
+                            echo str_replace('GBP','',$prices['Total Price']);
+                        }?>" >
+                        @endforeach
+                        <input type="text" name="addFrom" value="{{ $searched->addFrom }}" hidden>
+                        <input type="text" name="addTo" value="{{ $searched->addTo }}" hidden>
+                        <input type="text" name="adults" value="{{ $searched->adults }}" hidden>
+                        <input type="text" name="children" value="{{ $searched->children }}" hidden>
+                        <input type="text" name="infant" value="{{ $searched->infant }}" hidden>
+                        <button type="submit" class="btn btn-primary commonBookNow" >Book Now</button>
+                    </form>
+                    <!-- <button id="" class="btn btn-primary commonBookNow">Book Now</button> -->
+                    <span class="customArrow arrowUp"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endif
 
 <!-- <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" /> -->
 <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" /> -->
@@ -1069,59 +1222,80 @@
             });
           
         });
-        //  if (Stops==1&&Airline==1) {
-        //     $('input[name="Stops"]:checked').each(function() {
-        //     count=1
-        //     GlobalSearchCount=1;
-
-        //     $("."+this.value).show();  
-        //             $("."+this.value).attr("data-GlobalDiv", "1")
-
-        //         if ($("."+this.value).attr("data-GlobalDiv")==1) 
-        //         {
-                    
-        //         }  
-        //     } else {
-        //         $("."+this.value).show(); 
-        //         $("."+this.value).attr("data-GlobalDiv", "1")
-        //     }
-        //   });
-         
-        //   if(GlobalSearchCount==1)
-        //   {
-        //     $('input[name="Stops"]:not(:checked)').each(function() {
-        //         $("."+this.value).hide();
-        //         $("."+this.value).attr("data-GlobalDiv", "0")
-        //       });  
-        //   } 
-        //  }
-       
-         
-         
-         
-        //   $('input[name="Airline"]:checked').each(function() {
-        //     count=1
-        //     GlobalSearchCount=1;
-        //     if ($("."+this.value).attr("data-GlobalDiv")==1) 
-        //     {
-        //         $("."+this.value).show();
-        //     }
-
-        //   });
-        //   if(GlobalSearchCount==1)
-        //   {
-        //     $('input[name="Airline"]:not(:checked)').each(function() {
-
-        //         $(".GlobalDiv").attr("data-GlobalDiv", "0")
-
-
-        //       });  
-        //   }
+        
 
           if(SearchCount==0)
           {
             $(".GlobalDiv").show();
             $(".GlobalDiv").attr("data-GlobalDiv", "1")
+          }
+    }
+
+    function return_filter()
+    {
+        // if ($("."+this.value).attr("data-GlobalDiv")==1) 
+        // $(".GlobalDiv").attr("data-GlobalDiv", "0")
+        var SearchCount=0;
+        var count=0;
+     
+        $(".ReturnGlobalDiv").attr("return-data-GlobalDiv", "0")
+        $(".ReturnGlobalDiv").hide();
+       
+        var arr=[];
+        var Departure=0;
+        $('input[name="ReturnDeparture"]:checked').each(function() {
+          Departure=1
+        });
+        if (Departure==1) {
+            arr.push("ReturnDeparture");
+        }
+        var Stops=0;
+        $('input[name="return_Stops"]:checked').each(function() {
+           Stops=1
+        });
+        if (Stops==1) {
+            arr.push("return_Stops");
+        }
+        var Airline=0;
+        $('input[name="return_Airline"]:checked').each(function() {
+            Airline=1
+        });
+        if (Airline==1) {
+            arr.push("return_Airline");
+        }
+          
+        $.each(arr, function( index, d ) {
+            SearchCount=1;
+            count+=1;
+            
+            $('input[name="'+d+'"]:checked').each(function() {
+                if (SearchCount==count) {
+                    $("."+this.value).show(); 
+                    $("."+this.value).attr("return-data-GlobalDiv", "1") ; 
+                }
+                else if(count>SearchCount) 
+                {
+                    if ($("."+this.value).attr("return-data-GlobalDiv")=="1") 
+                    {
+                        $("."+this.value).show();     
+                    }  
+                }
+            });
+            $('input[name="'+d+'"]:not(:checked)').each(function() {
+            
+                $("."+this.value).attr("return-data-GlobalDiv", "0")
+                $("."+this.value).hide();
+
+                    
+            });
+          
+        });
+        
+
+          if(SearchCount==0)
+          {
+            $(".ReturnGlobalDiv").show();
+            $(".ReturnGlobalDiv").attr("return-data-GlobalDiv", "1")
           }
     }
         
@@ -1186,6 +1360,49 @@
 
     });
 
+    $('#return_departure_order').click(function(){
+            // alert("hii");
+            var order_val=$("#return_departure_order").attr("data-departureordervalue");
+            // alert(order_val);
+            var ReturnDepartureTimeOrder=[];
+            var ReturnDepartureTimeOrder=<?php 
+            $ddd=[];
+            $ReturnDepartureTimeOrder=array_unique(isset($ReturnDepartureTimeOrder)?$ReturnDepartureTimeOrder:[]);
+            foreach($ReturnDepartureTimeOrder as $val){
+                array_push($ddd,$val);
+            }
+            echo json_encode($ddd);
+            ?>;
+         
+            if(order_val=="ASC"){
+                for (let index = 0; index < ReturnDepartureTimeOrder.sort().length; index++) {
+                    for (let Divindex = 1; Divindex <=$('.ReturnGlobalDiv').length; Divindex++) {
+                    var dataDepraturetime=$("#ReturnSortDeparture"+Divindex).attr("data-Deprature-time")
+                    if (dataDepraturetime==ReturnDepartureTimeOrder[index]) {
+                    $(".ReturnMainDiv").append($("#ReturnSortDeparture"+Divindex));
+                    }
+                
+                    
+                  }
+                }
+                $("#return_departure_order").attr("data-departureordervalue", "DESC");
+            } 
+            else{
+               for (let index = 0; index < ReturnDepartureTimeOrder.sort().reverse().length; index++) {
+                    for (let Divindex = 1; Divindex <=$('.ReturnGlobalDiv').length; Divindex++) {
+                    var dataDepraturetime=$("#ReturnSortDeparture"+Divindex).attr("data-Deprature-time")
+                    if (dataDepraturetime==ReturnDepartureTimeOrder[index]) {
+                    $(".ReturnMainDiv").append($("#ReturnSortDeparture"+Divindex));
+                    }
+                
+                    
+                 }
+               }
+                $("#return_departure_order").attr("data-departureordervalue", "DESC"); 
+            }
+
+    });
+
     // baggage_rules
     function BaggageCancelRule(count,flights){
         // alert(flights);    
@@ -1230,6 +1447,108 @@
     }
     function showLoder(){
         $('#loading').show();
+    }
+
+    function OnwardFlightDetails(count,flight_data,addFrom,addTo,adults,children,infant){
+        var count=count;
+        var journeydata=flight_data[0];
+        var pricedata=flight_data[1];
+       
+        for (x in journeydata) {
+            // var deptime=journeydata[x].length;
+            var airline=journeydata[x][0]['Airline'][0];
+            var deptime=journeydata[x][0]['Depart'][0];
+            var arrive=journeydata[x][(journeydata[x].length)-1]['Arrive'][0];
+        }
+        // alert(airline+"  "+deptime+"  "+arrive);
+        var time_Onward=DateFormat(deptime)+" → "+DateFormat(arrive);
+        // alert(DateFormat(deptime));
+        $('#time_Onward').empty();
+        $("#time_Onward").append(time_Onward);
+
+        for (x in pricedata) {
+            var price= pricedata[x]['Total Price'][0].replace('GBP','');
+        }
+        // alert(price);
+        var price_Onward="£ "+price;
+        var return_total_price=$("#return_total_price").val();
+        // alert(inputvalreturnflight);
+        var total_price="£ "+(parseFloat(price)+parseFloat(return_total_price)).toFixed(2);
+        // alert(total_price);
+        // var totalPriceDiv=""+total_price
+        $('#totalPriceDiv').empty();
+        $("#totalPriceDiv").append(total_price);
+
+        var src_val="https://goprivate.wspan.com/sharedservices/images/airlineimages/logoAir"+airline+".gif"
+        $('#img_Onward').removeAttr('src');
+        $("#img_Onward").attr('src',src_val);
+        
+        $('#price_Onward').empty();
+        $("#price_Onward").append(price_Onward);
+
+        $('#total_price').removeAttr('value');
+        $("#total_price").attr('value',price);
+
+        var onwordflights=$("input[name='radioFlight']:checked").val();
+        $("#flights_data").removeAttr('value');
+        $("#flights_data").attr('value',onwordflights);
+        // var returnflights=$("input[name='radioReturnFlight']:checked").val();
+        
+    }
+    function ReturnFlightDetails(count,flight_data,addFrom,addTo,adults,children,infant){
+        // alert("hii");
+        var count=count;
+        var journeydata=flight_data[0];
+        var pricedata=flight_data[1];
+       
+        for (x in journeydata) {
+            // var deptime=journeydata[x].length;
+            var airline=journeydata[x][0]['Airline'][0];
+            var deptime=journeydata[x][0]['Depart'][0];
+            var arrive=journeydata[x][(journeydata[x].length)-1]['Arrive'][0];
+        }
+        // alert(airline+"  "+deptime+"  "+arrive);
+        var time_Return=DateFormat(deptime)+" → "+DateFormat(arrive);
+        // alert(DateFormat(deptime));
+        $('#time_Return').empty();
+        $("#time_Return").append(time_Return);
+
+        for (x in pricedata) {
+            var price= pricedata[x]['Total Price'][0].replace('GBP','');
+        }
+        // alert(price);
+        var price_Onward="£ "+price;
+        var return_total_price=$("#total_price").val();
+        // alert(inputvalreturnflight);
+        var total_price="£ "+(parseFloat(price)+parseFloat(return_total_price)).toFixed(2);
+        // alert(total_price);
+        // var totalPriceDiv=""+total_price
+        $('#totalPriceDiv').empty();
+        $("#totalPriceDiv").append(total_price);
+        
+        var src_val="https://goprivate.wspan.com/sharedservices/images/airlineimages/logoAir"+airline+".gif"
+        $('#img_Return').removeAttr('src');
+        $("#img_Return").attr('src',src_val);
+        
+        $('#price_Return').empty();
+        $("#price_Return").append(price_Onward);
+
+        $('#return_total_price').removeAttr('value');
+        $("#return_total_price").attr('value',price);
+
+        var onwordflights=$("input[name='radioReturnFlight']:checked").val();
+        $("#return_flights_data").removeAttr('value');
+        $("#return_flights_data").attr('value',onwordflights);
+    }
+
+    function DateFormat(stringDate){
+        var date = new Date(stringDate);
+        var seconds = date.getSeconds();
+        var minutes = date.getMinutes();
+        var hour = date.getHours();
+        var HoursMinutes = hour + ":" + minutes;
+        // alert(HoursMinutes);
+        return HoursMinutes;
     }
 </script>
 @endsection

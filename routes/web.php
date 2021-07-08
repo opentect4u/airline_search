@@ -41,6 +41,9 @@ Route::post('/paymentcredit',[App\Http\Controllers\PaymentController::class,'Pay
 Route::get('/confirmBooking',[App\Http\Controllers\FlightsController::class,'ConfirmBooking'])->name('confirmBooking');
 
 
+                // round trip
+Route::post('/roundflightDetails',[App\Http\Controllers\RoundFlightController::class,'FlightDetails'])->name('roundflightDetails');
+
 
             // Multi City
 Route::get('/multicity',[App\Http\Controllers\multicity\HomeController::class,'Index'])->name('multicityindex');

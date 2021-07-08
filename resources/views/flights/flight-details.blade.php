@@ -48,7 +48,7 @@
                             </div>
                             <div class="col-md-2">
                                 <small><i class="las la-plane-departure h6"></i> {{\Carbon\Carbon::parse($datas[$i]['DepartureTime'])->format('d M Y')}}</small>
-                                <h6 class="font-weight-bold mb-0">{{\Carbon\Carbon::parse($datas[$i]['DepartureTime'])->format('H:s')}}</h6>
+                                <h6 class="font-weight-bold mb-0">{{\Carbon\Carbon::parse($datas[$i]['DepartureTime'])->format('H:i')}}</h6>
                                 <span class="text-muted">{{$datas[$i]['Origin']}}</span>
                             </div>
                             <div class="col-md-2 text-center">
@@ -58,7 +58,7 @@
                             </div>
                             <div class="col-md-2">
                                 <small><i class="las la-plane-arrival h6"></i> {{\Carbon\Carbon::parse($datas[$i]['ArrivalTime'])->format('d M Y')}}</small>
-                                <h6 class="font-weight-bold mb-0">{{\Carbon\Carbon::parse($datas[$i]['ArrivalTime'])->format('H:s')}}</h6>
+                                <h6 class="font-weight-bold mb-0">{{\Carbon\Carbon::parse($datas[$i]['ArrivalTime'])->format('H:i')}}</h6>
                                 <span class="text-muted">{{$datas[$i]['Destination']}}</span>
                             </div>
                             <div class="col-md-3 text-center">
@@ -69,6 +69,66 @@
                         @endfor
                         @endforeach
                         
+                        @endif
+
+                      <!-- start return flights all details -->
+                        @if(isset($return_data))
+                        @if(count($return_data)>0)
+                        <hr>
+                        <h6 class="mb-0"><i class="fas fa-plane"></i> {{$per_flight_details->addTo}} - {{$per_flight_details->addFrom}} <?php foreach($return_data[0] as $datas){ echo \Carbon\Carbon::parse($datas[0]['DepartureTime'])->format('d M Y'); } ?>
+                        <!-- <h6 class="mb-0"><i class="fas fa-plane"></i> Chandigarh - Bangalore Friday, 29 Nov 2019 -->
+                        <a href="javascript:void(0)" data-toggle="modal" data-target="#baggageAndFareReturn" class="float-right badge badge-success font-weight-400">Baggage and Fare Rules</a>
+                        </h6>
+                        @else
+                        <h6 class="mb-0"><i class="fas fa-plane"></i> No flight Found 
+                        @endif
+                        @endif
+                        @if(isset($return_data))
+                        <hr>
+                        @if(count($return_data)>0)
+                        @foreach($return_data[0] as $datas)
+                        @for ($i=0; $i < count($datas); $i++)
+                        @if($i>0)
+                        <hr>
+                            <div class="col-md-12 text-center my-2">
+                            <span class="badge badge-pill badge-warning"><i class="far fa-clock"></i> {{$datas[$i]['Origin']}} {{\Carbon\Carbon::parse($datas[$i]['DepartureTime'])->diff(\Carbon\Carbon::parse($datas[($i-1)]['ArrivalTime']))->format('%Hh %Im')}} Layover</span><br>
+                            <small> Re-Checkin your baggage</small>
+                            </div>
+                        <hr>
+                        @endif
+                        <!-- {{$datas[$i]['key']}} -->
+                        <div class="row align-items-center">
+                            <div class="col-md-3">
+                                <div class="media">
+                                    <div class="media-left"><img src="https://goprivate.wspan.com/sharedservices/images/airlineimages/logoAir{{$datas[$i]['Carrier']}}.gif" alt="6E.png" style="width:40px;height:40px;" class="mr-2"/></div>
+                                    <div class="media-body align-self-center">
+                                        <h6 class="m-0">{{$datas[$i]['Carrier']}}<br><small class="text-muted">{{$datas[$i]['Carrier']}}-{{$datas[$i]['FlightNumber']}}</small></h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <small><i class="las la-plane-departure h6"></i> {{\Carbon\Carbon::parse($datas[$i]['DepartureTime'])->format('d M Y')}}</small>
+                                <h6 class="font-weight-bold mb-0">{{\Carbon\Carbon::parse($datas[$i]['DepartureTime'])->format('H:i')}}</h6>
+                                <span class="text-muted">{{$datas[$i]['Origin']}}</span>
+                            </div>
+                            <div class="col-md-2 text-center">
+                                <span class="exchange-arrow exchange-relative m-auto"><i class="las la-exchange-alt"></i></span>
+                                <h5 class="font-weight-600 mb-0 mt-2">{{\Carbon\Carbon::parse($datas[$i]['DepartureTime'])->diff(\Carbon\Carbon::parse($datas[$i]['ArrivalTime']))->format('%Hh %Im')}}</h5>
+                                <!-- <small class="text-muted">Non stop</small> -->
+                            </div>
+                            <div class="col-md-2">
+                                <small><i class="las la-plane-arrival h6"></i> {{\Carbon\Carbon::parse($datas[$i]['ArrivalTime'])->format('d M Y')}}</small>
+                                <h6 class="font-weight-bold mb-0">{{\Carbon\Carbon::parse($datas[$i]['ArrivalTime'])->format('H:i')}}</h6>
+                                <span class="text-muted">{{$datas[$i]['Destination']}}</span>
+                            </div>
+                            <div class="col-md-3 text-center">
+                            @if(count($datas)==1)<h3 class="font-weight-bold"><i class="las la-pound-sign"></i>{{str_replace('GBP','',$return_data[2]['price']['TotalPrice'])}}</h3>@endif
+                            </div>
+                        </div>
+                        <p class="mt-3"><i class="las la-suitcase-rolling"></i> {{str_replace('K','',$return_data[1]['details']['baggageallowanceinfo'])}} Kgs Check-In, {{str_replace('K','',$data[1]['details']['carryonallowanceinfo'])}} Kgs Cabin</p>
+                        @endfor
+                        @endforeach
+                        @endif
                         @endif
 
                         <!-- <div class="row align-items-center">
@@ -102,6 +162,46 @@
                         <p class="mt-3"><i class="las la-suitcase-rolling"></i> 15 Kgs Check-In, 7 Kgs Cabin</p> -->
                     </div>
                 </div>
+                @if(isset($return_data))
+                @if(count($return_data)>0)
+                <div class="col-md-3">
+                  <div class="card">
+                    <h4 class="font-weight-500 mb-0">Fare Summary</h4>
+                    <span class="text-muted">Travelers {{$per_flight_details->adults}} Adult</span>
+                    <table class="table table-small mt-2">
+                        <tr>
+                            <td>Base Fare x {{$per_flight_details->adults}}</td>
+                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format( ((str_replace('GBP','',$data[2]['price']['ApproximateBasePrice'])+str_replace('GBP','',$return_data[2]['price']['ApproximateBasePrice'])) *$per_flight_details->adults),2)}}</td>
+                        </tr>
+                        <tr>
+                            <td>Taxes x {{$per_flight_details->adults}}</td>
+                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format(( (str_replace('GBP','',$data[2]['price']['Taxes'])+str_replace('GBP','',$return_data[2]['price']['Taxes'])) *$per_flight_details->adults),2)}}</td>
+                        </tr>
+                        <tr>
+                            <td>Other taxes</td>
+                            <td class="text-right"><i class="las la-pound-sign"></i>0.0</td>
+                        </tr>
+                        <tr class="font-weight-bold bg-light">
+                            <td>Total</td>
+                            <td class="text-right text-danger"><i class="las la-pound-sign"></i>{{number_format(( (str_replace('GBP','',$data[2]['price']['ApproximateBasePrice'])+str_replace('GBP','',$return_data[2]['price']['ApproximateBasePrice'])) *$per_flight_details->adults)+( (str_replace('GBP','',$data[2]['price']['Taxes'])+str_replace('GBP','',$data[2]['price']['Taxes']))*$per_flight_details->adults),2)}}</td>
+                        </tr>
+                    </table>
+                    <form action="{{ route('passengerDetails') }}" method="POST">
+                                @csrf
+                                <input type="text" name="flight" value="{{$per_flight_details->flights}}" hidden>
+                                <input type="text" name="flights" value="{{$data}}" hidden>
+                                <input type="text" name="addFrom" value="{{ $per_flight_details->addFrom }}" hidden>
+                                <input type="text" name="addTo" value="{{ $per_flight_details->addTo }}" hidden>
+                                <input type="text" name="adults" value="{{ $per_flight_details->adults }}" hidden>
+                                <input type="text" name="children" value="{{ $per_flight_details->children }}" hidden>
+                                <input type="text" name="infant" value="{{ $per_flight_details->infant }}" hidden>
+                      <button type="submit" class="btn btn-primary" onclick="showLoder();">Book Now</button>
+                    </form>
+                    <!-- <a href="{{route('passengerDetails')}}" class="btn btn-primary w-100">Book Now</a> -->
+                  </div>
+                </div>
+                @endif
+                @else
                 @if(count($data)>0)
                 <div class="col-md-3">
                   <div class="card">
@@ -139,6 +239,7 @@
                     <!-- <a href="{{route('passengerDetails')}}" class="btn btn-primary w-100">Book Now</a> -->
                   </div>
                 </div>
+                @endif
                 @endif
             </div>
         </div>
