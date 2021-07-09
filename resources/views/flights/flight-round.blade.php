@@ -916,7 +916,7 @@
                     <form action="{{ route('roundflightDetails') }}" method="POST">
                     @csrf
                         @foreach($flights[0] as $datas)
-                        <input type="hidden" name="flights_data" id="flights_data" value="{{$datas}}" >
+                        <input type="hidden" name="flights" id="flights" value="{{$datas}}" >
                         <input type="hidden" name="total_price" id="total_price" value="<?php foreach($datas[1] as $prices){ 
                             echo str_replace('GBP','',$prices['Total Price']);
                         }?>" >
@@ -1490,8 +1490,8 @@
         $("#total_price").attr('value',price);
 
         var onwordflights=$("input[name='radioFlight']:checked").val();
-        $("#flights_data").removeAttr('value');
-        $("#flights_data").attr('value',onwordflights);
+        $("#flights").removeAttr('value');
+        $("#flights").attr('value',onwordflights);
         // var returnflights=$("input[name='radioReturnFlight']:checked").val();
         
     }

@@ -183,13 +183,17 @@
                         </tr>
                         <tr class="font-weight-bold bg-light">
                             <td>Total</td>
-                            <td class="text-right text-danger"><i class="las la-pound-sign"></i>{{number_format(( (str_replace('GBP','',$data[2]['price']['ApproximateBasePrice'])+str_replace('GBP','',$return_data[2]['price']['ApproximateBasePrice'])) *$per_flight_details->adults)+( (str_replace('GBP','',$data[2]['price']['Taxes'])+str_replace('GBP','',$data[2]['price']['Taxes']))*$per_flight_details->adults),2)}}</td>
+                            <td class="text-right text-danger"><i class="las la-pound-sign"></i>{{number_format(( (str_replace('GBP','',$data[2]['price']['ApproximateBasePrice'])+str_replace('GBP','',$return_data[2]['price']['ApproximateBasePrice'])) *$per_flight_details->adults)+( (str_replace('GBP','',$data[2]['price']['Taxes'])+str_replace('GBP','',$return_data[2]['price']['Taxes']))*$per_flight_details->adults),2)}}</td>
                         </tr>
                     </table>
                     <form action="{{ route('passengerDetails') }}" method="POST">
                                 @csrf
                                 <input type="text" name="flight" value="{{$per_flight_details->flights}}" hidden>
                                 <input type="text" name="flights" value="{{$data}}" hidden>
+                                @if(isset($return_data))
+                                <input type="text" name="return_flight" value="{{$per_flight_details->return_flights_data}}" hidden>
+                                <input type="text" name="return_flights" value="{{$return_data}}" hidden>
+                                @endif
                                 <input type="text" name="addFrom" value="{{ $per_flight_details->addFrom }}" hidden>
                                 <input type="text" name="addTo" value="{{ $per_flight_details->addTo }}" hidden>
                                 <input type="text" name="adults" value="{{ $per_flight_details->adults }}" hidden>

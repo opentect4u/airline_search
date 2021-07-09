@@ -14,6 +14,7 @@ class PassengerDetailsController extends Controller
     public function PassengerDetails(Request $request){
         // return $request;
         $flights=json_decode($request->flights,true);
+        $return_flights=json_decode($request->return_flights,true);
         // return $flight;
         // foreach($flight as $flights){
         //     print_r($flights);
@@ -23,6 +24,7 @@ class PassengerDetailsController extends Controller
         // echo $flight[2]['price']['TotalPrice'];
         return view('flights.passenger-details',[
             'data'=>$flights,
+            'return_flights'=>$return_flights,
             'per_flight_details'=>$request
         ]);
     } 

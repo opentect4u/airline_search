@@ -13,7 +13,7 @@ class RoundFlightController extends Controller
 {
     public function FlightDetails(Request $request){
         // return $request;
-        $flights=json_decode($request->flights_data);
+        $flights=json_decode($request->flights);
         $return_flight=json_decode($request->return_flights_data);
         // return $flights;
        
@@ -80,7 +80,7 @@ EOM;
         $object = json_decode($json,true);
         $data=$this->XMLData($object,$request);
 
-        // return flight 
+        // return $data; 
         $query1 = '<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
         <soap:Body>
            <air:AirPriceReq AuthorizedBy="user" TargetBranch="'.$TARGETBRANCH.'" FareRuleType="long" xmlns:air="http://www.travelport.com/schema/air_v42_0">
@@ -122,7 +122,7 @@ EOM;
         $return_object = json_decode($return_json,true);
         $return_data=$this->XMLData($return_object,$request);
         
-        // return $data;
+        // return $return_data;
 
         return view('flights.flight-details',[
             'per_flight_details'=>$request,

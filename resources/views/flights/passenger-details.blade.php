@@ -394,6 +394,8 @@
                         </div>
                         <input type="hidden" name="flight" id="flight" value="{{$per_flight_details->flight}}">
                         <input type="hidden" name="flights" id="flights" value="{{$per_flight_details->flights}}">
+                        <input type="hidden" name="return_flight" id="return_flight" value="{{$per_flight_details->return_flight}}">
+                        <input type="hidden" name="return_flights" id="return_flights" value="{{$per_flight_details->return_flights}}">
                         <input type="hidden" name="addFrom" id="addFrom" value="{{$per_flight_details->addFrom}}">
                         <input type="hidden" name="addTo" id="addTo" value="{{$per_flight_details->addTo}}">
                         <input type="hidden" name="adults" id="adults" value="{{$per_flight_details->adults}}">
@@ -405,6 +407,32 @@
                     </div>
                 </div>
             </div>
+            @if(isset($return_flights))
+            <div class="col-md-3">
+                <div class="card">
+                    <h4 class="font-weight-500 mb-0">Fare Summary</h4>
+                    <span class="text-muted">Travelers {{$per_flight_details->adults}} Adult</span>
+                    <table class="table table-small mt-2 mb-0">
+                        <tr>
+                            <td>Base Fare x {{$per_flight_details->adults}}</td>
+                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format(( (str_replace('GBP','',$data[2]['price']['ApproximateBasePrice'])+str_replace('GBP','',$return_flights[2]['price']['ApproximateBasePrice']))*$per_flight_details->adults),2)}}</td>
+                        </tr>
+                        <tr>
+                            <td>Taxes x {{$per_flight_details->adults}}</td>
+                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format(( (str_replace('GBP','',$data[2]['price']['Taxes'])+str_replace('GBP','',$return_flights[2]['price']['Taxes']))*$per_flight_details->adults),2)}}</td>
+                        </tr>
+                        <tr>
+                            <td>Other taxes</td>
+                            <td class="text-right"><i class="las la-pound-sign"></i>0.0</td>
+                        </tr>
+                        <tr class="font-weight-bold bg-light">
+                            <td>Total</td>
+                            <td class="text-right text-danger"><i class="las la-pound-sign"></i>{{number_format(( (str_replace('GBP','',$data[2]['price']['ApproximateBasePrice'])+str_replace('GBP','',$return_flights[2]['price']['ApproximateBasePrice']))*$per_flight_details->adults)+( (str_replace('GBP','',$data[2]['price']['Taxes'])+str_replace('GBP','',$return_flights[2]['price']['Taxes']))*$per_flight_details->adults),2)}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            @else
             <div class="col-md-3">
                 <div class="card">
                     <h4 class="font-weight-500 mb-0">Fare Summary</h4>
@@ -429,6 +457,7 @@
                     </table>
                 </div>
             </div>
+            @endif
         </div>
     </div>
 </section>

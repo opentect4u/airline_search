@@ -11,7 +11,7 @@ class PaymentController extends Controller
         $flight=json_decode($request->flight);
         // return $flight;
         // return $request;
-        $flights=json_decode($request->flights,true);
+        // $flights=json_decode($request->flights,true);
         // return  $flights;
         // echo count($flights[0]);
         $datasegment='';
@@ -24,9 +24,7 @@ class PaymentController extends Controller
         // $datasegment.= '<air:AirSegment Key="'.get_object_vars($journeys[$i]->Key)[0].'" Group="'.get_object_vars($journeys[$i]->Group)[0].'" Carrier="'.get_object_vars($journeys[$i]->Airline)[0].'" FlightNumber="'.get_object_vars($journeys[$i]->Flight)[0].'" Origin="'.get_object_vars($journeys[$i]->From)[0].'" Destination="'.get_object_vars($journeys[$i]->To)[0].'" DepartureTime="'.get_object_vars($journeys[$i]->Depart)[0].'" ArrivalTime="'.get_object_vars($journeys[$i]->Arrive)[0].'" FlightTime="'.get_object_vars($journeys[$i]->FlightTime)[0].'" Distance="'.get_object_vars($journeys[$i]->Distance)[0].'" ETicketability="Yes" Equipment="E90" ChangeOfPlane="false" ParticipantLevel="Secure Sell" LinkAvailability="true" PolledAvailabilityOption="Polled avail used" OptionalServicesIndicator="false" AvailabilitySource="S" AvailabilityDisplayType="Fare Shop/Optimal Shop" ProviderCode="1G" ClassOfService="W"></air:AirSegment>';
         // echo  get_object_vars($journeys[$i]->Key)[0]; echo "<br/>";
         
-        // return $datasegment;
-        // foreach($flights[1] as $prices){
-        // }
+        
         $TARGETBRANCH = 'P7141733';
         $CREDENTIALS = 'Universal API/uAPI4648209292-e1e4ba84:9Jw*C+4c/5';
         $Provider = '1G'; // Any provider you want to use like 1G/1P/1V/ACH
@@ -73,7 +71,73 @@ EOM;
         $dom->loadXML($return);
         $json = new \FluentDOM\Serializer\Json\RabbitFish($dom);
         $object = json_decode($json,true);
-       
+        
+        $data=$this->XMLData($object);
+
+        $return_flight=json_decode($request->return_flight);
+        if($return_flight!=''){
+            // return $request;
+            $returndatasegment='';
+            foreach($return_flight[0] as $journeys){
+                for ($i=0; $i < count($journeys); $i++) {
+                    // return get_object_vars($journeys[$i]->Key)[0];
+                    $returndatasegment.= '<air:AirSegment Key="'.get_object_vars($journeys[$i]->Key)[0].'" Group="'.get_object_vars($journeys[$i]->Group)[0].'" Carrier="'.get_object_vars($journeys[$i]->Airline)[0].'" FlightNumber="'.get_object_vars($journeys[$i]->Flight)[0].'" Origin="'.get_object_vars($journeys[$i]->From)[0].'" Destination="'.get_object_vars($journeys[$i]->To)[0].'" DepartureTime="'.get_object_vars($journeys[$i]->Depart)[0].'" ArrivalTime="'.get_object_vars($journeys[$i]->Arrive)[0].'" FlightTime="'.get_object_vars($journeys[$i]->FlightTime)[0].'" Distance="'.get_object_vars($journeys[$i]->Distance)[0].'" ETicketability="Yes" ProviderCode="1G" ></air:AirSegment>';
+                }
+            }
+            // return $returndatasegment;
+            $query = '<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+            <soap:Body>
+               <air:AirPriceReq AuthorizedBy="user" TargetBranch="'.$TARGETBRANCH.'" FareRuleType="long" xmlns:air="http://www.travelport.com/schema/air_v42_0">
+                  <BillingPointOfSaleInfo OriginApplication="UAPI" xmlns="http://www.travelport.com/schema/common_v42_0"/>
+                  <air:AirItinerary>
+                    '.$returndatasegment.'
+                  </air:AirItinerary>
+                  <air:AirPricingModifiers/>
+                  <com:SearchPassenger Key="1" Code="ADT" xmlns:com="http://www.travelport.com/schema/common_v42_0"/>
+                  <air:AirPricingCommand/>
+               </air:AirPriceReq>
+            </soap:Body>
+         </soap:Envelope>';
+                $message = <<<EOM
+$query
+EOM;
+            $auth = base64_encode($CREDENTIALS);
+            // $soap_do = curl_init("https://apac.universal-api.pp.travelport.com/B2BGateway/connect/uAPI/UniversalRecordService");
+            $soap_do = curl_init("https://apac.universal-api.pp.travelport.com/B2BGateway/connect/uAPI/AirService");
+            /*("https://americas.universal-api.pp.travelport.com/B2BGateway/connect/uAPI/AirService");*/
+            $header = array(
+                "Content-Type: text/xml;charset=UTF-8",
+                "Accept: gzip,deflate",
+                "Cache-Control: no-cache",
+                "Pragma: no-cache",
+                "SOAPAction: \"\"",
+                "Authorization: Basic $auth",
+                "Content-length: ".strlen($message),
+            );
+            curl_setopt($soap_do, CURLOPT_POSTFIELDS, $message);
+            curl_setopt($soap_do, CURLOPT_HTTPHEADER, $header);
+            curl_setopt($soap_do, CURLOPT_RETURNTRANSFER, true);
+            $return = curl_exec($soap_do);
+            curl_close($soap_do);
+            // return $return;
+            $dom = new \DOMDocument();
+            $dom->loadXML($return);
+            $json = new \FluentDOM\Serializer\Json\RabbitFish($dom);
+            $object = json_decode($json,true);
+            
+            $flight_data=$this->XMLData($object);
+            // return $flight_data;
+        }
+
+        
+        return view('flights.payment',[
+            'data'=>$data,
+            'return_flights'=>$flight_data,
+            'per_flight_details'=>$request
+        ]);
+    } 
+
+    public function XMLData($object){
         $data=collect();
         $journey=collect();
         $count=1;
@@ -100,11 +164,11 @@ EOM;
                                             // echo "<br/><br/>"; 
                                             if(strcmp($fdn, "$") == 0){
                                                 // $details1["key"]=$jsons5;
-                                                // return $data;
-                                                return view('flights.flight-details',[
-                                                    'per_flight_details'=>$request,
-                                                    'data'=>$data
-                                                ]);
+                                                return $data;
+                                                // return view('flights.flight-details',[
+                                                //     'per_flight_details'=>$request,
+                                                //     'data'=>$data
+                                                // ]);
                                             }else{
                                                 $journey=collect();     
                                                 if($count2==2){
@@ -493,12 +557,8 @@ EOM;
                 }
             }
         }
-        // return $data;
-        return view('flights.payment',[
-            'data'=>$data,
-            'per_flight_details'=>$request
-        ]);
-    } 
+        return $data;
+    }
 
     public function PaymentCredit(Request $request){
         // return $request;
