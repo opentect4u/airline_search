@@ -25,7 +25,7 @@
                         <h6 class="mb-0"><i class="fas fa-plane"></i> No flight Found 
                         @endif
                         <hr>
-                        @if(count($data)>0 && count($data)==4)
+                        @if(count($data)>0 && count($data)==4 && count($return_data)==4)
                         @foreach($data[0] as $datas)
                         @for ($i=0; $i < count($datas); $i++)
                         @if($i>0)
