@@ -16,7 +16,7 @@
                 <div class="col-md-9">
                     <div class="card">
                         <h4 class="font-weight-500">Ticket Details</h4><hr>
-                        @if(count($data)>0)
+                        @if(count($data)>0 && count($data)==4)
                         <h6 class="mb-0"><i class="fas fa-plane"></i> {{$per_flight_details->addFrom}} - {{$per_flight_details->addTo}} <?php foreach($data[0] as $datas){ echo \Carbon\Carbon::parse($datas[0]['DepartureTime'])->format('d M Y'); } ?>
                         <!-- <h6 class="mb-0"><i class="fas fa-plane"></i> Chandigarh - Bangalore Friday, 29 Nov 2019 -->
                         <a href="javascript:void(0)" data-toggle="modal" data-target="#baggageAndFare" class="float-right badge badge-success font-weight-400">Baggage and Fare Rules</a>
@@ -25,7 +25,7 @@
                         <h6 class="mb-0"><i class="fas fa-plane"></i> No flight Found 
                         @endif
                         <hr>
-                        @if(count($data)>0)
+                        @if(count($data)>0 && count($data)==4)
                         @foreach($data[0] as $datas)
                         @for ($i=0; $i < count($datas); $i++)
                         @if($i>0)
@@ -65,7 +65,7 @@
                             @if(count($datas)==1)<h3 class="font-weight-bold"><i class="las la-pound-sign"></i>{{str_replace('GBP','',$data[2]['price']['TotalPrice'])}}</h3>@endif
                             </div>
                         </div>
-                        <p class="mt-3"><i class="las la-suitcase-rolling"></i> {{str_replace('K','',$data[1]['details']['baggageallowanceinfo'])}} Kgs Check-In, {{str_replace('K','',$data[1]['details']['carryonallowanceinfo'])}} Kgs Cabin</p>
+                        <p class="mt-3"><i class="las la-suitcase-rolling"></i> {{str_replace('K','',isset($data[1]['details']['baggageallowanceinfo'])?$data[1]['details']['baggageallowanceinfo']:'')}} Kgs Check-In, {{str_replace('K','', isset($data[1]['details']['carryonallowanceinfo'])?$data[1]['details']['carryonallowanceinfo']:'' )}} Kgs Cabin</p>
                         @endfor
                         @endforeach
                         
@@ -73,7 +73,7 @@
 
                       <!-- start return flights all details -->
                         @if(isset($return_data))
-                        @if(count($return_data)>0)
+                        @if(count($return_data)>0 && count($return_data)==4 && count($data)==4)
                         <hr>
                         <h6 class="mb-0"><i class="fas fa-plane"></i> {{$per_flight_details->addTo}} - {{$per_flight_details->addFrom}} <?php foreach($return_data[0] as $datas){ echo \Carbon\Carbon::parse($datas[0]['DepartureTime'])->format('d M Y'); } ?>
                         <!-- <h6 class="mb-0"><i class="fas fa-plane"></i> Chandigarh - Bangalore Friday, 29 Nov 2019 -->
@@ -85,7 +85,7 @@
                         @endif
                         @if(isset($return_data))
                         <hr>
-                        @if(count($return_data)>0)
+                        @if(count($return_data)>0 && count($return_data)==4 && count($data)==4)
                         @foreach($return_data[0] as $datas)
                         @for ($i=0; $i < count($datas); $i++)
                         @if($i>0)
@@ -125,7 +125,7 @@
                             @if(count($datas)==1)<h3 class="font-weight-bold"><i class="las la-pound-sign"></i>{{str_replace('GBP','',$return_data[2]['price']['TotalPrice'])}}</h3>@endif
                             </div>
                         </div>
-                        <p class="mt-3"><i class="las la-suitcase-rolling"></i> {{str_replace('K','',$return_data[1]['details']['baggageallowanceinfo'])}} Kgs Check-In, {{str_replace('K','',$data[1]['details']['carryonallowanceinfo'])}} Kgs Cabin</p>
+                        <p class="mt-3"><i class="las la-suitcase-rolling"></i> {{str_replace('K','', isset($return_data[1]['details']['baggageallowanceinfo'])?$return_data[1]['details']['baggageallowanceinfo']:'' )}} Kgs Check-In, {{str_replace('K','', isset($data[1]['details']['carryonallowanceinfo'])?$data[1]['details']['carryonallowanceinfo']:'' )}} Kgs Cabin</p>
                         @endfor
                         @endforeach
                         @endif
@@ -163,7 +163,7 @@
                     </div>
                 </div>
                 @if(isset($return_data))
-                @if(count($return_data)>0)
+                @if(count($return_data)>0 && count($return_data)==4 && count($data)==4)
                 <div class="col-md-3">
                   <div class="card">
                     <h4 class="font-weight-500 mb-0">Fare Summary</h4>
@@ -206,7 +206,7 @@
                 </div>
                 @endif
                 @else
-                @if(count($data)>0)
+                @if(count($data)>0 && count($data)==4)
                 <div class="col-md-3">
                   <div class="card">
                     <h4 class="font-weight-500 mb-0">Fare Summary</h4>
@@ -251,7 +251,7 @@
 </div>
 
 <!-- The Modal -->
-@if(count($data)>0)
+@if(count($data)>0 && count($data)==4 )
 <div class="modal fade" id="baggageAndFare">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
@@ -302,8 +302,8 @@
               </tr>
               <tr>
                 <td>Adult</td>
-                <td>{{str_replace('K','',$data[1]['details']['baggageallowanceinfo'])}} Kgs</td>
-                <td>{{str_replace('K','',$data[1]['details']['carryonallowanceinfo'])}} Kgs</td>
+                <td>{{str_replace('K','', isset($data[1]['details']['baggageallowanceinfo'])?$data[1]['details']['baggageallowanceinfo']:'' )}} Kgs</td>
+                <td>{{str_replace('K','', isset($data[1]['details']['carryonallowanceinfo'])?$data[1]['details']['carryonallowanceinfo']:'')}} Kgs</td>
               </tr>
             </table>
             <small>The baggage information is just for reference. Please Check with airline before check-in. For more information, visit IndiGo Airlines Website.</small>

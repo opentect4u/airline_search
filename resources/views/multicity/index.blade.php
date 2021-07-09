@@ -16,13 +16,13 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label>From</label>
-                        <input type="text" name="" placeholder="(IXC) | Chandigarh Airport" class="form-control search_input">
+                        <input type="text" name="from1" id="from1" placeholder="(IXC) | Chandigarh Airport" class="form-control search_input">
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
                         <label>To</label>
-                        <input type="text" name="" placeholder="(BOM) | Chhatrapati Shivaji Int'l Airport" class="form-control search_input">
+                        <input type="text" name="to1" id="to1" placeholder="(BOM) | Chhatrapati Shivaji Int'l Airport" class="form-control search_input">
                     </div>
                 </div>
                 <div class="col-md-2">
@@ -44,13 +44,13 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label>From</label>
-                        <input type="text" name="" placeholder="(IXC) | Chandigarh Airport" class="form-control search_input">
+                        <input type="text" name="from2" id="from2" placeholder="(IXC) | Chandigarh Airport" class="form-control search_input">
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
                         <label>To</label>
-                        <input type="text" name="" placeholder="(BOM) | Chhatrapati Shivaji Int'l Airport" class="form-control search_input">
+                        <input type="text" name="to2" id="to2" placeholder="(BOM) | Chhatrapati Shivaji Int'l Airport" class="form-control search_input">
                     </div>
                 </div>
                 <div class="col-md-2">
@@ -72,13 +72,13 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label>From</label>
-                        <input type="text" name="" placeholder="(IXC) | Chandigarh Airport" class="form-control search_input">
+                        <input type="text" name="from3" id="from3" placeholder="(IXC) | Chandigarh Airport" class="form-control search_input">
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
                         <label>To</label>
-                        <input type="text" name="" placeholder="(BOM) | Chhatrapati Shivaji Int'l Airport" class="form-control search_input">
+                        <input type="text" name="to3" id="to3" placeholder="(BOM) | Chhatrapati Shivaji Int'l Airport" class="form-control search_input">
                     </div>
                 </div>
                 <div class="col-md-2">

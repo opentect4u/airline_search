@@ -871,7 +871,7 @@
                         <!-- <p class="skyBlueText fontSize12 pointer ">Flight Details</p> -->
                     </div>
                 </div>
-                <span class="whiteText blackFont fontSize16" style="margin-left:20px;" id="price_Onward">£ <?php foreach($flights[0] as $flight_data){foreach($flight_data[1] as $prices){ echo str_replace('GBP','',$prices['Total Price'] );}} ?></span>
+                <span class="whiteText blackFont fontSize16" style="margin-left:15px;" id="price_Onward">£ <?php foreach($flights[0] as $flight_data){foreach($flight_data[1] as $prices){ echo str_replace('GBP','',$prices['Total Price'] );}} ?></span>
             </div>
         </div>
         
@@ -889,7 +889,7 @@
                         <!-- <p class="skyBlueText fontSize12 pointer ">Flight Details</p> -->
                     </div>
                 </div>
-                <span class="whiteText blackFont fontSize16" style="margin-left:20px;" id="price_Return">£ <?php foreach($return_flights[0] as $flight_data){foreach($flight_data[1] as $prices){ echo str_replace('GBP','',$prices['Total Price'] );}} ?></span>
+                <span class="whiteText blackFont fontSize16" style="margin-left:15px;" id="price_Return">£ <?php foreach($return_flights[0] as $flight_data){foreach($flight_data[1] as $prices){ echo str_replace('GBP','',$prices['Total Price'] );}} ?></span>
             </div>
         </div>
         
@@ -1541,7 +1541,7 @@
         $("#return_flights_data").attr('value',onwordflights);
     }
 
-    function DateFormat(stringDate){
+    function DateFormat_old(stringDate){
         var date = new Date(stringDate);
         var seconds = date.getSeconds();
         var minutes = date.getMinutes();
@@ -1549,6 +1549,15 @@
         var HoursMinutes = hour + ":" + minutes;
         // alert(HoursMinutes);
         return HoursMinutes;
+    }
+
+    function DateFormat(stringDate){
+        var data=stringDate.split("T");
+        // alert(data);
+        var data1=data[1].split(":");
+        var date=data1[0]+":"+data1[1];
+        // alert(date);
+        return date;
     }
 </script>
 @endsection

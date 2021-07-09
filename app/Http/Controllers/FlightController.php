@@ -319,7 +319,11 @@ EOM;
         $dom->loadXML($return);
         $json = new \FluentDOM\Serializer\Json\RabbitFish($dom);
         $object = json_decode($json,true);
-       
+        // return $object;
+        // $array=array_search('air:AirSegment',$object,true);
+        // $array=array_key_exists('air:AirSegment', $object);
+        // $array=array_search('air:AirSegment',$object,true);
+        // return $array;
         $data=collect();
         $journey=collect();
         $count=1;
@@ -754,7 +758,7 @@ EOM;
         //         echo $datas[$i]['key'];
         //     }
         // }
-        // return $request;
+        // return $data;
         return view('flights.flight-details',[
             'per_flight_details'=>$request,
             'data'=>$data

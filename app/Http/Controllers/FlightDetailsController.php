@@ -502,10 +502,10 @@ EOM;
        
         $arrNewResult = array();
         // $arrNewResult['changepenalty'] = $data[1]['details']['changepenalty'];
-        $arrNewResult['changepenalty'] = $data[1]['details']['changepenalty'];
-        $arrNewResult['cancelpenalty'] = $data[1]['details']['cancelpenalty'];
-        $arrNewResult['baggageallowanceinfo'] = $data[1]['details']['baggageallowanceinfo'];
-        $arrNewResult['carryonallowanceinfo'] = $data[1]['details']['carryonallowanceinfo'];
+        $arrNewResult['changepenalty'] = isset($data[1]['details']['changepenalty'])?$data[1]['details']['changepenalty']:'';
+        $arrNewResult['cancelpenalty'] = isset($data[1]['details']['cancelpenalty'])?$data[1]['details']['cancelpenalty']:'';
+        $arrNewResult['baggageallowanceinfo'] = isset($data[1]['details']['baggageallowanceinfo'])?$data[1]['details']['baggageallowanceinfo']:'';
+        $arrNewResult['carryonallowanceinfo'] = isset($data[1]['details']['carryonallowanceinfo'])?$data[1]['details']['carryonallowanceinfo']:'';
         $status_json = json_encode($arrNewResult);
         echo $status_json;
         // echo $data[0]['journey'];
