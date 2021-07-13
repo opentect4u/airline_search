@@ -127,12 +127,17 @@ EOM;
             
             $flight_data=$this->XMLData($object);
             // return $flight_data;
+            return view('flights.payment',[
+                'data'=>$data,
+                'return_flights'=>$flight_data,
+                'per_flight_details'=>$request
+            ]);
         }
 
         
         return view('flights.payment',[
             'data'=>$data,
-            'return_flights'=>$flight_data,
+            'return_flights'=>$return_flight,
             'per_flight_details'=>$request
         ]);
     } 

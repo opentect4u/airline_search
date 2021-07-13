@@ -8,7 +8,8 @@
         </div>
     </div>
    <div class="cld__book__form search__modify">
-        <form name="multicity" id="multicity" method="post" action="" class="w-100">
+        <form name="multicity" id="multicity" method="GET" action="{{route('multicityflight')}}" class="w-100">
+        
             <div class="row">
                 <div class="col-md-2">
                     <h6 class="text-uppercase text-muted">Flight 1</h6>
@@ -16,20 +17,20 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label>From</label>
-                        <input type="text" name="from1" id="from1" placeholder="(IXC) | Chandigarh Airport" class="form-control search_input">
+                        <input type="text" name="from1" id="from1" required placeholder="(IXC) | Chandigarh Airport" class="form-control search_input">
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
                         <label>To</label>
-                        <input type="text" name="to1" id="to1" placeholder="(BOM) | Chhatrapati Shivaji Int'l Airport" class="form-control search_input">
+                        <input type="text" name="to1" id="to1" required placeholder="(BOM) | Chhatrapati Shivaji Int'l Airport" class="form-control search_input">
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class="form-group">
                         <label>Date</label>
                         <div id="flight0_date_datetimepicker" class="input-group">
-                            <input type="text" name="flight0_date" id="flight0_date" value="{{date('d-m-Y')}}" placeholder="dd-mm-yyyy" class="form-control border-right-0" data-format="dd-MM-yyyy">
+                            <input type="text" name="flight0_date" id="flight0_date" required value="{{date('d-m-Y')}}" placeholder="dd-mm-yyyy" class="form-control border-right-0" data-format="dd-MM-yyyy">
                             <div class="input-group-append add-on">
                             <span class="input-group-text bg-white pl-0"><i class="lar la-calendar-alt"></i></span>
                             </div>
@@ -44,20 +45,20 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label>From</label>
-                        <input type="text" name="from2" id="from2" placeholder="(IXC) | Chandigarh Airport" class="form-control search_input">
+                        <input type="text" name="from2" id="from2" required placeholder="(IXC) | Chandigarh Airport" class="form-control search_input">
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
                         <label>To</label>
-                        <input type="text" name="to2" id="to2" placeholder="(BOM) | Chhatrapati Shivaji Int'l Airport" class="form-control search_input">
+                        <input type="text" name="to2" id="to2" required placeholder="(BOM) | Chhatrapati Shivaji Int'l Airport" class="form-control search_input">
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class="form-group">
                         <label>Date</label>
                         <div id="flight1_date_datetimepicker" class="input-group">
-                            <input type="text" name="flight1_date" id="flight1_date" placeholder="dd-mm-yyyy" class="form-control border-right-0" data-format="dd-MM-yyyy">
+                            <input type="text" name="flight1_date" required id="flight1_date" placeholder="dd-mm-yyyy" class="form-control border-right-0" data-format="dd-MM-yyyy">
                             <div class="input-group-append add-on">
                             <span class="input-group-text bg-white pl-0"><i class="lar la-calendar-alt"></i></span>
                             </div>
@@ -72,20 +73,20 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label>From</label>
-                        <input type="text" name="from3" id="from3" placeholder="(IXC) | Chandigarh Airport" class="form-control search_input">
+                        <input type="text" name="from3" id="from3" required placeholder="(IXC) | Chandigarh Airport" class="form-control search_input">
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
                         <label>To</label>
-                        <input type="text" name="to3" id="to3" placeholder="(BOM) | Chhatrapati Shivaji Int'l Airport" class="form-control search_input">
+                        <input type="text" name="to3" id="to3" required placeholder="(BOM) | Chhatrapati Shivaji Int'l Airport" class="form-control search_input">
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class="form-group">
                         <label>Date</label>
                         <div id="flight2_date_datetimepicker" class="input-group">
-                            <input type="text" name="flight2_date" id="flight2_date" placeholder="dd-mm-yyyy" class="form-control border-right-0" data-format="dd-MM-yyyy">
+                            <input type="text" name="flight2_date" id="flight2_date" required placeholder="dd-mm-yyyy" class="form-control border-right-0" data-format="dd-MM-yyyy">
                             <div class="input-group-append add-on">
                             <span class="input-group-text bg-white pl-0"><i class="lar la-calendar-alt"></i></span>
                             </div>
@@ -157,7 +158,8 @@
                     </div>
                 </div>
                 <div class="col-md col-12">
-                    <a href="flights.php" class="btn btn-primary">Search Flight</a>
+                    <input type="submit" id="submit" value="Search Flight" class="btn btn-primary">
+                    <!-- <a href="flights.php" class="btn btn-primary">Search Flight</a> -->
                 </div>
             </div>
         </form>
@@ -246,6 +248,7 @@
 <script type="text/javascript">
     $( document ).ready(function() {
         $('#loading').hide();
+        $('#loading_small').hide();
         var path = "{{ route('searchairport') }}";
 
          // Set the Options for "Bloodhound" suggestion engine

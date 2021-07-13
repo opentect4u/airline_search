@@ -218,4 +218,26 @@ EOM;
         return $message;
 
     }
+
+
+    public function universal_API_FlightDetails($datasegment){
+        $Provider =app('App\Http\Controllers\UniversalConfigAPIController')->Provider();
+        $TARGETBRANCH =app('App\Http\Controllers\UniversalConfigAPIController')->TARGETBRANCH();
+            $message = <<<EOM
+            <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+            <soap:Body>
+               <air:AirPriceReq AuthorizedBy="user" TargetBranch="$TARGETBRANCH" FareRuleType="long" xmlns:air="http://www.travelport.com/schema/air_v42_0">
+                  <BillingPointOfSaleInfo OriginApplication="UAPI" xmlns="http://www.travelport.com/schema/common_v42_0"/>
+                  <air:AirItinerary>
+                    $datasegment
+                  </air:AirItinerary>
+                  <air:AirPricingModifiers/>
+                  <com:SearchPassenger Key="1" Code="ADT" xmlns:com="http://www.travelport.com/schema/common_v42_0"/>
+                  <air:AirPricingCommand/>
+               </air:AirPriceReq>
+            </soap:Body>
+         </soap:Envelope>
+EOM;
+        return $message ;
+    }
 }

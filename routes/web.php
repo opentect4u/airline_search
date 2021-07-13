@@ -47,3 +47,5 @@ Route::post('/roundflightDetails',[App\Http\Controllers\RoundFlightController::c
 
             // Multi City
 Route::get('/multicity',[App\Http\Controllers\multicity\HomeController::class,'Index'])->name('multicityindex');
+Route::get('/multicityflight',[App\Http\Controllers\multicity\FlightController::class,'Search'])->name('multicityflight');
+Route::post('/multicityflightdetails',[App\Http\Controllers\multicity\FlightDetailsController::class,'FlightDetails'])->name('multicityflightdetails');
