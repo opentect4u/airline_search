@@ -49,3 +49,7 @@ Route::post('/roundflightDetails',[App\Http\Controllers\RoundFlightController::c
 Route::get('/multicity',[App\Http\Controllers\multicity\HomeController::class,'Index'])->name('multicityindex');
 Route::get('/multicityflight',[App\Http\Controllers\multicity\FlightController::class,'Search'])->name('multicityflight');
 Route::post('/multicityflightdetails',[App\Http\Controllers\multicity\FlightDetailsController::class,'FlightDetails'])->name('multicityflightdetails');
+Route::post('/multicitypassengerDetails',[App\Http\Controllers\multicity\PassengerDetailsController::class,'PassengerDetails'])->name('multicitypassengerDetails');
+
+Route::post('/multicityshowpayment',[App\Http\Controllers\multicity\PaymentController::class,'ShowPayment'])->name('multicityshowpayment');
+Route::post('/multicitypaymentcredit',[App\Http\Controllers\multicity\PaymentController::class,'PaymentCredit'])->name('multicitypaymentcredit');

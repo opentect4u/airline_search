@@ -195,7 +195,7 @@
                     </div>
                 </div>
 
-
+                @if(count($flights1)>0)
                 <div class="col-md-3">
                     <div class="card">
                         <h4 class="font-weight-500 mb-0">Fare Summary</h4>
@@ -218,9 +218,20 @@
                                 <td class="text-right text-danger"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','', isset($flights1[2]['price']['ApproximateBasePrice'])? $flights1[2]['price']['ApproximateBasePrice']:0 )*$searched->adults)+(str_replace('GBP','', isset($flights2[2]['price']['ApproximateBasePrice'])? $flights2[2]['price']['ApproximateBasePrice']:0 )*$searched->adults)+(str_replace('GBP','', isset($flights3[2]['price']['ApproximateBasePrice'])? $flights3[2]['price']['Taxes']:0 )*$searched->adults)+(str_replace('GBP','', isset($flights1[2]['price']['Taxes'])? $flights1[2]['price']['Taxes']:0 )*$searched->adults)+(str_replace('GBP','',isset($flights2[2]['price']['Taxes'])?$flights2[2]['price']['Taxes']:0 )*$searched->adults)+(str_replace('GBP','', isset($flights3[2]['price']['Taxes'])? $flights3[2]['price']['Taxes']:0 )*$searched->adults),2)}}</td>
                             </tr>
                         </table>
-                        <a href="#" class="btn btn-primary w-100">Book Now</a>
+                        <form action="{{ route('multicitypassengerDetails') }}" method="POST">
+                            @csrf
+                            <input type="text" name="flights1" value="{{json_encode($flights1)}}" hidden>
+                            <input type="text" name="flights2" value="{{json_encode($flights2)}}" hidden>
+                            <input type="text" name="flights3" value="{{json_encode($flights3)}}" hidden>
+                            <input type="text" name="adults" value="{{ $searched->adults }}" hidden>
+                            <input type="text" name="children" value="{{ $searched->children }}" hidden>
+                            <input type="text" name="infant" value="{{ $searched->infant }}" hidden>
+                            <button type="submit" class="btn btn-primary" onclick="showLoder();">Book Now</button>
+                        </form>
+                        <!-- <a href="#" class="btn btn-primary w-100">Book Now</a> -->
                     </div>
                 </div>
+                @endif
 <!--                
                 <div class="col-md-3">
                     <div class="card">
