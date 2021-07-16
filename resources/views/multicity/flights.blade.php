@@ -316,10 +316,10 @@
                             </div>
                             <div class="col-md-3 mt-2 mt-md-0 text-center">
                                 
-                                <?php foreach($datas2[1] as $prices){ $total_price=number_format($total_price+str_replace('GBP','',$prices['Total Price'] ),2);} ?>
+                                <?php foreach($datas2[1] as $prices){ $total_price=$total_price+str_replace('GBP','',$prices['Total Price']);} ?>
                                 <!-- <input type="text" name="flight{{$priceShowcount}}" id="flight{{$priceShowcount}}" value="{{$datas2}}"> -->
                                 @if($priceShowcount==count($datas))
-                                <h3 class="font-weight-bold"><i class="las la-pound-sign">{{$total_price}}</i></h3>
+                                <h3 class="font-weight-bold"><i class="las la-pound-sign">{{number_format((float)$total_price,2,'.','')}}</i></h3>
                                 <!-- <a href="flight-details.php" class="btn btn-primary">Book Now</a><br> -->
                                 <form name="flightdetails" method="POST" action="{{route('multicityflightdetails')}}">
                                     @csrf

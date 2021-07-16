@@ -266,17 +266,19 @@
                     <div class="row row-heading d-none d-md-flex">
                         <div class="col-md-3">Airlines</div>
                         <div class="col-md-2" data-departureordervalue="ASC" id="departure_order" style="cursor: pointer;">Departure<i class="las la-long-arrow-alt-up"></i><i class="las la-long-arrow-alt-down"></i></div>
-                        <div class="col-md-2 text-center">Duration</div>
-                        <div class="col-md-2">Arrival</div>
+                        <div class="col-md-2 text-center" data-durationordervalue="ASC" id="duration_order" style="cursor: pointer;">Duration<i class="las la-long-arrow-alt-up"></i><i class="las la-long-arrow-alt-down"></i></div>
+                        <div class="col-md-2" data-arrivalordervalue="ASC" id="arrival_order" style="cursor: pointer;">Arrival<i class="las la-long-arrow-alt-up"></i><i class="las la-long-arrow-alt-down"></i></div>
                         <div class="col-md-3 text-center" id="price_order" style="cursor: pointer;">Price <i class="las la-long-arrow-alt-up"></i><i class="las la-long-arrow-alt-down"></i></div>
                     </div>
              <div class="MainDiv">
-                <?php $count=1; $flightCount=0;$DepartureTime="";$DepartureSlot="";$DepartureTimeOrder =[];?>
+                <?php $count=1; $flightCount=0;$DepartureTime="";$DepartureSlot="";$DepartureTimeOrder =[];$ArrivalTimeOrder =[];$DurationTimeOrder =[];?>
                 @foreach($flights as $flight)
                 @foreach($flight as $flight_data)
                 @foreach($flight_data[0] as $datas)
                 <?php $rrr=count($datas);
                 array_push($DepartureTimeOrder,\Carbon\Carbon::parse($datas[0]['Depart'])->format('H:i'));
+                array_push($ArrivalTimeOrder,\Carbon\Carbon::parse($datas[count($datas)-1]['Arrive'])->format('H:i'));
+                array_push($DurationTimeOrder,\Carbon\Carbon::parse($datas[0]['Depart'])->diff(\Carbon\Carbon::parse($datas[count($datas)-1]['Arrive']))->format('%d%H%I'));
                 ?>
                 @endforeach
                 
@@ -304,7 +306,7 @@
                      }
                      ?>
                 
-                 <div id="SortDeparture{{$count}}" class="flight-devider GlobalDiv {{$DepartureSlot}} Airline<?php foreach($flight_data[0] as $datas){ echo $datas[0]['Airline']; } ?> Stops<?php  foreach($flight_data[0] as $datas){ echo count($datas)-1; } ?> priceRange<?php foreach($flight_data[1] as $prices){ echo (str_replace('GBP','',$prices['Total Price'] )*100); } ?>" data-GlobalDiv="1" data-TotalpriceDiv="<?php foreach($flight_data[1] as $prices){ echo (str_replace('GBP','',$prices['Total Price'] )*100); } ?>" data-Deprature-time="<?php foreach($flight_data[0] as $datas){echo \Carbon\Carbon::parse($datas[0]['Depart'])->format('H:i'); } ?>">
+                 <div id="SortDeparture{{$count}}" class="flight-devider GlobalDiv {{$DepartureSlot}} Airline<?php foreach($flight_data[0] as $datas){ echo $datas[0]['Airline']; } ?> Stops<?php  foreach($flight_data[0] as $datas){ echo count($datas)-1; } ?> priceRange<?php foreach($flight_data[1] as $prices){ echo (str_replace('GBP','',$prices['Total Price'] )*100); } ?> SortArrival{{$count}} SortDuration{{$count}}" data-GlobalDiv="1" data-TotalpriceDiv="<?php foreach($flight_data[1] as $prices){ echo (str_replace('GBP','',$prices['Total Price'] )*100); } ?>" data-Deprature-time="<?php foreach($flight_data[0] as $datas){echo \Carbon\Carbon::parse($datas[0]['Depart'])->format('H:i'); } ?>" data-Arrival-time="<?php foreach($flight_data[0] as $datas){ echo \Carbon\Carbon::parse($datas[count($datas)-1]['Arrive'])->format('H:i'); } ?>" data-Duration-time="<?php foreach($flight_data[0] as $datas){ echo \Carbon\Carbon::parse($datas[0]['Depart'])->diff(\Carbon\Carbon::parse($datas[count($datas)-1]['Arrive']))->format('%d%H%I');} ?>">
                     <div class="row align-items-center">
                         <div class="col-md-3 mb-2 mb-md-0">
                             <div class="media">
@@ -321,7 +323,10 @@
                         </div>
                         <div class="col-md-2 text-center col-4">
                             <span class="exchange-arrow exchange-relative m-auto" title="hello"><i class="las la-exchange-alt"></i></span>
-                            <h5 class="font-weight-600 mb-0 mt-2">  <?php foreach($flight_data[0] as $datas){ echo \Carbon\Carbon::parse($datas[0]['Depart'])->diff(\Carbon\Carbon::parse($datas[count($datas)-1]['Arrive']))->format('%Hh %Im');} ?></h5>
+                            <h5 class="font-weight-600 mb-0 mt-2">  <?php 
+                            foreach($flight_data[0] as $datas){ echo \Carbon\Carbon::parse($datas[0]['Depart'])->diff(\Carbon\Carbon::parse($datas[count($datas)-1]['Arrive']))->format('%dD %Hh %Im');} 
+                            // foreach($flight_data[0] as $datas){ echo \Carbon\Carbon::parse($datas[0]['Depart'])->diff(\Carbon\Carbon::parse($datas[count($datas)-1]['Arrive']))->format('%Hh %Im');} 
+                            ?></h5>
                             <small class="text-muted">
                             <?php 
                             foreach($flight_data[0] as $datas){ if(count($datas)==1){ echo "Non stop"; }else{echo ucwords(app('App\Http\Controllers\UtilityController')->convert_number_to_words((count($datas)-1)))." stop";}}
@@ -881,7 +886,93 @@
                     
                  }
                }
-                $("#departure_order").attr("data-departureordervalue", "DESC"); 
+                $("#departure_order").attr("data-departureordervalue", "ASC"); 
+            }
+
+    });
+
+    $('#arrival_order').click(function(){
+            // alert("hii");
+            var order_val=$("#arrival_order").attr("data-arrivalordervalue");
+            // alert(order_val);
+            var ArrivalTimeOrder=[];
+            var ArrivalTimeOrder=<?php 
+            $aaa=[];
+            $ArrivalTimeOrder=array_unique(isset($ArrivalTimeOrder)?$ArrivalTimeOrder:[]);
+            foreach($ArrivalTimeOrder as $val1){
+                array_push($aaa,$val1);
+            }
+            echo json_encode($aaa);
+            ?>;
+         
+            if(order_val=="ASC"){
+                for (let index = 0; index < ArrivalTimeOrder.sort().length; index++) {
+                    for (let Divindex = 1; Divindex <=$('.GlobalDiv').length; Divindex++) {
+                    var dataArrivaltime=$(".SortArrival"+Divindex).attr("data-Arrival-time")
+                    if (dataArrivaltime==ArrivalTimeOrder[index]) {
+                    $(".MainDiv").append($(".SortArrival"+Divindex));
+                    }
+                
+                    
+                  }
+                }
+                $("#arrival_order").attr("data-arrivalordervalue", "DESC");
+            } 
+            else{
+               for (let index = 0; index < ArrivalTimeOrder.sort().reverse().length; index++) {
+                    for (let Divindex = 1; Divindex <=$('.GlobalDiv').length; Divindex++) {
+                    var dataArrivaltime=$(".SortArrival"+Divindex).attr("data-Arrival-time")
+                    if (dataArrivaltime==ArrivalTimeOrder[index]) {
+                    $(".MainDiv").append($(".SortArrival"+Divindex));
+                    }
+                
+                    
+                 }
+               }
+                $("#arrival_order").attr("data-arrivalordervalue", "ASC"); 
+            }
+
+    });
+
+    $('#duration_order').click(function(){
+            // alert("hii");
+            var order_val=$("#duration_order").attr("data-durationordervalue");
+            // alert(order_val);
+            var DurationTimeOrder=[];
+            var DurationTimeOrder=<?php 
+            $du=[];
+            $DurationTimeOrder=array_unique(isset($DurationTimeOrder)?$DurationTimeOrder:[]);
+            foreach($DurationTimeOrder as $val2){
+                array_push($du,$val2);
+            }
+            echo json_encode($du);
+            ?>;
+            // alert(DurationTimeOrder);
+            if(order_val=="ASC"){
+                for (let index = 0; index < DurationTimeOrder.sort().length; index++) {
+                    for (let Divindex = 1; Divindex <=$('.GlobalDiv').length; Divindex++) {
+                    var dataDurationtime=$(".SortDuration"+Divindex).attr("data-Duration-time")
+                    if (dataDurationtime==DurationTimeOrder[index]) {
+                    $(".MainDiv").append($(".SortDuration"+Divindex));
+                    }
+                
+                    
+                  }
+                }
+                $("#duration_order").attr("data-durationordervalue", "DESC");
+            } 
+            else{
+               for (let index = 0; index < DurationTimeOrder.sort().reverse().length; index++) {
+                    for (let Divindex = 1; Divindex <=$('.GlobalDiv').length; Divindex++) {
+                    var dataDurationtime=$(".SortDuration"+Divindex).attr("data-Duration-time")
+                    if (dataDurationtime==DurationTimeOrder[index]) {
+                    $(".MainDiv").append($(".SortDuration"+Divindex));
+                    }
+                
+                    
+                 }
+               }
+                $("#duration_order").attr("data-durationordervalue", "ASC"); 
             }
 
     });
@@ -938,6 +1029,9 @@
     // output.innerHTML = slider.value;
     slider.oninput = function() {
         // alert("hii");
+        var loading ='<img id="loading-image-small" src="{{ asset('public/loder-small.gif') }}" alt="Loading..." style=" position: absolute;top: 100px;left: 431px;z-index: 100;"/>';
+        $('#loading_small').append(loading);
+        $('#loading_small').show();
         var min_val=$('#onwwayRange_minprice').val();
         var mix_val=$('#onwwayRange_maxprice').val();
         var cal_min_val=min_val/100;
@@ -960,6 +1054,8 @@
             $('.priceRange'+index1).show();
             
         }
+        $('#loading_small').hide();
+        $('#loading_small').empty();
         // output.innerHTML = this.value;
     }
 </script>

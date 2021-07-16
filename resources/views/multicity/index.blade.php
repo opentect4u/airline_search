@@ -23,7 +23,7 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label>To</label>
-                        <input type="text" name="to1" id="to1" required placeholder="(BOM) | Chhatrapati Shivaji Int'l Airport" class="form-control search_input">
+                        <input type="text" name="to1" id="to1" required placeholder="(BOM) | Chhatrapati Shivaji Int'l Airport" class="form-control search_input" />
                     </div>
                 </div>
                 <div class="col-md-2">
@@ -51,14 +51,14 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label>To</label>
-                        <input type="text" name="to2" id="to2" required placeholder="(BOM) | Chhatrapati Shivaji Int'l Airport" class="form-control search_input">
+                        <input type="text" name="to2" id="to2" value="" required placeholder="(BOM) | Chhatrapati Shivaji Int'l Airport" class="form-control search_input">
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class="form-group">
                         <label>Date</label>
                         <div id="flight1_date_datetimepicker" class="input-group">
-                            <input type="text" name="flight1_date" required id="flight1_date" placeholder="dd-mm-yyyy" class="form-control border-right-0" data-format="dd-MM-yyyy">
+                            <input type="text" name="flight1_date" required id="flight1_date" value="{{ date('d-m-Y', strtotime(date('d-m-Y'). ' + 1 days'))}}" placeholder="dd-mm-yyyy" class="form-control border-right-0" data-format="dd-MM-yyyy">
                             <div class="input-group-append add-on">
                             <span class="input-group-text bg-white pl-0"><i class="lar la-calendar-alt"></i></span>
                             </div>
@@ -66,7 +66,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" id="3rdFlight">
                 <div class="col-md-2">
                     <h6 class="text-uppercase text-muted">Flight 3</h6>
                 </div>
@@ -86,7 +86,7 @@
                     <div class="form-group">
                         <label>Date</label>
                         <div id="flight2_date_datetimepicker" class="input-group">
-                            <input type="text" name="flight2_date" id="flight2_date" required placeholder="dd-mm-yyyy" class="form-control border-right-0" data-format="dd-MM-yyyy">
+                            <input type="text" name="flight2_date" id="flight2_date" value="{{ date('d-m-Y', strtotime(date('d-m-Y'). ' + 2 days'))}}" required placeholder="dd-mm-yyyy" class="form-control border-right-0" data-format="dd-MM-yyyy">
                             <div class="input-group-append add-on">
                             <span class="input-group-text bg-white pl-0"><i class="lar la-calendar-alt"></i></span>
                             </div>
@@ -94,7 +94,91 @@
                     </div>
                 </div>
             </div>
-            <!-- <div class="row" id="multiCityFieldAdd"><div> -->
+            <!-- <div class="row" id="4rdFlight">
+                <div class="col-md-2">
+                    <h6 class="text-uppercase text-muted">Flight 4</h6>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>From</label>
+                        <input type="text" name="from4" id="from4"  placeholder="(IXC) | Chandigarh Airport" class="form-control search_input">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>To</label>
+                        <input type="text" name="to4" id="to4"  placeholder="(BOM) | Chhatrapati Shivaji Int'l Airport" class="form-control search_input">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>Date</label>
+                        <div id="flight2_date_datetimepicker" class="input-group">
+                            <input type="text" name="flight3_date" id="flight3_date" value=""  placeholder="dd-mm-yyyy" class="form-control border-right-0" data-format="dd-MM-yyyy">
+                            <div class="input-group-append add-on">
+                            <span class="input-group-text bg-white pl-0"><i class="lar la-calendar-alt"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="5rdFlight">
+                <div class="col-md-2">
+                    <h6 class="text-uppercase text-muted">Flight 5</h6>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>From</label>
+                        <input type="text" name="from5" id="from5"  placeholder="(IXC) | Chandigarh Airport" class="form-control search_input">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>To</label>
+                        <input type="text" name="to5" id="to5"  placeholder="(BOM) | Chhatrapati Shivaji Int'l Airport" class="form-control search_input">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>Date</label>
+                        <div id="flight2_date_datetimepicker" class="input-group">
+                            <input type="text" name="flight4_date" id="flight4_date" value=""  placeholder="dd-mm-yyyy" class="form-control border-right-0" data-format="dd-MM-yyyy">
+                            <div class="input-group-append add-on">
+                            <span class="input-group-text bg-white pl-0"><i class="lar la-calendar-alt"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="6rdFlight">
+                <div class="col-md-2">
+                    <h6 class="text-uppercase text-muted">Flight 6</h6>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>From</label>
+                        <input type="text" name="from6" id="from6"  placeholder="(IXC) | Chandigarh Airport" class="form-control search_input">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>To</label>
+                        <input type="text" name="to6" id="to6"  placeholder="(BOM) | Chhatrapati Shivaji Int'l Airport" class="form-control search_input">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>Date</label>
+                        <div id="flight2_date_datetimepicker" class="input-group">
+                            <input type="text" name="flight5_date" id="flight5_date" value=""  placeholder="dd-mm-yyyy" class="form-control border-right-0" data-format="dd-MM-yyyy">
+                            <div class="input-group-append add-on">
+                            <span class="input-group-text bg-white pl-0"><i class="lar la-calendar-alt"></i></span>
+                            <span class="input-group-text bg-white pl-0"><i class="lar la-calendar-alt"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
             <div class="row">
                 <div class="col-md-12">
                     <a href="javascript:void(0)" id="addFlight"><i class="las la-plus-circle"></i> Add Another Flight</a>
@@ -275,12 +359,12 @@
 
                     // the key from the array we want to display (name,id,email,etc...)
                     templates: {
-                        empty: [
-                            '<div class="list-group search-results-dropdown"><div class="list-group-item">Nothing found.</div></div>'
-                        ],
-                        header: [
-                            '<div class="list-group search-results-dropdown">'
-                        ],
+                        // empty: [
+                        //     '<div class="list-group search-results-dropdown"><div class="list-group-item">Nothing found.</div></div>'
+                        // ],
+                        // header: [
+                        //     '<div class="list-group search-results-dropdown">'
+                        // ],
                         suggestion: function (data) {
                             return '<span class="list-group-item">' + data + '</span>'
                         }
@@ -438,6 +522,51 @@
             // $("#multiCityFieldAdd").append('<div class="row"></div>');
             ('<div class="row"></div>').insertAfter("#multiCityFieldAdd")
         });
+        
+
+        // select flight to add value automatic select from value 
+        $('#to1').on('change',function(){
+            // alert("hii");
+            var to1_val=$('#to1').val();
+            // alert(val);
+            // $("#from2").blur();
+            $('#from2').val('');
+            $('#from2').val(to1_val);
+            // $("#from2").removeAttr('value');
+            // $("#from2").attr('value',val);
+        });
+        // $('#from2').on('click',function(){
+        //     alert("hii");
+        //     var to1_val=$('#to1').val();
+        //     // alert(val);
+        //     // $("#from2").blur();
+        //     // $('#from2').val('');
+        //     // $('#from2').val(to1_val);
+        //     if($('#from2').val()==''){
+        //         $('#from2').val(to1_val);
+        //     }
+        // });
+        $('#to2').change(function(){
+            // alert("hii");
+            var val=$('#to2').val();
+            // alert(val);
+            $('#from3').val();
+            $('#from3').val(val);
+            // $("#from3").removeAttr('value');
+            // $("#from3").attr('value',val);
+        });
+
+
+        // add another flights
+        $('#addFlight').click(function(){
+            alert("hii");
+            // var val='';
+            $("#3rdFlight").insertAfter();
+        });
+
+
     });
+
+    
 </script>
 @endsection

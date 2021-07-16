@@ -201,8 +201,24 @@
                     </div>
                     <div class="filter-set">
                         <h6 class="font-weight-600">Price Range</h6>
-                        <label for="onwwayRange"><i class="fas fa-rupee-sign" id="amount"></i> </label>
-                        <input type="range" class="custom-range" id="onwwayRange" name="onwwayRange">
+                        <label for="onwwayRange" id="amount"><i class="las la-pound-sign"></i>
+                        <?php  
+                            foreach($flights[0] as $flight){
+                                foreach($flight[1] as $prices){ 
+                                    echo str_replace('GBP','',$prices['Total Price']);
+                                }
+                            }
+                            echo ' - <i class="las la-pound-sign"></i>';
+                            foreach($flights[(count($flights)-1)] as $flight){
+                                foreach($flight[1] as $prices){ 
+                                    echo str_replace('GBP','',$prices['Total Price']);
+                                }
+                            }
+                        ?></label>
+                        <input type="range" class="custom-range" id="onwwayRange" name="onwwayRange" 
+                        min="<?php foreach($flights[0] as $flight){foreach($flight[1] as $prices){echo (str_replace('GBP','',$prices['Total Price'])*100);}} ?>" 
+                        max="<?php foreach($flights[(count($flights)-1)] as $flight){foreach($flight[1] as $prices){echo (str_replace('GBP','',$prices['Total Price'])*100);}} ?>" 
+                        value="<?php foreach($flights[(count($flights)-1)] as $flight){foreach($flight[1] as $prices){echo (str_replace('GBP','',$prices['Total Price'])*100);}} ?>">
                         <input type="hidden" class="custom-range" id="onwwayRange_minprice" name="onwwayRange_minprice" value="<?php 
                             foreach($flights[0] as $flight){
                                 foreach($flight[1] as $prices){ 
@@ -217,6 +233,13 @@
                                 }
                             }
                         ?>">
+                        <input type="hidden" class="custom-range" id="onwwayRange_rangeprice" name="onwwayRange_rangeprice" value="<?php 
+                            foreach($flights[(count($flights)-1)] as $flight){
+                                foreach($flight[1] as $prices){ 
+                                    echo (str_replace('GBP','',$prices['Total Price'])*100);
+                                }
+                            }
+                        ?>"/>
                         
                     </div>
                     <div class="filter-set">
@@ -247,18 +270,7 @@
                             </label>
                         </div>
                         @endforeach
-                        <!-- <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="Stops{{$stop}}" name="example1">
-                            <label class="custom-control-label" for="Stops{{$stop}}"></label>
-                        </div>
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
-                            <label class="custom-control-label" for="customCheck">1 Stop</label>
-                        </div>
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
-                            <label class="custom-control-label" for="customCheck">1+ Stop</label>
-                        </div> -->
+                        
                     </div>
                     <div class="filter-set">
                         <h6 class="font-weight-600">Departure </h6>
@@ -281,8 +293,46 @@
                     </div>
                     <div class="filter-set">
                         <h6 class="font-weight-600">Price Range</h6>
-                        <label for="customRange"><i class="fas fa-rupee-sign"></i> 26,000/-</label>
-                        <input type="range" class="custom-range" id="customRange" name="points1">
+                        <label for="onwwayRange" id="return_amount"><i class="las la-pound-sign"></i>
+                        <?php  
+                            foreach($return_flights[0] as $flight){
+                                foreach($flight[1] as $prices){ 
+                                    echo str_replace('GBP','',$prices['Total Price']);
+                                }
+                            }
+                            echo ' - <i class="las la-pound-sign"></i>';
+                            foreach($return_flights[(count($return_flights)-1)] as $flight){
+                                foreach($flight[1] as $prices){ 
+                                    echo str_replace('GBP','',$prices['Total Price']);
+                                }
+                            }
+                        ?></label>
+                        <input type="range" class="custom-range" id="returnRange" name="returnRange" 
+                        min="<?php foreach($return_flights[0] as $flight){foreach($flight[1] as $prices){echo (str_replace('GBP','',$prices['Total Price'])*100);}} ?>" 
+                        max="<?php foreach($return_flights[(count($return_flights)-1)] as $flight){foreach($flight[1] as $prices){echo (str_replace('GBP','',$prices['Total Price'])*100);}} ?>" 
+                        value="<?php foreach($return_flights[(count($return_flights)-1)] as $flight){foreach($flight[1] as $prices){echo (str_replace('GBP','',$prices['Total Price'])*100);}} ?>">
+                        <input type="hidden" class="custom-range" id="returnRange_minprice" name="returnRange_minprice" value="<?php 
+                            foreach($return_flights[0] as $flight){
+                                foreach($flight[1] as $prices){ 
+                                    echo (str_replace('GBP','',$prices['Total Price'])*100);
+                                }
+                            }
+                        ?>">
+                        <input type="hidden" class="custom-range" id="returnRange_maxprice" name="returnRange_maxprice" value="<?php 
+                            foreach($return_flights[(count($return_flights)-1)] as $flight){
+                                foreach($flight[1] as $prices){ 
+                                    echo (str_replace('GBP','',$prices['Total Price'])*100);
+                                }
+                            }
+                        ?>">
+                        <input type="hidden" class="custom-range" id="returnRange_rangeprice" name="returnRange_rangeprice" value="<?php 
+                            foreach($return_flights[(count($return_flights)-1)] as $flight){
+                                foreach($flight[1] as $prices){ 
+                                    echo (str_replace('GBP','',$prices['Total Price'])*100);
+                                }
+                            }
+                        ?>"/>
+                        
                     </div>
                     <div class="filter-set">
                         <h6 class="font-weight-600">Airlines </h6>
@@ -292,22 +342,7 @@
                             <label class="custom-control-label" for="return_Airline{{$airline}}">{{ $airline }}</label>
                         </div>
                         @endforeach
-                        <!-- <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
-                            <label class="custom-control-label" for="customCheck">Air Asia</label>
-                        </div>
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
-                            <label class="custom-control-label" for="customCheck">Go Air</label>
-                        </div>
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
-                            <label class="custom-control-label" for="customCheck">IndiGo</label>
-                        </div>
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
-                            <label class="custom-control-label" for="customCheck">Vistara</label>
-                        </div> -->
+                       
                     </div>
                 </div>
                 @endif
@@ -320,17 +355,19 @@
                     <div class="row row-heading d-none d-md-flex">
                         <div class="col-md-3">Airlines</div>
                         <div class="col-md-2" data-departureordervalue="ASC" id="departure_order" style="cursor: pointer;">Departure<i class="las la-long-arrow-alt-up"></i><i class="las la-long-arrow-alt-down"></i></div>
-                        <div class="col-md-2 text-center">Duration</div>
-                        <div class="col-md-2">Arrival</div>
+                        <div class="col-md-2 text-center" data-durationordervalue="ASC" id="duration_order" style="cursor: pointer;">Duration<i class="las la-long-arrow-alt-up"></i><i class="las la-long-arrow-alt-down"></i></div>
+                        <div class="col-md-2" data-arrivalordervalue="ASC" id="arrival_order" style="cursor: pointer;">Arrival<i class="las la-long-arrow-alt-up"></i><i class="las la-long-arrow-alt-down"></i></div>
                         <div class="col-md-3 text-center" id="price_order" style="cursor: pointer;">Price <i class="las la-long-arrow-alt-up"></i><i class="las la-long-arrow-alt-down"></i></div>
                     </div>
                     <div class="MainDiv">
-                    <?php $count=1; $flightCount=0;$DepartureTime="";$DepartureSlot="";$DepartureTimeOrder =[];?>
+                    <?php $count=1; $flightCount=0;$DepartureTime="";$DepartureSlot="";$DepartureTimeOrder =[];$ArrivalTimeOrder =[];$DurationTimeOrder =[];?>
                     @foreach($flights as $flight)
                     @foreach($flight as $flight_data)
                     @foreach($flight_data[0] as $datas)
                     <?php $rrr=count($datas);
                     array_push($DepartureTimeOrder,\Carbon\Carbon::parse($datas[0]['Depart'])->format('H:i'));
+                    array_push($ArrivalTimeOrder,\Carbon\Carbon::parse($datas[count($datas)-1]['Arrive'])->format('H:i'));
+                    array_push($DurationTimeOrder,\Carbon\Carbon::parse($datas[0]['Depart'])->diff(\Carbon\Carbon::parse($datas[count($datas)-1]['Arrive']))->format('%d%H%I'));
                     ?>
                     @endforeach
                     
@@ -358,7 +395,7 @@
                         }
                         ?>
                     
-                        <div id="SortDeparture{{$count}}" class="flight-devider GlobalDiv {{$DepartureSlot}} Airline<?php foreach($flight_data[0] as $datas){ echo $datas[0]['Airline']; } ?> Stops<?php  foreach($flight_data[0] as $datas){ echo count($datas)-1; } ?>" data-GlobalDiv="1" data-TotalpriceDiv="<?php foreach($flight_data[1] as $prices){ echo (str_replace('GBP','',$prices['Total Price'] )*100); } ?>" data-Deprature-time="<?php foreach($flight_data[0] as $datas){echo \Carbon\Carbon::parse($datas[0]['Depart'])->format('H:i'); } ?>">
+                        <div id="SortDeparture{{$count}}" class="flight-devider GlobalDiv {{$DepartureSlot}} Airline<?php foreach($flight_data[0] as $datas){ echo $datas[0]['Airline']; } ?> Stops<?php  foreach($flight_data[0] as $datas){ echo count($datas)-1; } ?> priceRange<?php foreach($flight_data[1] as $prices){ echo (str_replace('GBP','',$prices['Total Price'] )*100); } ?> SortArrival{{$count}} SortDuration{{$count}}" data-GlobalDiv="1" data-TotalpriceDiv="<?php foreach($flight_data[1] as $prices){ echo (str_replace('GBP','',$prices['Total Price'] )*100); } ?>" data-Deprature-time="<?php foreach($flight_data[0] as $datas){echo \Carbon\Carbon::parse($datas[0]['Depart'])->format('H:i'); } ?>" data-Arrival-time="<?php foreach($flight_data[0] as $datas){ echo \Carbon\Carbon::parse($datas[count($datas)-1]['Arrive'])->format('H:i'); } ?>" data-Duration-time="<?php foreach($flight_data[0] as $datas){ echo \Carbon\Carbon::parse($datas[0]['Depart'])->diff(\Carbon\Carbon::parse($datas[count($datas)-1]['Arrive']))->format('%d%H%I');} ?>">
                             <div class="row align-items-center">
                                 <div class="col-md-3 mb-2 mb-md-0">
                                     <div class="media">
@@ -375,7 +412,7 @@
                                 </div>
                                 <div class="col-md-2 text-center col-4">
                                     <span class="exchange-arrow exchange-relative m-auto" title="hello"><i class="las la-exchange-alt"></i></span>
-                                    <h5 class="font-weight-600 mb-0 mt-2">  <?php foreach($flight_data[0] as $datas){ echo \Carbon\Carbon::parse($datas[0]['Depart'])->diff(\Carbon\Carbon::parse($datas[count($datas)-1]['Arrive']))->format('%Hh %Im');} ?></h5>
+                                    <h5 class="font-weight-600 mb-0 mt-2">  <?php foreach($flight_data[0] as $datas){ echo \Carbon\Carbon::parse($datas[0]['Depart'])->diff(\Carbon\Carbon::parse($datas[count($datas)-1]['Arrive']))->format('%dD %Hh %Im');} ?></h5>
                                     <small class="text-muted">
                                     <?php 
                                     foreach($flight_data[0] as $datas){ if(count($datas)==1){ echo "Non stop"; }else{echo ucwords(app('App\Http\Controllers\UtilityController')->convert_number_to_words((count($datas)-1)))." stop";}}
@@ -572,17 +609,19 @@
                     <div class="row row-heading d-none d-md-flex">
                         <div class="col-md-3">Airlines</div>
                         <div class="col-md-2" data-departureordervalue="ASC" id="return_departure_order" style="cursor: pointer;">Departure<i class="las la-long-arrow-alt-up"></i><i class="las la-long-arrow-alt-down"></i></div>
-                        <div class="col-md-2 text-center">Duration</div>
-                        <div class="col-md-2">Arrival</div>
+                        <div class="col-md-2 text-center" data-durationordervalue="ASC" id="return_duration_order" style="cursor: pointer;">Duration<i class="las la-long-arrow-alt-up"></i><i class="las la-long-arrow-alt-down"></i></div>
+                        <div class="col-md-2" data-arrivalordervalue="ASC" id="return_arrival_order" style="cursor: pointer;">Arrival<i class="las la-long-arrow-alt-up"></i><i class="las la-long-arrow-alt-down"></i></div>
                         <div class="col-md-3 text-center">Price <i class="las la-long-arrow-alt-up" id="return_price_order"></i></div>
                     </div>
                     <div class="ReturnMainDiv">
-                    <?php $count=1;$ReturnDepartureTime="";$ReturnDepartureSlot="";$ReturnDepartureTimeOrder =[];?>
+                    <?php $count=1;$ReturnDepartureTime="";$ReturnDepartureSlot="";$ReturnDepartureTimeOrder=[];$ReturnArrivalTimeOrder=[];$ReturnDurationTimeOrder=[];?>
                     @foreach($return_flights as $flight)
                     @foreach($flight as $flight_data)
                     @foreach($flight_data[0] as $datas)
                     <?php $return_rrr=count($datas);
                     array_push($ReturnDepartureTimeOrder,\Carbon\Carbon::parse($datas[0]['Depart'])->format('H:i'));
+                    array_push($ReturnArrivalTimeOrder,\Carbon\Carbon::parse($datas[count($datas)-1]['Arrive'])->format('H:i'));
+                    array_push($ReturnDurationTimeOrder,\Carbon\Carbon::parse($datas[0]['Depart'])->diff(\Carbon\Carbon::parse($datas[count($datas)-1]['Arrive']))->format('%d%H%I'));
                     ?>
                     @endforeach
                     @if($searched->direct_flight == 'DF' && $return_rrr>1 && $searched->flexi=="")
@@ -609,7 +648,7 @@
                      }
                      ?>
 
-                    <div id="ReturnSortDeparture{{$count}}" class="flight-devider ReturnGlobalDiv {{$ReturnDepartureSlot}} return_Airline<?php foreach($flight_data[0] as $datas){ echo $datas[0]['Airline']; } ?> return_Stops<?php  foreach($flight_data[0] as $datas){ echo count($datas)-1; } ?> " return-data-GlobalDiv="1" data-Deprature-time="<?php foreach($flight_data[0] as $datas){echo \Carbon\Carbon::parse($datas[0]['Depart'])->format('H:i'); } ?>">
+                    <div id="ReturnSortDeparture{{$count}}" class="flight-devider ReturnGlobalDiv {{$ReturnDepartureSlot}} return_Airline<?php foreach($flight_data[0] as $datas){ echo $datas[0]['Airline']; } ?> return_Stops<?php  foreach($flight_data[0] as $datas){ echo count($datas)-1; } ?> return_priceRange<?php foreach($flight_data[1] as $prices){ echo (str_replace('GBP','',$prices['Total Price'] )*100); } ?> return_SortArrival{{$count}} return_SortDuration{{$count}}" return-data-GlobalDiv="1" data-Deprature-time="<?php foreach($flight_data[0] as $datas){echo \Carbon\Carbon::parse($datas[0]['Depart'])->format('H:i'); } ?>" return-data-Arrival-time="<?php foreach($flight_data[0] as $datas){ echo \Carbon\Carbon::parse($datas[count($datas)-1]['Arrive'])->format('H:i'); } ?>" return-data-Duration-time="<?php foreach($flight_data[0] as $datas){ echo \Carbon\Carbon::parse($datas[0]['Depart'])->diff(\Carbon\Carbon::parse($datas[count($datas)-1]['Arrive']))->format('%d%H%I');} ?>">
                         <div class="row align-items-center">
                             <div class="col-md-3 mb-2 mb-md-0">
                                 <div class="media">
@@ -626,7 +665,7 @@
                             </div>
                             <div class="col-md-2 text-center col-4">
                                 <span class="exchange-arrow exchange-relative m-auto" title="hello"><i class="las la-exchange-alt"></i></span>
-                                <h5 class="font-weight-600 mb-0 mt-2">  <?php foreach($flight_data[0] as $datas){ echo \Carbon\Carbon::parse($datas[0]['Depart'])->diff(\Carbon\Carbon::parse($datas[count($datas)-1]['Arrive']))->format('%Hh %Im');} ?></h5>
+                                <h5 class="font-weight-600 mb-0 mt-2">  <?php foreach($flight_data[0] as $datas){ echo \Carbon\Carbon::parse($datas[0]['Depart'])->diff(\Carbon\Carbon::parse($datas[count($datas)-1]['Arrive']))->format('%dD %Hh %Im');} ?></h5>
                                 <small class="text-muted">
                                 <?php 
                                 foreach($flight_data[0] as $datas){ if(count($datas)==1){ echo "Non stop"; }else{echo ucwords(app('App\Http\Controllers\UtilityController')->convert_number_to_words((count($datas)-1)))." stop";}}
@@ -664,10 +703,10 @@
                                     <a class="nav-link" data-toggle="pill" href="#return_fare_details{{ $count }}">Fare Details</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" data-toggle="pill" href="#return_baggage_rules{{ $count }}">Baggage Rules</a>
+                                    <a class="nav-link" data-toggle="pill" href="#return_baggage_rules{{ $count }}" onclick="return_BaggageCancelRule({{ $count }},{{$flight_data}});">Baggage Rules</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" data-toggle="pill" href="#return_cancellation_rules{{ $count }}">Cancellation Rules</a>
+                                    <a class="nav-link" data-toggle="pill" href="#return_cancellation_rules{{ $count }}" onclick="return_BaggageCancelRule({{ $count }},{{$flight_data}});">Cancellation Rules</a>
                                 </li>
                             </ul>
                             <!-- Tab panes -->
@@ -740,8 +779,8 @@
                                         </tr>
                                         <tr>
                                             <td>Adult</td>
-                                            <td>15 Kgs</td>
-                                            <td>7 Kgs</td>
+                                            <td id="return_checkIn{{ $count }}">15 Kgs</td>
+                                            <td id="return_cabin{{ $count }}">7 Kgs</td>
                                         </tr>
                                     </table>
                                     <small>The baggage information is just for reference. Please Check with airline before check-in. For more information, visit IndiGo Airlines Website.</small>
@@ -757,12 +796,12 @@
                                                 </tr>
                                                 <tr>
                                                     <td>2-72 hours</td>
-                                                    <td><i class="fas fa-rupee-sign"></i> 3,500</td>
+                                                    <td id="return_cancellation{{$count}}"><i class="las la-pound-sign"></i> 3,500</td>
                                                 </tr>
-                                                <tr>
+                                                <!-- <tr>
                                                     <td>>72 hours</td>
                                                     <td><i class="fas fa-rupee-sign"></i> 3,000</td>
-                                                </tr>
+                                                </tr> -->
                                             </table>
                                         </div>
                                         <div class="col-md-6">
@@ -774,12 +813,13 @@
                                                 </tr>
                                                 <tr>
                                                     <td>2-72 hours</td>
-                                                    <td><i class="fas fa-rupee-sign"></i> 3,000</td>
+                                                    <td id="return_reschedule{{$count}}"><i class="fas fa-rupee-sign"></i> 3,000</td>
+                                                    <!-- <td><i class="fas fa-rupee-sign"></i> 3,000</td> -->
                                                 </tr>
-                                                <tr>
+                                                <!-- <tr>
                                                     <td>>72 hours</td>
                                                     <td><i class="fas fa-rupee-sign"></i> 2,500</td>
-                                                </tr>
+                                                </tr> -->
                                             </table>
                                         </div>
                                     </div>
@@ -1131,36 +1171,6 @@
             // window.location.assign(url);
         });
 
-        // $("#onwwayRange").slider({
-        //     range: true,
-        //     min: 1000,
-        //     max: 20000,
-        //     values: [ 100, 200 ],
-        //     slide:function(event, ui){
-        //         // alert(ui.values[0]);
-        //         // $("#minimum_range").val(ui.values[0]);
-        //         // $("#maximum_range").val(ui.values[1]);
-        //         // load_product(ui.values[0], ui.values[1]);
-        //     }
-        // });
-        var v1 = $('#onwwayRange_minprice').val();
-        var v2 = $('#onwwayRange_maxprice').val();
-        
-
-        $("#onwwayRange").slider({
-        range: true,
-        min: v1,
-        max: v2,
-        values: [v1, v2],
-        slide: function(event, ui) {
-            $("#amount").html( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
-            v1 = ui.values[ 0 ];
-            v2 = ui.values[ 1 ];
-            }
-        });
-        $("#amount").html("<i class='las la-pound-sign'></i>" + $("#onwwayRange" ).slider( "values", 0 ) + " - <i class='las la-pound-sign'></i>" + $("#onwwayRange").slider("values", 1));
-        
-
     });
     
     function filter()
@@ -1355,10 +1365,97 @@
                     
                  }
                }
-                $("#departure_order").attr("data-departureordervalue", "DESC"); 
+                $("#departure_order").attr("data-departureordervalue", "ASC"); 
             }
 
     });
+
+    $('#arrival_order').click(function(){
+            // alert("hii");
+            var order_val=$("#arrival_order").attr("data-arrivalordervalue");
+            // alert(order_val);
+            var ArrivalTimeOrder=[];
+            var ArrivalTimeOrder=<?php 
+            $aaa=[];
+            $ArrivalTimeOrder=array_unique(isset($ArrivalTimeOrder)?$ArrivalTimeOrder:[]);
+            foreach($ArrivalTimeOrder as $val1){
+                array_push($aaa,$val1);
+            }
+            echo json_encode($aaa);
+            ?>;
+         
+            if(order_val=="ASC"){
+                for (let index = 0; index < ArrivalTimeOrder.sort().length; index++) {
+                    for (let Divindex = 1; Divindex <=$('.GlobalDiv').length; Divindex++) {
+                    var dataArrivaltime=$(".SortArrival"+Divindex).attr("data-Arrival-time")
+                    if (dataArrivaltime==ArrivalTimeOrder[index]) {
+                    $(".MainDiv").append($(".SortArrival"+Divindex));
+                    }
+                
+                    
+                  }
+                }
+                $("#arrival_order").attr("data-arrivalordervalue", "DESC");
+            } 
+            else{
+               for (let index = 0; index < ArrivalTimeOrder.sort().reverse().length; index++) {
+                    for (let Divindex = 1; Divindex <=$('.GlobalDiv').length; Divindex++) {
+                    var dataArrivaltime=$(".SortArrival"+Divindex).attr("data-Arrival-time")
+                    if (dataArrivaltime==ArrivalTimeOrder[index]) {
+                    $(".MainDiv").append($(".SortArrival"+Divindex));
+                    }
+                
+                    
+                 }
+               }
+                $("#arrival_order").attr("data-arrivalordervalue", "ASC"); 
+            }
+
+    });
+
+    $('#duration_order').click(function(){
+            // alert("hii");
+            var order_val=$("#duration_order").attr("data-durationordervalue");
+            // alert(order_val);
+            var DurationTimeOrder=[];
+            var DurationTimeOrder=<?php 
+            $du=[];
+            $DurationTimeOrder=array_unique(isset($DurationTimeOrder)?$DurationTimeOrder:[]);
+            foreach($DurationTimeOrder as $val2){
+                array_push($du,$val2);
+            }
+            echo json_encode($du);
+            ?>;
+            // alert(DurationTimeOrder);
+            if(order_val=="ASC"){
+                for (let index = 0; index < DurationTimeOrder.sort().length; index++) {
+                    for (let Divindex = 1; Divindex <=$('.GlobalDiv').length; Divindex++) {
+                    var dataDurationtime=$(".SortDuration"+Divindex).attr("data-Duration-time")
+                    if (dataDurationtime==DurationTimeOrder[index]) {
+                    $(".MainDiv").append($(".SortDuration"+Divindex));
+                    }
+                
+                    
+                  }
+                }
+                $("#duration_order").attr("data-durationordervalue", "DESC");
+            } 
+            else{
+               for (let index = 0; index < DurationTimeOrder.sort().reverse().length; index++) {
+                    for (let Divindex = 1; Divindex <=$('.GlobalDiv').length; Divindex++) {
+                    var dataDurationtime=$(".SortDuration"+Divindex).attr("data-Duration-time")
+                    if (dataDurationtime==DurationTimeOrder[index]) {
+                    $(".MainDiv").append($(".SortDuration"+Divindex));
+                    }
+                
+                    
+                 }
+               }
+                $("#duration_order").attr("data-durationordervalue", "ASC"); 
+            }
+
+    });
+
 
     $('#return_departure_order').click(function(){
             // alert("hii");
@@ -1398,7 +1495,93 @@
                     
                  }
                }
-                $("#return_departure_order").attr("data-departureordervalue", "DESC"); 
+                $("#return_departure_order").attr("data-departureordervalue", "ASC"); 
+            }
+
+    });
+
+    $('#return_arrival_order').click(function(){
+            // alert("hii");
+            var order_val=$("#return_arrival_order").attr("data-arrivalordervalue");
+            // alert(order_val);
+            var ArrivalTimeOrder=[];
+            var ArrivalTimeOrder=<?php 
+            $aaa=[];
+            $ArrivalTimeOrder=array_unique(isset($ReturnArrivalTimeOrder)?$ReturnArrivalTimeOrder:[]);
+            foreach($ArrivalTimeOrder as $val1){
+                array_push($aaa,$val1);
+            }
+            echo json_encode($aaa);
+            ?>;
+         
+            if(order_val=="ASC"){
+                for (let index = 0; index < ArrivalTimeOrder.sort().length; index++) {
+                    for (let Divindex = 1; Divindex <=$('.ReturnGlobalDiv').length; Divindex++) {
+                    var dataArrivaltime=$(".return_SortArrival"+Divindex).attr("return-data-Arrival-time")
+                    if (dataArrivaltime==ArrivalTimeOrder[index]) {
+                    $(".ReturnMainDiv").append($(".return_SortArrival"+Divindex));
+                    }
+                
+                    
+                  }
+                }
+                $("#return_arrival_order").attr("data-arrivalordervalue", "DESC");
+            } 
+            else{
+               for (let index = 0; index < ArrivalTimeOrder.sort().reverse().length; index++) {
+                    for (let Divindex = 1; Divindex <=$('.ReturnGlobalDiv').length; Divindex++) {
+                    var dataArrivaltime=$(".return_SortArrival"+Divindex).attr("return-data-Arrival-time")
+                    if (dataArrivaltime==ArrivalTimeOrder[index]) {
+                    $(".ReturnMainDiv").append($(".return_SortArrival"+Divindex));
+                    }
+                
+                    
+                 }
+               }
+                $("#return_arrival_order").attr("data-arrivalordervalue", "ASC"); 
+            }
+
+    });
+
+    $('#return_duration_order').click(function(){
+            // alert("hii");
+            var order_val=$("#return_duration_order").attr("data-durationordervalue");
+            // alert(order_val);
+            var DurationTimeOrder=[];
+            var DurationTimeOrder=<?php 
+            $du=[];
+            $DurationTimeOrder=array_unique(isset($ReturnDurationTimeOrder)?$ReturnDurationTimeOrder:[]);
+            foreach($DurationTimeOrder as $val2){
+                array_push($du,$val2);
+            }
+            echo json_encode($du);
+            ?>;
+            // alert(DurationTimeOrder);
+            if(order_val=="ASC"){
+                for (let index = 0; index < DurationTimeOrder.sort().length; index++) {
+                    for (let Divindex = 1; Divindex <=$('.GlobalDiv').length; Divindex++) {
+                    var dataDurationtime=$(".return_SortDuration"+Divindex).attr("return-data-Duration-time")
+                    if (dataDurationtime==DurationTimeOrder[index]) {
+                    $(".ReturnMainDiv").append($(".return_SortDuration"+Divindex));
+                    }
+                
+                    
+                  }
+                }
+                $("#return_duration_order").attr("data-durationordervalue", "DESC");
+            } 
+            else{
+               for (let index = 0; index < DurationTimeOrder.sort().reverse().length; index++) {
+                    for (let Divindex = 1; Divindex <=$('.GlobalDiv').length; Divindex++) {
+                    var dataDurationtime=$(".return_SortDuration"+Divindex).attr("return-data-Duration-time")
+                    if (dataDurationtime==DurationTimeOrder[index]) {
+                    $(".ReturnMainDiv").append($(".return_SortDuration"+Divindex));
+                    }
+                
+                    
+                 }
+               }
+                $("#return_duration_order").attr("data-durationordervalue", "ASC"); 
             }
 
     });
@@ -1440,6 +1623,48 @@
                 $("#reschedule"+count).append(changepenalty);
                 $("#checkIn"+count).append(baggageallowanceinfo);
                 $("#cabin"+count).append(carryonallowanceinfo);
+
+            }
+        });
+
+    }
+
+    function return_BaggageCancelRule(count,flights){
+        // alert(flights);    
+        var loading ='<img id="loading-image-small" src="{{ asset('public/loder-small.gif') }}" alt="Loading..." style=" position: absolute;top: 100px;left: 431px;z-index: 100;"/>';
+        $('#loading_small').append(loading);
+        $('#loading_small').show();
+
+        $("#return_cancellation"+count).empty();
+        $("#return_reschedule"+count).empty();
+        $("#return_checkIn"+count).empty();
+        $("#return_cabin"+count).empty();
+        var count=count;
+        var flights=flights;
+        
+        $.ajax({
+            type: "POST",
+            url: "{{ route('BaggageCancelRuleajax') }}",
+            data: {
+                "_token": "{{ csrf_token() }}",
+                count:count,
+                flights:flights
+            },
+            success: function(data){
+                // alert(data);
+                var obj = JSON.parse ( data );
+                // alert(obj.baggageallowanceinfo);
+                $('#loading_small').hide();
+                $('#loading_small').empty();
+                var changepenalty='<i class="las la-pound-sign"></i>'+obj.changepenalty.replace('GBP','');
+                var cancelpenalty='<i class="las la-pound-sign"></i>'+obj.cancelpenalty.replace('GBP','');
+                var baggageallowanceinfo=obj.baggageallowanceinfo+"gs";
+                var carryonallowanceinfo=obj.carryonallowanceinfo+"gs";
+                
+                $("#return_cancellation"+count).append(cancelpenalty);
+                $("#return_reschedule"+count).append(changepenalty);
+                $("#return_checkIn"+count).append(baggageallowanceinfo);
+                $("#return_cabin"+count).append(carryonallowanceinfo);
 
             }
         });
@@ -1558,6 +1783,43 @@
         var date=data1[0]+":"+data1[1];
         // alert(date);
         return date;
+    }
+
+     // onword price slider function
+     var slider = document.getElementById("onwwayRange");
+    // var output = document.getElementById("amount");
+    // output.innerHTML = slider.value;
+    slider.oninput = function() {
+        // alert("hii");
+        var loading ='<img id="loading-image-small" src="{{ asset('public/loder-small.gif') }}" alt="Loading..." style=" position: absolute;top: 100px;left: 431px;z-index: 100;"/>';
+        // alert(loading)
+        $('#loading_small').append(loading);
+        $('#loading_small').show();
+        var min_val=$('#onwwayRange_minprice').val();
+        var mix_val=$('#onwwayRange_maxprice').val();
+        var cal_min_val=min_val/100;
+        // alert(cal_min_val)
+        // alert(this.value);
+        var range_val=this.value/100;
+        var amount='<i class="las la-pound-sign"></i>'+parseFloat(cal_min_val).toFixed(2)+' - <i class="las la-pound-sign"></i>'+parseFloat(range_val).toFixed(2);
+        $('#amount').empty();
+        $('#amount').append(amount);
+        // alert("hii");
+        // alert(min_val);
+        for (var index = parseInt(min_val); index <= parseInt(mix_val); index++) {
+            // alert(index);
+            $(".priceRange"+index).attr("data-GlobalDiv", "0")
+            $('.priceRange'+index).hide();
+        }
+        for (let index1 = parseInt(min_val); index1 <= parseInt(this.value); index1++) {
+            // const element = array[index];
+            $(".priceRange"+index1).attr("data-GlobalDiv", "1")
+            $('.priceRange'+index1).show();
+            
+        }
+        $('#loading_small').hide();
+        $('#loading_small').empty();
+        // output.innerHTML = this.value;
     }
 </script>
 @endsection
