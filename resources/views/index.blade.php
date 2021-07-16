@@ -617,19 +617,19 @@
             var adddate=datePeriode.setDate(datePeriode.getDate() + 1)
             
             jQuery('#returning_date_datetimepicker').datetimepicker({
-            pickTime: false,
-            autoclose: true, 
-            startDate: new Date(adddate),
-            // todayHighlight: true,
+                pickTime: false,
+                autoclose: true, 
+                startDate: new Date(adddate),
+                todayHighlight: false,
             });
         });
-        // jQuery('#returning_date_datetimepicker').datetimepicker({
-        //     pickTime: false,
-        //     autoclose: true, 
-        //     startDate: new Date(),
-        //     todayHighlight: true,
-        //     autoclose: true,
-        // });
+        jQuery('#returning_date_datetimepicker').datetimepicker({
+            pickTime: false,
+            autoclose: true, 
+            startDate: new Date(),
+            todayHighlight: true,
+            autoclose: true,
+        });
         $('.returning_date_datetimepickerclass').click(function(){
             // alert("hii");
             $('#one_way').removeAttr('class');
@@ -650,6 +650,18 @@
             $('#one_way').removeAttr('class');
             $('#round_trip').attr('class','active');
             $("#returning_date_datetimepicker").datetimepicker("show"); 
+            // var dep_val=$('#departure_date').val();
+            // var newdate = dep_val.split("-").reverse().join("/");
+            // var datePeriode= new Date(newdate);
+            // var adddate=datePeriode.setDate(datePeriode.getDate() + 1)
+            // // alert("hii")
+            // jQuery('#returning_date_datetimepicker').datetimepicker("show",{
+            //     pickTime: false,
+            //     autoclose: true, 
+            //     startDate: new Date(adddate),
+            //     todayHighlight: true,
+            // });
+            
             
         });
         // returning_date
