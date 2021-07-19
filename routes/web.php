@@ -31,6 +31,7 @@ Route::get('/flights',[App\Http\Controllers\FlightController::class,'Search'])->
 Route::post('/flightDetails',[App\Http\Controllers\FlightController::class,'FlightDetails'])->name('flightDetails');
 
 Route::post('/BaggageCancelRuleajax',[App\Http\Controllers\FlightDetailsController::class,'FlightDetails'])->name('BaggageCancelRuleajax');
+Route::post('/BaggageCancelRuleReturnajax',[App\Http\Controllers\FlightDetailsController::class,'FlightDetailsReturn'])->name('BaggageCancelRuleReturnajax');
 
 Route::post('/passengerDetails',[App\Http\Controllers\PassengerDetailsController::class,'PassengerDetails'])->name('passengerDetails');
 // Route::get('/flightDetails',[App\Http\Controllers\FlightsController::class,'FlightDetails'])->name('flightDetails');

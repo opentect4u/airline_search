@@ -257,8 +257,8 @@
             @if(count($return_flights)>0)
             <div class="col-lg-9 flight-section">
                 <div class="card">
-                    <h4>Onward Journey</h4>
-                    <br/>
+                    <!-- <h4>Onward Journey</h4>
+                    <br/> -->
                     <div class="row row-heading d-none d-md-flex">
                         <div class="col-md-3">Airlines</div>
                         <div class="col-md-2" data-departureordervalue="ASC" id="departure_order" style="cursor: pointer;">Departure<i class="las la-long-arrow-alt-up"></i><i class="las la-long-arrow-alt-down"></i></div>
@@ -401,10 +401,10 @@
                                         <a class="nav-link" data-toggle="pill" href="#fare_details{{ $count }}">Fare Details</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" data-toggle="pill" href="#baggage_rules{{ $count }}" onclick="BaggageCancelRule({{ $count }},{{$flight_data}});">Baggage Rules</a>
+                                        <a class="nav-link" data-toggle="pill" href="#baggage_rules{{ $count }}" onclick="BaggageCancelRule({{ $count }},{{json_encode($flight_data[0])}});">Baggage Rules</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" data-toggle="pill" href="#cancellation_rules{{ $count }}" onclick="BaggageCancelRule({{ $count }},{{$flight_data}});">Cancellation Rules</a>
+                                        <a class="nav-link" data-toggle="pill" href="#cancellation_rules{{ $count }}" onclick="BaggageCancelRule({{ $count }},{{json_encode($flight_data[0])}});">Cancellation Rules</a>
                                     </li>
                                 </ul>
                                 <!-- Tab panes -->
