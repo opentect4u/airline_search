@@ -561,7 +561,8 @@
 @endsection
 @section('script')
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script> -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+
 <script type="text/javascript">
     $( document ).ready(function() {
         $('#loading').hide();
@@ -603,11 +604,16 @@
                     }
         });
 
-        jQuery('#departure_date_datetimepicker').datetimepicker({
-            pickTime: false,
-            autoclose: true, 
-            startDate: new Date(),
-            todayHighlight: true,
+        
+        $('#departure_date_datetimepicker').click(function(){
+            $('#returning_date').val('');
+            $('#departure_date_datetimepicker').datetimepicker({
+                pickTime: false,
+                autoclose: true, 
+                startDate: new Date(),
+                todayHighlight: false,
+            });
+            $('#departure_date_datetimepicker').datetimepicker("show");
         });
         // departure_date
         $('.returning_date_datetimepickerclass').click(function(){
@@ -616,20 +622,20 @@
             var datePeriode= new Date(newdate);
             var adddate=datePeriode.setDate(datePeriode.getDate() + 1)
             
-            jQuery('#returning_date_datetimepicker').datetimepicker({
+            $('#returning_date_datetimepicker').datetimepicker({
                 pickTime: false,
                 autoclose: true, 
                 startDate: new Date(adddate),
                 todayHighlight: false,
             });
         });
-        jQuery('#returning_date_datetimepicker').datetimepicker({
-            pickTime: false,
-            autoclose: true, 
-            startDate: new Date(),
-            todayHighlight: true,
-            autoclose: true,
-        });
+        // jQuery('#returning_date_datetimepicker').datetimepicker({
+        //     pickTime: false,
+        //     autoclose: true, 
+        //     startDate: new Date(),
+        //     todayHighlight: true,
+        //     autoclose: true,
+        // });
         $('.returning_date_datetimepickerclass').click(function(){
             // alert("hii");
             $('#one_way').removeAttr('class');
@@ -649,18 +655,19 @@
             // alert("hii");
             $('#one_way').removeAttr('class');
             $('#round_trip').attr('class','active');
-            $("#returning_date_datetimepicker").datetimepicker("show"); 
-            // var dep_val=$('#departure_date').val();
-            // var newdate = dep_val.split("-").reverse().join("/");
-            // var datePeriode= new Date(newdate);
-            // var adddate=datePeriode.setDate(datePeriode.getDate() + 1)
+            // $("#returning_date_datetimepicker").datetimepicker("show"); 
+            var dep_val=$('#departure_date').val();
+            var newdate = dep_val.split("-").reverse().join("/");
+            var datePeriode= new Date(newdate);
+            var adddate=datePeriode.setDate(datePeriode.getDate() + 1)
             // // alert("hii")
-            // jQuery('#returning_date_datetimepicker').datetimepicker("show",{
-            //     pickTime: false,
-            //     autoclose: true, 
-            //     startDate: new Date(adddate),
-            //     todayHighlight: true,
-            // });
+            $('#returning_date_datetimepicker').datetimepicker({
+                pickTime: false,
+                autoclose: true, 
+                startDate: new Date(adddate),
+                todayHighlight: false,
+            });
+            $("#returning_date_datetimepicker").datetimepicker("show"); 
             
             
         });

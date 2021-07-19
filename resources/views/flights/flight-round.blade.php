@@ -162,13 +162,13 @@
 <section class="search-packages mt-4">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-2 filters_wrapper">
-                @if(count($flights)>0)
+            <div class="col-lg-3 filters_wrapper">
+                @if(count($return_flights)>0)
                 <div class="card">
                     <h4 class="font-weight-600 m-0">Onward Filter <span class="d-inline-block d-lg-none  filter-open float-right"><i class="las la-times"></i></span></h4>
                     <div class="filter-set">
                         <h6 class="font-weight-600">Stops </h6>
-                        @foreach($stops as $stop)
+                        @foreach($return_stops as $stop)
                         <!-- {{$stop}} -->
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox" class="custom-control-input" id="Stops{{$stop}}" name="Stops" value="Stops{{$stop}}" onclick="filter()">
@@ -203,129 +203,37 @@
                         <h6 class="font-weight-600">Price Range</h6>
                         <label for="onwwayRange" id="amount"><i class="las la-pound-sign"></i>
                         <?php  
-                            foreach($flights[0] as $flight){
+                            foreach($return_flights[0] as $flight){
                                 foreach($flight[1] as $prices){ 
                                     echo str_replace('GBP','',$prices['Total Price']);
                                 }
                             }
                             echo ' - <i class="las la-pound-sign"></i>';
-                            foreach($flights[(count($flights)-1)] as $flight){
+                            foreach($return_flights[(count($return_flights)-1)] as $flight){
                                 foreach($flight[1] as $prices){ 
                                     echo str_replace('GBP','',$prices['Total Price']);
                                 }
                             }
                         ?></label>
                         <input type="range" class="custom-range" id="onwwayRange" name="onwwayRange" 
-                        min="<?php foreach($flights[0] as $flight){foreach($flight[1] as $prices){echo (str_replace('GBP','',$prices['Total Price'])*100);}} ?>" 
-                        max="<?php foreach($flights[(count($flights)-1)] as $flight){foreach($flight[1] as $prices){echo (str_replace('GBP','',$prices['Total Price'])*100);}} ?>" 
-                        value="<?php foreach($flights[(count($flights)-1)] as $flight){foreach($flight[1] as $prices){echo (str_replace('GBP','',$prices['Total Price'])*100);}} ?>">
+                        min="<?php foreach($return_flights[0] as $flight){foreach($flight[1] as $prices){echo (str_replace('GBP','',$prices['Total Price'])*100);}} ?>" 
+                        max="<?php foreach($return_flights[(count($return_flights)-1)] as $flight){foreach($flight[1] as $prices){echo (str_replace('GBP','',$prices['Total Price'])*100);}} ?>" 
+                        value="<?php foreach($return_flights[(count($return_flights)-1)] as $flight){foreach($flight[1] as $prices){echo (str_replace('GBP','',$prices['Total Price'])*100);}} ?>">
                         <input type="hidden" class="custom-range" id="onwwayRange_minprice" name="onwwayRange_minprice" value="<?php 
-                            foreach($flights[0] as $flight){
+                            foreach($return_flights[0] as $flight){
                                 foreach($flight[1] as $prices){ 
                                     echo (str_replace('GBP','',$prices['Total Price'])*100);
                                 }
                             }
                         ?>">
                         <input type="hidden" class="custom-range" id="onwwayRange_maxprice" name="onwwayRange_maxprice" value="<?php 
-                            foreach($flights[(count($flights)-1)] as $flight){
+                            foreach($return_flights[(count($return_flights)-1)] as $flight){
                                 foreach($flight[1] as $prices){ 
                                     echo (str_replace('GBP','',$prices['Total Price'])*100);
                                 }
                             }
                         ?>">
                         <input type="hidden" class="custom-range" id="onwwayRange_rangeprice" name="onwwayRange_rangeprice" value="<?php 
-                            foreach($flights[(count($flights)-1)] as $flight){
-                                foreach($flight[1] as $prices){ 
-                                    echo (str_replace('GBP','',$prices['Total Price'])*100);
-                                }
-                            }
-                        ?>"/>
-                        
-                    </div>
-                    <div class="filter-set">
-                        <h6 class="font-weight-600">Airlines </h6>
-                        @foreach($airlines as $airline)
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="Airline{{$airline}}" name="Airline" value="Airline{{$airline}}" onclick="filter()" >
-                            <label class="custom-control-label" for="Airline{{$airline}}">{{ $airline }}</label>
-                        </div>
-                        @endforeach
-                    </div>
-                </div>
-                @endif
-                @if(count($flights)>0 && $searched->returning_date!=null)
-                <br/>
-                <div class="card">
-                    <h4 class="font-weight-600 m-0">Return Filter <span class="d-inline-block d-lg-none  filter-open float-right"><i class="las la-times"></i></span></h4>
-                    <div class="filter-set">
-                        <h6 class="font-weight-600">Stops </h6>
-                        @foreach($return_stops as $stop)
-                        <!-- {{$stop}} -->
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="return_Stops{{$stop}}" name="return_Stops" value="return_Stops{{$stop}}" onclick="return_filter()">
-                            <label class="custom-control-label" for="return_Stops{{$stop}}">
-                            <?php 
-                            if($stop==0){ echo "Non Stop";}else{echo ($stop)." Stop";}
-                            ?>
-                            </label>
-                        </div>
-                        @endforeach
-                        
-                    </div>
-                    <div class="filter-set">
-                        <h6 class="font-weight-600">Departure </h6>
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="ReturnDeparture16" name="ReturnDeparture" value="ReturnDeparture16" onclick="return_filter()">
-                            <label class="custom-control-label" for="ReturnDeparture16">Before 6AM</label>
-                        </div>
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="ReturnDeparture612" name="ReturnDeparture" value="ReturnDeparture612" onclick="return_filter()">
-                            <label class="custom-control-label" for="ReturnDeparture612">6AM-12 Noon</label>
-                        </div>
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="ReturnDeparture126" name="ReturnDeparture" value="ReturnDeparture126" onclick="return_filter()">
-                            <label class="custom-control-label" for="ReturnDeparture126">12 Noon-6PM</label>
-                        </div>
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="ReturnDeparture6" name="ReturnDeparture" value="ReturnDeparture6" onclick="return_filter()">
-                            <label class="custom-control-label" for="ReturnDeparture6">After 6PM</label>
-                        </div>
-                    </div>
-                    <div class="filter-set">
-                        <h6 class="font-weight-600">Price Range</h6>
-                        <label for="onwwayRange" id="return_amount"><i class="las la-pound-sign"></i>
-                        <?php  
-                            foreach($return_flights[0] as $flight){
-                                foreach($flight[1] as $prices){ 
-                                    echo str_replace('GBP','',$prices['Total Price']);
-                                }
-                            }
-                            echo ' - <i class="las la-pound-sign"></i>';
-                            foreach($return_flights[(count($return_flights)-1)] as $flight){
-                                foreach($flight[1] as $prices){ 
-                                    echo str_replace('GBP','',$prices['Total Price']);
-                                }
-                            }
-                        ?></label>
-                        <input type="range" class="custom-range" id="returnRange" name="returnRange" 
-                        min="<?php foreach($return_flights[0] as $flight){foreach($flight[1] as $prices){echo (str_replace('GBP','',$prices['Total Price'])*100);}} ?>" 
-                        max="<?php foreach($return_flights[(count($return_flights)-1)] as $flight){foreach($flight[1] as $prices){echo (str_replace('GBP','',$prices['Total Price'])*100);}} ?>" 
-                        value="<?php foreach($return_flights[(count($return_flights)-1)] as $flight){foreach($flight[1] as $prices){echo (str_replace('GBP','',$prices['Total Price'])*100);}} ?>">
-                        <input type="hidden" class="custom-range" id="returnRange_minprice" name="returnRange_minprice" value="<?php 
-                            foreach($return_flights[0] as $flight){
-                                foreach($flight[1] as $prices){ 
-                                    echo (str_replace('GBP','',$prices['Total Price'])*100);
-                                }
-                            }
-                        ?>">
-                        <input type="hidden" class="custom-range" id="returnRange_maxprice" name="returnRange_maxprice" value="<?php 
-                            foreach($return_flights[(count($return_flights)-1)] as $flight){
-                                foreach($flight[1] as $prices){ 
-                                    echo (str_replace('GBP','',$prices['Total Price'])*100);
-                                }
-                            }
-                        ?>">
-                        <input type="hidden" class="custom-range" id="returnRange_rangeprice" name="returnRange_rangeprice" value="<?php 
                             foreach($return_flights[(count($return_flights)-1)] as $flight){
                                 foreach($flight[1] as $prices){ 
                                     echo (str_replace('GBP','',$prices['Total Price'])*100);
@@ -338,17 +246,16 @@
                         <h6 class="font-weight-600">Airlines </h6>
                         @foreach($return_airlines as $airline)
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="return_Airline{{$airline}}" name="return_Airline" value="return_Airline{{$airline}}" onclick="return_filter();" >
-                            <label class="custom-control-label" for="return_Airline{{$airline}}">{{ $airline }}</label>
+                            <input type="checkbox" class="custom-control-input" id="Airline{{$airline}}" name="Airline" value="Airline{{$airline}}" onclick="filter()" >
+                            <label class="custom-control-label" for="Airline{{$airline}}">{{ $airline }} <img src="https://goprivate.wspan.com/sharedservices/images/airlineimages/logoAir{{$airline}}.gif" alt="6E.png" style="width:20px;height:20px;" class="mr-2"/></label>
                         </div>
                         @endforeach
-                       
                     </div>
                 </div>
                 @endif
             </div>
-            @if(count($flights)>0)
-            <div class="col-lg-5 flight-section">
+            @if(count($return_flights)>0)
+            <div class="col-lg-9 flight-section">
                 <div class="card">
                     <h4>Onward Journey</h4>
                     <br/>
@@ -361,14 +268,14 @@
                     </div>
                     <div class="MainDiv">
                     <?php $count=1; $flightCount=0;$DepartureTime="";$DepartureSlot="";$DepartureTimeOrder =[];$ArrivalTimeOrder =[];$DurationTimeOrder =[];?>
-                    @foreach($flights as $flight)
+                    @foreach($return_flights as $flight)
                     @foreach($flight as $flight_data)
                     @foreach($flight_data[0] as $datas)
-                    <?php $rrr=count($datas);
-                    array_push($DepartureTimeOrder,\Carbon\Carbon::parse($datas[0]['Depart'])->format('H:i'));
-                    array_push($ArrivalTimeOrder,\Carbon\Carbon::parse($datas[count($datas)-1]['Arrive'])->format('H:i'));
-                    array_push($DurationTimeOrder,\Carbon\Carbon::parse($datas[0]['Depart'])->diff(\Carbon\Carbon::parse($datas[count($datas)-1]['Arrive']))->format('%d%H%I'));
+                    @foreach($datas[0] as $datas1)
+                    <?php 
+                    $rrr=count($datas1);
                     ?>
+                    @endforeach
                     @endforeach
                     
                     @if($searched->direct_flight == 'DF' && $rrr>1 && $searched->flexi=="")
@@ -377,10 +284,14 @@
                     @continue
                     @endif
                     
-                        <?php foreach($flight_data[0] as $datas){
-                        $DepartureTime =\Carbon\Carbon::parse($datas[0]['Depart'])->format('H:i'); 
-                        } ?>
-                        <?php
+                    <?php 
+                    foreach($flight_data[0] as $datas){
+                        foreach($datas[0] as $datas1){
+                            $DepartureTime =\Carbon\Carbon::parse($datas1[0]['Depart'])->format('H:i'); 
+                        } 
+                    } 
+                    ?>
+                    <?php
                         if ($DepartureTime>=0 &&$DepartureTime<6) {
                             $DepartureSlot="Departure16";
                         }
@@ -393,55 +304,93 @@
                         elseif ($DepartureTime>=18 &&$DepartureTime<=24) {
                             $DepartureSlot="Departure6";
                         }
-                        ?>
+                    ?>
                     
-                        <div id="SortDeparture{{$count}}" class="flight-devider GlobalDiv {{$DepartureSlot}} Airline<?php foreach($flight_data[0] as $datas){ echo $datas[0]['Airline']; } ?> Stops<?php  foreach($flight_data[0] as $datas){ echo count($datas)-1; } ?> priceRange<?php foreach($flight_data[1] as $prices){ echo (str_replace('GBP','',$prices['Total Price'] )*100); } ?> SortArrival{{$count}} SortDuration{{$count}}" data-GlobalDiv="1" data-TotalpriceDiv="<?php foreach($flight_data[1] as $prices){ echo (str_replace('GBP','',$prices['Total Price'] )*100); } ?>" data-Deprature-time="<?php foreach($flight_data[0] as $datas){echo \Carbon\Carbon::parse($datas[0]['Depart'])->format('H:i'); } ?>" data-Arrival-time="<?php foreach($flight_data[0] as $datas){ echo \Carbon\Carbon::parse($datas[count($datas)-1]['Arrive'])->format('H:i'); } ?>" data-Duration-time="<?php foreach($flight_data[0] as $datas){ echo \Carbon\Carbon::parse($datas[0]['Depart'])->diff(\Carbon\Carbon::parse($datas[count($datas)-1]['Arrive']))->format('%d%H%I');} ?>">
+                        <div id="SortDeparture{{$count}}" class="flight-devider GlobalDiv {{$DepartureSlot}} Airline<?php foreach($flight_data[0] as $datas){ foreach($datas[0] as $datas1){ echo $datas1[0]['Airline']; }} ?> Stops<?php  foreach($flight_data[0] as $datas){ foreach($datas[0] as $datas1){ echo count($datas1)-1; }} ?> priceRange<?php foreach($flight_data[1] as $prices){ echo (str_replace('GBP','',$prices['Total Price'] )*100); } ?> SortArrival{{$count}} SortDuration{{$count}}" data-GlobalDiv="1" data-TotalpriceDiv="<?php foreach($flight_data[1] as $prices){ echo (str_replace('GBP','',$prices['Total Price'] )*100); } ?>" data-Deprature-time="<?php foreach($flight_data[0] as $datas){foreach($datas[0] as $datas1){echo \Carbon\Carbon::parse($datas1[0]['Depart'])->format('H:i'); }} ?>" data-Arrival-time="<?php foreach($flight_data[0] as $datas){foreach($datas[0] as $datas1){ echo \Carbon\Carbon::parse($datas1[count($datas1)-1]['Arrive'])->format('H:i'); }} ?>" data-Duration-time="<?php foreach($flight_data[0] as $datas){foreach($datas[0] as $datas1){ echo \Carbon\Carbon::parse($datas1[0]['Depart'])->diff(\Carbon\Carbon::parse($datas1[count($datas1)-1]['Arrive']))->format('%d%H%I');}} ?>">
                             <div class="row align-items-center">
+                                <!-- outbound flight details -->
+                                @foreach($flight_data[0] as $datas1)
+                                @foreach($datas1[0] as $datas)
                                 <div class="col-md-3 mb-2 mb-md-0">
                                     <div class="media">
-                                        <div class="media-left"><img src="https://goprivate.wspan.com/sharedservices/images/airlineimages/logoAir<?php foreach($flight_data[0] as $datas){ echo $datas[0]['Airline']; } ?>.gif" alt="6E.png" style="width:40px;height:40px;" class="mr-2"/></div>
+                                        <div class="media-left"><img src="https://goprivate.wspan.com/sharedservices/images/airlineimages/logoAir{{$datas[0]['Airline']}}.gif" alt="6E.png" style="width:40px;height:40px;" class="mr-2"/></div>
                                         <div class="media-body align-self-center">
-                                            <h6 class="m-0"><?php foreach($flight_data[0] as $datas){ echo $datas[0]['Airline']; } ?><br><small class="text-muted"><?php foreach($flight_data[0] as $datas){ echo $datas[0]['Airline']; } ?>-<?php foreach($flight_data[0] as $datas){ echo $datas[0]['Flight']; } ?></small></h6>
+                                            <h6 class="m-0">{{$datas[0]['Airline']}}<br><small class="text-muted">{{$datas[0]['Airline']}}-{{$datas[0]['Flight']}}</small></h6>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-2 col-4">
-                                    <small><i class="las la-plane-departure h6"></i> <?php foreach($flight_data[0] as $datas){ echo \Carbon\Carbon::parse($datas[0]['Depart'])->format('d M Y'); } ?></small>
-                                    <h6 class="font-weight-bold mb-0"> <?php foreach($flight_data[0] as $datas){echo \Carbon\Carbon::parse($datas[0]['Depart'])->format('H:i'); } ?></h6>
-                                    <span class="text-muted"><?php foreach($flight_data[0] as $datas){ echo $datas[0]['From']; }?></span>
+                                    <small><i class="las la-plane-departure h6"></i> {{\Carbon\Carbon::parse($datas[0]['Depart'])->format('d M Y')}}</small>
+                                    <h6 class="font-weight-bold mb-0"> {{\Carbon\Carbon::parse($datas[0]['Depart'])->format('H:i')}}</h6>
+                                    <span class="text-muted">{{$datas[0]['From']}}</span>
                                 </div>
                                 <div class="col-md-2 text-center col-4">
                                     <span class="exchange-arrow exchange-relative m-auto" title="hello"><i class="las la-exchange-alt"></i></span>
-                                    <h5 class="font-weight-600 mb-0 mt-2">  <?php foreach($flight_data[0] as $datas){ echo \Carbon\Carbon::parse($datas[0]['Depart'])->diff(\Carbon\Carbon::parse($datas[count($datas)-1]['Arrive']))->format('%dD %Hh %Im');} ?></h5>
+                                    <h5 class="font-weight-600 mb-0 mt-2">  {{\Carbon\Carbon::parse($datas[0]['Depart'])->diff(\Carbon\Carbon::parse($datas[count($datas)-1]['Arrive']))->format('%dD %Hh %Im')}}</h5>
                                     <small class="text-muted">
                                     <?php 
-                                    foreach($flight_data[0] as $datas){ if(count($datas)==1){ echo "Non stop"; }else{echo ucwords(app('App\Http\Controllers\UtilityController')->convert_number_to_words((count($datas)-1)))." stop";}}
+                                     if(count($datas)==1){ echo "Non stop"; }else{echo ucwords(app('App\Http\Controllers\UtilityController')->convert_number_to_words((count($datas)-1)))." stop";}
                                     ?>
                                     </small>
                                 </div>
                                 <div class="col-md-2 col-4">
-                                    <small><i class="las la-plane-arrival h6"></i> <?php foreach($flight_data[0] as $datas){ echo \Carbon\Carbon::parse($datas[count($datas)-1]['Arrive'])->format('d M Y'); } ?></small>
-                                    <h6 class="font-weight-bold mb-0"> <?php foreach($flight_data[0] as $datas){ echo \Carbon\Carbon::parse($datas[count($datas)-1]['Arrive'])->format('H:i'); } ?></h6>
-                                    <span class="text-muted"><?php foreach($flight_data[0] as $datas){  echo $datas[count($datas)-1]['To'];}?></span>
+                                    <small><i class="las la-plane-arrival h6"></i> {{\Carbon\Carbon::parse($datas[count($datas)-1]['Arrive'])->format('d M Y')}}</small>
+                                    <h6 class="font-weight-bold mb-0"> {{\Carbon\Carbon::parse($datas[count($datas)-1]['Arrive'])->format('H:i')}}</h6>
+                                    <span class="text-muted">{{$datas[count($datas)-1]['To']}}</span>
                                 </div>
-                            
+                                <div class="col-md-3 mt-2 mt-md-0 text-center">
+                                   
+                                </div>
+                                @endforeach
+                                <!-- inbound flight details -->
+                                @foreach($datas1[1] as $datas)
+                                <div class="col-md-3 mb-2 mb-md-0">
+                                    <div class="media">
+                                        <div class="media-left"><img src="https://goprivate.wspan.com/sharedservices/images/airlineimages/logoAir{{$datas[0]['Airline']}}.gif" alt="6E.png" style="width:40px;height:40px;" class="mr-2"/></div>
+                                        <div class="media-body align-self-center">
+                                            <h6 class="m-0">{{$datas[0]['Airline']}}<br><small class="text-muted">{{$datas[0]['Airline']}}-{{$datas[0]['Flight']}}</small></h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 col-4">
+                                    <small><i class="las la-plane-departure h6"></i> {{\Carbon\Carbon::parse($datas[0]['Depart'])->format('d M Y')}}</small>
+                                    <h6 class="font-weight-bold mb-0"> {{\Carbon\Carbon::parse($datas[0]['Depart'])->format('H:i')}}</h6>
+                                    <span class="text-muted">{{$datas[0]['From']}}</span>
+                                </div>
+                                <div class="col-md-2 text-center col-4">
+                                    <span class="exchange-arrow exchange-relative m-auto" title="hello"><i class="las la-exchange-alt"></i></span>
+                                    <h5 class="font-weight-600 mb-0 mt-2">  {{\Carbon\Carbon::parse($datas[0]['Depart'])->diff(\Carbon\Carbon::parse($datas[count($datas)-1]['Arrive']))->format('%dD %Hh %Im')}}</h5>
+                                    <small class="text-muted">
+                                    <?php 
+                                     if(count($datas)==1){ echo "Non stop"; }else{echo ucwords(app('App\Http\Controllers\UtilityController')->convert_number_to_words((count($datas)-1)))." stop";}
+                                    ?>
+                                    </small>
+                                </div>
+                                <div class="col-md-2 col-4">
+                                    <small><i class="las la-plane-arrival h6"></i> {{\Carbon\Carbon::parse($datas[count($datas)-1]['Arrive'])->format('d M Y')}}</small>
+                                    <h6 class="font-weight-bold mb-0"> {{\Carbon\Carbon::parse($datas[count($datas)-1]['Arrive'])->format('H:i')}}</h6>
+                                    <span class="text-muted">{{$datas[count($datas)-1]['To']}}</span>
+                                </div>
                                 <div class="col-md-3 mt-2 mt-md-0 text-center">
                                     <h3 class="font-weight-bold"><i class="las la-pound-sign"></i><?php foreach($flight_data[1] as $prices){ echo str_replace('GBP','',$prices['Total Price'] );} ?></h3>
                                     <!-- <a href="flight-details.php" class="btn btn-primary">Book Now</a> -->
-                                    <input type="radio" id="radioFlight{{$count}}" name="radioFlight" <?php if($count==1){echo 'checked="checked"';}?> onclick="OnwardFlightDetails({{$count}},{{$flight_data}},'{{$searched->addFrom}}','{{$searched->addTo}}',{{$searched->adults}},{{$searched->children}},{{$searched->infant}});" value="{{$flight_data}}">
-                                    <!-- <form action="{{ route('flightDetails') }}" method="POST">
+                                    <form action="{{ route('roundflightDetails') }}" method="POST">
                                         @csrf
-                                        <input type="text" name="flights" value="{{$flight_data}}" hidden>
+                                        <input type="text" name="flights_outbound" value="{{json_encode($datas1[0])}}" hidden>
+                                        <input type="text" name="flights_inbound" value="{{json_encode($datas1[1])}}" hidden>
+                                        <input type="text" name="flights_price" value="{{json_encode($flight_data[1])}}" hidden>
                                         <input type="text" name="addFrom" value="{{ $searched->addFrom }}" hidden>
                                         <input type="text" name="addTo" value="{{ $searched->addTo }}" hidden>
                                         <input type="text" name="adults" value="{{ $searched->adults }}" hidden>
                                         <input type="text" name="children" value="{{ $searched->children }}" hidden>
                                         <input type="text" name="infant" value="{{ $searched->infant }}" hidden>
                                         <button type="submit" class="btn btn-primary" onclick="showLoder();">Book Now</button>
-                                    </form> -->
+                                    </form>
                                     <br>
                                     <a href="#" class="mt-1 d-inline-block h5" data-toggle="collapse" data-target="#flight-details{{ $count }}">View flight details</a>
                                 </div>
+                                @endforeach
+                                @endforeach
                             </div>
                             <div id="flight-details{{ $count }}" class="card p-3 collapse mt-3">
                                 <ul class="nav nav-pills" role="tablist">
@@ -461,9 +410,10 @@
                                 <!-- Tab panes -->
                                 <div class="tab-content row mt-3">
                                     <div id="flight_details{{ $count }}" class="container tab-pane active">
-                                        @foreach($flight_data[0] as $datas)
+                                        @foreach($flight_data[0] as $datas1)
+                                        @foreach($datas1[0] as $datas)
+                                        <h4>Outbound Journey | {{$datas[0]['From']}} - {{$datas[count($datas)-1]['To']}}</h4>
                                         @for($i=0; $i < count($datas); $i++) 
-                                        <!-- {{$datas[0]['Airline']}} -->
                                         @if($i>0)
                                         <div class="row align-items-center">
                                             <!-- {{$datas[$i]['Depart'] }} ---{{$datas[0]['Arrive']}} ---{{($i-1)}} -->
@@ -499,8 +449,48 @@
                                                 <span class="text-muted"><?php  echo $datas[$i]['To'];?></span>
                                             </div>
                                         </div>
-                                        
                                         @endfor
+                                        @endforeach
+                                        @foreach($datas1[1] as $datas)
+                                        <h4>Inbound Journey | {{$datas[0]['From']}} - {{$datas[count($datas)-1]['To']}}</h4>
+                                        @for($i=0; $i < count($datas); $i++) 
+                                        @if($i>0)
+                                        <div class="row align-items-center">
+                                            <!-- {{$datas[$i]['Depart'] }} ---{{$datas[0]['Arrive']}} ---{{($i-1)}} -->
+                                            <div>Change of Planes | {{\Carbon\Carbon::parse($datas[$i]['Depart'])->diff(\Carbon\Carbon::parse($datas[($i-1)]['Arrive']))->format('%Hh %Im')}} layover in ({{$datas[$i]['From']}})</div>
+                                        </div>
+                                        @endif
+                                        <div class="row align-items-center">
+                                            <div class="col-md-3 mb-2 mb-md-0">
+                                                <div class="media">
+                                                    <div class="media-left"><img src="https://goprivate.wspan.com/sharedservices/images/airlineimages/logoAir<?php echo $datas[$i]['Airline']; ?>.gif" alt="6E.png" style="width:40px;height:40px;" class="mr-2"/></div>
+                                                    <div class="media-body align-self-center">
+                                                        <h6 class="m-0"><?php  echo $datas[$i]['Airline']; ?><br><small class="text-muted"><?php echo $datas[$i]['Airline']; ?>-<?php  echo $datas[$i]['Flight']; ?></small></h6>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2 col-4">
+                                                <small><i class="las la-plane-departure h6"></i> <?php  echo \Carbon\Carbon::parse($datas[$i]['Depart'])->format('d M Y');  ?></small>
+                                                <h6 class="font-weight-bold mb-0"> <?php echo \Carbon\Carbon::parse($datas[$i]['Depart'])->format('h:i');  ?></h6>
+                                                <span class="text-muted"><?php echo $datas[$i]['From']; ?></span>
+                                            </div>
+                                            <div class="col-md-2 text-center col-4">
+                                                <span class="exchange-arrow exchange-relative m-auto" title="hello"><i class="las la-exchange-alt"></i></span>
+                                                <h5 class="font-weight-600 mb-0 mt-2">  <?php  echo \Carbon\Carbon::parse($datas[$i]['Depart'])->diff(\Carbon\Carbon::parse($datas[$i]['Arrive']))->format('%Hh %Im'); ?></h5>
+                                                <!-- <small class="text-muted">
+                                                <?php 
+                                                if(count($datas)==1){ echo "Non stop"; }else{echo ucwords(app('App\Http\Controllers\UtilityController')->convert_number_to_words((count($datas)-1)))." stop" ;}
+                                                ?>
+                                                </small> -->
+                                            </div>
+                                            <div class="col-md-2 col-4">
+                                                <small><i class="las la-plane-arrival h6"></i> <?php  echo \Carbon\Carbon::parse($datas[$i]['Arrive'])->format('d M Y'); ?></small>
+                                                <h6 class="font-weight-bold mb-0"> <?php echo \Carbon\Carbon::parse($datas[$i]['Arrive'])->format('h:i');  ?></h6>
+                                                <span class="text-muted"><?php  echo $datas[$i]['To'];?></span>
+                                            </div>
+                                        </div>
+                                        @endfor
+                                        @endforeach
                                         @endforeach
                                     </div>
                                     <div id="fare_details{{ $count }}" class="container tab-pane">
@@ -601,387 +591,11 @@
                 <a href="{{route('index')}}" class="btn btn-primary">GO BACK</a>
             </div>
             @endif
-            @if(count($flights)>0 && $searched->returning_date!=null)
-            <div class="col-lg-5 flight-section">
-                <div class="card">
-                    <h4>Return Journey</h4>
-                    <br/>
-                    <div class="row row-heading d-none d-md-flex">
-                        <div class="col-md-3">Airlines</div>
-                        <div class="col-md-2" data-departureordervalue="ASC" id="return_departure_order" style="cursor: pointer;">Departure<i class="las la-long-arrow-alt-up"></i><i class="las la-long-arrow-alt-down"></i></div>
-                        <div class="col-md-2 text-center" data-durationordervalue="ASC" id="return_duration_order" style="cursor: pointer;">Duration<i class="las la-long-arrow-alt-up"></i><i class="las la-long-arrow-alt-down"></i></div>
-                        <div class="col-md-2" data-arrivalordervalue="ASC" id="return_arrival_order" style="cursor: pointer;">Arrival<i class="las la-long-arrow-alt-up"></i><i class="las la-long-arrow-alt-down"></i></div>
-                        <div class="col-md-3 text-center">Price <i class="las la-long-arrow-alt-up" id="return_price_order"></i></div>
-                    </div>
-                    <div class="ReturnMainDiv">
-                    <?php $count=1;$ReturnDepartureTime="";$ReturnDepartureSlot="";$ReturnDepartureTimeOrder=[];$ReturnArrivalTimeOrder=[];$ReturnDurationTimeOrder=[];?>
-                    @foreach($return_flights as $flight)
-                    @foreach($flight as $flight_data)
-                    @foreach($flight_data[0] as $datas)
-                    <?php $return_rrr=count($datas);
-                    array_push($ReturnDepartureTimeOrder,\Carbon\Carbon::parse($datas[0]['Depart'])->format('H:i'));
-                    array_push($ReturnArrivalTimeOrder,\Carbon\Carbon::parse($datas[count($datas)-1]['Arrive'])->format('H:i'));
-                    array_push($ReturnDurationTimeOrder,\Carbon\Carbon::parse($datas[0]['Depart'])->diff(\Carbon\Carbon::parse($datas[count($datas)-1]['Arrive']))->format('%d%H%I'));
-                    ?>
-                    @endforeach
-                    @if($searched->direct_flight == 'DF' && $return_rrr>1 && $searched->flexi=="")
-                    @continue
-                    @elseif($searched->flexi == 'F' && $return_rrr==1 && $searched->direct_flight=="")
-                    @continue
-                    @endif
-
-                    <?php foreach($flight_data[0] as $datas){
-                    $ReturnDepartureTime =\Carbon\Carbon::parse($datas[0]['Depart'])->format('H:i'); 
-                    } ?>
-                     <?php
-                     if ($ReturnDepartureTime>=0 &&$ReturnDepartureTime<6) {
-                        $ReturnDepartureSlot="ReturnDeparture16";
-                     }
-                     elseif ($ReturnDepartureTime>=6 &&$ReturnDepartureTime<=12) {
-                         $ReturnDepartureSlot="ReturnDeparture612";
-                     }
-                     elseif ($ReturnDepartureTime>=12 &&$ReturnDepartureTime<=18) {
-                         $ReturnDepartureSlot="ReturnDeparture126";
-                     }
-                     elseif ($ReturnDepartureTime>=18 &&$ReturnDepartureTime<=24) {
-                         $ReturnDepartureSlot="ReturnDeparture6";
-                     }
-                     ?>
-
-                    <div id="ReturnSortDeparture{{$count}}" class="flight-devider ReturnGlobalDiv {{$ReturnDepartureSlot}} return_Airline<?php foreach($flight_data[0] as $datas){ echo $datas[0]['Airline']; } ?> return_Stops<?php  foreach($flight_data[0] as $datas){ echo count($datas)-1; } ?> return_priceRange<?php foreach($flight_data[1] as $prices){ echo (str_replace('GBP','',$prices['Total Price'] )*100); } ?> return_SortArrival{{$count}} return_SortDuration{{$count}}" return-data-GlobalDiv="1" data-Deprature-time="<?php foreach($flight_data[0] as $datas){echo \Carbon\Carbon::parse($datas[0]['Depart'])->format('H:i'); } ?>" return-data-Arrival-time="<?php foreach($flight_data[0] as $datas){ echo \Carbon\Carbon::parse($datas[count($datas)-1]['Arrive'])->format('H:i'); } ?>" return-data-Duration-time="<?php foreach($flight_data[0] as $datas){ echo \Carbon\Carbon::parse($datas[0]['Depart'])->diff(\Carbon\Carbon::parse($datas[count($datas)-1]['Arrive']))->format('%d%H%I');} ?>">
-                        <div class="row align-items-center">
-                            <div class="col-md-3 mb-2 mb-md-0">
-                                <div class="media">
-                                    <div class="media-left"><img src="https://goprivate.wspan.com/sharedservices/images/airlineimages/logoAir<?php foreach($flight_data[0] as $datas){ echo $datas[0]['Airline']; } ?>.gif" alt="6E.png" style="width:40px;height:40px;" class="mr-2"/></div>
-                                    <div class="media-body align-self-center">
-                                        <h6 class="m-0"><?php foreach($flight_data[0] as $datas){ echo $datas[0]['Airline']; } ?><br><small class="text-muted"><?php foreach($flight_data[0] as $datas){ echo $datas[0]['Airline']; } ?>-<?php foreach($flight_data[0] as $datas){ echo $datas[0]['Flight']; } ?></small></h6>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-2 col-4">
-                                <small><i class="las la-plane-departure h6"></i> <?php foreach($flight_data[0] as $datas){ echo \Carbon\Carbon::parse($datas[0]['Depart'])->format('d M Y'); } ?></small>
-                                <h6 class="font-weight-bold mb-0"> <?php foreach($flight_data[0] as $datas){ echo \Carbon\Carbon::parse($datas[0]['Depart'])->format('H:i'); } ?></h6>
-                                <span class="text-muted"><?php foreach($flight_data[0] as $datas){ echo $datas[0]['From']; }?></span>
-                            </div>
-                            <div class="col-md-2 text-center col-4">
-                                <span class="exchange-arrow exchange-relative m-auto" title="hello"><i class="las la-exchange-alt"></i></span>
-                                <h5 class="font-weight-600 mb-0 mt-2">  <?php foreach($flight_data[0] as $datas){ echo \Carbon\Carbon::parse($datas[0]['Depart'])->diff(\Carbon\Carbon::parse($datas[count($datas)-1]['Arrive']))->format('%dD %Hh %Im');} ?></h5>
-                                <small class="text-muted">
-                                <?php 
-                                foreach($flight_data[0] as $datas){ if(count($datas)==1){ echo "Non stop"; }else{echo ucwords(app('App\Http\Controllers\UtilityController')->convert_number_to_words((count($datas)-1)))." stop";}}
-                                ?>
-                                </small>
-                            </div>
-                            <div class="col-md-2 col-4">
-                                <small><i class="las la-plane-arrival h6"></i> <?php foreach($flight_data[0] as $datas){ echo \Carbon\Carbon::parse($datas[count($datas)-1]['Arrive'])->format('d M Y'); } ?></small>
-                                <h6 class="font-weight-bold mb-0"> <?php foreach($flight_data[0] as $datas){ echo \Carbon\Carbon::parse($datas[count($datas)-1]['Arrive'])->format('H:i'); } ?></h6>
-                                <span class="text-muted"><?php foreach($flight_data[0] as $datas){  echo $datas[count($datas)-1]['To'];}?></span>
-                            </div>
-                        
-                            <div class="col-md-3 mt-2 mt-md-0 text-center">
-                                <h3 class="font-weight-bold"><i class="las la-pound-sign"></i><?php foreach($flight_data[1] as $prices){ echo str_replace('GBP','',$prices['Total Price'] );} ?></h3>
-                                <!-- <a href="flight-details.php" class="btn btn-primary">Book Now</a> -->
-                                <input type="radio" id="radioReturnFlight{{$count}}" name="radioReturnFlight"  <?php if($count==1){echo 'checked="checked"';}?> onclick="ReturnFlightDetails({{$count}},{{$flight_data}},'{{$searched->addFrom}}','{{$searched->addTo}}',{{$searched->adults}},{{$searched->children}},{{$searched->infant}});" value="{{$flight_data}}">
-                                <!-- <form action="{{ route('flightDetails') }}" method="POST">
-                                    @csrf
-                                    <input type="text" name="flights" value="{{$flight_data}}" hidden>
-                                    <input type="text" name="adults" value="{{ $searched->adults }}" hidden>
-                                    <input type="text" name="children" value="{{ $searched->children }}" hidden>
-                                    <input type="text" name="infant" value="{{ $searched->infant }}" hidden>
-                                    <button type="submit" class="btn btn-primary" >Book Now</button>
-                                </form> -->
-                                <br>
-                                <a href="#" class="mt-1 d-inline-block h5" data-toggle="collapse" data-target="#return_flight-details{{ $count }}">View flight details</a>
-                            </div>
-                        </div>
-                        <div id="return_flight-details{{ $count }}" class="card p-3 collapse mt-3">
-                            <ul class="nav nav-pills" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link active" data-toggle="pill" href="#return_flight_details{{ $count }}">Flight Details</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" data-toggle="pill" href="#return_fare_details{{ $count }}">Fare Details</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" data-toggle="pill" href="#return_baggage_rules{{ $count }}" onclick="return_BaggageCancelRule({{ $count }},{{$flight_data}});">Baggage Rules</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" data-toggle="pill" href="#return_cancellation_rules{{ $count }}" onclick="return_BaggageCancelRule({{ $count }},{{$flight_data}});">Cancellation Rules</a>
-                                </li>
-                            </ul>
-                            <!-- Tab panes -->
-                            <div class="tab-content row mt-3">
-                                <div id="return_flight_details{{ $count }}" class="container tab-pane active">
-                                    @foreach($flight_data[0] as $datas)
-                                    @for($i=0; $i < count($datas); $i++) 
-                                    <!-- {{$datas[0]['Airline']}} -->
-                                    @if($i>0)
-                                    <div class="row align-items-center">
-                                        <!-- {{$datas[$i]['Depart'] }} ---{{$datas[0]['Arrive']}} ---{{($i-1)}} -->
-                                        <div>Change of Planes | {{\Carbon\Carbon::parse($datas[$i]['Depart'])->diff(\Carbon\Carbon::parse($datas[($i-1)]['Arrive']))->format('%Hh %Im')}} layover in ({{$datas[$i]['From']}})</div>
-                                    </div>
-                                    @endif
-                                    <div class="row align-items-center">
-                                        <div class="col-md-3 mb-2 mb-md-0">
-                                            <div class="media">
-                                                <div class="media-left"><img src="https://goprivate.wspan.com/sharedservices/images/airlineimages/logoAir<?php echo $datas[$i]['Airline']; ?>.gif" alt="6E.png" style="width:40px;height:40px;" class="mr-2"/></div>
-                                                <div class="media-body align-self-center">
-                                                    <h6 class="m-0"><?php  echo $datas[$i]['Airline']; ?><br><small class="text-muted"><?php echo $datas[$i]['Airline']; ?>-<?php  echo $datas[$i]['Flight']; ?></small></h6>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2 col-4">
-                                            <small><i class="las la-plane-departure h6"></i> <?php  echo \Carbon\Carbon::parse($datas[$i]['Depart'])->format('d M Y');  ?></small>
-                                            <h6 class="font-weight-bold mb-0"> <?php echo \Carbon\Carbon::parse($datas[$i]['Depart'])->format('h:i');  ?></h6>
-                                            <span class="text-muted"><?php echo $datas[$i]['From']; ?></span>
-                                        </div>
-                                        <div class="col-md-2 text-center col-4">
-                                            <span class="exchange-arrow exchange-relative m-auto" title="hello"><i class="las la-exchange-alt"></i></span>
-                                            <h5 class="font-weight-600 mb-0 mt-2">  <?php  echo \Carbon\Carbon::parse($datas[$i]['Depart'])->diff(\Carbon\Carbon::parse($datas[$i]['Arrive']))->format('%Hh %Im'); ?></h5>
-                                            <!-- <small class="text-muted">
-                                            <?php 
-                                            if(count($datas)==1){ echo "Non stop"; }else{echo ucwords(app('App\Http\Controllers\UtilityController')->convert_number_to_words((count($datas)-1)))." stop" ;}
-                                            ?>
-                                            </small> -->
-                                        </div>
-                                        <div class="col-md-2 col-4">
-                                            <small><i class="las la-plane-arrival h6"></i> <?php  echo \Carbon\Carbon::parse($datas[$i]['Arrive'])->format('d M Y'); ?></small>
-                                            <h6 class="font-weight-bold mb-0"> <?php echo \Carbon\Carbon::parse($datas[$i]['Arrive'])->format('h:i');  ?></h6>
-                                            <span class="text-muted"><?php  echo $datas[$i]['To'];?></span>
-                                        </div>
-                                    </div>
-                                    
-                                    @endfor
-                                    @endforeach
-                                </div>
-                                <div id="return_fare_details{{ $count }}" class="container tab-pane">
-                                    <table class="table">
-                                        <tr>
-                                            <td>Base Fare (1 Adult)</td>
-                                            <td><i class="fas fa-rupee-sign"></i> <?php foreach($flight_data[1] as $prices){ echo str_replace('GBP','',$prices['Approx Base Price'] );} ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Taxes and Fees (1 Adult)</td>
-                                            <td><i class="fas fa-rupee-sign"></i> <?php foreach($flight_data[1] as $prices){ echo str_replace('GBP','',$prices['Taxes'] );} ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Total Fare (1 Adult)</td>
-                                            <td><i class="fas fa-rupee-sign"></i> <?php foreach($flight_data[1] as $prices){ echo str_replace('GBP','',$prices['Total Price'] );} ?></td>
-                                        </tr>
-                                    </table>
-                                </div>
-                                <div id="return_baggage_rules{{ $count }}" class="container tab-pane fade">
-                                    <table class="table">
-                                        <tr>
-                                            <td>Baggage Type</td>
-                                            <td>Check-In</td>
-                                            <td>Cabin</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Adult</td>
-                                            <td id="return_checkIn{{ $count }}">15 Kgs</td>
-                                            <td id="return_cabin{{ $count }}">7 Kgs</td>
-                                        </tr>
-                                    </table>
-                                    <small>The baggage information is just for reference. Please Check with airline before check-in. For more information, visit IndiGo Airlines Website.</small>
-                                </div>
-                                <div id="return_cancellation_rules{{ $count }}" class="container tab-pane fade"><br>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <h6>Cancellation Charges</h6>
-                                            <table class="table">
-                                                <tr>
-                                                    <td>0-2 hours</td>
-                                                    <td>Non Refundable</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>2-72 hours</td>
-                                                    <td id="return_cancellation{{$count}}"><i class="las la-pound-sign"></i> 3,500</td>
-                                                </tr>
-                                                <!-- <tr>
-                                                    <td>>72 hours</td>
-                                                    <td><i class="fas fa-rupee-sign"></i> 3,000</td>
-                                                </tr> -->
-                                            </table>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <h6>Reschedule Charges</h6>
-                                            <table class="table">
-                                                <tr>
-                                                    <td>0-2 hours</td>
-                                                    <td>Non Refundable</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>2-72 hours</td>
-                                                    <td id="return_reschedule{{$count}}"><i class="fas fa-rupee-sign"></i> 3,000</td>
-                                                    <!-- <td><i class="fas fa-rupee-sign"></i> 3,000</td> -->
-                                                </tr>
-                                                <!-- <tr>
-                                                    <td>>72 hours</td>
-                                                    <td><i class="fas fa-rupee-sign"></i> 2,500</td>
-                                                </tr> -->
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <h5 class="small">Terms & Conditions</h5>
-                                    <ul class="small">
-                                        <li>The charges are per passenger per sector and applicable only on refundable type tickets.</li>
-                                        <li>Rescheduling Charges = Rescheduling/Change Penalty + Fare Difference (if applicable)</li>
-                                        <li>Partial cancellation is not allowed on tickets booked under special discounted fares.</li>
-                                        <li>In case of no-show or ticket not cancelled within the stipulated time, only statutory taxes are refundable subject to Goibibo Service Fee.</li>
-                                        <li>No Baggage Allowance for Infants</li>
-                                        <li>In case of restricted cases , no amendments /cancellation allowed.</li>
-                                        <li>Airline penalty needs to be reconfirmed prior to any amendments or cancellation.</li>
-                                        <li>Disclaimer: Airline Penalty changes are indicative and can change without prior notice.</li>
-                                        <li>NA means Not Available. Please check with airline for penalty information.</li>
-                                        <li>If taxes are more than default cancellation penalty then all taxes will be refundable.</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <?php $count++; ?>
-
-                    @endforeach
-                    @endforeach
-                    </div>
-                </div>
-            </div>
-            @else
-            <div class="col-lg-9 flight-section">
-                <h3>No flights found</h3>
-                <a href="{{route('index')}}" class="btn btn-primary">GO BACK</a>
-            </div>
-            @endif
         </div>
     </div>
     </div>
 </section>
-<style>
-    .splitviewStickyOuter{
-        position: fixed;
-        bottom: 10px;
-        width: 900px;
-        z-index: 12;
-        margin-left: 334px;
-    }   
-    .splitviewSticky {
-        border-radius: 4px;
-        box-shadow: 0 2px 4px 0 rgb(0 0 0 / 15%);
-        background-color: #0a223d;
-        padding: 12px;
-    }
-    .makeFlex {
-        /* display: -webkit-box;
-        display: -webkit-flex;
-        display: -moz-box;
-        display: -ms-flexbox; */
-        display: flex;
-    }
-    .whiteText{
-        color:white;
-    }
-    .stickyFlightDtl{
-        border-left: 2px solid white;
-        height: 100px;
-        margin-left:20px;
-    }
-    .appendLeft15{
-        margin-left: 10px;
-    }
-    .commonBookNow{
-        height: 50px;
-        margin-top: 25px;
-        margin-left: 193px;
-    }
-</style>
-@if(count($flights)>0)
-<div class="splitviewStickyOuter">
-    <div class="splitviewSticky makeFlex">
-    
-        <div class="appendLeft15">
-            <p class="whiteText appendBottom12">Onward</p>
-            <div class="makeFlex spaceBetween">
-                <div class="makeFlex">
-                    <div class="logoClass">
-                        <img id="img_Onward" src="https://goprivate.wspan.com/sharedservices/images/airlineimages/logoAir<?php foreach($flights[0] as $flight_data){foreach($flight_data[0] as $datas){ echo $datas[0]['Airline']; }} ?>.gif" alt="6E.png" style="width:40px;height:40px;" class="mr-2">
-                    </div>
-                    <div class="appendLeft10">
-                        <p class="whiteText blackFont fontSize16 appendBottom4" id="time_Onward"><?php foreach($flights[0] as $flight_data){foreach($flight_data[0] as $datas){echo \Carbon\Carbon::parse($datas[0]['Depart'])->format('H:i'); }} ?> → <?php foreach($flights[0] as $flight_data){foreach($flight_data[0] as $datas){ echo \Carbon\Carbon::parse($datas[count($datas)-1]['Arrive'])->format('H:i'); }} ?></p>
-                        <!-- <p class="skyBlueText fontSize12 pointer ">Flight Details</p> -->
-                    </div>
-                </div>
-                <span class="whiteText blackFont fontSize16" style="margin-left:15px;" id="price_Onward">£ <?php foreach($flights[0] as $flight_data){foreach($flight_data[1] as $prices){ echo str_replace('GBP','',$prices['Total Price'] );}} ?></span>
-            </div>
-        </div>
-        
 
-        
-        <div class="stickyFlightDtl appendLeft15">
-            <p class="whiteText appendBottom12" style="margin-left:5px;">Return</p>
-            <div class="makeFlex spaceBetween">
-                <div class="makeFlex">
-                    <div class="logoClass" style="margin-left:5px;">
-                        <img id="img_Return" src="https://goprivate.wspan.com/sharedservices/images/airlineimages/logoAir<?php foreach($return_flights[0] as $flight_data){foreach($flight_data[0] as $datas){ echo $datas[0]['Airline']; }} ?>.gif" alt="6E.png" style="width:40px;height:40px;" class="mr-2">
-                    </div>
-                    <div class="appendLeft10">
-                        <p class="whiteText blackFont fontSize16 appendBottom4" id="time_Return"><?php foreach($return_flights[0] as $flight_data){foreach($flight_data[0] as $datas){echo \Carbon\Carbon::parse($datas[0]['Depart'])->format('H:i'); }} ?> → <?php foreach($return_flights[0] as $flight_data){foreach($flight_data[0] as $datas){ echo \Carbon\Carbon::parse($datas[count($datas)-1]['Arrive'])->format('H:i'); }} ?></p>
-                        <!-- <p class="skyBlueText fontSize12 pointer ">Flight Details</p> -->
-                    </div>
-                </div>
-                <span class="whiteText blackFont fontSize16" style="margin-left:15px;" id="price_Return">£ <?php foreach($return_flights[0] as $flight_data){foreach($flight_data[1] as $prices){ echo str_replace('GBP','',$prices['Total Price'] );}} ?></span>
-            </div>
-        </div>
-        
-        <div class="makeFlex stickyFlightDtl appendLeft15">
-            <div class="makeFlex hrtlCenter pushRight">
-                <div class="textRight appendRight10">
-                    <p><span class="whiteText fontSize22 boldFont" style="margin-left:20px;">Total Price</p>
-                    <p><span class="whiteText fontSize22 boldFont" style="margin-left:20px;" id="totalPriceDiv">£ <?php   
-                    foreach($flights[0] as $flight_data){
-                        foreach($flight_data[1] as $prices){ 
-                            $val1= str_replace('GBP','',$prices['Total Price'] );
-                        }
-                    } 
-                    foreach($return_flights[0] as $flight_data){
-                        foreach($flight_data[1] as $prices){ 
-                            $val2= str_replace('GBP','',$prices['Total Price']);
-                        }
-                    }
-                    echo number_format(($val1+$val2),2);
-                    ?></span></p>
-                    <!-- <p class="skyBlueText fontSize12 pointer ">Fare Details</p> -->
-                </div>
-                <div class="makeFlex hrtlCenter">
-                    <form action="{{ route('roundflightDetails') }}" method="POST">
-                    @csrf
-                        @foreach($flights[0] as $datas)
-                        <input type="hidden" name="flights" id="flights" value="{{$datas}}" >
-                        <input type="hidden" name="total_price" id="total_price" value="<?php foreach($datas[1] as $prices){ 
-                            echo str_replace('GBP','',$prices['Total Price']);
-                        }?>" >
-                        @endforeach
-                        @foreach($return_flights[0] as $datas)
-                        <input type="hidden" name="return_flights_data" id="return_flights_data" value="{{$datas}}" >
-                        <input type="hidden" name="return_total_price" id="return_total_price" value="<?php foreach($datas[1] as $prices){ 
-                            echo str_replace('GBP','',$prices['Total Price']);
-                        }?>" >
-                        @endforeach
-                        <input type="text" name="addFrom" value="{{ $searched->addFrom }}" hidden>
-                        <input type="text" name="addTo" value="{{ $searched->addTo }}" hidden>
-                        <input type="text" name="adults" value="{{ $searched->adults }}" hidden>
-                        <input type="text" name="children" value="{{ $searched->children }}" hidden>
-                        <input type="text" name="infant" value="{{ $searched->infant }}" hidden>
-                        <button type="submit" class="btn btn-primary commonBookNow" >Book Now</button>
-                    </form>
-                    <!-- <button id="" class="btn btn-primary commonBookNow">Book Now</button> -->
-                    <span class="customArrow arrowUp"></span>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-@endif
 
 <!-- <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" /> -->
 <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" /> -->
@@ -1329,6 +943,9 @@
 
     $('#departure_order').click(function(){
             // alert("hii");
+            var loading ='<img id="loading-image-small" src="{{ asset('public/loder-small.gif') }}" alt="Loading..." style=" position: absolute;top: 100px;left: 431px;z-index: 100;"/>';
+            $('#loading_small').append(loading);
+            $('#loading_small').show();
             var order_val=$("#departure_order").attr("data-departureordervalue");
             // alert(order_val);
             var DepartureTimeOrder=[];
@@ -1367,7 +984,8 @@
                }
                 $("#departure_order").attr("data-departureordervalue", "ASC"); 
             }
-
+            $('#loading_small').empty();
+            $('#loading_small').hide();
     });
 
     $('#arrival_order').click(function(){

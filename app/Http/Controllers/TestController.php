@@ -13,14 +13,14 @@ use Illuminate\Support\Facades\Hash;
 class TestController extends Controller
 {
 
-    public function Test(){}
+    public function Test1(){}
    
-public function Test1(){
+public function Test(){
     $TARGETBRANCH = 'P7141733';
     $CREDENTIALS = 'Universal API/uAPI4648209292-e1e4ba84:9Jw*C+4c/5';
 $Provider = '1G';//1G/1V/1P/ACH
-$PreferredDate = date('Y-m-d', strtotime("+75 day"));
-$returnDate= date('Y-m-d', strtotime("+80 day"));
+$PreferredDate = date('Y-m-d', strtotime("+2 day"));
+$returnDate= date('Y-m-d', strtotime("+3 day"));
 $message = <<<EOM
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
    <soapenv:Header/>
@@ -37,7 +37,16 @@ $message = <<<EOM
             <air:SearchDepTime PreferredTime="$PreferredDate">
             </air:SearchDepTime>            
          </air:SearchAirLeg>
-         
+         <air:SearchAirLeg>
+            <air:SearchOrigin>
+               <com:Airport Code="DEL"/>
+            </air:SearchOrigin>
+            <air:SearchDestination>
+               <com:Airport Code="CCU"/>
+            </air:SearchDestination>
+            <air:SearchDepTime PreferredTime="$returnDate">
+            </air:SearchDepTime>            
+         </air:SearchAirLeg>
          <air:AirSearchModifiers>
             <air:PreferredProviders>
                <com:Provider Code="$Provider"/>
@@ -79,6 +88,7 @@ curl_close($soap_do);
 // return $return;
 $file = "001-".$Provider."_LowFareSearchRsp.xml"; // file name to save the response xml for test only(if you want to save the request/response)
 $content = $this->prettyPrint($return,$file);
+// return $content;
 $f=$this->parseOutput($content);
 return $f;
 //outputWriter($file, $return);
@@ -154,12 +164,15 @@ public function parseOutput($content){	//parse the Search response to get values
 				$count = $count + 1;
 				file_put_contents($fileName, "Air Pricing Solutions Details ".$count.":\r\n", FILE_APPEND);
 				file_put_contents($fileName,"--------------------------------------\r\n", FILE_APPEND);
+                $Journey= collect();
+                $Journey_Outbound_Inbound= collect();
+                $var_toggle_journey_conunt=0;
 				foreach($airPriceSol->children('air',true) as $journey){					
 					if(strcmp($journey->getName(),'Journey') == 0){
+                        $var_toggle_journey_conunt+=1;
 						file_put_contents($fileName,"\r\nJourney Details: ", FILE_APPEND);
 						file_put_contents($fileName,"\r\n", FILE_APPEND);
 						file_put_contents($fileName,"--------------------------------------\r\n", FILE_APPEND);						
-                        $Journey= collect();
                         $journeydetails = collect();
                         foreach($journey->children('air', true) as $segmentRef){	
                            						
@@ -202,17 +215,27 @@ public function parseOutput($content){	//parse the Search response to get values
                                         }	
                                        
 									}
-                                 
+                                    
 								}
-                                
                                 $journeydetails->push($details);
+                                
 									
 							}
 						}	
-						 $Journey->push(['journey'=>collect($journeydetails)]);				
-											
+										
+						
+                        if($var_toggle_journey_conunt==1)
+                        {
+                            $Journey_Outbound_Inbound->push(['outbound'=>collect($journeydetails)]);	
+                        }
+                        else if($var_toggle_journey_conunt==2)
+                        {
+                            $Journey_Outbound_Inbound->push(['inbound'=>collect($journeydetails)]);	
+                        }	
+                       			
 					}					
 				}
+                $Journey->push(['journey'=>collect($Journey_Outbound_Inbound)]);
                // Price Details
                 foreach($airPriceSol->children('air',true) as $priceInfo){
                     $flightPrice = [];

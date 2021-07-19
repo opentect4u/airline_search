@@ -29,43 +29,86 @@ class FlightController extends Controller
             $travel_class=$request->travel_class;
             $flightFrom=$var_flightTo;
             $flightTo=$var_flightFrom;
+            $SearchPreferredDate=$var_PreferredDate;
             $SearchDate=$var_returnDate;
-            $xmldata=app('App\Http\Controllers\UtilityController')->Universal_API_SearchXML($travel_class,$flightFrom,$flightTo,$SearchDate);
+            $xmldata=app('App\Http\Controllers\UtilityController')->Universal_API_SearchXMLReturn($travel_class,$flightFrom,$flightTo,$SearchPreferredDate,$SearchDate);
             $api_url = "https://apac.universal-api.pp.travelport.com/B2BGateway/connect/uAPI/AirService";
             $return_return =app('App\Http\Controllers\UtilityController')->universal_API($xmldata,$api_url);
             $return_content = $this->prettyPrint($return_return);
-            $return_flights = $this->parseOutput($return_content);
-            $return_stops=$this->Stops($return_flights,$var_direct_flight,$var_flexi);
-            $return_airlines=$this->Airline($return_flights,$var_direct_flight,$var_flexi);
-            // return $return_stops;
-        }
+            $return_flights = $this->parseOutputReturn($return_content);
+            // $return_stops=$this->Stops($return_flights,$var_direct_flight,$var_flexi);
+            // $return_airlines=$this->Airline($return_flights,$var_direct_flight,$var_flexi);
+            // return $return_flights;
 
-        $travel_class=$request->travel_class;
-        $flightFrom=$var_flightFrom;
-        $flightTo=$var_flightTo;
-        $SearchDate=$var_PreferredDate;
-        $xmldata=app('App\Http\Controllers\UtilityController')->Universal_API_SearchXML($travel_class,$flightFrom,$flightTo,$SearchDate);
-        $api_url = "https://apac.universal-api.pp.travelport.com/B2BGateway/connect/uAPI/AirService";
-        $return =app('App\Http\Controllers\UtilityController')->universal_API($xmldata,$api_url);
-        $content = $this->prettyPrint($return);
-        $flights = ($this->parseOutput($content));
-        $stops=$this->Stops($flights,$var_direct_flight,$var_flexi);
-        $airlines=$this->Airline($flights,$var_direct_flight,$var_flexi);
-        // return $flights;
+            //for stops loop
+            foreach($return_flights as $flight){
+                foreach($flight as $flight_data){
+                    foreach($flight_data[0] as $datas){
+                        foreach($datas[0] as $journeys){
+                            if($var_direct_flight=="DF" && count($journeys)>1 && $var_flexi=="")
+                            {
+                                continue;
+                            }else if ($var_direct_flight=="" && count($journeys)==1 && $var_flexi=="F") {
+                                continue;
+                            }
+                            array_push($return_stops,count($journeys)-1);
+                        }
+                    }
+                }
+            }
+            $return_stops = array_unique($return_stops);
+            // for airline loops
+            foreach($return_flights as $flight){
+                foreach($flight as $flight_data){
+                    foreach($flight_data[0] as $datas){
+                        foreach($datas[0] as $journeys){
+                            for ($i=0; $i < count($journeys); $i++) { 
+                                if($var_direct_flight=="DF" && count($journeys)>1 && $var_flexi=="")
+                                {
+                                    continue;
+                                }elseif ($var_direct_flight=="" && count($journeys)==1 && $var_flexi=="F") {
+                                    continue;
+                                }
+                                array_push($return_airlines,$journeys[$i]['Airline']);
+                            }
+                        }
+                    }
+                }
+            }
+            $return_airlines = array_unique($return_airlines);
 
-        if($request->price_order == "price_order"){
-            $flights= array_reverse(collect($flights)->toArray());
-            // $search = collect($search)->sortByDesc('available_from_dt')->toArray();
-
-        }
-        // else{
-        //     // $flights = collect($flights)->sortBy('Total Price')->toArray();
-        // }
-        if($request->departure_order == "ASC"){
-            $flights = collect($flights)->sortBy('Depart')->toArray();
+            if($request->price_order == "price_order"){
+                $return_flights= array_reverse(collect($return_flights)->toArray());
+                // $search = collect($search)->sortByDesc('available_from_dt')->toArray();
+            }
+        }else{
+            $travel_class=$request->travel_class;
+            $flightFrom=$var_flightFrom;
+            $flightTo=$var_flightTo;
+            $SearchDate=$var_PreferredDate;
+            $xmldata=app('App\Http\Controllers\UtilityController')->Universal_API_SearchXML($travel_class,$flightFrom,$flightTo,$SearchDate);
+            $api_url = "https://apac.universal-api.pp.travelport.com/B2BGateway/connect/uAPI/AirService";
+            $return =app('App\Http\Controllers\UtilityController')->universal_API($xmldata,$api_url);
+            $content = $this->prettyPrint($return);
+            $flights = ($this->parseOutput($content));
+            $stops=$this->Stops($flights,$var_direct_flight,$var_flexi);
+            $airlines=$this->Airline($flights,$var_direct_flight,$var_flexi);
             // return $flights;
-        }else if($request->departure_order == "DESC"){
 
+            if($request->price_order == "price_order"){
+                $flights= array_reverse(collect($flights)->toArray());
+                // $search = collect($search)->sortByDesc('available_from_dt')->toArray();
+
+            }
+            // else{
+            //     // $flights = collect($flights)->sortBy('Total Price')->toArray();
+            // }
+            if($request->departure_order == "ASC"){
+                $flights = collect($flights)->sortBy('Depart')->toArray();
+                // return $flights;
+            }else if($request->departure_order == "DESC"){
+
+            }
         }
         // return $request;
         // return $flights[0];
@@ -80,9 +123,6 @@ class FlightController extends Controller
         if($request->returning_date!=''){
             return view('flights.flight-round',[
                 'searched' => $request,
-                'flights'=>$flights,
-                'airlines'=>$airlines,
-                'stops'=>$stops,
                 'return_flights'=>$return_flights,
                 'return_stops'=>$return_stops,
                 'return_airlines'=>$return_airlines
@@ -251,6 +291,163 @@ class FlightController extends Controller
         }
     }
 
+    public function parseOutputReturn($content){	//parse the Search response to get values to use in detail request
+        $LowFareSearchRsp = $content; //use this if response is not saved anywhere else use above variable
+        //echo $LowFareSearchRsp;
+        $xml = simplexml_load_String("$LowFareSearchRsp", null, null, 'SOAP', true);	
+        
+        if(!$xml){
+            trigger_error("Encoding Error!", E_USER_ERROR);
+        }
+    
+        $Results = $xml->children('SOAP',true);
+        foreach($Results->children('SOAP',true) as $fault){
+            if(strcmp($fault->getName(),'Fault') == 0){
+                trigger_error("Error occurred request/response processing!", E_USER_ERROR);
+            }
+        }
+        
+        
+        $count = 0;
+        $fileName = public_path('flight/')."flights.txt";
+        if(file_exists($fileName)){
+            file_put_contents($fileName, "");
+        }
+    
+        $data = collect();
+        
+        foreach($Results->children('air',true) as $lowFare){		
+            foreach($lowFare->children('air',true) as $airPriceSol){	
+                        
+                if(strcmp($airPriceSol->getName(),'AirPricingSolution') == 0){		
+                    $count = $count + 1;
+                    $Journey= collect();
+                    $Journey_Outbound_Inbound= collect();
+                    $var_toggle_journey_conunt=0;
+                    foreach($airPriceSol->children('air',true) as $journey){					
+                        if(strcmp($journey->getName(),'Journey') == 0){
+                            $var_toggle_journey_conunt+=1;
+                            $journeydetails = collect();
+                            foreach($journey->children('air', true) as $segmentRef){	
+                                                       
+                                if(strcmp($segmentRef->getName(),'AirSegmentRef') == 0){								
+                                    $details=[];
+                                    foreach($segmentRef->attributes() as $a => $b){	
+                                       
+                                        $segment = $this->ListAirSegments($b, $lowFare);
+                                        foreach($segment->attributes() as $c => $d){
+                                            if(strcmp($c, "Key") == 0){
+                                                $details["Key"]=$d;
+                                            }
+                                            if(strcmp($c, "Group") == 0){
+                                                $details["Group"]=$d;
+                                            }
+                                            if(strcmp($c, "Origin") == 0){
+                                                // $journeydetails->push(['From'=>$d]);
+                                                $details["From"]=$d;
+                                            }
+                                            if(strcmp($c, "Destination") == 0){
+                                                // $journeydetails->push(['To'=>$d]);
+                                                $details["To"]=$d;
+                                            }
+                                            if(strcmp($c, "Carrier") == 0){		
+                                                // $journeydetails->push(['Airline'=>$d]);	
+                                                $details["Airline"]=$d;								
+                                            }
+                                            if(strcmp($c, "FlightNumber") == 0){	
+                                                // $journeydetails->push(['flight'=>$d]);
+                                                $details["Flight"]=$d;
+                                            }
+                                            if(strcmp($c, "DepartureTime") == 0){	
+                                                // $journeydetails->push(['Depart'=>$d]);	
+                                                $details["Depart"]=$d;										
+                                            }
+                                            if(strcmp($c, "ArrivalTime") == 0){	
+                                                // $journeydetails->push(['Arrive'=>$d]);
+                                                $details["Arrive"]=$d;
+                                            }	
+                                            if(strcmp($c, "FlightTime") == 0){	
+                                                $details["FlightTime"]=$d;
+                                            }
+                                            if(strcmp($c, "Distance") == 0){	
+                                                $details["Distance"]=$d;
+                                            }		
+                                           
+                                        }
+                                        
+                                    }
+                                    $journeydetails->push($details);
+                                }
+                            }	
+                                            
+                            
+                            if($var_toggle_journey_conunt==1)
+                            {
+                                $Journey_Outbound_Inbound->push(['outbound'=>collect($journeydetails)]);	
+                            }
+                            else if($var_toggle_journey_conunt==2)
+                            {
+                                $Journey_Outbound_Inbound->push(['inbound'=>collect($journeydetails)]);	
+                            }	
+                                       
+                        }					
+                    }
+                    $Journey->push(['journey'=>collect($Journey_Outbound_Inbound)]);
+                   // Price Details
+                    foreach($airPriceSol->children('air',true) as $priceInfo){
+                        $flightPrice = [];
+                        if(strcmp($priceInfo->getName(),'AirPricingInfo') == 0){
+                            foreach($priceInfo->attributes() as $e => $f){
+                                if(strcmp($e, "ApproximateBasePrice") == 0){
+                                    $flightPrice['Approx Base Price'] = $f;
+                                }
+                                if(strcmp($e, "ApproximateTaxes") == 0){
+                                    $flightPrice['Approx Taxes'] = $f;
+                                }
+                                if(strcmp($e, "ApproximateTotalPrice") == 0){
+                                    $flightPrice['Approx Total Value'] = $f;
+                                }
+                                if(strcmp($e, "BasePrice") == 0){
+                                    $flightPrice['Base Price'] = $f;
+                                }
+                                if(strcmp($e, "Taxes") == 0){
+                                    $flightPrice['Taxes'] = $f;
+                                }
+                                if(strcmp($e, "TotalPrice") == 0){
+                                    $flightPrice['Total Price'] = $f;
+                                }
+    
+                            }
+                            foreach($priceInfo->children('air',true) as $bookingInfo){
+                                if(strcmp($bookingInfo->getName(),'BookingInfo') == 0){
+                                    foreach($bookingInfo->attributes() as $e => $f){
+                                        if(strcmp($e, "CabinClass") == 0){
+                                            $flightPrice['Cabin Class'] = $f;
+                                        }
+                                    }
+                                }
+                            }
+                        
+                        }
+                        if(count($flightPrice)){
+                              $Journey->push(['price'=>$flightPrice]);
+                            // $flight['price'] = collect($flightPrice);
+                        }
+    
+                    }
+                
+                    $data->push(['flight'=>collect($Journey)]);
+                }
+            }
+        }
+        
+        // print_r($data) ;
+        // echo $data;
+        return $data;
+        // echo "\r\n"."Processing Done. Please check results in files.";
+    
+    }
+
     public function SearchAirport(Request $request){
         return AirportCodes::search($request->get('q'))->select('name','code')->get()->map(function($airport){
             return $airport->name . '('. $airport->code.')';
@@ -259,7 +456,7 @@ class FlightController extends Controller
 
     public function FlightDetails(Request $request){
         $flights=json_decode($request->flights);
-        // return  $flights;
+        // return $flights;
         // echo count($flights[0]);
         $datasegment='';
         foreach($flights[0] as $journeys){

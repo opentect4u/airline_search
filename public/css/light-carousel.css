@@ -109,9 +109,9 @@
 }
 .prev, .next{
 	position: absolute;
-	top: 50%;
+	top: 8%;
 	transform:translateY(-50%);
-	color:#fff;
+	color:#c5c3c3;
 	font-size:22px;
 	cursor: pointer;
 }

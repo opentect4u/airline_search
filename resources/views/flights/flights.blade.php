@@ -247,7 +247,7 @@
                         @foreach($airlines as $airline)
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox" class="custom-control-input" id="Airline{{$airline}}" name="Airline" value="Airline{{$airline}}" onclick="filter()" >
-                            <label class="custom-control-label" for="Airline{{$airline}}">{{ $airline }}</label>
+                            <label class="custom-control-label" for="Airline{{$airline}}">{{ $airline }} <img src="https://goprivate.wspan.com/sharedservices/images/airlineimages/logoAir{{$airline}}.gif" alt="6E.png" style="width:20px;height:20px;" class="mr-2"/></label>
                         </div>
                         @endforeach
                     </div>
@@ -850,6 +850,9 @@
 
     $('#departure_order').click(function(){
             // alert("hii");
+            var loading ='<img id="loading-image-small" src="{{ asset('public/loder-small.gif') }}" alt="Loading..." style=" position: absolute;top: 100px;left: 431px;z-index: 100;"/>';
+            $('#loading_small').append(loading);
+            $('#loading_small').show();
             var order_val=$("#departure_order").attr("data-departureordervalue");
             // alert(order_val);
             var DepartureTimeOrder=[];
@@ -888,6 +891,8 @@
                }
                 $("#departure_order").attr("data-departureordervalue", "ASC"); 
             }
+            $('#loading_small').empty();
+            $('#loading_small').hide();
 
     });
 

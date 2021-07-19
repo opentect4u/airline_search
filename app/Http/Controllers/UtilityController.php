@@ -219,6 +219,59 @@ EOM;
 
     }
 
+    public function Universal_API_SearchXMLReturn($travel_class,$flightFrom,$flightTo,$SearchPreferredDate,$SearchDate){
+        $Provider =app('App\Http\Controllers\UniversalConfigAPIController')->Provider();
+        $TARGETBRANCH =app('App\Http\Controllers\UniversalConfigAPIController')->TARGETBRANCH();
+        
+        $searchLegModifier = ' <air:AirLegModifiers>
+              	<air:PreferredCabins>
+              	<com:CabinClass xmlns="http://www.travelport.com/schema/common_v42_0" Type="'. $travel_class.'"></com:CabinClass>
+              	</air:PreferredCabins>
+              </air:AirLegModifiers>';
+   
+             
+      $message = <<<EOM
+      <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"> 
+      <soapenv:Body>
+         <air:LowFareSearchReq TraceId="trace" AuthorizedBy="user" SolutionResult="true" TargetBranch="$TARGETBRANCH" xmlns:air="http://www.travelport.com/schema/air_v42_0" xmlns:com="http://www.travelport.com/schema/common_v42_0">
+            <com:BillingPointOfSaleInfo OriginApplication="UAPI"/>
+            <air:SearchAirLeg>
+               <air:SearchOrigin>
+                  <com:Airport Code="$flightTo"/>
+               </air:SearchOrigin>
+               <air:SearchDestination>
+                  <com:Airport Code="$flightFrom"/>
+               </air:SearchDestination>
+               <air:SearchDepTime PreferredTime="$SearchPreferredDate">
+               </air:SearchDepTime>
+               $searchLegModifier
+            </air:SearchAirLeg>
+            <air:SearchAirLeg>
+               <air:SearchOrigin>
+                  <com:Airport Code="$flightFrom"/>
+               </air:SearchOrigin>
+               <air:SearchDestination>
+                  <com:Airport Code="$flightTo"/>
+               </air:SearchDestination>
+               <air:SearchDepTime PreferredTime="$SearchDate">
+               </air:SearchDepTime>
+               $searchLegModifier
+            </air:SearchAirLeg>
+            <air:AirSearchModifiers>
+               <air:PreferredProviders>
+                  <com:Provider Code="$Provider"/>
+               </air:PreferredProviders>
+            </air:AirSearchModifiers>   
+            <com:SearchPassenger BookingTravelerRef="1" Code="ADT" xmlns:com="http://www.travelport.com/schema/common_v42_0"/>
+         </air:LowFareSearchReq>
+      </soapenv:Body>
+   </soapenv:Envelope>
+EOM;
+
+        return $message;
+
+    }
+
 
     public function universal_API_FlightDetails($datasegment){
         $Provider =app('App\Http\Controllers\UniversalConfigAPIController')->Provider();
