@@ -44,8 +44,8 @@
                 <input type="hidden" name="direct_flight" id="direct_flight" value="{{isset($searched->direct_flight)?$searched->direct_flight:''}}">
                 <div class="form-group">
                     <ul class="cld__selectors">
-                        <!-- <li><a href="#" class="active" id="one_way">One way</a></li> -->
-                        <li><a href="#" id="round_trip">Round trip</a></li>
+                        <li><a href="javascript:void(0)" class="active" id="one_way">One way</a></li>
+                        <li><a href="javascript:void(0)" id="round_trip">Round trip</a></li>
                     </ul>
                 </div>
                 <div class="row">
@@ -165,7 +165,7 @@
             <div class="col-lg-3 filters_wrapper">
                 @if(count($return_flights)>0)
                 <div class="card">
-                    <h4 class="font-weight-600 m-0">Onward Filter <span class="d-inline-block d-lg-none  filter-open float-right"><i class="las la-times"></i></span></h4>
+                    <h4 class="font-weight-600 m-0">Filter <span class="d-inline-block d-lg-none  filter-open float-right"><i class="las la-times"></i></span></h4>
                     <div class="filter-set">
                         <h6 class="font-weight-600">Stops </h6>
                         @foreach($return_stops as $stop)
@@ -675,15 +675,42 @@
             $('#one_way').removeAttr('class');
             $('#round_trip').attr('class','active');
         });
-        // $(".returning_date_datetimepickerclass").blur(function(){
-        //     // alert("This input field has lost its focus.");
-        //     // alert($('#returning_date').val());
-        //     if($('#returning_date').val()==''){
-        //         $('#round_trip').removeAttr('class');
-        //         $('#one_way').attr('class','active');
-        //     }
+        $(".returning_date_datetimepickerclass").blur(function(){
+            // alert("This input field has lost its focus.");
+            // alert($('#returning_date').val());
+            if($('#returning_date').val()==''){
+                $('#round_trip').removeAttr('class');
+                $('#one_way').attr('class','active');
+            }
             
-        // });
+        });
+        $('#one_way').click(function(){
+            // returning_date
+            $('#returning_date').val('');
+            $('#round_trip').removeAttr('class');
+            $('#one_way').attr('class','active');
+        });
+
+        $('#round_trip').click(function(){
+            // alert("hii");
+            $('#one_way').removeAttr('class');
+            $('#round_trip').attr('class','active');
+            // $("#returning_date_datetimepicker").datetimepicker("show"); 
+            var dep_val=$('#departure_date').val();
+            var newdate = dep_val.split("-").reverse().join("/");
+            var datePeriode= new Date(newdate);
+            var adddate=datePeriode.setDate(datePeriode.getDate() + 1)
+            // // alert("hii")
+            $('#returning_date_datetimepicker').datetimepicker({
+                pickTime: false,
+                autoclose: true, 
+                startDate: new Date(adddate),
+                todayHighlight: false,
+            });
+            $("#returning_date_datetimepicker").datetimepicker("show"); 
+            
+            
+        });
 
         $("#adults").change(function(){
             // alert("hii");
