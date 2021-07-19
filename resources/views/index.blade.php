@@ -651,6 +651,12 @@
             
         });
         
+        $('#one_way').click(function(){
+            // returning_date
+            $('#returning_date').val('');
+            $('#round_trip').removeAttr('class');
+            $('#one_way').attr('class','active');
+        });
         $('#round_trip').click(function(){
             // alert("hii");
             $('#one_way').removeAttr('class');

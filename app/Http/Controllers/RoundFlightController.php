@@ -18,18 +18,20 @@ class RoundFlightController extends Controller
             // return $flights_outbound;
             // return "hii";
         $datasegment='';
+        $alldatasegment='';
         foreach($flights_outbound as $journeys){
             for ($i=0; $i < count($journeys); $i++) {
                 // print_r($journeys[$i]);
                 // print_r($journeys1[$i]['Airline'][0]);
                 $datasegment.= '<air:AirSegment Key="'.$journeys[$i]['Key'][0].'" Group="'.$journeys[$i]['Group'][0].'" Carrier="'.$journeys[$i]['Airline'][0].'" FlightNumber="'.$journeys[$i]['Flight'][0].'" Origin="'.$journeys[$i]['From'][0].'" Destination="'.$journeys[$i]['To'][0].'" DepartureTime="'.$journeys[$i]['Depart'][0].'" ArrivalTime="'.$journeys[$i]['Arrive'][0].'" FlightTime="'.$journeys[$i]['FlightTime'][0].'" Distance="'.$journeys[$i]['Distance'][0].'" ETicketability="Yes" ProviderCode="1G" ></air:AirSegment>';
+                $alldatasegment.= '<air:AirSegment Key="'.$journeys[$i]['Key'][0].'" Group="'.$journeys[$i]['Group'][0].'" Carrier="'.$journeys[$i]['Airline'][0].'" FlightNumber="'.$journeys[$i]['Flight'][0].'" Origin="'.$journeys[$i]['From'][0].'" Destination="'.$journeys[$i]['To'][0].'" DepartureTime="'.$journeys[$i]['Depart'][0].'" ArrivalTime="'.$journeys[$i]['Arrive'][0].'" FlightTime="'.$journeys[$i]['FlightTime'][0].'" Distance="'.$journeys[$i]['Distance'][0].'" ETicketability="Yes" ProviderCode="1G" ></air:AirSegment>';
             }
         }
         $returndatasegment='';
         foreach($flights_inbound as $journeys){
             for ($i=0; $i < count($journeys); $i++) {
-                $datasegment.= '<air:AirSegment Key="'.$journeys[$i]['Key'][0].'" Group="'.$journeys[$i]['Group'][0].'" Carrier="'.$journeys[$i]['Airline'][0].'" FlightNumber="'.$journeys[$i]['Flight'][0].'" Origin="'.$journeys[$i]['From'][0].'" Destination="'.$journeys[$i]['To'][0].'" DepartureTime="'.$journeys[$i]['Depart'][0].'" ArrivalTime="'.$journeys[$i]['Arrive'][0].'" FlightTime="'.$journeys[$i]['FlightTime'][0].'" Distance="'.$journeys[$i]['Distance'][0].'" ETicketability="Yes" ProviderCode="1G" ></air:AirSegment>';
-                // $returndatasegment.= '<air:AirSegment Key="'.$journeys[$i]['Key'][0].'" Group="'.$journeys[$i]['Group'][0].'" Carrier="'.$journeys[$i]['Airline'][0].'" FlightNumber="'.$journeys[$i]['Flight'][0].'" Origin="'.$journeys[$i]['From'][0].'" Destination="'.$journeys[$i]['To'][0].'" DepartureTime="'.$journeys[$i]['Depart'][0].'" ArrivalTime="'.$journeys[$i]['Arrive'][0].'" FlightTime="'.$journeys[$i]['FlightTime'][0].'" Distance="'.$journeys[$i]['Distance'][0].'" ETicketability="Yes" ProviderCode="1G" ></air:AirSegment>';
+                $alldatasegment.= '<air:AirSegment Key="'.$journeys[$i]['Key'][0].'" Group="'.$journeys[$i]['Group'][0].'" Carrier="'.$journeys[$i]['Airline'][0].'" FlightNumber="'.$journeys[$i]['Flight'][0].'" Origin="'.$journeys[$i]['From'][0].'" Destination="'.$journeys[$i]['To'][0].'" DepartureTime="'.$journeys[$i]['Depart'][0].'" ArrivalTime="'.$journeys[$i]['Arrive'][0].'" FlightTime="'.$journeys[$i]['FlightTime'][0].'" Distance="'.$journeys[$i]['Distance'][0].'" ETicketability="Yes" ProviderCode="1G" ></air:AirSegment>';
+                $returndatasegment.= '<air:AirSegment Key="'.$journeys[$i]['Key'][0].'" Group="'.$journeys[$i]['Group'][0].'" Carrier="'.$journeys[$i]['Airline'][0].'" FlightNumber="'.$journeys[$i]['Flight'][0].'" Origin="'.$journeys[$i]['From'][0].'" Destination="'.$journeys[$i]['To'][0].'" DepartureTime="'.$journeys[$i]['Depart'][0].'" ArrivalTime="'.$journeys[$i]['Arrive'][0].'" FlightTime="'.$journeys[$i]['FlightTime'][0].'" Distance="'.$journeys[$i]['Distance'][0].'" ETicketability="Yes" ProviderCode="1G" ></air:AirSegment>';
             }
         }
         // return $datasegment;
@@ -48,46 +50,46 @@ class RoundFlightController extends Controller
         $searchLegModifier = '';
         // $PreferredDate = Carbon::parse($request->departure_date)->format('Y-m-d');
 
-        $query = '<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
-        <soap:Body>
-           <air:AirPriceReq AuthorizedBy="user" TargetBranch="'.$TARGETBRANCH.'" FareRuleType="long" xmlns:air="http://www.travelport.com/schema/air_v42_0">
-              <BillingPointOfSaleInfo OriginApplication="UAPI" xmlns="http://www.travelport.com/schema/common_v42_0"/>
-              <air:AirItinerary>
-                '.$datasegment.'
-              </air:AirItinerary>
-              <air:AirPricingModifiers/>
-              <com:SearchPassenger Key="1" Code="ADT" xmlns:com="http://www.travelport.com/schema/common_v42_0"/>
-              <air:AirPricingCommand/>
-           </air:AirPriceReq>
-        </soap:Body>
-     </soap:Envelope>';
-            $message = <<<EOM
-$query
-EOM;
-        $auth = base64_encode($CREDENTIALS);
-        // $soap_do = curl_init("https://apac.universal-api.pp.travelport.com/B2BGateway/connect/uAPI/UniversalRecordService");
-        $soap_do = curl_init("https://apac.universal-api.pp.travelport.com/B2BGateway/connect/uAPI/AirService");
-        /*("https://americas.universal-api.pp.travelport.com/B2BGateway/connect/uAPI/AirService");*/
-        $header = array(
-            "Content-Type: text/xml;charset=UTF-8",
-            "Accept: gzip,deflate",
-            "Cache-Control: no-cache",
-            "Pragma: no-cache",
-            "SOAPAction: \"\"",
-            "Authorization: Basic $auth",
-            "Content-length: ".strlen($message),
-        );
-        curl_setopt($soap_do, CURLOPT_POSTFIELDS, $message);
-        curl_setopt($soap_do, CURLOPT_HTTPHEADER, $header);
-        curl_setopt($soap_do, CURLOPT_RETURNTRANSFER, true);
-        $return = curl_exec($soap_do);
-        curl_close($soap_do);
-        // return $return;
-        $dom = new \DOMDocument();
-        $dom->loadXML($return);
-        $json = new \FluentDOM\Serializer\Json\RabbitFish($dom);
-        $object = json_decode($json,true);
-        $data=$this->XMLData($object,$request);
+//         $query = '<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+//         <soap:Body>
+//            <air:AirPriceReq AuthorizedBy="user" TargetBranch="'.$TARGETBRANCH.'" FareRuleType="long" xmlns:air="http://www.travelport.com/schema/air_v42_0">
+//               <BillingPointOfSaleInfo OriginApplication="UAPI" xmlns="http://www.travelport.com/schema/common_v42_0"/>
+//               <air:AirItinerary>
+//                 '.$datasegment.'
+//               </air:AirItinerary>
+//               <air:AirPricingModifiers/>
+//               <com:SearchPassenger Key="1" Code="ADT" xmlns:com="http://www.travelport.com/schema/common_v42_0"/>
+//               <air:AirPricingCommand/>
+//            </air:AirPriceReq>
+//         </soap:Body>
+//      </soap:Envelope>';
+//             $message = <<<EOM
+// $query
+// EOM;
+//         $auth = base64_encode($CREDENTIALS);
+//         // $soap_do = curl_init("https://apac.universal-api.pp.travelport.com/B2BGateway/connect/uAPI/UniversalRecordService");
+//         $soap_do = curl_init("https://apac.universal-api.pp.travelport.com/B2BGateway/connect/uAPI/AirService");
+//         /*("https://americas.universal-api.pp.travelport.com/B2BGateway/connect/uAPI/AirService");*/
+//         $header = array(
+//             "Content-Type: text/xml;charset=UTF-8",
+//             "Accept: gzip,deflate",
+//             "Cache-Control: no-cache",
+//             "Pragma: no-cache",
+//             "SOAPAction: \"\"",
+//             "Authorization: Basic $auth",
+//             "Content-length: ".strlen($message),
+//         );
+//         curl_setopt($soap_do, CURLOPT_POSTFIELDS, $message);
+//         curl_setopt($soap_do, CURLOPT_HTTPHEADER, $header);
+//         curl_setopt($soap_do, CURLOPT_RETURNTRANSFER, true);
+//         $return = curl_exec($soap_do);
+//         curl_close($soap_do);
+//         // return $return;
+//         $dom = new \DOMDocument();
+//         $dom->loadXML($return);
+//         $json = new \FluentDOM\Serializer\Json\RabbitFish($dom);
+//         $object = json_decode($json,true);
+//         $data=$this->XMLData($object,$request);
 
         // return $data; 
         $query1 = '<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
@@ -95,7 +97,7 @@ EOM;
            <air:AirPriceReq AuthorizedBy="user" TargetBranch="'.$TARGETBRANCH.'" FareRuleType="long" xmlns:air="http://www.travelport.com/schema/air_v42_0">
               <BillingPointOfSaleInfo OriginApplication="UAPI" xmlns="http://www.travelport.com/schema/common_v42_0"/>
               <air:AirItinerary>
-                '.$returndatasegment.'
+                '.$alldatasegment.'
               </air:AirItinerary>
               <air:AirPricingModifiers/>
               <com:SearchPassenger Key="1" Code="ADT" xmlns:com="http://www.travelport.com/schema/common_v42_0"/>
@@ -136,8 +138,8 @@ EOM;
         $returnData=[];
         return view('flights.flight-details',[
             'per_flight_details'=>$request,
-            'data'=>$data,
-            'return_data'=>$returnData
+            // 'data'=>$data,
+            'return_data'=>$return_data
         ]);
 
     }

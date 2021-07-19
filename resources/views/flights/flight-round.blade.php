@@ -44,7 +44,7 @@
                 <input type="hidden" name="direct_flight" id="direct_flight" value="{{isset($searched->direct_flight)?$searched->direct_flight:''}}">
                 <div class="form-group">
                     <ul class="cld__selectors">
-                        <li><a href="#" class="active" id="one_way">One way</a></li>
+                        <!-- <li><a href="#" class="active" id="one_way">One way</a></li> -->
                         <li><a href="#" id="round_trip">Round trip</a></li>
                     </ul>
                 </div>
@@ -675,15 +675,15 @@
             $('#one_way').removeAttr('class');
             $('#round_trip').attr('class','active');
         });
-        $(".returning_date_datetimepickerclass").blur(function(){
-            // alert("This input field has lost its focus.");
-            // alert($('#returning_date').val());
-            if($('#returning_date').val()==''){
-                $('#round_trip').removeAttr('class');
-                $('#one_way').attr('class','active');
-            }
+        // $(".returning_date_datetimepickerclass").blur(function(){
+        //     // alert("This input field has lost its focus.");
+        //     // alert($('#returning_date').val());
+        //     if($('#returning_date').val()==''){
+        //         $('#round_trip').removeAttr('class');
+        //         $('#one_way').attr('class','active');
+        //     }
             
-        });
+        // });
 
         $("#adults").change(function(){
             // alert("hii");

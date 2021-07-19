@@ -45,7 +45,7 @@
                 <div class="form-group">
                     <ul class="cld__selectors">
                         <li><a href="#" class="active" id="one_way">One way</a></li>
-                        <li><a href="#" id="round_trip">Round trip</a></li>
+                        <!-- <li><a href="#" id="round_trip">Round trip</a></li> -->
                     </ul>
                 </div>
                 <div class="row">
@@ -595,11 +595,11 @@
             todayHighlight: true,
             autoclose: true,
         });
-        $('.returning_date_datetimepickerclass').click(function(){
-            // alert("hii");
-            $('#one_way').removeAttr('class');
-            $('#round_trip').attr('class','active');
-        });
+        // $('.returning_date_datetimepickerclass').click(function(){
+        //     // alert("hii");
+        //     $('#one_way').removeAttr('class');
+        //     $('#round_trip').attr('class','active');
+        // });
         $(".returning_date_datetimepickerclass").blur(function(){
             // alert("This input field has lost its focus.");
             // alert($('#returning_date').val());

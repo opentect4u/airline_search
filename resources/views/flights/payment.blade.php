@@ -56,10 +56,15 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <input type="hidden" name="flight" id="flight" value="{{$data}}" />
+                                    @if(isset($return_flights))
+                                    <input type="hidden" name="flight" id="flight" value="{{json_encode($return_flights)}}" />
+                                    <input type="submit" name="" id="submit_credit" class="btn btn-primary" value="Pay £ {{number_format((str_replace('GBP','',$return_flights[2]['price']['ApproximateBasePrice'])*$per_flight_details->adults)+(str_replace('GBP','',$return_flights[2]['price']['Taxes'])*$per_flight_details->adults),2)}}" />
+                                    @else
+                                    <input type="hidden" name="flight" id="flight" value="{{json_encode($data)}}" />
                                     <!-- <input type="text" name="passenger_details" id="passenger_details" value="" /> -->
                                     <input type="submit" name="" id="submit_credit" class="btn btn-primary" value="Pay £ {{number_format((str_replace('GBP','',$data[2]['price']['ApproximateBasePrice'])*$per_flight_details->adults)+(str_replace('GBP','',$data[2]['price']['Taxes'])*$per_flight_details->adults),2)}}" />
                                     <!-- <a href="confirm-booking.php" class="btn btn-primary">Pay <i class="las la-pound-sign"></i>88.00</a> -->
+                                    @endif
                                 </div>
                                 </form>
                             </div>
@@ -144,11 +149,11 @@
                     <table class="table table-small mt-2 mb-0">
                         <tr>
                             <td>Base Fare x {{$per_flight_details->adults}}</td>
-                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format(( (str_replace('GBP','',$data[2]['price']['ApproximateBasePrice'])+str_replace('GBP','',$return_flights[2]['price']['ApproximateBasePrice']))*$per_flight_details->adults),2)}}</td>
+                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format(( (str_replace('GBP','',$return_flights[2]['price']['ApproximateBasePrice']))*$per_flight_details->adults),2)}}</td>
                         </tr>
                         <tr>
                             <td>Taxes x {{$per_flight_details->adults}}</td>
-                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format(( (str_replace('GBP','',$data[2]['price']['Taxes'])+str_replace('GBP','',$return_flights[2]['price']['Taxes']))*$per_flight_details->adults),2)}}</td>
+                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format(( (str_replace('GBP','',$return_flights[2]['price']['Taxes']))*$per_flight_details->adults),2)}}</td>
                         </tr>
                         <tr>
                             <td>Other taxes</td>
@@ -156,7 +161,7 @@
                         </tr>
                         <tr class="font-weight-bold bg-light">
                             <td>Total</td>
-                            <td class="text-right text-danger"><i class="las la-pound-sign"></i>{{number_format(( (str_replace('GBP','',$data[2]['price']['ApproximateBasePrice'])+str_replace('GBP','',$return_flights[2]['price']['ApproximateBasePrice']))*$per_flight_details->adults)+( (str_replace('GBP','',$data[2]['price']['Taxes'])+str_replace('GBP','',$return_flights[2]['price']['Taxes']))*$per_flight_details->adults),2)}}</td>
+                            <td class="text-right text-danger"><i class="las la-pound-sign"></i>{{number_format(( (str_replace('GBP','',$return_flights[2]['price']['ApproximateBasePrice']))*$per_flight_details->adults)+( (str_replace('GBP','',$return_flights[2]['price']['Taxes']))*$per_flight_details->adults),2)}}</td>
                         </tr>
                     </table>
                 </div>
