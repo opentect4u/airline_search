@@ -65,7 +65,7 @@
                         <div class="form-group">
                             <label>Departure Date</label>
                             <div id="departure_date_datetimepicker" class="input-group">
-                                <input type="text" name="departure_date" placeholder="dd-mm-yyyy" class="form-control border-right-0" data-format="dd-MM-yyyy" value={{ \Carbon\Carbon::parse($searched->departure_date)->format('d-m-Y') }}>
+                                <input type="text" name="departure_date" id="departure_date" placeholder="dd-mm-yyyy" class="form-control border-right-0" data-format="dd-MM-yyyy" value={{ \Carbon\Carbon::parse($searched->departure_date)->format('d-m-Y') }}>
                                 <div class="input-group-append add-on">
                                 <span class="input-group-text bg-white pl-0"><i class="lar la-calendar-alt"></i></span>
                                 </div>
@@ -711,6 +711,39 @@
             
             
         });
+
+        $('#returning_date_datetimepicker').click(function(){
+            // alert("hii");
+            var dep_val=$('#departure_date').val();
+            var newdate = dep_val.split("-").reverse().join("/");
+            var datePeriode= new Date(newdate);
+            var adddate=datePeriode.setDate(datePeriode.getDate() + 1)
+            
+            $('#returning_date_datetimepicker').datetimepicker({
+                pickTime: false,
+                autoclose: true, 
+                startDate: new Date(adddate),
+                todayHighlight: false,
+            });
+            $('#returning_date_datetimepicker').datetimepicker("show"); 
+        });
+
+        $('#departure_date_datetimepicker').click(function(){
+            // alert("hii");
+            // var dep_val=$('#departure_date').val();
+            // var newdate = dep_val.split("-").reverse().join("/");
+            // var datePeriode= new Date(newdate);
+            // var adddate=datePeriode.setDate(datePeriode.getDate() + 1)
+            
+            $('#departure_date_datetimepicker').datetimepicker({
+                pickTime: false,
+                autoclose: true, 
+                startDate: new Date(),
+                todayHighlight: false,
+            });
+            $('#departure_date_datetimepicker').datetimepicker("show"); 
+        });
+
 
         $("#adults").change(function(){
             // alert("hii");
