@@ -196,8 +196,12 @@
 
 
                                     <div class="col-md-12">
-                                        <h4 class="mt-3"> <b class="float-right"><b>Total: </b><span
-                                                    class="text-light-blue">£360.00</span></b></h4>
+                                        <h4 class="mt-3"> <b class="float-right"><b>Total: </b>
+                                        <span class="text-light-blue">£
+                                            @foreach($unidata[2] as $datas)
+                                            {{number_format(str_replace('GBP','',$datas['TotalPrice'])*$searched->adults,2)}}
+                                            @endforeach
+                                                    </span></b></h4>
                                     </div>
                                 </div>
 
@@ -223,7 +227,9 @@
                                             <div class="" style="display:inline-block;">
                                                 <p class="mb-1"> £
 
-                                                    360.00
+                                                @foreach($unidata[2] as $datas)
+                                            {{number_format(str_replace('GBP','',$datas['TotalPrice'])*$searched->adults,2)}}
+                                            @endforeach
                                                 </p>
                                             </div>
 
@@ -233,7 +239,9 @@
                                                 <p class="mb-1"><b>Balance Due:</b></p>
                                             </div>
                                             <div class="" style="display:inline-block;">
-                                                £ 360.00 </div>
+                                                £ @foreach($unidata[2] as $datas)
+                                            {{number_format(str_replace('GBP','',$datas['TotalPrice'])*$searched->adults,2)}}
+                                            @endforeach </div>
                                         </div>
 
 

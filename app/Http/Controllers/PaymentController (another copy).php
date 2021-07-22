@@ -1238,7 +1238,7 @@ EOM;
     } 
 
     public function PaymentCredit(Request $request){
-        // return $request;
+        return $request;
         $flight=json_decode($request->flight, true);
         // return $flight;
         // return $flight[2];
@@ -1265,29 +1265,24 @@ EOM;
         $returnSearch = '';
         $searchLegModifier = '';
         // $PreferredDate = Carbon::parse($request->departure_date)->format('Y-m-d');
-        // return $request->gender1;
-        if ($request->gender1=="Male") {
-            $gender="M";
-        }else{
-            $gender="F"; 
-        }
+
         $query = '<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
         <soap:Body>
             <univ:AirCreateReservationReq RetainReservation="Both" TraceId="trace" TargetBranch="'.$TARGETBRANCH.'" AuthorizedBy="user" xmlns:univ="http://www.travelport.com/schema/universal_v42_0">
                 <com:BillingPointOfSaleInfo OriginApplication="UAPI" xmlns:com="http://www.travelport.com/schema/common_v42_0"/>
-                <com:BookingTraveler TravelerType="ADT" DOB="'.date("Y-m-d",strtotime($request->date_of_birth1)).'" Gender="'.$gender.'" Nationality="IN" xmlns:com="http://www.travelport.com/schema/common_v42_0">
-                    <com:BookingTravelerName Prefix="'.$request->title1.'" First="'.$request->first_name1.'" Last="'.$request->last_name1.'"/>
-                    <com:PhoneNumber Key="" Number="'.$request->mob_no.'" Type="Home" Text="Abc-Xy"/>
-                    <com:Email Type="Home" EmailID="'.$request->email.'"/>
+                <com:BookingTraveler TravelerType="ADT" Age="40" DOB="1981-07-14" Gender="M" Nationality="US" xmlns:com="http://www.travelport.com/schema/common_v42_0">
+                    <com:BookingTravelerName Prefix="Mr" First="CHITTA" Last="MAITY"/>
+                    <com:PhoneNumber Key="" CountryCode="011" Location="DEN" Number="227-722-2454" Extension="22" AreaCode="222" Type="Home" Text="Abc-Xy"/>
+                    <com:Email Type="Home" EmailID="jtestora@travelport.com"/>
                     <com:SSR Key="1" Type="DOCS" Carrier="AI" FreeText="P/CA/F9850356/GB/04JAN80/M/01JAN14/LINDELOEV/CARSTENGJELLERUPMr"/>
                     <com:Address>
-                        <com:AddressName>'.$request->add_1.'</com:AddressName>
-                        <com:Street>'.$request->add_2.'</com:Street>
-                        <com:Street>'.$request->add_2.'</com:Street>
-                        <com:City>'.$request->city.'</com:City>
-                        <com:State>'.$request->state_code.'</com:State>
-                        <com:PostalCode>'.$request->postcode.'</com:PostalCode>
-                        <com:Country>IN</com:Country>
+                        <com:AddressName>Jan Restora</com:AddressName>
+                        <com:Street>6901 S. Havana</com:Street>
+                        <com:Street>Apt 3</com:Street>
+                        <com:City>Englewood</com:City>
+                        <com:State>CO</com:State>
+                        <com:PostalCode>80111</com:PostalCode>
+                        <com:Country>US</com:Country>
                     </com:Address>
                 </com:BookingTraveler>
                 <GeneralRemark UseProviderNativeMode="true" TypeInGds="Basic" xmlns="http://www.travelport.com/schema/common_v42_0">
@@ -1709,8 +1704,7 @@ EOM;
                                                             $per_details['Gender']=$unvjson5;
                                                         }
                                                     }
-                                                    // if($count2==7){}
-                                                    if($count2==6){
+                                                    if($count2==7){
                                                         foreach($unvjson5 as $key => $unvjson6){
                                                             // print_r ($unvjson6);
                                                             // echo "<br/><br/><br/>";
@@ -1728,7 +1722,7 @@ EOM;
                                                             }
                                                         }
                                                     }
-                                                    if($count2==7){
+                                                    if($count2==8){
                                                         foreach($unvjson5 as $key => $unvjson6){
                                                             // print_r ($unvjson6);
                                                             // echo "<br/><br/><br/>";
@@ -1747,7 +1741,7 @@ EOM;
                                                             }
                                                         }
                                                     }
-                                                    if($count2==8){
+                                                    if($count2==9){
                                                         foreach($unvjson5 as $key => $unvjson6){
                                                             // print_r ($unvjson6);
                                                             // echo "<br/><br/><br/>";
@@ -1766,7 +1760,7 @@ EOM;
                                                             }
                                                         }
                                                     }
-                                                    if($count2==10){
+                                                    if($count2==11){
                                                         $count3=1;
                                                         foreach($unvjson5 as $unvjson6){
                                                             // echo $count3;
