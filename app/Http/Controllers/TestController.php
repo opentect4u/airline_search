@@ -13,9 +13,447 @@ use Illuminate\Support\Facades\Hash;
 class TestController extends Controller
 {
 
-    public function Test1(){}
-   
 public function Test(){
+    $TARGETBRANCH = 'P7141733';
+    $CREDENTIALS = 'Universal API/uAPI4648209292-e1e4ba84:9Jw*C+4c/5';
+    $Provider = '1G'; // Any provider you want to use like 1G/1P/1V/ACH
+    $returnSearch = '';
+    $searchLegModifier = '';
+    $query = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+    <soapenv:Body>
+       <univ:UniversalRecordRetrieveReq TargetBranch="'.$TARGETBRANCH.'" TraceId="trace" xmlns:univ="http://www.travelport.com/schema/universal_v42_0" xmlns:com="http://www.travelport.com/schema/common_v42_0">
+          <com:BillingPointOfSaleInfo OriginApplication="UAPI" xmlns="http://www.travelport.com/schema/common_v42_0"/>
+          <univ:UniversalRecordLocatorCode>13MTLK</univ:UniversalRecordLocatorCode>
+       </univ:UniversalRecordRetrieveReq>
+    </soapenv:Body>
+ </soapenv:Envelope>';
+// return $query; 
+        $message = <<<EOM
+$query
+EOM;
+    $auth = base64_encode($CREDENTIALS);
+    $soap_do = curl_init("https://apac.universal-api.pp.travelport.com/B2BGateway/connect/uAPI/UniversalRecordService");
+    // $soap_do = curl_init("https://apac.universal-api.pp.travelport.com/B2BGateway/connect/uAPI/AirService");
+    /*("https://americas.universal-api.pp.travelport.com/B2BGateway/connect/uAPI/AirService");*/
+    $header = array(
+        "Content-Type: text/xml;charset=UTF-8",
+        "Accept: gzip,deflate",
+        "Cache-Control: no-cache",
+        "Pragma: no-cache",
+        "SOAPAction: \"\"",
+        "Authorization: Basic $auth",
+        "Content-length: ".strlen($message),
+    );
+    curl_setopt($soap_do, CURLOPT_POSTFIELDS, $message);
+    curl_setopt($soap_do, CURLOPT_HTTPHEADER, $header);
+    curl_setopt($soap_do, CURLOPT_RETURNTRANSFER, true);
+    $return2 = curl_exec($soap_do);
+    curl_close($soap_do);
+    // return $return2;
+
+    $dom2 = new \DOMDocument();
+    $dom2->loadXML($return2);
+    $json2 = new \FluentDOM\Serializer\Json\RabbitFish($dom2);
+    $object2 = json_decode($json2,true);
+    // return $object2;
+
+    // array_key_exists($index, $array);
+    // universal:UniversalRecordRetrieveRsp
+    $data=collect();
+    foreach($object2 as $unvjson){
+        foreach($unvjson as $unvjson1){
+            // print_r($unvjson1);
+            // echo "<br/><br/><br/>";
+            if(count($unvjson1)>1){
+                if(array_key_exists('SOAP:Fault',$unvjson1)){
+                    echo "error";
+                    // echo "<br/><br/><br/>";
+                }else{
+                    // print_r ($unvjson1['common_v42_0:BookingTravelerName']);
+                    // echo "<br/><br/><br/>";
+                    // echo "hhh";
+                    foreach($unvjson1 as $unvjson2){
+                        if(count($unvjson2)>1){
+                            $count=1;
+                            foreach($unvjson2 as $unvjson3){
+                                // echo $count;
+                                // print_r ($unvjson3);
+                                // echo "<br/><br/><br/>";
+                                if($count==5){
+                                    $count1=1;
+                                    foreach($unvjson3 as $key => $unvjson4){
+                                        // echo $count1;
+                                        // print_r ($unvjson4);
+                                        // echo "<br/><br/><br/>";
+                                        if(is_string($unvjson4)){
+                                            // print_r ($key." - ".$unvjson4);
+                                            // echo "<br/><br/><br/>";
+                                        }
+                                        if($count1==5){
+                                            // print_r ($unvjson4);
+                                            // echo "<br/><br/><br/>";
+                                            $per_details=[];
+                                            $count2=1;
+                                            foreach($unvjson4 as $key =>$unvjson5){
+                                                // echo $count2;
+                                                // print_r ($unvjson5);
+                                                // echo "<br/><br/><br/>";
+                                                if(is_string($unvjson5)){
+                                                    // print_r ($key." - ".$unvjson5);
+                                                    // echo "<br/><br/><br/>";
+                                                    if(strcmp($key, "@Key") == 0){
+                                                        $per_details['Key']=$unvjson5;
+                                                    }
+                                                    if(strcmp($key, "@TravelerType") == 0){
+                                                        $per_details['TravelerType']=$unvjson5;
+                                                    }
+                                                    if(strcmp($key, "@Gender") == 0){
+                                                        $per_details['Gender']=$unvjson5;
+                                                    }
+                                                }
+                                                if($count2==7){
+                                                    foreach($unvjson5 as $key => $unvjson6){
+                                                        // print_r ($unvjson6);
+                                                        // echo "<br/><br/><br/>";
+                                                        if(is_string($unvjson6)){
+                                                            // print_r($key." - ".$unvjson6);
+                                                            if(strcmp($key, "@Prefix") == 0){
+                                                                $per_details['Prefix']=$unvjson6;
+                                                            }
+                                                            if(strcmp($key, "@First") == 0){
+                                                                $per_details['First']=$unvjson6;
+                                                            }
+                                                            if(strcmp($key, "@Last") == 0){
+                                                                $per_details['Last']=$unvjson6;
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                                if($count2==8){
+                                                    foreach($unvjson5 as $key => $unvjson6){
+                                                        // print_r ($unvjson6);
+                                                        // echo "<br/><br/><br/>";
+                                                        if(is_string($unvjson6)){
+                                                            // print_r($key." - ".$unvjson6);
+                                                            // echo "<br/><br/><br/>";
+                                                            if(strcmp($key, "@Key") == 0){
+                                                                $per_details['Key']=$unvjson6;
+                                                            }
+                                                            if(strcmp($key, "@Type") == 0){
+                                                                $per_details['Type']=$unvjson6;
+                                                            }
+                                                            if(strcmp($key, "@Number") == 0){
+                                                                $per_details['Number']=$unvjson6;
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                                if($count2==9){
+                                                    foreach($unvjson5 as $key => $unvjson6){
+                                                        // print_r ($unvjson6);
+                                                        // echo "<br/><br/><br/>";
+                                                        if(is_string($unvjson6)){
+                                                            // print_r($key." - ".$unvjson6);
+                                                            // echo "<br/><br/><br/>";
+                                                            if(strcmp($key, "@Key") == 0){
+                                                                $per_details['Key']=$unvjson6;
+                                                            }
+                                                            if(strcmp($key, "@Type") == 0){
+                                                                $per_details['Type']=$unvjson6;
+                                                            }
+                                                            if(strcmp($key, "@EmailID") == 0){
+                                                                $per_details['EmailID']=$unvjson6;
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                                if($count2==11){
+                                                    $count3=1;
+                                                    foreach($unvjson5 as $unvjson6){
+                                                        // echo $count3;
+                                                        // print_r ($unvjson6);
+                                                        // echo "<br/><br/><br/>";
+                                                        if($count3==3){
+                                                            foreach($unvjson6 as $key => $unvjson7){
+                                                                // print_r ($unvjson7);
+                                                                // echo "<br/><br/><br/>"; 
+                                                                if(is_string($unvjson7)){
+                                                                    // print_r($key." - ".$unvjson7);
+                                                                    // echo "<br/><br/><br/>";
+                                                                    if(strcmp($key, "$") == 0){
+                                                                        $per_details['Address']=$unvjson7;
+                                                                    }
+                                                                }
+                                                            }
+                                                            
+                                                        }
+                                                        if($count3==4){
+                                                            $count4=1;
+                                                            foreach($unvjson6 as $key => $unvjson7){
+                                                                // print_r ($unvjson7);
+                                                                // echo "<br/><br/><br/>"; 
+                                                                if($count4==1){
+                                                                    // print_r ($unvjson7);
+                                                                    // echo "<br/><br/><br/>"; 
+                                                                    foreach($unvjson7 as $key => $unvjson8){
+                                                                        // print_r($key." - ".$unvjson7);
+                                                                        // echo "<br/><br/><br/>";
+                                                                        if(is_string($unvjson8)){
+                                                                            if(strcmp($key, "$") == 0){
+                                                                                $per_details['street']=$unvjson8;
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                                if($count4==2){
+                                                                    // print_r ($unvjson7);
+                                                                    // echo "<br/><br/><br/>"; 
+                                                                    foreach($unvjson7 as $key => $unvjson8){
+                                                                        // print_r($key." - ".$unvjson7);
+                                                                        // echo "<br/><br/><br/>";
+                                                                        if(is_string($unvjson8)){
+                                                                            if(strcmp($key, "$") == 0){
+                                                                                $per_details['street1']=$unvjson8;
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                                $count4++;
+                                                            }
+                                                            
+                                                        }
+                                                        if($count3==5){
+                                                            foreach($unvjson6 as $key => $unvjson7){
+                                                                // print_r ($unvjson7);
+                                                                // echo "<br/><br/><br/>"; 
+                                                                if(is_string($unvjson7)){
+                                                                    // print_r($key." - ".$unvjson7);
+                                                                    // echo "<br/><br/><br/>";
+                                                                    if(strcmp($key, "$") == 0){
+                                                                        $per_details['City']=$unvjson7;
+                                                                    }
+                                                                }
+                                                            }
+                                                            
+                                                        }
+                                                        if($count3==6){
+                                                            foreach($unvjson6 as $key => $unvjson7){
+                                                                // print_r ($unvjson7);
+                                                                // echo "<br/><br/><br/>"; 
+                                                                if(is_string($unvjson7)){
+                                                                    // print_r($key." - ".$unvjson7);
+                                                                    // echo "<br/><br/><br/>";
+                                                                    if(strcmp($key, "$") == 0){
+                                                                        $per_details['State']=$unvjson7;
+                                                                    }
+                                                                }
+                                                            }
+                                                            
+                                                        }
+                                                        if($count3==7){
+                                                            foreach($unvjson6 as $key => $unvjson7){
+                                                                // print_r ($unvjson7);
+                                                                // echo "<br/><br/><br/>"; 
+                                                                if(is_string($unvjson7)){
+                                                                    // print_r($key." - ".$unvjson7);
+                                                                    // echo "<br/><br/><br/>";
+                                                                    if(strcmp($key, "$") == 0){
+                                                                        $per_details['PostalCode']=$unvjson7;
+                                                                    }
+                                                                }
+                                                            }
+                                                            
+                                                        }
+                                                        if($count3==8){
+                                                            foreach($unvjson6 as $key => $unvjson7){
+                                                                // print_r ($unvjson7);
+                                                                // echo "<br/><br/><br/>"; 
+                                                                if(is_string($unvjson7)){
+                                                                    // print_r($key." - ".$unvjson7);
+                                                                    // echo "<br/><br/><br/>";
+                                                                    if(strcmp($key, "$") == 0){
+                                                                        $per_details['Country']=$unvjson7;
+                                                                    }
+                                                                }
+                                                            }
+                                                            
+                                                        }
+                                                        if($count3==9){
+                                                            foreach($unvjson6 as $key => $unvjson7){
+                                                                // print_r ($unvjson7);
+                                                                // echo "<br/><br/><br/>"; 
+                                                                if(is_string($unvjson7)){
+                                                                    // print_r($key." - ".$unvjson7);
+                                                                    // echo "<br/><br/><br/>";
+                                                                    if(strcmp($key, "$") == 0){
+                                                                        $per_details['Key']=$unvjson6;
+                                                                    }
+                                                                }
+                                                            }
+                                                            
+                                                        }
+                                                        $count3++;
+                                                    }
+                                                }
+                                                $count2++;
+                                            }
+                                        }
+                                        if ($count1==7) {}
+                                        if ($count1==8) {
+                                            // print_r ($unvjson4);
+                                            // echo "<br/><br/><br/>";
+                                            $count10=1;
+                                            foreach($unvjson4 as $unvjson5){
+                                                // echo $count10;
+                                                // print_r ($unvjson5);
+                                                // echo "<br/><br/><br/>";
+                                                if($count10==8){
+                                                    // print_r ($unvjson5);
+                                                    // echo "<br/><br/><br/>";
+                                                    $count12=1;
+                                                    $journey=[];
+                                                    foreach($unvjson5 as $key => $unvjson6){
+                                                        // echo $count12;
+                                                        // print_r ($unvjson6);
+                                                        // echo "<br/><br/><br/>";
+                                                        if(is_string($unvjson6)){
+                                                            print_r ($key." - ".$unvjson6);
+                                                            echo "<br/><br/><br/>";
+                                                            if(strcmp($key, "Key") == 0){
+                                                                $journey["Key"]=$unvjson6;
+                                                            }
+                                                            if(strcmp($key, "Group") == 0){
+                                                                $journey["Group"]=$unvjson6;
+                                                            }
+                                                            if(strcmp($key, "@Carrier") == 0){
+                                                                $journey['Carrier']=$unvjson6;
+                                                            }
+                                                            if(strcmp($key, "@CabinClass") == 0){
+                                                                $journey['CabinClass']=$unvjson6;
+                                                            }
+                                                            if(strcmp($key, "@ProviderCode") == 0){
+                                                                $journey['ProviderCode']=$unvjson6;
+                                                            }
+                                                            if(strcmp($key, "@Origin") == 0){
+                                                                $journey['Origin']=$unvjson6;
+                                                            }
+                                                            if(strcmp($key, "@Destination") == 0){
+                                                                $journey['Destination']=$unvjson6;
+                                                            }
+                                                            if(strcmp($key, "@DepartureTime") == 0){
+                                                                $journey['DepartureTime']=$unvjson6;
+                                                            }
+                                                            if(strcmp($key, "@ArrivalTime") == 0){
+                                                                $journey['ArrivalTime']=$unvjson6;
+                                                            }
+                                                            if(strcmp($key, "@TravelTime") == 0){
+                                                                $journey['TravelTime']=$unvjson6;
+                                                            }
+                                                            if(strcmp($key, "@Distance") == 0){
+                                                                $journey['Distance']=$unvjson6;
+                                                            }
+                                                        }
+                                                        if($count12==26){
+                                                            // print_r ($unvjson6);
+                                                            // echo "<br/><br/><br/>";
+                                                            foreach($unvjson6 as $key => $unvjson7){
+                                                                // print_r ($unvjson7);
+                                                                // echo "<br/><br/><br/>";
+                                                                if(is_string($unvjson7)){
+                                                                    // print_r ($key." - ".$unvjson7);
+                                                                    // echo "<br/><br/><br/>";
+                                                                    if(strcmp($key, "@OriginTerminal") == 0){
+                                                                        $journey['OriginTerminal']=$unvjson7;
+                                                                    }
+                                                                    if(strcmp($key, "@DestinationTerminal") == 0){
+                                                                        $journey['DestinationTerminal']=$unvjson7;
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                        $count12++;
+                                                    }
+                                                }
+                                                if($count10==9){
+                                                    // print_r ($unvjson5);
+                                                    // echo "<br/><br/><br/>";
+                                                    $price=[];
+                                                    $count11=1;
+                                                    foreach($unvjson5 as $key => $unvjson6){
+                                                        // echo $count11;
+                                                        // print_r ($unvjson6);
+                                                        // echo "<br/><br/><br/>";
+                                                        if(is_string($unvjson6)){
+                                                            // print_r ($key." - ".$unvjson6);
+                                                            // echo "<br/><br/><br/>";
+                                                            if(strcmp($key, "@Key") == 0){
+                                                                $price['Key']=$unvjson6;
+                                                            }
+                                                            if(strcmp($key, "@TotalPrice") == 0){
+                                                                $price['TotalPrice']=$unvjson6;
+                                                            }
+                                                            if(strcmp($key, "@BasePrice") == 0){
+                                                                $price['BasePrice']=$unvjson6;
+                                                            }
+                                                            if(strcmp($key, "@ApproximateTotalPrice") == 0){
+                                                                $price['ApproximateTotalPrice']=$unvjson6;
+                                                            }
+                                                            if(strcmp($key, "@ApproximateBasePrice") == 0){
+                                                                $price['ApproximateBasePrice']=$unvjson6;
+                                                            }
+                                                            if(strcmp($key, "@EquivalentBasePrice") == 0){
+                                                                $price['EquivalentBasePrice']=$unvjson6;
+                                                            }
+                                                            if(strcmp($key, "@Taxes") == 0){
+                                                                $price['Taxes']=$unvjson6;
+                                                            }
+                                                            if(strcmp($key, "@LatestTicketingTime") == 0){
+                                                                $price['LatestTicketingTime']=$unvjson6;
+                                                            }
+                                                            if(strcmp($key, "@TrueLastDateToTicket") == 0){
+                                                                $price['TrueLastDateToTicket']=$unvjson6;
+                                                            }
+                                                        }
+                                                        if ($count11==22) {
+                                                            foreach($unvjson6 as $key =>$unvjson7){
+                                                                if(is_string($unvjson7)){
+                                                                    if(strcmp($key, "@BookingCode") == 0){
+                                                                        $price['BookingCode']=$unvjson7;
+                                                                    }
+                                                                    if(strcmp($key, "@CabinClass") == 0){
+                                                                        $price['CabinClass']=$unvjson7;
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                        $count11++; 
+                                                    }
+                                                }
+                                                $count10++;
+                                            }
+                                        }
+
+                                        $count1++;
+                                    }
+                                }
+                                $count++;
+                            }
+
+                        }
+                    }
+                }
+                // unvjson7
+                $data->push(['personal_details'=>collect($per_details)]);
+                $data->push(['journey'=>collect($journey)]);
+                $data->push(['price'=>collect($price)]);
+            }
+        }
+    }
+
+    // return $data;
+}
+   
+public function Test1(){
     $TARGETBRANCH = 'P7141733';
     $CREDENTIALS = 'Universal API/uAPI4648209292-e1e4ba84:9Jw*C+4c/5';
 $Provider = '1G';//1G/1V/1P/ACH

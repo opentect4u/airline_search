@@ -29,8 +29,8 @@
         <table width="100%" border="0">
             <tbody>
             <tr>
-    <th scope="col"><img src="https://www.cloudtravels.co.uk/software/public/images/logo.png" alt="logo" class="img-fluid img-responsive"></th>
-    <th scope="col"><img src="https://www.cloudtravels.co.uk/software/public/images/atol_logo_final.png" alt="logo" class="img-fluid img-responsive" align="right">
+        <th scope="col"><img src="https://www.cloudtravels.co.uk/software/public/images/logo.png" alt="logo" class="img-fluid img-responsive"></th>
+        <th scope="col"><img src="https://www.cloudtravels.co.uk/software/public/images/atol_logo_final.png" alt="logo" class="img-fluid img-responsive" align="right">
         </th>
     </tr>
                        </tbody>
@@ -75,9 +75,13 @@
                                 <div class="row mt-5">
                                     <div class="col-md-8 col-6">
                                         <h3>To</h3>
-                                        <p>RAVINDER SINGH<br>
-                                            4 TALBOT ROAD<br>SOUTHALL<br>GREATER LONDON<br>UB2
-                                            5QH<br><b>TEL:</b>07774943850
+                                        <!-- {{print_r($unidata[0])}} -->
+                                        @foreach($unidata[0] as $data)
+                                        <!-- {{print_r($data)}} -->
+                                        <p>{{$data['First']}} {{$data['Last']}}<br>
+                                        {{$data['Address']}}<br>{{$data['street']}}, {{$data['street1']}}<br>{{$data['City']}}<br>{{$data['State']}}<br>{{$searched->Country}}<br>{{$data['PostalCode']}}<br>
+                                            <b>TEL:</b>{{$data['Number']}}
+                                        @endforeach
                                     </div>
                                     <div class="col-md-4 col-6">
                                         <h3>Issued By</h3>
@@ -108,12 +112,17 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    <?php $count=1;?>
+                                                    <!-- @for($i=1;$i<=$searched->adults; $i++) -->
+                                                    @foreach($unidata[0] as $data)
                                                     <tr>
-                                                        <td>1</td>
-                                                        <td>ADULT</td>
-                                                        <td>RAVINDER</td>
-                                                        <td>SINGH</td>
+                                                        <td>{{$count++}}</td>
+                                                        <td>{{$data['TravelerType']}}</td>
+                                                        <td>{{$data['First']}}</td>
+                                                        <td>{{$data['Last']}}</td>
                                                     </tr>
+                                                    @endforeach
+                                                    <!-- @endfor -->
                                                 </tbody>
                                             </table>
                                         </div>
@@ -122,7 +131,7 @@
                                     <div class="col-md-12 mt-4">
                                         <h4 class="mt-3"><b>FLIGHT DETAILS (ONE WAY)</b></h4>
                                         <p>
-                                            <!--BOOKING REF : CLDI0002971 &nbsp;&nbsp; | &nbsp;&nbsp; -->AIRLINE REF: AI
+                                            <!-- AIRLINE REF: AI
                                             YSYH4 &nbsp;&nbsp;
                                             <span class="noprint">
                                                 | &nbsp;
@@ -131,8 +140,9 @@
                                                 | &nbsp;
                                             </span>
 
-                                            | PNR : 6C4ZKY | &nbsp;&nbsp;UN PNR :IBE10363947 &nbsp;&nbsp; | &nbsp;&nbsp;
-                                            BOOKING DATE :06/04/2021
+                                            | -->
+                                            PNR : {{$airreservation['UniversalRecord']}} | &nbsp;&nbsp;UN PNR :IBE10363947 &nbsp;&nbsp; | &nbsp;&nbsp;
+                                            BOOKING DATE :{{date('d/m/Y')}}
                                         </p>
 
 
@@ -155,43 +165,30 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    @foreach($unidata[1] as $datas)
+                                                    <!-- {{print_r($datas)}} -->
                                                     <tr>
-                                                        <td>AIR INDIA
+                                                        <td>{{$datas['Carrier']}}
                                                             <br>
-                                                            FLIGHT NO :- AI162
+                                                            FLIGHT NO :- {{$datas['Carrier'].$datas['FlightNumber']}}
                                                         </td>
-                                                        <td>London Heathrow Arpt (LHR)<br>
-                                                            United Kingdom <br>
+                                                        <td>{{$datas['Origin']}}<br>
+                                                            <!-- United Kingdom <br> -->
 
-                                                            07/04/2021 09:45 AM<br>
-                                                            TERMINAL :- 0
-
-
-
+                                                            {{$datas['DepartureTime']}}<br>
+                                                            TERMINAL :- {{$datas['OriginTerminal']}}
                                                         </td>
-                                                        <td>Delhi Indira Gandhi Int<br>
-                                                            india<br>
-                                                            07/04/2021 22:25 PM<br>
-                                                            TERMINAL :- 0
+                                                        <td>{{$datas['Destination']}}<br>
+                                                            <!-- india<br> -->
+                                                            {{$datas['ArrivalTime']}}<br>
+                                                            TERMINAL :- {{$datas['DestinationTerminal']}}
                                                         </td>
-                                                        <!--   <td>
-           
-                                          07/04/2021 09:45 AM<br>
-                                          TERMINAL :-  0</td>
-                                     <td>
-                                         07/04/2021 22:25 PM<br>
-           
-                                          TERMINAL :-  0
-                                                               </td> -->
-
-
-                                                        <td>ECONOMY</td>
+                                                        <td>{{$datas['CabinClass']}}</td>
                                                         <td></td>
                                                         <td>0</td>
-                                                        <td>
-                                                            0
-                                                        </td>
+                                                        <td>0</td>
                                                     </tr>
+                                                    @endforeach
                                                 </tbody>
                                             </table>
                                         </div>

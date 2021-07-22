@@ -233,7 +233,7 @@
                                     <div class="form-group">
                                         <label>Seating</label>
                                         <select class="form-control custom-select" name="children_seating{{$i}}" id="children_seating{{$i}}" required>
-                                            <option value="">-- No preference --</option>
+                                            <option value="No preference">No preference</option>
                                             <option value="Aisle seat">Aisle seat</option>
                                             <option value="Bulkhead seat">Bulkhead seat</option>
                                             <option value="Cradle/Baby Basket seat">Cradle/Baby Basket seat</option>
@@ -368,8 +368,19 @@
                                 </div>
                                 <div class="col-md-4 col-6">
                                     <div class="form-group">
-                                        <label>State code</label>
+                                        <label>State</label>
                                         <input type="text" name="state_code" id="state_code" required class="form-control" placeholder="Enter your state code">
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-6">
+                                    <div class="form-group">
+                                        <label>Country</label>
+                                        <select class="form-control custom-select" name="country" id="country" required>
+                                            <option value="">--Select--</option>
+                                            @foreach($countries as $countriess)
+                                            <option value="{{$countriess->name}}">{{$countriess->name}}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
                             </div>

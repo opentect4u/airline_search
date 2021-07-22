@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Orchestra\Parser\Xml\Facade as XmlParser;
 use Illuminate\Support\Arr;
+use App\Models\Countries;
 
 class PassengerDetailsController extends Controller
 {
@@ -22,10 +23,15 @@ class PassengerDetailsController extends Controller
         //     echo $flights[2]['price']['TotalPrice'];
         // }
         // echo $flight[2]['price']['TotalPrice'];
+        // return 
+
+        $countries=Countries::get();
+        // return $countries;
         return view('flights.passenger-details',[
             'data'=>$flights,
             'return_flights'=>$return_flights,
-            'per_flight_details'=>$request
+            'per_flight_details'=>$request,
+            'countries'=>$countries
         ]);
     } 
 }
