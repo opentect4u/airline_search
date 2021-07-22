@@ -181,7 +181,7 @@
                                                         <td>{{$datas['Destination']}}<br>
                                                             <!-- india<br> -->
                                                             {{$datas['ArrivalTime']}}<br>
-                                                            TERMINAL :- {{$datas['DestinationTerminal']}}
+                                                            TERMINAL :- {{isset($datas['DestinationTerminal'])?$datas['DestinationTerminal']:''}}
                                                         </td>
                                                         <td>{{$datas['CabinClass']}}</td>
                                                         <td></td>
