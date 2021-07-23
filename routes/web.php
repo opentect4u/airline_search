@@ -44,6 +44,7 @@ Route::get('/confirmBooking',[App\Http\Controllers\FlightsController::class,'Con
 
                 // round trip
 Route::post('/roundflightDetails',[App\Http\Controllers\RoundFlightController::class,'FlightDetails'])->name('roundflightDetails');
+Route::post('/roundpaymentcredit',[App\Http\Controllers\RoundPaymentController::class,'PaymentCredit'])->name('roundpaymentcredit');
 
 
             // Multi City

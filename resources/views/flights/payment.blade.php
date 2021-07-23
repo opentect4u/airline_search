@@ -23,7 +23,7 @@
                                         Credit or Debit Card
                                     </a>
                                 </div>
-                                <form name="credit_or_debit" method="POST" action="{{route('paymentcredit')}}">
+                                <form name="credit_or_debit" method="POST" action="@if(isset($return_flights)){{route('roundpaymentcredit')}}@else{{route('paymentcredit')}}@endif">
                                 @csrf
                                 <div id="collapse1" class="collapse show mt-2" aria-labelledby="headingOne" data-parent="#accordion">
                                     <div class="alert alert-warning"><i class="las la-credit-card"></i> We also accept <b>International Cards</b> for payments on transaction. </div>
@@ -56,11 +56,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    @if(isset($return_flights))
-                                    <input type="hidden" name="flight" id="flight" value="{{json_encode($return_flights)}}" />
-                                    <input type="submit" name="" id="submit_credit" class="btn btn-primary" value="Pay £ {{number_format((float)(str_replace('GBP','',$return_flights[2]['price']['ApproximateBasePrice'])*$per_flight_details->adults)+(str_replace('GBP','',$return_flights[2]['price']['Taxes'])*$per_flight_details->adults),2, '.', '')}}" />
-                                    @else
-                                    <input type="hidden" name="flight" id="flight" value="{{json_encode($data)}}" />
+                                    
                                     @for($i=1;$i<=$per_flight_details->adults; $i++)
                                     <input type="hidden" name="title{{$i}}" id="title{{$i}}" value="<?php  $title='title'.$i; echo $per_flight_details->$title;?>" />
                                     <input type="hidden" name="first_name{{$i}}" id="first_name{{$i}}" value="<?php  $first_name='first_name'.$i; echo $per_flight_details->$first_name;?>" />
@@ -96,6 +92,11 @@
                                     <input type="hidden" name="children" id="children" value="{{$per_flight_details->children}}" />
                                     <input type="hidden" name="infant" id="infant" value="{{$per_flight_details->infant}}" />
                                     <!-- <input type="text" name="passenger_details" id="passenger_details" value="" /> -->
+                                    @if(isset($return_flights))
+                                    <input type="hidden" name="return_flight" id="return_flight" value="{{json_encode($return_flights)}}" />
+                                    <input type="submit" name="" id="submit_credit" class="btn btn-primary" value="Pay £ {{number_format((float)(str_replace('GBP','',$return_flights[2]['price']['ApproximateBasePrice'])*$per_flight_details->adults)+(str_replace('GBP','',$return_flights[2]['price']['Taxes'])*$per_flight_details->adults),2, '.', '')}}" />
+                                    @else
+                                    <input type="hidden" name="flight" id="flight" value="{{json_encode($data)}}" />
                                     <input type="submit" name="" id="submit_credit" class="btn btn-primary" value="Pay £ {{number_format((float)(str_replace('GBP','',$data[2]['price']['ApproximateBasePrice'])*$per_flight_details->adults)+(str_replace('GBP','',$data[2]['price']['Taxes'])*$per_flight_details->adults),2,'.', '')}}" />
                                     <!-- <a href="confirm-booking.php" class="btn btn-primary">Pay <i class="las la-pound-sign"></i>88.00</a> -->
                                     @endif
