@@ -81,10 +81,10 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label>Departure Date</label>
-                                <div id="departure_date_datetimepicker" class="input-group">
-                                    <input type="text" name="departure_date" id="departure_date" value="<?php echo date('d-m-Y')?>" placeholder="dd-mm-yyyy" class="form-control border-right-0" data-format="dd-MM-yyyy">
-                                    <div class="input-group-append add-on">
-                                      <span class="input-group-text bg-white pl-0"><i class="lar la-calendar-alt"></i></span>
+                                <div id="departure_date_datetimepicker" class="input-group departure_date_datetimepickerclass">
+                                    <input type="text" name="departure_date" id="departure_date" value="<?php echo date('d-m-Y')?>" placeholder="dd-mm-yyyy" class="form-control border-right-0 departure_date_datetimepickerclass" data-format="dd-MM-yyyy">
+                                    <div class="input-group-append add-on departure_date_datetimepickerclass">
+                                      <span class="input-group-text bg-white pl-0 departure_date_datetimepickerclass"><i class="lar la-calendar-alt departure_date_datetimepickerclass"></i></span>
                                     </div>
                                 </div>
                             </div>
@@ -562,51 +562,50 @@
 @section('script')
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script> -->
 
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <script type="text/javascript">
     $( document ).ready(function() {
         $('#loading').hide();
         var path = "{{ route('searchairport') }}";
 
-         // Set the Options for "Bloodhound" suggestion engine
-         var engine = new Bloodhound({
-                    remote: {
-                        // url: '/find?q=%QUERY%',
-                        url: path+'?q=%QUERY%',
-                        wildcard: '%QUERY%'
-                    },
-                    datumTokenizer: Bloodhound.tokenizers.whitespace('q'),
-                    queryTokenizer: Bloodhound.tokenizers.whitespace
-                });
+        // Set the Options for "Bloodhound" suggestion engine
+        var engine = new Bloodhound({
+            remote: {
+                // url: '/find?q=%QUERY%',
+                url: path+'?q=%QUERY%',
+                wildcard: '%QUERY%'
+            },
+            datumTokenizer: Bloodhound.tokenizers.whitespace('q'),
+            queryTokenizer: Bloodhound.tokenizers.whitespace
+        });
 
 
         $(".search_input").typeahead({
-                    hint: true,
-                    highlight: true,
-                    minLength: 1
-                }, {
-                    source: engine.ttAdapter(),
-
-                    // This will be appended to "tt-dataset-" to form the class name of the suggestion menu.
-                    name: 'airportList',
-
-                    // the key from the array we want to display (name,id,email,etc...)
-                    templates: {
-                        empty: [
-                            '<div class="list-group search-results-dropdown"><div class="list-group-item">Nothing found.</div></div>'
-                        ],
-                        header: [
-                            '<div class="list-group search-results-dropdown">'
-                        ],
-                        suggestion: function (data) {
-                            return '<span class="list-group-item">' + data + '</span>'
-                        }
+                hint: true,
+                highlight: true,
+                minLength: 1
+            }, {
+                source: engine.ttAdapter(),
+                // This will be appended to "tt-dataset-" to form the class name of the suggestion menu.
+                name: 'airportList',
+                // the key from the array we want to display (name,id,email,etc...)
+                templates: {
+                    empty: [
+                        '<div class="list-group search-results-dropdown"><div class="list-group-item">Nothing found.</div></div>'
+                    ],
+                    header: [
+                        '<div class="list-group search-results-dropdown">'
+                    ],
+                    suggestion: function (data) {
+                        return '<span class="list-group-item">' + data + '</span>'
                     }
+                }
         });
 
-        
-        $('#departure_date_datetimepicker').click(function(){
+        // departure_date_datetimepickerclass
+        $('.departure_date_datetimepickerclass').click(function(){
             $('#returning_date').val('');
+            $("#returning_date_datetimepicker").datetimepicker("destroy");
             $('#departure_date_datetimepicker').datetimepicker({
                 pickTime: false,
                 autoclose: true, 
@@ -615,37 +614,42 @@
             });
             $('#departure_date_datetimepicker').datetimepicker("show");
         });
-        // departure_date
+
         $('.returning_date_datetimepickerclass').click(function(){
+            // alert("return hii")
             var dep_val=$('#departure_date').val();
+            // alert(dep_val);
             var newdate = dep_val.split("-").reverse().join("/");
             var datePeriode= new Date(newdate);
-            var adddate=datePeriode.setDate(datePeriode.getDate() + 1)
+            var adddate=datePeriode.setDate(datePeriode.getDate() + 1);
             
             $('#returning_date_datetimepicker').datetimepicker({
+                // format: "dd-MM-yyyy",
+                autoclose: true,
                 pickTime: false,
-                autoclose: true, 
                 startDate: new Date(adddate),
                 todayHighlight: false,
+                todayBtn: true
             });
             $('#returning_date_datetimepicker').datetimepicker("show");
 
         });
 
-        $('#returning_date_datetimepicker').click(function(){
-            // alert("hii");
-            var dep_val=$('#departure_date').val();
-            var newdate = dep_val.split("-").reverse().join("/");
-            var datePeriode= new Date(newdate);
-            var adddate=datePeriode.setDate(datePeriode.getDate() + 1)
+        // $('#returning_date_datetimepicker').click(function(){
+        //     // alert("hii");
+        //     var dep_val=$('#departure_date').val();
+        //     var newdate = dep_val.split("-").reverse().join("/");
+        //     var datePeriode= new Date(newdate);
+        //     var adddate=datePeriode.setDate(datePeriode.getDate() + 1)
             
-            $('#returning_date_datetimepicker').datetimepicker({
-                pickTime: false,
-                autoclose: true, 
-                startDate: new Date(adddate),
-                todayHighlight: false,
-            });
-        });
+        //     $('#returning_date_datetimepicker').datetimepicker({
+        //         pickTime: false,
+        //         autoclose: true, 
+        //         startDate: new Date(adddate),
+        //         todayHighlight: false,
+        //     });
+        // });
+
         // jQuery('#returning_date_datetimepicker').datetimepicker({
         //     pickTime: false,
         //     autoclose: true, 
