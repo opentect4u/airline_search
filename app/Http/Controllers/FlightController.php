@@ -45,6 +45,11 @@ class FlightController extends Controller
                 foreach($flight as $flight_data){
                     foreach($flight_data[0] as $datas){
                         foreach($datas[0] as $journeys){
+
+                        
+                        // foreach($datas[1] as $journeys1){
+
+                        // }
                             if($var_direct_flight=="DF" && count($journeys)>1 && $var_flexi=="")
                             {
                                 continue;

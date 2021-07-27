@@ -20,7 +20,7 @@
                         <input type="text" name="from1" id="from1" required placeholder="(IXC) | Chandigarh Airport" class="form-control search_input">
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="form-group">
                         <label>To</label>
                         <input type="text" name="to1" id="to1" required placeholder="(BOM) | Chhatrapati Shivaji Int'l Airport" class="form-control search_input" />
@@ -48,7 +48,7 @@
                         <input type="text" name="from2" id="from2" required placeholder="(IXC) | Chandigarh Airport" class="form-control search_input">
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="form-group">
                         <label>To</label>
                         <input type="text" name="to2" id="to2" value="" required placeholder="(BOM) | Chhatrapati Shivaji Int'l Airport" class="form-control search_input">
@@ -59,7 +59,7 @@
                         <label>Date</label>
                         <div id="flight1_date_datetimepicker" class="input-group flight1_date_datetimepicker_class">
                             <!-- <input type="text" name="flight1_date" required id="flight1_date" value="{{ date('d-m-Y', strtotime(date('d-m-Y'). ' + 1 days'))}}" placeholder="dd-mm-yyyy" class="form-control border-right-0 flight1_date_datetimepicker_class" data-format="dd-MM-yyyy"> -->
-                            <input type="text" name="flight1_date" required id="flight1_date" value="{{ date('d-m-Y', strtotime(date('d-m-Y'). ' + 1 days'))}}" placeholder="dd-mm-yyyy" class="form-control border-right-0 flight1_date_datetimepicker_class" data-format="dd-MM-yyyy">
+                            <input type="text" name="flight1_date" required id="flight1_date" value="" placeholder="dd-mm-yyyy" class="form-control border-right-0 flight1_date_datetimepicker_class" data-format="dd-MM-yyyy">
                             <div class="input-group-append add-on flight1_date_datetimepicker_class">
                             <span class="input-group-text bg-white pl-0 flight1_date_datetimepicker_class"><i class="lar la-calendar-alt flight1_date_datetimepicker_class"></i></span>
                             </div>
@@ -77,7 +77,7 @@
                         <input type="text" name="from3" id="from3" required placeholder="(IXC) | Chandigarh Airport" class="form-control search_input">
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="form-group">
                         <label>To</label>
                         <input type="text" name="to3" id="to3" required placeholder="(BOM) | Chhatrapati Shivaji Int'l Airport" class="form-control search_input">
@@ -87,7 +87,7 @@
                     <div class="form-group">
                         <label>Date</label>
                         <div id="flight2_date_datetimepicker" class="input-group flight2_date_datetimepicker_class">
-                            <input type="text" name="flight2_date" id="flight2_date" value="{{ date('d-m-Y', strtotime(date('d-m-Y'). ' + 2 days'))}}" required placeholder="dd-mm-yyyy" class="form-control border-right-0 flight2_date_datetimepicker_class" data-format="dd-MM-yyyy">
+                            <input type="text" name="flight2_date" id="flight2_date" value="" required placeholder="dd-mm-yyyy" class="form-control border-right-0 flight2_date_datetimepicker_class" data-format="dd-MM-yyyy">
                             <div class="input-group-append add-on flight2_date_datetimepicker_class">
                             <span class="input-group-text bg-white pl-0 flight2_date_datetimepicker_class"><i class="lar la-calendar-alt flight2_date_datetimepicker_class"></i></span>
                             </div>
@@ -105,7 +105,7 @@
                         <input type="text" name="from4" id="from4"  placeholder="(IXC) | Chandigarh Airport" class="form-control search_input">
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="form-group">
                         <label>To</label>
                         <input type="text" name="to4" id="to4"  placeholder="(BOM) | Chhatrapati Shivaji Int'l Airport" class="form-control search_input">
@@ -119,9 +119,11 @@
                             <div class="input-group-append add-on flight3_date_datetimepicker_class">
                             <span class="input-group-text bg-white pl-0 flight3_date_datetimepicker_class"><i class="lar la-calendar-alt flight3_date_datetimepicker_class"></i></span>
                             </div>
-                            <span class="input-group-text pl-0" id="crossIcon_flight3" style="cursor: pointer;"><i class="las la-times"></i></span>
                         </div>
                     </div>
+                </div>
+                <div class="col-md-1">
+                    <span class="input-group-text" id="crossIcon_flight3" style="cursor: pointer;"><i class="las la-times"></i></span>
                 </div>
             </div>
             <div class="row" id="5rdFlight" data-show-value="0">
@@ -134,7 +136,7 @@
                         <input type="text" name="from5" id="from5"  placeholder="(IXC) | Chandigarh Airport" class="form-control search_input">
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="form-group">
                         <label>To</label>
                         <input type="text" name="to5" id="to5"  placeholder="(BOM) | Chhatrapati Shivaji Int'l Airport" class="form-control search_input">
@@ -148,9 +150,12 @@
                             <div class="input-group-append add-on flight4_date_datetimepicker_class">
                             <span class="input-group-text bg-white pl-0 flight4_date_datetimepicker_class"><i class="lar la-calendar-alt flight4_date_datetimepicker_class"></i></span>
                             </div>
-                            <span class="input-group-text pl-0" id="crossIcon_flight4" style="cursor: pointer;"><i class="las la-times"></i></span>
+                            <!-- <span class="input-group-text pl-0" id="crossIcon_flight4" style="cursor: pointer;"><i class="las la-times"></i></span> -->
                         </div>
                     </div>
+                </div>
+                <div class="col-md-1">
+                    <span class="input-group-text" id="crossIcon_flight4" style="cursor: pointer;"><i class="las la-times"></i></span>
                 </div>
             </div>
             <div class="row" id="6rdFlight" data-show-value="0">
@@ -163,7 +168,7 @@
                         <input type="text" name="from6" id="from6"  placeholder="(IXC) | Chandigarh Airport" class="form-control search_input">
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="form-group">
                         <label>To</label>
                         <input type="text" name="to6" id="to6"  placeholder="(BOM) | Chhatrapati Shivaji Int'l Airport" class="form-control search_input">
@@ -177,9 +182,12 @@
                             <div class="input-group-append add-on flight5_date_datetimepicker_class">
                             <span class="input-group-text bg-white pl-0 flight5_date_datetimepicker_class"><i class="lar la-calendar-alt flight5_date_datetimepicker_class"></i></span>
                             </div>
-                            <span class="input-group-text pl-0" id="crossIcon_flight5" style="cursor: pointer;"><i class="las la-times"></i></span>
+                            <!-- <span class="input-group-text pl-0" id="crossIcon_flight5" style="cursor: pointer;"><i class="las la-times"></i></span> -->
                         </div>
                     </div>
+                </div>
+                <div class="col-md-1">
+                    <span class="input-group-text" id="crossIcon_flight5" style="cursor: pointer;"><i class="las la-times"></i></span>
                 </div>
             </div>
             <div class="row">
@@ -389,7 +397,11 @@
         // });
         // flight0_date_datetimepicker_class
         $('.flight0_date_datetimepicker_class').on('click',function(){
-            $("#flight1_date_datetimepicker").val("");
+            $("#flight1_date").val("");
+            $("#flight2_date").val("");
+            $("#flight3_date").val("");
+            $("#flight4_date").val("");
+            $("#flight5_date").val("");
             $("#flight1_date_datetimepicker").datetimepicker("destroy");
             jQuery('#flight0_date_datetimepicker').datetimepicker({
                 pickTime: false,
@@ -401,8 +413,16 @@
             $("#flight0_date_datetimepicker").datetimepicker("show");
         });
         $('.flight1_date_datetimepicker_class').on('click',function(){
+            $("#flight2_date").val("");
+            $("#flight3_date").val("");
+            $("#flight4_date").val("");
+            $("#flight5_date").val("");
+            $("#flight2_date_datetimepicker").datetimepicker("destroy");
             var dep_val=$('#flight0_date').val();
             // alert(dep_val);
+            // flight1_date
+            $('#flight1_date').val('');
+            $('#flight1_date').val(dep_val);
             var newdate = dep_val.split("-").reverse().join("/");
             var datePeriode= new Date(newdate);
             var adddate=datePeriode.setDate(datePeriode.getDate() + 1);
@@ -416,8 +436,14 @@
             $("#flight1_date_datetimepicker").datetimepicker("show");
         });
         $('.flight2_date_datetimepicker_class').on('click',function(){
+            $("#flight3_date").val("");
+            $("#flight4_date").val("");
+            $("#flight5_date").val("");
+            $("#flight3_date_datetimepicker").datetimepicker("destroy");
             var dep_val=$('#flight1_date').val();
             // alert(dep_val);
+            $('#flight2_date').val('');
+            $('#flight2_date').val(dep_val);
             var newdate = dep_val.split("-").reverse().join("/");
             var datePeriode= new Date(newdate);
             var adddate=datePeriode.setDate(datePeriode.getDate() + 1);
@@ -431,8 +457,13 @@
             $("#flight2_date_datetimepicker").datetimepicker("show");
         });
         $('.flight3_date_datetimepicker_class').on('click',function(){
+            $("#flight4_date").val("");
+            $("#flight5_date").val("");
+            $("#flight4_date_datetimepicker").datetimepicker("destroy");
             var dep_val=$('#flight2_date').val();
             // alert(dep_val);
+            $('#flight3_date').val('');
+            $('#flight3_date').val(dep_val);
             var newdate = dep_val.split("-").reverse().join("/");
             var datePeriode= new Date(newdate);
             var adddate=datePeriode.setDate(datePeriode.getDate() + 1);
@@ -446,8 +477,12 @@
             $("#flight3_date_datetimepicker").datetimepicker("show");
         });
         $('.flight4_date_datetimepicker_class').on('click',function(){
+            $("#flight5_date").val("");
+            $("#flight5_date_datetimepicker").datetimepicker("destroy");
             var dep_val=$('#flight3_date').val();
             // alert(dep_val);
+            $('#flight4_date').val('');
+            $('#flight4_date').val(dep_val);
             var newdate = dep_val.split("-").reverse().join("/");
             var datePeriode= new Date(newdate);
             var adddate=datePeriode.setDate(datePeriode.getDate() + 1);
@@ -461,8 +496,12 @@
             $("#flight4_date_datetimepicker").datetimepicker("show");
         });
         $('.flight5_date_datetimepicker_class').on('click',function(){
+            // $("#flight5_date").val("");
+            $("#flight5_date_datetimepicker").datetimepicker("destroy");
             var dep_val=$('#flight4_date').val();
             // alert(dep_val);
+            $('#flight5_date').val('');
+            $('#flight5_date').val(dep_val);
             var newdate = dep_val.split("-").reverse().join("/");
             var datePeriode= new Date(newdate);
             var adddate=datePeriode.setDate(datePeriode.getDate() + 1);
@@ -609,17 +648,36 @@
             // if(attr_4rdFlight==0)
                 $('#4rdFlight').show();
                 $("#4rdFlight").attr("data-show-value", "1");
+                // to3
+                var to3_val=$('#to3').val();
+                if(to3_val!=''){
+                    // from4
+                    $('#from4').val('');
+                    $('#from4').val(to3_val);
+                }
             // }
             if(attr_4rdFlight==1){
                 $('#5rdFlight').show();
                 $("#5rdFlight").attr("data-show-value", "1");
                 // crossIcon_flight3
                 $('#crossIcon_flight3').hide();
+                var to4_val=$('#to4').val();
+                if(to4_val!=''){
+                    // from4
+                    $('#from5').val('');
+                    $('#from5').val(to4_val);
+                }
             }
             if(attr_5rdFlight==1){
                 $('#6rdFlight').show();
                 $("#6rdFlight").attr("data-show-value", "1");
                 $('#crossIcon_flight4').hide();
+                var to5_val=$('#to5').val();
+                if(to5_val!=''){
+                    // from4
+                    $('#from6').val('');
+                    $('#from6').val(to5_val);
+                }
             }
             // data-show-value
         });
@@ -654,43 +712,127 @@
         
 
         // select flight to add value automatic select from value 
-        $('#to1').on('change',function(){
-            // alert("hii");
+        // $('#to1').on('change',function(){
+        //     // alert("hii");
+        //     var to1_val=$('#to1').val();
+        //     // alert(to1_val);
+        //     // $('#from2').val('');
+        //     // $('#from2').val(to1_val);
+        //     $("#from2").typeahead('val', '')
+        //     $("#from2").typeahead('val',to1_val);
+        // });
+        $("#to1").typeahead({
+            hint: true,
+            highlight: true,
+            minLength: 1
+        },{
+            source: engine.ttAdapter(),
+            name: 'airportList',
+            templates: {
+                empty: [
+                    '<div class="list-group search-results-dropdown"><div class="list-group-item">Nothing found.</div></div>'
+                ],
+                header: [
+                        '<div class="list-group search-results-dropdown">'
+                ],
+                suggestion: function (data) {
+                    return '<span class="list-group-item">' + data + '</span>'
+                }
+            }
+        }).on('typeahead:selected', function(e){
             var to1_val=$('#to1').val();
-            // alert(to1_val);
-            // $("#from2").blur('');
-            $('#from2').val('');
-            $('#from2').val(to1_val);
-            // $("#from2").removeAttr('value');
-            // $("#from2").attr('value',val);
+            $("#from2").typeahead('val', '')
+            $("#from2").typeahead('val',to1_val);
         });
+        
         $('#from2').on('click',function(){
             // alert("hii");
             var to1_val=$('#to1').val();
             var from2_val=$('#from2').val();
             if(from2_val==''){
             $("#from2").typeahead('val', '')
-            $("#from2").focus().typeahead('val',to1_val).focus();
+            // $("#from2").focus().typeahead('val',to1_val).focus();
+            $("#from2").typeahead('val',to1_val);
             }
         });
-        $('#to2').change(function(){
-            // alert("hii");
-            var val=$('#to2').val();
-            // alert(val);
-            var from2_val=$('#from2').val();
-            if(from2_val==''){
-            $('#from3').val();
-            $('#from3').val(val);
+
+        $("#to2").typeahead({
+            hint: true,
+            highlight: true,
+            minLength: 1
+        },{
+            source: engine.ttAdapter(),
+            name: 'airportList',
+            templates: {
+                empty: [
+                    '<div class="list-group search-results-dropdown"><div class="list-group-item">Nothing found.</div></div>'
+                ],
+                header: [
+                        '<div class="list-group search-results-dropdown">'
+                ],
+                suggestion: function (data) {
+                    return '<span class="list-group-item">' + data + '</span>'
+                }
             }
-            // $("#from3").removeAttr('value');
-            // $("#from3").attr('value',val);
+        }).on('typeahead:selected', function(e){
+            var val_to2=$('#to2').val();
+            var from3_val=$('#from3').val();
+            if(from3_val==''){
+                $('#from3').val();
+                $('#from3').val(val_to2);
+            }
         });
+        // $('#to2').change(function(){
+        //     // alert("hii");
+        //     var val=$('#to2').val();
+        //     // alert(val);
+        //     var from2_val=$('#from2').val();
+        //     if(from2_val==''){
+        //     $('#from3').val();
+        //     $('#from3').val(val);
+        //     // $("#from3").typeahead('val', '')
+        //     // $("#from3").focus().typeahead('val',from2_val).focus();
+        //     }
+        //     // $("#from3").removeAttr('value');
+        //     // $("#from3").attr('value',val);
+        // });
         $('#from3').on('click',function(){
             // alert("hii");
             var to1_val=$('#to2').val();
             $("#from3").typeahead('val', '')
             $("#from3").focus().typeahead('val',to1_val).focus();
             
+        });
+
+        $("#to3").typeahead({
+            hint: true,
+            highlight: true,
+            minLength: 1
+        },{
+            source: engine.ttAdapter(),
+            name: 'airportList',
+            templates: {
+                empty: [
+                    '<div class="list-group search-results-dropdown"><div class="list-group-item">Nothing found.</div></div>'
+                ],
+                header: [
+                        '<div class="list-group search-results-dropdown">'
+                ],
+                suggestion: function (data) {
+                    return '<span class="list-group-item">' + data + '</span>'
+                }
+            }
+        }).on('typeahead:selected', function(e){
+            var attr_4rdFlight=$("#4rdFlight").attr("data-show-value");
+            // alert(attr_4rdFlight)
+            if(attr_4rdFlight==1){
+                var val_to2=$('#to3').val();
+                var from4_val=$('#from4').val();
+                if(from4_val==''){
+                    $('#from4').val();
+                    $('#from4').val(val_to2);
+                }
+            }
         });
 
         $('#from4').on('click',function(){
@@ -700,6 +842,38 @@
             $("#from4").focus().typeahead('val',to1_val).focus();
             
         });
+
+        $("#to4").typeahead({
+            hint: true,
+            highlight: true,
+            minLength: 1
+        },{
+            source: engine.ttAdapter(),
+            name: 'airportList',
+            templates: {
+                empty: [
+                    '<div class="list-group search-results-dropdown"><div class="list-group-item">Nothing found.</div></div>'
+                ],
+                header: [
+                        '<div class="list-group search-results-dropdown">'
+                ],
+                suggestion: function (data) {
+                    return '<span class="list-group-item">' + data + '</span>'
+                }
+            }
+        }).on('typeahead:selected', function(e){
+            var attr_4rdFlight=$("#5rdFlight").attr("data-show-value");
+            // alert(attr_4rdFlight)
+            if(attr_4rdFlight==1){
+                var val_to2=$('#to4').val();
+                var from4_val=$('#from5').val();
+                if(from4_val==''){
+                    $('#from5').val();
+                    $('#from5').val(val_to2);
+                }
+            }
+        });
+
         $('#from5').on('click',function(){
             // alert("hii");
             var to1_val=$('#to4').val();
@@ -707,6 +881,38 @@
             $("#from5").focus().typeahead('val',to1_val).focus();
             
         });
+
+        $("#to5").typeahead({
+            hint: true,
+            highlight: true,
+            minLength: 1
+        },{
+            source: engine.ttAdapter(),
+            name: 'airportList',
+            templates: {
+                empty: [
+                    '<div class="list-group search-results-dropdown"><div class="list-group-item">Nothing found.</div></div>'
+                ],
+                header: [
+                        '<div class="list-group search-results-dropdown">'
+                ],
+                suggestion: function (data) {
+                    return '<span class="list-group-item">' + data + '</span>'
+                }
+            }
+        }).on('typeahead:selected', function(e){
+            var attr_4rdFlight=$("#6rdFlight").attr("data-show-value");
+            // alert(attr_4rdFlight)
+            if(attr_4rdFlight==1){
+                var val_to2=$('#to5').val();
+                var from4_val=$('#from6').val();
+                if(from4_val==''){
+                    $('#from6').val();
+                    $('#from6').val(val_to2);
+                }
+            }
+        });
+
         $('#from6').on('click',function(){
             // alert("hii");
             var to1_val=$('#to5').val();

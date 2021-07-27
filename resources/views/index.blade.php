@@ -1,5 +1,7 @@
 @extends('common.master')
 @section('content')
+<!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.css" rel="stylesheet">   -->
+
 <div class="banner position-relative">
     <div id="demo" class="carousel slide" data-ride="carousel">
     <!-- Indicators -->
@@ -557,12 +559,15 @@
 
 </div>
 
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.css" rel="stylesheet">  
 
 @endsection
 @section('script')
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script> -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script>  -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script> </head> -->
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script> -->
 <script type="text/javascript">
     $( document ).ready(function() {
         $('#loading').hide();
@@ -605,33 +610,51 @@
         // departure_date_datetimepickerclass
         $('.departure_date_datetimepickerclass').click(function(){
             $('#returning_date').val('');
-            $("#returning_date_datetimepicker").datetimepicker("destroy");
+            // $("#returning_date_datetimepicker").datetimepicker("destroy");
             $('#departure_date_datetimepicker').datetimepicker({
                 pickTime: false,
                 autoclose: true, 
                 startDate: new Date(),
-                todayHighlight: false,
+                todayHighlight: true,
+                // minDate: new Date(),
+                // defaultDate: new Date(),
             });
             $('#departure_date_datetimepicker').datetimepicker("show");
         });
 
-        $('.returning_date_datetimepickerclass').click(function(){
+        $('.returning_date_datetimepickerclass').on('click',function(){
             // alert("return hii")
+            $("#returning_date_datetimepicker").datetimepicker("destroy");
+            // returning_date
             var dep_val=$('#departure_date').val();
-            // alert(dep_val);
+            $('#returning_date').val('');
+            $('#returning_date').val(dep_val);
+            
             var newdate = dep_val.split("-").reverse().join("/");
             var datePeriode= new Date(newdate);
             var adddate=datePeriode.setDate(datePeriode.getDate() + 1);
-            
+            // alert(adddate);
+            // alert(new Date(adddate))
             $('#returning_date_datetimepicker').datetimepicker({
                 // format: "dd-MM-yyyy",
-                autoclose: true,
+                // autoclose: true,
                 pickTime: false,
                 startDate: new Date(adddate),
-                todayHighlight: false,
-                todayBtn: true
+                // linked:new Date(adddate),
+                // setStartDate: new Date(adddate),
+                // StartDate: '2012-07-31',
+                // todayHighlight: true,
+                // setDate:new Date(adddate),
+                // defaultDate: new Date(adddate),
+                // todayHighlight: new Date(adddate),
+                // todayBtn: false,
+                // defaultDate: new Date(adddate),
+                // Default: new Date(adddate),
             });
+            // $('#returning_date_datetimepicker').datetimepicker('setStartDate', '2021-07-29');
+
             $('#returning_date_datetimepicker').datetimepicker("show");
+            // $('#returning_date_datetimepicker').datetimepicker('setDate', '2021-07-29');
 
         });
 

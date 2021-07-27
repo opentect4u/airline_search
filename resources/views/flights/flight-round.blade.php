@@ -274,11 +274,18 @@
                     @foreach($datas[0] as $datas1)
                     <?php 
                     $rrr=count($datas1);
+                    // echo $rrr;
+                    ?>
+                    @endforeach
+                    @foreach($datas[1] as $datas1)
+                    <?php 
+                    $sss=count($datas1);
+                    // echo $sss;
                     ?>
                     @endforeach
                     @endforeach
                     
-                    @if($searched->direct_flight == 'DF' && $rrr>1 && $searched->flexi=="")
+                    @if($searched->direct_flight == 'DF' && $rrr>1 && $searched->flexi=="" || $sss>1)
                     @continue
                     @elseif($searched->flexi == 'F' && $rrr==1 && $searched->direct_flight=="")
                     @continue
@@ -306,10 +313,11 @@
                         }
                     ?>
                     
-                        <div id="SortDeparture{{$count}}" class="flight-devider GlobalDiv {{$DepartureSlot}} Airline<?php foreach($flight_data[0] as $datas){ foreach($datas[0] as $datas1){ echo $datas1[0]['Airline']; }} ?> Stops<?php  foreach($flight_data[0] as $datas){ foreach($datas[0] as $datas1){ echo count($datas1)-1; }} ?> priceRange<?php foreach($flight_data[1] as $prices){ echo (str_replace('GBP','',$prices['Total Price'] )*100); } ?> SortArrival{{$count}} SortDuration{{$count}}" data-GlobalDiv="1" data-TotalpriceDiv="<?php foreach($flight_data[1] as $prices){ echo (str_replace('GBP','',$prices['Total Price'] )*100); } ?>" data-Deprature-time="<?php foreach($flight_data[0] as $datas){foreach($datas[0] as $datas1){echo \Carbon\Carbon::parse($datas1[0]['Depart'])->format('H:i'); }} ?>" data-Arrival-time="<?php foreach($flight_data[0] as $datas){foreach($datas[0] as $datas1){ echo \Carbon\Carbon::parse($datas1[count($datas1)-1]['Arrive'])->format('H:i'); }} ?>" data-Duration-time="<?php foreach($flight_data[0] as $datas){foreach($datas[0] as $datas1){ echo \Carbon\Carbon::parse($datas1[0]['Depart'])->diff(\Carbon\Carbon::parse($datas1[count($datas1)-1]['Arrive']))->format('%d%H%I');}} ?>">
+                        <div id="SortDeparture{{$count}}" class="flight-devider GlobalDiv {{$DepartureSlot}} Airline<?php foreach($flight_data[0] as $datas){ foreach($datas[0] as $datas1){ echo $datas1[0]['Airline']; }} ?> Stops<?php  foreach($flight_data[0] as $datas){ foreach($datas[0] as $datas1){ $var1=count($datas1)-1; } foreach($datas[1] as $datas1){ $var2=count($datas1)-1; } if($var1==$var2){ echo $var1;}else{echo "Others";} } ?> priceRange<?php foreach($flight_data[1] as $prices){ echo (str_replace('GBP','',$prices['Total Price'] )*100); } ?> SortArrival{{$count}} SortDuration{{$count}}" data-GlobalDiv="1" data-TotalpriceDiv="<?php foreach($flight_data[1] as $prices){ echo (str_replace('GBP','',$prices['Total Price'] )*100); } ?>" data-Deprature-time="<?php foreach($flight_data[0] as $datas){foreach($datas[0] as $datas1){echo \Carbon\Carbon::parse($datas1[0]['Depart'])->format('H:i'); }} ?>" data-Arrival-time="<?php foreach($flight_data[0] as $datas){foreach($datas[0] as $datas1){ echo \Carbon\Carbon::parse($datas1[count($datas1)-1]['Arrive'])->format('H:i'); }} ?>" data-Duration-time="<?php foreach($flight_data[0] as $datas){foreach($datas[0] as $datas1){ echo \Carbon\Carbon::parse($datas1[0]['Depart'])->diff(\Carbon\Carbon::parse($datas1[count($datas1)-1]['Arrive']))->format('%d%H%I');}} ?>">
                             <div class="row align-items-center">
                                 <!-- outbound flight details -->
                                 @foreach($flight_data[0] as $datas1)
+                                <!-- {{count($datas1[0])}}{{count($datas1[1])}} -->
                                 @foreach($datas1[0] as $datas)
                                 <div class="col-md-3 mb-2 mb-md-0">
                                     <div class="media">
