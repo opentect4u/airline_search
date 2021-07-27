@@ -610,7 +610,7 @@
         // departure_date_datetimepickerclass
         $('.departure_date_datetimepickerclass').click(function(){
             $('#returning_date').val('');
-            // $("#returning_date_datetimepicker").datetimepicker("destroy");
+            $("#returning_date_datetimepicker").datetimepicker("destroy");
             $('#departure_date_datetimepicker').datetimepicker({
                 pickTime: false,
                 autoclose: true, 
@@ -619,12 +619,16 @@
                 // minDate: new Date(),
                 // defaultDate: new Date(),
             });
-            $('#departure_date_datetimepicker').datetimepicker("show");
+            $('#departure_date_datetimepicker').datetimepicker("show").on('changeDate', function(){
+                // $('#departure_date_datetimepicker').hide();
+                $('#departure_date_datetimepicker').datetimepicker("hide")
+            });
+        
         });
 
         $('.returning_date_datetimepickerclass').on('click',function(){
             // alert("return hii")
-            $("#returning_date_datetimepicker").datetimepicker("destroy");
+            // $("#returning_date_datetimepicker").datetimepicker("destroy");
             // returning_date
             var dep_val=$('#departure_date').val();
             $('#returning_date').val('');
@@ -636,50 +640,19 @@
             // alert(adddate);
             // alert(new Date(adddate))
             $('#returning_date_datetimepicker').datetimepicker({
-                // format: "dd-MM-yyyy",
-                // autoclose: true,
                 pickTime: false,
                 startDate: new Date(adddate),
-                // linked:new Date(adddate),
-                // setStartDate: new Date(adddate),
-                // StartDate: '2012-07-31',
-                // todayHighlight: true,
-                // setDate:new Date(adddate),
-                // defaultDate: new Date(adddate),
-                // todayHighlight: new Date(adddate),
-                // todayBtn: false,
-                // defaultDate: new Date(adddate),
-                // Default: new Date(adddate),
+                autoclose: true,
+                todayHighlight: true,
             });
-            // $('#returning_date_datetimepicker').datetimepicker('setStartDate', '2021-07-29');
 
-            $('#returning_date_datetimepicker').datetimepicker("show");
-            // $('#returning_date_datetimepicker').datetimepicker('setDate', '2021-07-29');
-
+            // $('#returning_date_datetimepicker').datetimepicker("show");
+            $('#returning_date_datetimepicker').datetimepicker("show").on('changeDate', function(){
+                $('#returning_date_datetimepicker').datetimepicker("hide")
+            });
         });
 
-        // $('#returning_date_datetimepicker').click(function(){
-        //     // alert("hii");
-        //     var dep_val=$('#departure_date').val();
-        //     var newdate = dep_val.split("-").reverse().join("/");
-        //     var datePeriode= new Date(newdate);
-        //     var adddate=datePeriode.setDate(datePeriode.getDate() + 1)
-            
-        //     $('#returning_date_datetimepicker').datetimepicker({
-        //         pickTime: false,
-        //         autoclose: true, 
-        //         startDate: new Date(adddate),
-        //         todayHighlight: false,
-        //     });
-        // });
-
-        // jQuery('#returning_date_datetimepicker').datetimepicker({
-        //     pickTime: false,
-        //     autoclose: true, 
-        //     startDate: new Date(),
-        //     todayHighlight: true,
-        //     autoclose: true,
-        // });
+        
         $('.returning_date_datetimepickerclass').click(function(){
             // alert("hii");
             $('#one_way').removeAttr('class');

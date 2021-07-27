@@ -410,7 +410,9 @@
                 todayHighlight: true,
                 autoclose: true,
             });
-            $("#flight0_date_datetimepicker").datetimepicker("show");
+            $("#flight0_date_datetimepicker").datetimepicker("show").on('changeDate', function(){
+                $('#flight0_date_datetimepicker').datetimepicker("hide")
+            });
         });
         $('.flight1_date_datetimepicker_class').on('click',function(){
             $("#flight2_date").val("");
@@ -433,7 +435,9 @@
                 todayHighlight: true,
                 autoclose: true,
             });
-            $("#flight1_date_datetimepicker").datetimepicker("show");
+            $("#flight1_date_datetimepicker").datetimepicker("show").on('changeDate', function(){
+                $('#flight1_date_datetimepicker').datetimepicker("hide")
+            });
         });
         $('.flight2_date_datetimepicker_class').on('click',function(){
             $("#flight3_date").val("");
@@ -454,7 +458,9 @@
                 todayHighlight: true,
                 autoclose: true,
             });
-            $("#flight2_date_datetimepicker").datetimepicker("show");
+            $("#flight2_date_datetimepicker").datetimepicker("show").on('changeDate', function(){
+                $('#flight2_date_datetimepicker').datetimepicker("hide")
+            });
         });
         $('.flight3_date_datetimepicker_class').on('click',function(){
             $("#flight4_date").val("");
@@ -474,7 +480,9 @@
                 todayHighlight: true,
                 autoclose: true,
             });
-            $("#flight3_date_datetimepicker").datetimepicker("show");
+            $("#flight3_date_datetimepicker").datetimepicker("show").on('changeDate', function(){
+                $('#flight3_date_datetimepicker').datetimepicker("hide")
+            });
         });
         $('.flight4_date_datetimepicker_class').on('click',function(){
             $("#flight5_date").val("");
@@ -493,7 +501,9 @@
                 todayHighlight: true,
                 autoclose: true,
             });
-            $("#flight4_date_datetimepicker").datetimepicker("show");
+            $("#flight4_date_datetimepicker").datetimepicker("show").on('changeDate', function(){
+                $('#flight4_date_datetimepicker').datetimepicker("hide")
+            });
         });
         $('.flight5_date_datetimepicker_class').on('click',function(){
             // $("#flight5_date").val("");
@@ -512,7 +522,9 @@
                 todayHighlight: true,
                 autoclose: true,
             });
-            $("#flight5_date_datetimepicker").datetimepicker("show");
+            $("#flight5_date_datetimepicker").datetimepicker("show").on('changeDate', function(){
+                $('#flight5_date_datetimepicker').datetimepicker("hide")
+            });
         });
         $('.returning_date_datetimepickerclass').click(function(){
             // alert("hii");

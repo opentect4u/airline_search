@@ -168,11 +168,11 @@ EOM;
 
         // return $data;
 
-        // return view('flights.payment',[
-        //     'data'=>$data,
-        //     // 'return_flights'=>$return_flight,
-        //     'per_flight_details'=>$request
-        // ]);
+        return view('flights.payment',[
+            'data'=>$data,
+            // 'return_flights'=>$return_flight,
+            'per_flight_details'=>$request
+        ]);
     } 
 
     public function XMLData_old($object){

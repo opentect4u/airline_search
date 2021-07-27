@@ -87,6 +87,7 @@ class FlightController extends Controller
                 // $search = collect($search)->sortByDesc('available_from_dt')->toArray();
             }
         }else{
+            $new_flight=collect();
             $travel_class=$request->travel_class;
             $flightFrom=$var_flightFrom;
             $flightTo=$var_flightTo;
@@ -95,7 +96,40 @@ class FlightController extends Controller
             $api_url = "https://apac.universal-api.pp.travelport.com/B2BGateway/connect/uAPI/AirService";
             $return =app('App\Http\Controllers\UtilityController')->universal_API($xmldata,$api_url);
             $content = $this->prettyPrint($return);
-            $flights = ($this->parseOutput($content));
+            $flights = $this->parseOutput($content);
+            
+            // return $flights ;
+            // if($var_flexi=='F'){
+            //     $old_date1=date('Y-m-d', strtotime($var_PreferredDate. ' - 1 days'));
+            //     // return $old_date1;
+            //     $new_date1=date('Y-m-d', strtotime($var_PreferredDate. ' + 1 days'));
+            //     if (strtotime($old_date1) <= strtotime(date('Y-m-d'))) {
+            //         return "hii";
+            //         $xmldata=app('App\Http\Controllers\UtilityController')->Universal_API_SearchXML($travel_class,$flightFrom,$flightTo,$old_date1);
+            //         // $api_url = "https://apac.universal-api.pp.travelport.com/B2BGateway/connect/uAPI/AirService";
+            //         $return =app('App\Http\Controllers\UtilityController')->universal_API($xmldata,$api_url);
+            //         $content = $this->prettyPrint($return);
+            //         $flights1 = $this->parseOutput($content);
+            //         // array_push($flights,$flights1);
+            //         foreach($flights as $data){
+            //             $new_flight->push($data);
+            //         }
+            //     }
+            //     // return $date1;
+            //     $xmldata=app('App\Http\Controllers\UtilityController')->Universal_API_SearchXML($travel_class,$flightFrom,$flightTo,$new_date1);
+            //     // $api_url = "https://apac.universal-api.pp.travelport.com/B2BGateway/connect/uAPI/AirService";
+            //     $return =app('App\Http\Controllers\UtilityController')->universal_API($xmldata,$api_url);
+            //     $content = $this->prettyPrint($return);
+            //     $flights2 = $this->parseOutput($content);
+            //     // array_push($flights,$flights2);
+            //     // $new_flight->push()
+            //     foreach($flights2  as $datas ){
+            //         $new_flight->push($datas);
+            //     }
+            // }
+            // return $new_flight;
+            // return $flights2;
+
             $stops=$this->Stops($flights,$var_direct_flight,$var_flexi);
             $airlines=$this->Airline($flights,$var_direct_flight,$var_flexi);
             // return $flights;
