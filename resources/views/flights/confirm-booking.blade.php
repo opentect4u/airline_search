@@ -40,10 +40,8 @@
                                     <!-- <div class="col-md-12">
                        <img src="https://www.cloudtravels.co.uk/software/public/images/logo.png') }}" alt="logo" class="img-fluid img-responsive"/>
                          </div> -->
-
-
-
                                 </div>
+                                @if(isset($unidata))
                                 <div class="row">
                                     <div class="col-md-4 responsive-center">
 
@@ -66,10 +64,6 @@
                                                 <td class="text-left">&nbsp;CLDC000169</td>
                                             </tr>
                                         </table>
-
-
-
-
                                     </div>
                                 </div>
                                 <div class="row mt-5">
@@ -205,14 +199,6 @@
                                     </div>
                                 </div>
 
-
-
-
-
-
-
-
-
                                 <br><br>
                                 <div class="row">
                                     <div class="col-md-4">
@@ -248,7 +234,258 @@
                                     </div>
 
                                 </div>
-                                <hr><br>
+                                <hr>
+                                @elseif(isset($return_unidata))
+                                <div class="row">
+                                    <div class="col-md-4 responsive-center">
+
+                                    </div>
+                                    <div class="col-md-4 text-center responsive-center">
+                                        <h1>Invoice</h1>
+                                    </div>
+                                    <div class="col-md-4 text-right responsive-center">
+                                        <table class="m-0" align="right">
+                                            <tr>
+                                                <td><b>Invoice Date :</b> </td>
+                                                <td class="text-left"> &nbsp;6 April 2021</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Invoice No &nbsp;&nbsp;&nbsp;: </b></td>
+                                                <td class="text-left"> &nbsp;CLDI0002971</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Client ID &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </b> </td>
+                                                <td class="text-left">&nbsp;CLDC000169</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="row mt-5">
+                                    <div class="col-md-8 col-6">
+                                        <h3>To</h3>
+                                        @foreach($return_unidata[0] as $data)
+                                        <!-- {{print_r($data)}} -->
+                                        <p>{{$data['First']}} {{$data['Last']}}<br>
+                                        {{$data['Address']}}<br>{{$data['street']}}, {{$data['street1']}}<br>{{$data['City']}}<br>{{$data['State']}}<br>{{$return_searched->Country}}<br>{{$data['PostalCode']}}<br>
+                                            <b>TEL:</b>{{$data['Number']}}
+                                        @endforeach
+                                    </div>
+                                    <div class="col-md-4 col-6">
+                                        <h3>Issued By</h3>
+                                        <p>62 KING STREET,<br> SOUTHALL, <br>MIDDLESEX,<br> UB2 4DB<br>
+                                            <b>TEL:</b> 02035000000<br>
+                                            <b>E-MAIL</b> info@cloudtravels.co.uk
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row hide_div1">
+                                    <div class="col-md-12">
+                                        <h2 class="p-3 bg-light-blue d-inline-block text-white">Flight</h2>
+
+                                    </div>
+                                    <div class="col-md-12">
+                                        <h4 class="mt-3"><b>1. Passenger Details</b></h4>
+
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <thead class="table-primary">
+                                                    <tr class="invoice-table">
+                                                        <th>S#</th>
+                                                        <th>Pax Type</th>
+                                                        <th>First Name / Title</th>
+                                                        <th>Last Name</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php $count=1;?>
+                                                    @foreach($return_unidata[0] as $data)
+                                                    <tr>
+                                                        <td>{{$count++}}</td>
+                                                        <td>{{$data['TravelerType']}}</td>
+                                                        <td>{{$data['First']}}</td>
+                                                        <td>{{$data['Last']}}</td>
+                                                    </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <p>Note - * denotes the lead passenger</p><br>
+                                    </div>
+                                    <div class="col-md-12 mt-4">
+                                        <h4 class="mt-3"><b>FLIGHT DETAILS (ROUND TRIP)</b></h4>
+                                        <p>
+                                            <!-- AIRLINE REF: AI
+                                            YSYH4 &nbsp;&nbsp;
+                                            <span class="noprint">
+                                                | &nbsp;
+                                            </span>
+                                            <span id="printOnly">
+                                                | &nbsp;
+                                            </span>
+
+                                            | -->
+                                            PNR : {{$return_airreservation['UniversalRecord']}} | &nbsp;&nbsp;UN PNR :IBE10363947 &nbsp;&nbsp; | &nbsp;&nbsp;
+                                            BOOKING DATE :{{date('d/m/Y')}}
+                                        </p>
+
+
+
+                                    </div>
+                                    <div class="col-md-12">
+                                        <h3>Outbound Journey</h3>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="table-responsive">
+                                            <table class="table ">
+                                                <thead class="table-primary">
+                                                    <tr class="invoice-table">
+                                                        <th>Airline</th>
+                                                        <th>Departure</th>
+                                                        <th>Arrival</th>
+
+                                                        <th>Class</th>
+                                                        <th>Baggage</th>
+                                                        <th>Duration</th>
+                                                        <th>Stops</th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach($return_unidata[1] as $unidatas)
+                                                    @foreach($unidatas[0] as $unidatass)
+                                                    @foreach($unidatass as $datas)
+                                                    <!-- {{print_r($datas)}} -->
+                                                    <tr>
+                                                        <td>{{$datas['Carrier']}}
+                                                            <br>
+                                                            FLIGHT NO :- {{$datas['Carrier'].$datas['FlightNumber']}}
+                                                        </td>
+                                                        <td>{{$datas['Origin']}}<br>
+                                                            <!-- United Kingdom <br> -->
+
+                                                            {{$datas['DepartureTime']}}<br>
+                                                            TERMINAL :- {{$datas['OriginTerminal']}}
+                                                        </td>
+                                                        <td>{{$datas['Destination']}}<br>
+                                                            <!-- india<br> -->
+                                                            {{$datas['ArrivalTime']}}<br>
+                                                            TERMINAL :- {{isset($datas['DestinationTerminal'])?$datas['DestinationTerminal']:'*'}}
+                                                        </td>
+                                                        <td>{{$datas['CabinClass']}}</td>
+                                                        <td></td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                    </tr>
+                                                    @endforeach
+                                                    @endforeach
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <h3>Inbound Journey</h3>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="table-responsive">
+                                            <table class="table ">
+                                                <thead class="table-primary">
+                                                    <tr class="invoice-table">
+                                                        <th>Airline</th>
+                                                        <th>Departure</th>
+                                                        <th>Arrival</th>
+
+                                                        <th>Class</th>
+                                                        <th>Baggage</th>
+                                                        <th>Duration</th>
+                                                        <th>Stops</th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach($return_unidata[1] as $unidatas)
+                                                    @foreach($unidatas[1] as $unidatass)
+                                                    @foreach($unidatass as $datas)
+                                                    <!-- {{print_r($datas)}} -->
+                                                    <tr>
+                                                        <td>{{$datas['Carrier']}}
+                                                            <br>
+                                                            FLIGHT NO :- {{$datas['Carrier'].$datas['FlightNumber']}}
+                                                        </td>
+                                                        <td>{{$datas['Origin']}}<br>
+                                                            <!-- United Kingdom <br> -->
+
+                                                            {{$datas['DepartureTime']}}<br>
+                                                            TERMINAL :- {{$datas['OriginTerminal']}}
+                                                        </td>
+                                                        <td>{{$datas['Destination']}}<br>
+                                                            <!-- india<br> -->
+                                                            {{$datas['ArrivalTime']}}<br>
+                                                            TERMINAL :- {{isset($datas['DestinationTerminal'])?$datas['DestinationTerminal']:'*'}}
+                                                        </td>
+                                                        <td>{{$datas['CabinClass']}}</td>
+                                                        <td></td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                    </tr>
+                                                    @endforeach
+                                                    @endforeach
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <h4 class="mt-3"> <b class="float-right"><b>Total: </b>
+                                        <span class="text-light-blue">£
+                                            @foreach($return_unidata[2] as $datas)
+                                            {{number_format(str_replace('GBP','',$datas['TotalPrice'])*$return_searched->adults,2)}}
+                                            @endforeach
+                                                    </span></b></h4>
+                                    </div>
+                                </div>
+
+                                <br><br>
+                                <div class="row">
+                                    <div class="col-md-4">
+
+                                    </div>
+                                    <div class="col-md-8 text-right">
+                                        <hr>
+                                        <div class="w-100">
+                                            <div class="" style="display:inline-block;margin-right:30px;">
+                                                <p class="mb-1"><b>Total Amount:</b></p>
+                                            </div>
+                                            <div class="" style="display:inline-block;">
+                                                <p class="mb-1"> £
+
+                                                @foreach($return_unidata[2] as $datas)
+                                            {{number_format(str_replace('GBP','',$datas['TotalPrice'])*$return_searched->adults,2)}}
+                                            @endforeach
+                                                </p>
+                                            </div>
+
+                                        </div>
+                                        <div class="w-100">
+                                            <div class="" style="display:inline-block;margin-right:30px;">
+                                                <p class="mb-1"><b>Balance Due:</b></p>
+                                            </div>
+                                            <div class="" style="display:inline-block;">
+                                                £ @foreach($return_unidata[2] as $datas)
+                                            {{number_format(str_replace('GBP','',$datas['TotalPrice'])*$return_searched->adults,2)}}
+                                            @endforeach </div>
+                                        </div>
+
+
+                                    </div>
+
+                                </div>
+                                <hr>
+                                @endif
+                                <br>
                                 <div class="row">
                                     <div class="col-md-12">
 

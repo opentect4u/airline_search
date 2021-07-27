@@ -156,7 +156,6 @@ EOM;
             $object = json_decode($json,true);
             // return $object;
             $flight_data=$this->XMLData_Round($object);
-            
             // return $flight_data;
             
             return view('flights.payment',[
@@ -1098,6 +1097,8 @@ EOM;
                                                                                     // echo $count16;
                                                                                     // print_r($jsons16);
                                                                                     // echo "<br/><br/><br/>";
+                                                                                    $FareInfo1=collect();
+                                                                                    $FareRuleKey1=collect();
                                                                                     foreach($jsons16 as $jsonss16) {
                                                                                         // echo $count16;
                                                                                         // print_r($jsonss16);
@@ -1167,6 +1168,8 @@ EOM;
                                                                                             }
                                                                                             $count50++; 
                                                                                         }
+                                                                                        $FareInfo1->push($FareInfo);
+                                                                                        $FareRuleKey1->push($FareRuleKey);
                                                                                     }
                                                                                 }
                                                                                 if($count16==18){
@@ -1454,8 +1457,8 @@ EOM;
                                                                 // return $price;
                                                                 $data->push(["price"=>$price]);
                                                                 $data->push(["AirPricingInfo"=>$AirPricingInfo]);
-                                                                $data->push(["FareInfo"=>$FareInfo]);
-                                                                $data->push(["FareRuleKey"=>$FareRuleKey]);
+                                                                $data->push(["FareInfo"=>$FareInfo1]);
+                                                                $data->push(["FareRuleKey"=>$FareRuleKey1]);
                                                                 $data->push(["BookingInfo"=>$BookingInfo]);
                                                                 $data->push(["HostToken"=>$HostToken]);
                                                                 $data->push(["TaxInfo"=>$TaxInfo]);
