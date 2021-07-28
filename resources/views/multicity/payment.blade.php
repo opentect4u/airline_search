@@ -59,6 +59,38 @@
                                     <input type="hidden" name="flight1" id="flight1" value="{{json_encode($flights1)}}" />
                                     <input type="hidden" name="flight2" id="flight2" value="{{json_encode($flights2)}}" />
                                     <input type="hidden" name="flight3" id="flight3" value="{{json_encode($flights3)}}" />
+
+                                    @for($i=1;$i<=$searched->adults; $i++)
+                                    <input type="hidden" name="title{{$i}}" id="title{{$i}}" value="<?php  $title='title'.$i; echo $searched->$title;?>" />
+                                    <input type="hidden" name="first_name{{$i}}" id="first_name{{$i}}" value="<?php  $first_name='first_name'.$i; echo $searched->$first_name;?>" />
+                                    <input type="hidden" name="last_name{{$i}}" id="last_name{{$i}}" value="<?php  $last_name='last_name'.$i; echo $searched->$last_name;?>" />
+                                    <input type="hidden" name="gender{{$i}}" id="gender{{$i}}" value="<?php  $gender='gender'.$i; echo $searched->$gender;?>" />
+                                    <input type="hidden" name="date_of_birth{{$i}}" id="date_of_birth{{$i}}" value="<?php  $date_of_birth='date_of_birth'.$i; echo $searched->$date_of_birth;?>" />
+                                    <input type="hidden" name="seating{{$i}}" id="seating{{$i}}" value="<?php  $seating='seating'.$i; echo $searched->$seating;?>" />
+                                    <input type="hidden" name="assistance{{$i}}" id="assistance{{$i}}" value="<?php  $assistance='assistance'.$i; echo $searched->$assistance;?>" />
+                                    <input type="hidden" name="meal{{$i}}" id="meal{{$i}}" value="<?php $meal='meal'.$i; echo $searched->$meal;?>" />
+                                    @endfor
+                                    @for($i=1;$i<=$searched->children; $i++)
+                                    <input type="hidden" name="children_title{{$i}}" id="children_title{{$i}}" value="<?php  $title='children_title'.$i; echo $searched->$title;?>" />
+                                    <input type="hidden" name="children_first_name{{$i}}" id="children_first_name{{$i}}" value="<?php  $first_name='children_first_name'.$i; echo $searched->$first_name;?>" />
+                                    <input type="hidden" name="children_last_name{{$i}}" id="children_last_name{{$i}}" value="<?php  $last_name='children_last_name'.$i; echo $searched->$last_name;?>" />
+                                    <input type="hidden" name="children_gender{{$i}}" id="children_gender{{$i}}" value="<?php  $gender='children_gender'.$i; echo $searched->$gender;?>" />
+                                    <input type="hidden" name="children_date_of_birth{{$i}}" id="children_date_of_birth{{$i}}" value="<?php  $date_of_birth='children_date_of_birth'.$i; echo $searched->$date_of_birth;?>" />
+                                    <input type="hidden" name="children_seating{{$i}}" id="children_seating{{$i}}" value="<?php  $seating='children_seating'.$i; echo $searched->$seating;?>" />
+                                    <input type="hidden" name="children_assistance{{$i}}" id="children_assistance{{$i}}" value="<?php  $assistance='children_assistance'.$i; echo $searched->$assistance;?>" />
+                                    <input type="hidden" name="children_meal{{$i}}" id="children_meal{{$i}}" value="<?php $meal='children_meal'.$i; echo $searched->$meal;?>" />
+                                    @endfor
+
+                                    <input type="hidden" name="postcode" id="postcode" value="{{$searched->postcode}}" />
+                                    <input type="hidden" name="add_1" id="add_1" value="{{$searched->add_1}}" />
+                                    <input type="hidden" name="add_2" id="add_2" value="{{$searched->add_2}}" />
+                                    <input type="hidden" name="city" id="city" value="{{$searched->city}}" />
+                                    <input type="hidden" name="state_code" id="state_code" value="{{$searched->state_code}}" />
+                                    <input type="hidden" name="country" id="country" value="{{$searched->country}}" />
+
+                                    <input type="hidden" name="email" id="email" value="{{$searched->email}}" />
+                                    <input type="hidden" name="mob_no" id="mob_no" value="{{$searched->mob_no}}" />
+                                    
                                     <input type="hidden" name="adults" id="adults" value="{{$searched->adults}}">
                                     <input type="hidden" name="children" id="children" value="{{$searched->children}}">
                                     <input type="hidden" name="infant" id="infant" value="{{$searched->infant}}">

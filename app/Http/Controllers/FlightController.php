@@ -25,6 +25,7 @@ class FlightController extends Controller
         $var_flexi=$request->flexi;
 
         if($request->returning_date != null) {
+            $new_return_flight=collect();
             $var_returnDate = Carbon::parse($request->returning_date)->format('Y-m-d');
             $travel_class=$request->travel_class;
             $flightFrom=$var_flightTo;
@@ -39,23 +40,70 @@ class FlightController extends Controller
             // $return_stops=$this->Stops($return_flights,$var_direct_flight,$var_flexi);
             // $return_airlines=$this->Airline($return_flights,$var_direct_flight,$var_flexi);
             // return $return_flights;
+            if($var_flexi=='F'){
+                // $var_PreferredDate
+                // $var_returnDate
+                $var_PreferredDate1=date('Y-m-d', strtotime($var_PreferredDate. ' - 1 days'));
+                $var_returnDate1=date('Y-m-d', strtotime($var_returnDate. ' + 1 days'));
+                // return $old_date1;
+                if($var_PreferredDate1>=date('Y-m-d') && $var_returnDate1>=date('Y-m-d')){
+                    $xmldata=app('App\Http\Controllers\UtilityController')->Universal_API_SearchXMLReturn($travel_class,$flightFrom,$flightTo,$var_PreferredDate1,$var_returnDate1);
+                    $api_url = "https://apac.universal-api.pp.travelport.com/B2BGateway/connect/uAPI/AirService";
+                    $return_return =app('App\Http\Controllers\UtilityController')->universal_API($xmldata,$api_url);
+                    $return_content = $this->prettyPrint($return_return);
+                    $return_flights1 = $this->parseOutputReturn($return_content);
+                    // $new_return_flight->push($return_flights1);
+                    foreach($return_flights1 as $return_flightss){
+                        if(count($return_flightss)<3){
+                            $new_return_flight->push($return_flightss);
+                        }
+                    }
+                }
+                $var_PreferredDate2=date('Y-m-d', strtotime($var_PreferredDate. ' + 1 days'));
+                $var_returnDate2=date('Y-m-d', strtotime($var_returnDate. ' + 2 days'));
+                if($var_PreferredDate2>=date('Y-m-d') && $var_returnDate2>=date('Y-m-d')){
+                    $xmldata=app('App\Http\Controllers\UtilityController')->Universal_API_SearchXMLReturn($travel_class,$flightFrom,$flightTo,$var_PreferredDate2,$var_returnDate2);
+                    $api_url = "https://apac.universal-api.pp.travelport.com/B2BGateway/connect/uAPI/AirService";
+                    $return_return =app('App\Http\Controllers\UtilityController')->universal_API($xmldata,$api_url);
+                    $return_content = $this->prettyPrint($return_return);
+                    $return_flights1 = $this->parseOutputReturn($return_content);
+                    // $new_return_flight->push($return_flights1);
+                    foreach($return_flights1 as $return_flightss){
+                        if(count($return_flightss)<3){
+                            $new_return_flight->push($return_flightss);
+                        }
+                    }
+                }
+                // return $return_flights1;
+                // return $new_return_flight;
+                // return $return_flights;
+                //     if (strtotime($old_date1) <= strtotime(date('Y-m-d'))) {
+                // return "hii";
+            }
+            foreach($return_flights as $return_flightss){
+                $new_return_flight->push($return_flightss);
+            }
+            // return $new_return_flight;
 
             //for stops loop
-            foreach($return_flights as $flight){
+            foreach($new_return_flight as $flight){
                 foreach($flight as $flight_data){
                     foreach($flight_data[0] as $datas){
                         foreach($datas[0] as $journeys){
-
-                        
                         // foreach($datas[1] as $journeys1){
 
                         // }
                             if($var_direct_flight=="DF" && count($journeys)>1 && $var_flexi=="")
                             {
                                 continue;
-                            }else if ($var_direct_flight=="" && count($journeys)==1 && $var_flexi=="F") {
+                            }
+                            else if($var_direct_flight=="DF" && count($journeys)>1 && $var_flexi=="F")
+                            {
                                 continue;
                             }
+                            // else if ($var_direct_flight=="" && count($journeys)==1 && $var_flexi=="F") {
+                            //     continue;
+                            // }
                             array_push($return_stops,count($journeys)-1);
                         }
                     }
@@ -63,7 +111,7 @@ class FlightController extends Controller
             }
             $return_stops = array_unique($return_stops);
             // for airline loops
-            foreach($return_flights as $flight){
+            foreach($new_return_flight as $flight){
                 foreach($flight as $flight_data){
                     foreach($flight_data[0] as $datas){
                         foreach($datas[0] as $journeys){
@@ -71,9 +119,14 @@ class FlightController extends Controller
                                 if($var_direct_flight=="DF" && count($journeys)>1 && $var_flexi=="")
                                 {
                                     continue;
-                                }elseif ($var_direct_flight=="" && count($journeys)==1 && $var_flexi=="F") {
+                                }
+                                else if($var_direct_flight=="DF" && count($journeys)>1 && $var_flexi=="F")
+                                {
                                     continue;
                                 }
+                                // elseif ($var_direct_flight=="" && count($journeys)==1 && $var_flexi=="F") {
+                                //     continue;
+                                // }
                                 array_push($return_airlines,$journeys[$i]['Airline']);
                             }
                         }
@@ -83,7 +136,7 @@ class FlightController extends Controller
             $return_airlines = array_unique($return_airlines);
 
             if($request->price_order == "price_order"){
-                $return_flights= array_reverse(collect($return_flights)->toArray());
+                $new_return_flight= array_reverse(collect($new_return_flight)->toArray());
                 // $search = collect($search)->sortByDesc('available_from_dt')->toArray();
             }
         }else{
@@ -162,7 +215,7 @@ class FlightController extends Controller
         if($request->returning_date!=''){
             return view('flights.flight-round',[
                 'searched' => $request,
-                'return_flights'=>$return_flights,
+                'return_flights'=>$new_return_flight,
                 'return_stops'=>$return_stops,
                 'return_airlines'=>$return_airlines
             ]);
@@ -807,15 +860,17 @@ EOM;
                                                                             foreach($jsons16 as $jsons17){
                                                                                 // print_r($jsons17);
                                                                                 // echo "<br/><br/><br/>";
-                                                                                foreach($jsons17 as $c=> $jsons18){
-                                                                                    if(is_string($jsons18)){
-                                                                                        if(strcmp($c, "$") == 0){
-                                                                                            $details4["changepenalty"]=$jsons18;
+                                                                                if(is_array($jsons17)){
+                                                                                    foreach($jsons17 as $c=> $jsons18){
+                                                                                        if(is_string($jsons18)){
+                                                                                            if(strcmp($c, "$") == 0){
+                                                                                                $details4["changepenalty"]=$jsons18;
+                                                                                            }
+                                                                                            // print_r($c."- " .$jsons18);
+                                                                                            // echo "<br/><br/><br/>"; 
                                                                                         }
-                                                                                        // print_r($c."- " .$jsons18);
-                                                                                        // echo "<br/><br/><br/>"; 
+                                                                                        
                                                                                     }
-                                                                                    
                                                                                 }
                                                                             }
                                                                         }

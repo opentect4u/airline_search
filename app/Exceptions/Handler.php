@@ -37,5 +37,12 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+
+        // $this->renderable(function (ErrorException $e, $request) {
+        //     return response()->json( [
+        //                 'success' => 0,
+        //                 'message' => 'Method is not allowed for the requested route',
+        //             ], 405 );
+        //     });
     }
 }

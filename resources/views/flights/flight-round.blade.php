@@ -287,7 +287,7 @@
                     
                     @if($searched->direct_flight == 'DF' && $rrr>1 && $searched->flexi=="" || $sss>1)
                     @continue
-                    @elseif($searched->flexi == 'F' && $rrr==1 && $searched->direct_flight=="")
+                    @elseif($searched->direct_flight == 'DF' && $rrr>1 && $searched->flexi=="F" || $sss>1)
                     @continue
                     @endif
                     

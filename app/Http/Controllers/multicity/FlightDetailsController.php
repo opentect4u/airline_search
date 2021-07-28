@@ -17,7 +17,7 @@ class FlightDetailsController extends Controller
         $flights1=json_decode($request->flights1);
         $flights2=json_decode($request->flights2);
         $flights3=json_decode($request->flights3);
-        // return $flights1[0];
+        // return $flights1;
         $datasegment1='';
         $datasegment2='';
         $datasegment3='';
@@ -26,13 +26,16 @@ class FlightDetailsController extends Controller
         $data3=[];
         $api_url = "https://apac.universal-api.pp.travelport.com/B2BGateway/connect/uAPI/AirService";
         
-        foreach($flights1 as $datas){
-            foreach($datas[0] as $journeys){
-                for ($i=0; $i <count($journeys) ; $i++) { 
-                    $datasegment1.= '<air:AirSegment Key="'.get_object_vars($journeys[$i]->Key)[0].'" Group="'.get_object_vars($journeys[$i]->Group)[0].'" Carrier="'.get_object_vars($journeys[$i]->Airline)[0].'" FlightNumber="'.get_object_vars($journeys[$i]->Flight)[0].'" Origin="'.get_object_vars($journeys[$i]->From)[0].'" Destination="'.get_object_vars($journeys[$i]->To)[0].'" DepartureTime="'.get_object_vars($journeys[$i]->Depart)[0].'" ArrivalTime="'.get_object_vars($journeys[$i]->Arrive)[0].'" FlightTime="'.get_object_vars($journeys[$i]->FlightTime)[0].'" Distance="'.get_object_vars($journeys[$i]->Distance)[0].'" ETicketability="Yes" ProviderCode="1G" ></air:AirSegment>';
-                }
+        // foreach($flights2 as $datas){
+        //     echo get_object_vars($datas->Key)[0];
+        //     print_r($datas);
+            foreach($flights1 as $journeys){
+                // for ($i=0; $i <count($journeys) ; $i++) { 
+                    $datasegment1.= '<air:AirSegment Key="'.get_object_vars($journeys->Key)[0].'" Group="'.get_object_vars($journeys->Group)[0].'" Carrier="'.get_object_vars($journeys->Airline)[0].'" FlightNumber="'.get_object_vars($journeys->Flight)[0].'" Origin="'.get_object_vars($journeys->From)[0].'" Destination="'.get_object_vars($journeys->To)[0].'" DepartureTime="'.get_object_vars($journeys->Depart)[0].'" ArrivalTime="'.get_object_vars($journeys->Arrive)[0].'" FlightTime="'.get_object_vars($journeys->FlightTime)[0].'" Distance="'.get_object_vars($journeys->Distance)[0].'" ETicketability="Yes" ProviderCode="1G" ></air:AirSegment>';
+                // }
             }
-        }
+        // }
+        // return $datasegment1;
         //flight1
         $xmldata=app('App\Http\Controllers\UtilityController')->universal_API_FlightDetails($datasegment1);
         $return1 =app('App\Http\Controllers\UtilityController')->universal_API($xmldata,$api_url);
@@ -40,13 +43,14 @@ class FlightDetailsController extends Controller
           $object1 = $this->XMLToJson($return1);
           $data1= $this->DataParser($object1);
         if($flights2 !=''){
-            foreach($flights2 as $datas){
-                foreach($datas[0] as $journeys){
-                    for ($i=0; $i <count($journeys) ; $i++) { 
-                        $datasegment2.= '<air:AirSegment Key="'.get_object_vars($journeys[$i]->Key)[0].'" Group="'.get_object_vars($journeys[$i]->Group)[0].'" Carrier="'.get_object_vars($journeys[$i]->Airline)[0].'" FlightNumber="'.get_object_vars($journeys[$i]->Flight)[0].'" Origin="'.get_object_vars($journeys[$i]->From)[0].'" Destination="'.get_object_vars($journeys[$i]->To)[0].'" DepartureTime="'.get_object_vars($journeys[$i]->Depart)[0].'" ArrivalTime="'.get_object_vars($journeys[$i]->Arrive)[0].'" FlightTime="'.get_object_vars($journeys[$i]->FlightTime)[0].'" Distance="'.get_object_vars($journeys[$i]->Distance)[0].'" ETicketability="Yes" ProviderCode="1G" ></air:AirSegment>';
-                    }
+            // foreach($flights2 as $datas){
+                foreach($flights2 as $journeys){
+                    // for ($i=0; $i <count($journeys) ; $i++) { 
+                    $datasegment2.= '<air:AirSegment Key="'.get_object_vars($journeys->Key)[0].'" Group="'.get_object_vars($journeys->Group)[0].'" Carrier="'.get_object_vars($journeys->Airline)[0].'" FlightNumber="'.get_object_vars($journeys->Flight)[0].'" Origin="'.get_object_vars($journeys->From)[0].'" Destination="'.get_object_vars($journeys->To)[0].'" DepartureTime="'.get_object_vars($journeys->Depart)[0].'" ArrivalTime="'.get_object_vars($journeys->Arrive)[0].'" FlightTime="'.get_object_vars($journeys->FlightTime)[0].'" Distance="'.get_object_vars($journeys->Distance)[0].'" ETicketability="Yes" ProviderCode="1G" ></air:AirSegment>';
+                    // $datasegment2.= '<air:AirSegment Key="'.get_object_vars($journeys[$i]->Key)[0].'" Group="'.get_object_vars($journeys[$i]->Group)[0].'" Carrier="'.get_object_vars($journeys[$i]->Airline)[0].'" FlightNumber="'.get_object_vars($journeys[$i]->Flight)[0].'" Origin="'.get_object_vars($journeys[$i]->From)[0].'" Destination="'.get_object_vars($journeys[$i]->To)[0].'" DepartureTime="'.get_object_vars($journeys[$i]->Depart)[0].'" ArrivalTime="'.get_object_vars($journeys[$i]->Arrive)[0].'" FlightTime="'.get_object_vars($journeys[$i]->FlightTime)[0].'" Distance="'.get_object_vars($journeys[$i]->Distance)[0].'" ETicketability="Yes" ProviderCode="1G" ></air:AirSegment>';
+                    // }
                 }
-            }
+            // }
 
              // flight2
         $xmldata1=app('App\Http\Controllers\UtilityController')->universal_API_FlightDetails($datasegment2);
@@ -56,13 +60,14 @@ class FlightDetailsController extends Controller
         $data2= $this->DataParser($object2);
         }
         if($flights3 !=''){
-            foreach($flights3 as $datas){
-                foreach($datas[0] as $journeys){
-                    for ($i=0; $i <count($journeys) ; $i++) { 
-                        $datasegment3.= '<air:AirSegment Key="'.get_object_vars($journeys[$i]->Key)[0].'" Group="'.get_object_vars($journeys[$i]->Group)[0].'" Carrier="'.get_object_vars($journeys[$i]->Airline)[0].'" FlightNumber="'.get_object_vars($journeys[$i]->Flight)[0].'" Origin="'.get_object_vars($journeys[$i]->From)[0].'" Destination="'.get_object_vars($journeys[$i]->To)[0].'" DepartureTime="'.get_object_vars($journeys[$i]->Depart)[0].'" ArrivalTime="'.get_object_vars($journeys[$i]->Arrive)[0].'" FlightTime="'.get_object_vars($journeys[$i]->FlightTime)[0].'" Distance="'.get_object_vars($journeys[$i]->Distance)[0].'" ETicketability="Yes" ProviderCode="1G" ></air:AirSegment>';
-                    }
+            // foreach($flights3 as $datas){
+                foreach($flights3 as $journeys){
+                    // for ($i=0; $i <count($journeys) ; $i++) { 
+                    $datasegment3.= '<air:AirSegment Key="'.get_object_vars($journeys->Key)[0].'" Group="'.get_object_vars($journeys->Group)[0].'" Carrier="'.get_object_vars($journeys->Airline)[0].'" FlightNumber="'.get_object_vars($journeys->Flight)[0].'" Origin="'.get_object_vars($journeys->From)[0].'" Destination="'.get_object_vars($journeys->To)[0].'" DepartureTime="'.get_object_vars($journeys->Depart)[0].'" ArrivalTime="'.get_object_vars($journeys->Arrive)[0].'" FlightTime="'.get_object_vars($journeys->FlightTime)[0].'" Distance="'.get_object_vars($journeys->Distance)[0].'" ETicketability="Yes" ProviderCode="1G" ></air:AirSegment>';
+                    // $datasegment3.= '<air:AirSegment Key="'.get_object_vars($journeys[$i]->Key)[0].'" Group="'.get_object_vars($journeys[$i]->Group)[0].'" Carrier="'.get_object_vars($journeys[$i]->Airline)[0].'" FlightNumber="'.get_object_vars($journeys[$i]->Flight)[0].'" Origin="'.get_object_vars($journeys[$i]->From)[0].'" Destination="'.get_object_vars($journeys[$i]->To)[0].'" DepartureTime="'.get_object_vars($journeys[$i]->Depart)[0].'" ArrivalTime="'.get_object_vars($journeys[$i]->Arrive)[0].'" FlightTime="'.get_object_vars($journeys[$i]->FlightTime)[0].'" Distance="'.get_object_vars($journeys[$i]->Distance)[0].'" ETicketability="Yes" ProviderCode="1G" ></air:AirSegment>';
+                    // }
                 }
-            }
+            // }
 
         $xmldata2=app('App\Http\Controllers\UtilityController')->universal_API_FlightDetails($datasegment3);
         $return3 =app('App\Http\Controllers\UtilityController')->universal_API($xmldata2,$api_url);
@@ -85,11 +90,15 @@ class FlightDetailsController extends Controller
         //flight3 return data
         
         // return $data3;
+        $price=json_decode($request->price,true);
+        // return $price;
+        
         return view('multicity.flight-details',[
             'flights1'=>$data1,
             'flights2'=>$data2,
             'flights3'=>$data3,
-            'searched'=>$request
+            'searched'=>$request,
+            'price'=>$price
         ]);
 
     }
@@ -336,15 +345,17 @@ class FlightDetailsController extends Controller
                                                                             foreach($jsons16 as $jsons17){
                                                                                 // print_r($jsons17);
                                                                                 // echo "<br/><br/><br/>";
-                                                                                foreach($jsons17 as $c=> $jsons18){
-                                                                                    if(is_string($jsons18)){
-                                                                                        if(strcmp($c, "$") == 0){
-                                                                                            $details4["changepenalty"]=$jsons18;
+                                                                                if(is_array($jsons17)){
+                                                                                    foreach($jsons17 as $c=> $jsons18){
+                                                                                        if(is_string($jsons18)){
+                                                                                            if(strcmp($c, "$") == 0){
+                                                                                                $details4["changepenalty"]=$jsons18;
+                                                                                            }
+                                                                                            // print_r($c."- " .$jsons18);
+                                                                                            // echo "<br/><br/><br/>"; 
                                                                                         }
-                                                                                        // print_r($c."- " .$jsons18);
-                                                                                        // echo "<br/><br/><br/>"; 
+                                                                                        
                                                                                     }
-                                                                                    
                                                                                 }
                                                                             }
                                                                         }

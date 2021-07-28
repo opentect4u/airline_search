@@ -295,9 +295,9 @@
                                 </div>
                             </div>
                         </div>
-                        <input type="hidden" name="flights1" id="flights1" value="{{json_encode($flights1)}}">
-                        <input type="hidden" name="flights2" id="flights2" value="{{json_encode($flights2)}}">
-                        <input type="hidden" name="flights3" id="flights3" value="{{json_encode($flights3)}}">
+                        <input type="hidden" name="flights1" id="flights1" value="{{$flights1}}">
+                        <input type="hidden" name="flights2" id="flights2" value="{{$flights2}}">
+                        <input type="hidden" name="flights3" id="flights3" value="{{$flights3}}">
                         <input type="hidden" name="adults" id="adults" value="{{$searched->adults}}">
                         <input type="hidden" name="children" id="children" value="{{$searched->children}}">
                         <input type="hidden" name="infant" id="infant" value="{{$searched->infant}}">
@@ -316,11 +316,13 @@
                         <table class="table table-small mt-2">
                             <tr>
                                 <td>Base Fare x {{$searched->adults}}</td>
-                                <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','', isset($flights1[2]['price']['ApproximateBasePrice'])? $flights1[2]['price']['ApproximateBasePrice']:0)*$searched->adults)+(str_replace('GBP','',isset($flights2[2]['price']['ApproximateBasePrice'])?$flights2[2]['price']['ApproximateBasePrice']:0)*$searched->adults)+(str_replace('GBP','', isset($flights3[2]['price']['ApproximateBasePrice'])?$flights3[2]['price']['ApproximateBasePrice']:0 )*$searched->adults),2)}}</td>
+                                <td class="text-right"><i class="las la-pound-sign"></i>@foreach($price as $prices){{ str_replace('GBP','',$prices['Approx Base Price'][0])}}@endforeach</td>
+                                <!-- <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','', isset($flights1[2]['price']['ApproximateBasePrice'])? $flights1[2]['price']['ApproximateBasePrice']:0)*$searched->adults)+(str_replace('GBP','',isset($flights2[2]['price']['ApproximateBasePrice'])?$flights2[2]['price']['ApproximateBasePrice']:0)*$searched->adults)+(str_replace('GBP','', isset($flights3[2]['price']['ApproximateBasePrice'])?$flights3[2]['price']['ApproximateBasePrice']:0 )*$searched->adults),2)}}</td> -->
                             </tr>
                             <tr>
                                 <td>Taxes x {{$searched->adults}}</td>
-                                <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','', isset($flights1[2]['price']['Taxes'])?$flights1[2]['price']['Taxes']:0)*$searched->adults)+(str_replace('GBP','',isset($flights2[2]['price']['Taxes'])?$flights2[2]['price']['Taxes']:0)*$searched->adults)+(str_replace('GBP','', isset($flights3[2]['price']['Taxes'])?$flights3[2]['price']['Taxes']:0 )*$searched->adults),2)}}</td>
+                                <td class="text-right"><i class="las la-pound-sign"></i>@foreach($price as $prices){{ str_replace('GBP','',$prices['Taxes'][0])}}@endforeach</td>
+                                <!-- <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','', isset($flights1[2]['price']['Taxes'])?$flights1[2]['price']['Taxes']:0)*$searched->adults)+(str_replace('GBP','',isset($flights2[2]['price']['Taxes'])?$flights2[2]['price']['Taxes']:0)*$searched->adults)+(str_replace('GBP','', isset($flights3[2]['price']['Taxes'])?$flights3[2]['price']['Taxes']:0 )*$searched->adults),2)}}</td> -->
                             </tr>
                             <tr>
                                 <td>Other taxes</td>
@@ -328,7 +330,8 @@
                             </tr>
                             <tr class="font-weight-bold bg-light">
                                 <td>Total</td>
-                                <td class="text-right text-danger"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','', isset($flights1[2]['price']['ApproximateBasePrice'])? $flights1[2]['price']['ApproximateBasePrice']:0 )*$searched->adults)+(str_replace('GBP','', isset($flights2[2]['price']['ApproximateBasePrice'])? $flights2[2]['price']['ApproximateBasePrice']:0 )*$searched->adults)+(str_replace('GBP','', isset($flights3[2]['price']['ApproximateBasePrice'])? $flights3[2]['price']['Taxes']:0 )*$searched->adults)+(str_replace('GBP','', isset($flights1[2]['price']['Taxes'])? $flights1[2]['price']['Taxes']:0 )*$searched->adults)+(str_replace('GBP','',isset($flights2[2]['price']['Taxes'])?$flights2[2]['price']['Taxes']:0 )*$searched->adults)+(str_replace('GBP','', isset($flights3[2]['price']['Taxes'])? $flights3[2]['price']['Taxes']:0 )*$searched->adults),2)}}</td>
+                                <td class="text-right text-danger"><i class="las la-pound-sign">@foreach($price as $prices){{ str_replace('GBP','',$prices['Total Price'][0])}}@endforeach</i></td>
+                                <!-- <td class="text-right text-danger"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','', isset($flights1[2]['price']['ApproximateBasePrice'])? $flights1[2]['price']['ApproximateBasePrice']:0 )*$searched->adults)+(str_replace('GBP','', isset($flights2[2]['price']['ApproximateBasePrice'])? $flights2[2]['price']['ApproximateBasePrice']:0 )*$searched->adults)+(str_replace('GBP','', isset($flights3[2]['price']['ApproximateBasePrice'])? $flights3[2]['price']['Taxes']:0 )*$searched->adults)+(str_replace('GBP','', isset($flights1[2]['price']['Taxes'])? $flights1[2]['price']['Taxes']:0 )*$searched->adults)+(str_replace('GBP','',isset($flights2[2]['price']['Taxes'])?$flights2[2]['price']['Taxes']:0 )*$searched->adults)+(str_replace('GBP','', isset($flights3[2]['price']['Taxes'])? $flights3[2]['price']['Taxes']:0 )*$searched->adults),2)}}</td> -->
                             </tr>
                         </table>
                        

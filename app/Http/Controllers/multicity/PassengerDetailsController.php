@@ -17,13 +17,16 @@ class PassengerDetailsController extends Controller
         $flights1=json_decode($request->flights1,true);
         $flights2=json_decode($request->flights2,true);
         $flights3=json_decode($request->flights3,true);
+        $price=json_decode($request->price,true);
+        // return $price;
         // return $request;
 
         return view('multicity.passenger-details',[
             'flights1'=>$flights1,
             'flights2'=>$flights2,
             'flights3'=>$flights3,
-            'searched'=>$request
+            'searched'=>$request,
+            'price'=>$price
         ]);
     }
 }

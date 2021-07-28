@@ -65,7 +65,7 @@
                             <input type="checkbox" class="custom-control-input" id="direct_flight" name="direct_flight"  value="DF">
                             <label class="custom-control-label text-dark" for="direct_flight">Direct flights only</label>
                           </div>
-                        <div class="custom-control custom-checkbox custom-control-inline">
+                        <div class="custom-control custom-checkbox custom-control-inline" id="flexiDiv">
                             <input type="checkbox" class="custom-control-input" id="flexi" name="flexi"  value="F">
                             <label class="custom-control-label text-dark" for="flexi">
                                 Flexi (+/- 3 days)</label>
@@ -572,6 +572,7 @@
     $( document ).ready(function() {
         $('#loading').hide();
         $('#loading_small').hide();
+        $('#flexiDiv').hide();
         var path = "{{ route('searchairport') }}";
 
         // Set the Options for "Bloodhound" suggestion engine
@@ -658,6 +659,8 @@
             // alert("hii");
             $('#one_way').removeAttr('class');
             $('#round_trip').attr('class','active');
+            $('#flexiDiv').show();
+
         });
         $(".returning_date_datetimepickerclass").blur(function(){
             // alert("This input field has lost its focus.");
@@ -674,9 +677,11 @@
             $('#returning_date').val('');
             $('#round_trip').removeAttr('class');
             $('#one_way').attr('class','active');
+            $('#flexiDiv').hide();
         });
         $('#round_trip').click(function(){
             // alert("hii");
+            $('#flexiDiv').show();
             $('#one_way').removeAttr('class');
             $('#round_trip').attr('class','active');
             // $("#returning_date_datetimepicker").datetimepicker("show"); 
