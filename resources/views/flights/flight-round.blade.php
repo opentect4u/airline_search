@@ -64,10 +64,10 @@
                     <div class="col-md-2 col-6">
                         <div class="form-group">
                             <label>Departure Date</label>
-                            <div id="departure_date_datetimepicker" class="input-group">
-                                <input type="text" name="departure_date" id="departure_date" placeholder="dd-mm-yyyy" class="form-control border-right-0" data-format="dd-MM-yyyy" value={{ \Carbon\Carbon::parse($searched->departure_date)->format('d-m-Y') }}>
-                                <div class="input-group-append add-on">
-                                <span class="input-group-text bg-white pl-0"><i class="lar la-calendar-alt"></i></span>
+                            <div id="departure_date_datetimepicker" class="input-group departure_date_datetimepickerclass">
+                                <input type="text" name="departure_date" id="departure_date" placeholder="dd-mm-yyyy" class="form-control border-right-0 departure_date_datetimepickerclass" data-format="dd-MM-yyyy" value={{ \Carbon\Carbon::parse($searched->departure_date)->format('d-m-Y') }}>
+                                <div class="input-group-append add-on departure_date_datetimepickerclass">
+                                <span class="input-group-text bg-white pl-0 departure_date_datetimepickerclass"><i class="lar la-calendar-alt"></i></span>
                                 </div>
                             </div>
                         </div>
@@ -76,9 +76,9 @@
                         <div class="form-group">
                             <label>Returning Date</label>
                             <div id="returning_date_datetimepicker" class="input-group returning_date_datetimepickerclass">
-                                <input type="text" name="returning_date" id="returning_date" placeholder="dd-mm-yyyy" class="form-control border-right-0 returning_date_datetimepickerclass" data-format="dd-MM-yyyy" value={{ isset($searched->returning_date)? \Carbon\Carbon::parse($searched->returning_date)->format('d-m-Y'):'' }}>
+                                <input type="text" name="returning_date" id="returning_date" placeholder="dd-mm-yyyy" class="form-control border-right-0 returning_date_datetimepickerclass" data-format="dd-MM-yyyy" value="{{ isset($searched->returning_date)? \Carbon\Carbon::parse($searched->returning_date)->format('d-m-Y'):'' }}">
                                 <div class="input-group-append add-on returning_date_datetimepickerclass">
-                                <span class="input-group-text bg-white pl-0 returning_date_datetimepickerclass"><i class="lar la-calendar-alt returning_date_datetimepickerclass"></i></span>
+                                <span class="input-group-text bg-white pl-0 returning_date_datetimepickerclass"><i class="lar la-calendar-alt"></i></span>
                                 </div>
                             </div>
                         </div>
@@ -661,26 +661,14 @@
                     }
         });
 
-        jQuery('#departure_date_datetimepicker').datetimepicker({
-            pickTime: false,
-            autoclose: true, 
-            startDate: new Date(),
-            todayHighlight: true,
-            autoclose: true,
-        });
+        
         var returning_date ='<?php echo $searched->returning_date;?>';
         if (returning_date!='') {
             $('#one_way').removeAttr('class');
             $('#round_trip').attr('class','active');  
         }
 
-        jQuery('#returning_date_datetimepicker').datetimepicker({
-            pickTime: false,
-            autoclose: true, 
-            startDate: new Date(),
-            todayHighlight: true,
-            autoclose: true,
-        });
+        
         $('.returning_date_datetimepickerclass').click(function(){
             // alert("hii");
             $('#one_way').removeAttr('class');
@@ -696,7 +684,10 @@
             
         });
         $('#one_way').click(function(){
+            // alert("hii")
             // returning_date
+            $('#returning_date').removeAttr('value');
+            $('#returning_date').attr('value');
             $('#returning_date').val('');
             $('#round_trip').removeAttr('class');
             $('#one_way').attr('class','active');
@@ -704,56 +695,84 @@
 
         $('#round_trip').click(function(){
             // alert("hii");
+            $("#returning_date_datetimepicker").datetimepicker("destroy");
             $('#one_way').removeAttr('class');
             $('#round_trip').attr('class','active');
             // $("#returning_date_datetimepicker").datetimepicker("show"); 
             var dep_val=$('#departure_date').val();
+            var return_val=$('#returning_date').val();
+            // alert(return_val)
+            if(return_val==''){
+                $('#returning_date').val('');
+                $('#returning_date').val(dep_val);
+            }
             var newdate = dep_val.split("-").reverse().join("/");
             var datePeriode= new Date(newdate);
-            var adddate=datePeriode.setDate(datePeriode.getDate() + 1)
-            // // alert("hii")
+            var adddate=datePeriode.setDate(datePeriode.getDate() + 1);
+            // alert(adddate);
+            // alert(new Date(adddate))
             $('#returning_date_datetimepicker').datetimepicker({
                 pickTime: false,
-                autoclose: true, 
                 startDate: new Date(adddate),
-                todayHighlight: false,
+                autoclose: true,
+                todayHighlight: true,
             });
-            $("#returning_date_datetimepicker").datetimepicker("show"); 
+
+            // $('#returning_date_datetimepicker').datetimepicker("show");
+            $('#returning_date_datetimepicker').datetimepicker("show").on('changeDate', function(){
+                $('#returning_date_datetimepicker').datetimepicker("hide")
+            });
             
             
         });
 
-        $('#returning_date_datetimepicker').click(function(){
-            // alert("hii");
-            var dep_val=$('#departure_date').val();
-            var newdate = dep_val.split("-").reverse().join("/");
-            var datePeriode= new Date(newdate);
-            var adddate=datePeriode.setDate(datePeriode.getDate() + 1)
-            
-            $('#returning_date_datetimepicker').datetimepicker({
-                pickTime: false,
-                autoclose: true, 
-                startDate: new Date(adddate),
-                todayHighlight: false,
-            });
-            $('#returning_date_datetimepicker').datetimepicker("show"); 
-        });
-
-        $('#departure_date_datetimepicker').click(function(){
-            // alert("hii");
-            // var dep_val=$('#departure_date').val();
-            // var newdate = dep_val.split("-").reverse().join("/");
-            // var datePeriode= new Date(newdate);
-            // var adddate=datePeriode.setDate(datePeriode.getDate() + 1)
-            
+        $('.departure_date_datetimepickerclass').click(function(){
+            $('#returning_date').val('');
+            $("#returning_date_datetimepicker").datetimepicker("destroy");
             $('#departure_date_datetimepicker').datetimepicker({
                 pickTime: false,
                 autoclose: true, 
                 startDate: new Date(),
-                todayHighlight: false,
+                todayHighlight: true,
+                // minDate: new Date(),
+                // defaultDate: new Date(),
             });
-            $('#departure_date_datetimepicker').datetimepicker("show"); 
+            $('#departure_date_datetimepicker').datetimepicker("show").on('changeDate', function(){
+                // $('#departure_date_datetimepicker').hide();
+                $('#departure_date_datetimepicker').datetimepicker("hide")
+            });
+        
         });
+
+        $('.returning_date_datetimepickerclass').on('click',function(){
+            // alert("return hii")
+            // $("#returning_date_datetimepicker").datetimepicker("destroy");
+            // returning_date
+            var dep_val=$('#departure_date').val();
+            var return_val=$('#returning_date').val();
+            // alert(return_val)
+            if(return_val==''){
+                $('#returning_date').val('');
+                $('#returning_date').val(dep_val);
+            }
+            var newdate = dep_val.split("-").reverse().join("/");
+            var datePeriode= new Date(newdate);
+            var adddate=datePeriode.setDate(datePeriode.getDate() + 1);
+            // alert(adddate);
+            // alert(new Date(adddate))
+            $('#returning_date_datetimepicker').datetimepicker({
+                pickTime: false,
+                startDate: new Date(adddate),
+                autoclose: true,
+                todayHighlight: true,
+            });
+
+            // $('#returning_date_datetimepicker').datetimepicker("show");
+            $('#returning_date_datetimepicker').datetimepicker("show").on('changeDate', function(){
+                $('#returning_date_datetimepicker').datetimepicker("hide")
+            });
+        });
+
 
 
         $("#adults").change(function(){
