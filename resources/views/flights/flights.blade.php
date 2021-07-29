@@ -1111,39 +1111,47 @@
         var var_val=$(this).val();
         $('#loading_small').attr('data-loading-small-val','1');
         // var loading_small_val=$("#loading_small").attr("data-loading-small-val")
-        showloders(var_val);
+        // showloders(var_val);
         // $('#loading_small').attr('data-loading-small-val','1');
         // var loading_small_val=$("#loading_small").attr("data-loading-small-val")
 
-        // var var_val=$(this).val();
-        // var loading ='<img id="loading-image-small" src="{{ asset('public/loder-small.gif') }}" alt="Loading..." style=" position: absolute;top: 100px;left: 431px;z-index: 100;"/>';
-        // $('#loading_small').append(loading);
-        // $('#loading_small').show();
-        // var min_val=$('#onwwayRange_minprice').val();
-        // var mix_val=$('#onwwayRange_maxprice').val();
-        // var cal_min_val=min_val/100;
-        // // alert(cal_min_val)
-        // // alert(this.value);
-        // var range_val=var_val/100;
-        // var amount='<i class="las la-pound-sign"></i>'+parseFloat(cal_min_val).toFixed(2)+' - <i class="las la-pound-sign"></i>'+parseFloat(range_val).toFixed(2);
-        // $('#amount').empty();
-        // $('#amount').append(amount);
-        // // alert("hii");
-        // // alert(min_val);
-        // for (var index = parseInt(min_val); index <= parseInt(mix_val); index++) {
-        //     // alert(index);
-        //     $(".priceRange"+index).attr("data-GlobalDiv", "0")
-        //     $('.priceRange'+index).hide();
-        // }
-        // for (let index1 = parseInt(min_val); index1 <= parseInt(var_val); index1++) {
-        //     // const element = array[index];
-        //     $(".priceRange"+index1).attr("data-GlobalDiv", "1")
-        //     $('.priceRange'+index1).show();
+        var var_val=$(this).val();
+        var loading ='<img id="loading-image-small" src="{{ asset('public/loder-small.gif') }}" alt="Loading..." />';
+        // alert(loading)
+        $('#loading_small').append(loading);
+        $('#loading_small').show();
+        var min_val=$('#onwwayRange_minprice').val();
+        var mix_val=$('#onwwayRange_maxprice').val();
+        var cal_min_val=min_val/100;
+        // alert(cal_min_val)
+        // alert(this.value);
+        var range_val=var_val/100;
+        var amount='<i class="las la-pound-sign"></i>'+parseFloat(cal_min_val).toFixed(2)+' - <i class="las la-pound-sign"></i>'+parseFloat(range_val).toFixed(2);
+        $('#amount').empty();
+        $('#amount').append(amount);
+        // alert("hii");
+        // alert(min_val);
+        for (var index = parseInt(min_val); index <= parseInt(mix_val); index++) {
+            // alert(index);
+            $(".priceRange"+index).attr("data-GlobalDiv", "0")
+            $('.priceRange'+index).hide();
+        }
+        for (let index1 = parseInt(min_val); index1 <= parseInt(var_val); index1++) {
+            // const element = array[index];
+            $(".priceRange"+index1).attr("data-GlobalDiv", "1")
+            $('.priceRange'+index1).show();
             
-        // }
+        }
+        // setTimeout(loderHide, 3000);
+        // setInterval(loderHide, 900);
+        setTimeout(loderHide, 900);
         // $('#loading_small').hide();
         // $('#loading_small').empty();
     });
+    function loderHide(){
+        $('#loading_small').hide();
+        $('#loading_small').empty();
+    }
     // slider.oninput = function() {
     //     // $('#loading').show();
     //     // this.value
