@@ -566,4 +566,75 @@ EOM;
         }
         return $data;
     }
+
+    public function FlightDetailsAJax(Request $request){
+        $count=$request->count;
+        $flights_outbound=$request->flights;
+        // $flights_outbound=json_decode($request->flights_outbound,true);
+
+        $datasegment='';
+        $alldatasegment='';
+        foreach($flights_outbound as $journeys){
+            for ($i=0; $i < count($journeys); $i++) {
+                // print_r($journeys[$i]);
+                // print_r($journeys1[$i]['Airline'][0]);
+                $datasegment.= '<air:AirSegment Key="'.$journeys[$i]['Key'][0].'" Group="'.$journeys[$i]['Group'][0].'" Carrier="'.$journeys[$i]['Airline'][0].'" FlightNumber="'.$journeys[$i]['Flight'][0].'" Origin="'.$journeys[$i]['From'][0].'" Destination="'.$journeys[$i]['To'][0].'" DepartureTime="'.$journeys[$i]['Depart'][0].'" ArrivalTime="'.$journeys[$i]['Arrive'][0].'" FlightTime="'.$journeys[$i]['FlightTime'][0].'" Distance="'.$journeys[$i]['Distance'][0].'" ETicketability="Yes" ProviderCode="1G" ></air:AirSegment>';
+                $alldatasegment.= '<air:AirSegment Key="'.$journeys[$i]['Key'][0].'" Group="'.$journeys[$i]['Group'][0].'" Carrier="'.$journeys[$i]['Airline'][0].'" FlightNumber="'.$journeys[$i]['Flight'][0].'" Origin="'.$journeys[$i]['From'][0].'" Destination="'.$journeys[$i]['To'][0].'" DepartureTime="'.$journeys[$i]['Depart'][0].'" ArrivalTime="'.$journeys[$i]['Arrive'][0].'" FlightTime="'.$journeys[$i]['FlightTime'][0].'" Distance="'.$journeys[$i]['Distance'][0].'" ETicketability="Yes" ProviderCode="1G" ></air:AirSegment>';
+            }
+        }
+        $TARGETBRANCH = 'P7141733';
+        $CREDENTIALS = 'Universal API/uAPI4648209292-e1e4ba84:9Jw*C+4c/5';
+        $Provider = '1G'; // Any provider you want to use like 1G/1P/1V/ACH
+        $returnSearch = '';
+        $searchLegModifier = '';
+        $query1 = '<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+        <soap:Body>
+           <air:AirPriceReq AuthorizedBy="user" TargetBranch="'.$TARGETBRANCH.'" FareRuleType="long" xmlns:air="http://www.travelport.com/schema/air_v42_0">
+              <BillingPointOfSaleInfo OriginApplication="UAPI" xmlns="http://www.travelport.com/schema/common_v42_0"/>
+              <air:AirItinerary>
+                '.$alldatasegment.'
+              </air:AirItinerary>
+              <air:AirPricingModifiers/>
+              <com:SearchPassenger Key="1" Code="ADT" xmlns:com="http://www.travelport.com/schema/common_v42_0"/>
+              <air:AirPricingCommand/>
+           </air:AirPriceReq>
+        </soap:Body>
+     </soap:Envelope>';
+            $message = <<<EOM
+$query1
+EOM;
+        $auth = base64_encode($CREDENTIALS);
+        // $soap_do = curl_init("https://apac.universal-api.pp.travelport.com/B2BGateway/connect/uAPI/UniversalRecordService");
+        $soap_do = curl_init("https://apac.universal-api.pp.travelport.com/B2BGateway/connect/uAPI/AirService");
+        /*("https://americas.universal-api.pp.travelport.com/B2BGateway/connect/uAPI/AirService");*/
+        $header = array(
+            "Content-Type: text/xml;charset=UTF-8",
+            "Accept: gzip,deflate",
+            "Cache-Control: no-cache",
+            "Pragma: no-cache",
+            "SOAPAction: \"\"",
+            "Authorization: Basic $auth",
+            "Content-length: ".strlen($message),
+        );
+        curl_setopt($soap_do, CURLOPT_POSTFIELDS, $message);
+        curl_setopt($soap_do, CURLOPT_HTTPHEADER, $header);
+        curl_setopt($soap_do, CURLOPT_RETURNTRANSFER, true);
+        $return_return = curl_exec($soap_do);
+        curl_close($soap_do);
+        // return $return;
+        $return_dom = new \DOMDocument();
+        $return_dom->loadXML($return_return);
+        $return_json = new \FluentDOM\Serializer\Json\RabbitFish($return_dom);
+        $return_object = json_decode($return_json,true);
+        $data=$this->XMLData($return_object,$request);
+
+        $arrNewResult = array();
+        // $arrNewResult['changepenalty'] = $data[1]['details']['changepenalty'];
+        $arrNewResult['changepenalty'] = isset($data[1]['details']['changepenalty'])?$data[1]['details']['changepenalty']:'';
+        $arrNewResult['cancelpenalty'] = isset($data[1]['details']['cancelpenalty'])?$data[1]['details']['cancelpenalty']:'';
+        $arrNewResult['baggageallowanceinfo'] = isset($data[1]['details']['baggageallowanceinfo'])?$data[1]['details']['baggageallowanceinfo']:'';
+        $arrNewResult['carryonallowanceinfo'] = isset($data[1]['details']['carryonallowanceinfo'])?$data[1]['details']['carryonallowanceinfo']:'';
+        $status_json = json_encode($arrNewResult);
+        echo $status_json;
+    }
 }

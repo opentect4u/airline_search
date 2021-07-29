@@ -523,6 +523,46 @@
     </div>
 </section>
 
+<style>
+   .refresh-d  {
+        bottom: 0;
+        left: 0;
+        margin: auto;
+        position: absolute;
+        right: 0;
+        top: 50%;
+        z-index: 9999;
+        max-height: 250px;
+        padding: 15px 0;
+        text-align: center;
+        /* background: url(images/bg-1.png) repeat center bottom #fff; */
+        background: repeat center bottom #fff;
+        border-radius: 20px;
+        background-size: 100%;
+        border: 1px solid #eee;
+       
+    }
+    
+    #refreshDiv {
+          position: fixed;
+          display: block;
+          width: 100%;
+          height: 100%;
+          top: 0;
+          left: 0;
+          text-align: center;
+          opacity: 0.7;
+          background-color: #fff;
+          z-index: 99;
+    }
+</style>
+<div id="refreshDiv">
+    <div class=".refresh-d">
+      <h3 class="zoomInUp">  Refresh your Result</h3>  
+      <p class="fadeInUp">For the latest prices and availability, we need  to<br> <strong>refresh your results.</strong></p>  
+      <button class="ref-btn" onclick="javascript:window.location.reload();">ok, refresh</button>
+    </div>
+</div>
 
 <!-- <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" /> -->
 <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" /> -->
@@ -536,13 +576,23 @@
 <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>   -->
 		
 <script type="text/javascript">
+    function AutomaticRefresh(){
+        // alert("hii");
+        $('#refreshDiv').show();
+        
+    }
     $( document ).ready(function() {
         $('#loading').hide();
         $('#loading_small').hide();
-        var path = "{{ route('searchairport') }}";
 
-         // Set the Options for "Bloodhound" suggestion engine
-         var engine = new Bloodhound({
+        $('#refreshDiv').hide();
+        // setInterval(AutomaticRefresh, 5000);
+        setInterval(AutomaticRefresh, 400000);
+
+
+        var path = "{{ route('searchairport') }}";
+        // Set the Options for "Bloodhound" suggestion engine
+        var engine = new Bloodhound({
                     remote: {
                         // url: '/find?q=%QUERY%',
                         url: path+'?q=%QUERY%',
@@ -1116,7 +1166,7 @@
         // var loading_small_val=$("#loading_small").attr("data-loading-small-val")
 
         var var_val=$(this).val();
-        var loading ='<img id="loading-image-small" src="{{ asset('public/loder-small.gif') }}" alt="Loading..." />';
+        var loading ='<img id="loading-image-small" src="{{ asset('public/loder-small.gif') }}" alt="Loading..." style=" position: absolute;top: 100px;left: 431px;z-index: 100;" />';
         // alert(loading)
         $('#loading_small').append(loading);
         $('#loading_small').show();

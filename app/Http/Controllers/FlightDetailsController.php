@@ -125,95 +125,97 @@ EOM;
                                                 // echo "<br/><br/>"; 
                                                 $details1=[];
                                                 // please check this position
-                                                foreach($jsons4 as $g => $jsons5){
-                                                    //  print_r($jsons5);
-                                                    //     echo "<br/>";
-                                                    if(is_string($jsons5)){
-                                                        if(strcmp($g, "@Key") == 0){
-                                                            $details1["key"]=$jsons5;
-                                                        }
-                                                        if(strcmp($g, "@Group") == 0){
-                                                            $details1["Group"] =$jsons5;
-                                                        }
-                                                        if(strcmp($g, "@Carrier") == 0){
-                                                            $details1["Carrier"]=$jsons5;
-                                                        }
-                                                        if(strcmp($g, "@FlightNumber") == 0){
-                                                            $details1["FlightNumber"]=$jsons5;
-                                                        }
-                                                        if(strcmp($g, "@Origin") == 0){
-                                                            $details1["Origin"]=$jsons5;
-                                                        }
-                                                        if(strcmp($g, "@Destination") == 0){
-                                                            $details1["Destination"]=$jsons5;
-                                                        }
-                                                        if(strcmp($g, "@DepartureTime") == 0){
-                                                            $details1["DepartureTime"]=$jsons5;
-                                                        }
-                                                        if(strcmp($g, "@ArrivalTime") == 0){
-                                                            $details1["ArrivalTime"]=$jsons5;
-                                                        }
-                                                        if(strcmp($g, "@FlightTime") == 0){
-                                                            $details1["FlightTime"]=$jsons5;
-                                                        }
-                                                        if(strcmp($g, "@TravelTime") == 0){
-                                                            $details1["TravelTime"]=$jsons5;
-                                                        }
-                                                        if(strcmp($g, "@Distance") == 0){
-                                                            $details1["Distance"]=$jsons5;
-                                                        }
-                                                        if(strcmp($g, "@ClassOfService") == 0){
-                                                            $details1["ClassOfService"]=$jsons5;
-                                                        }
-                                                    }else{
-                                                        $details=[];
-                                                        foreach($jsons5 as $k => $jsons6){
-                                                            // print_r($jsons6);
-                                                            // echo "<br/>";
-                                                            if(is_string($jsons6)){
-                                                                if(strcmp($k, "@Key") == 0){
-                                                                    $details["key"]=$jsons6;
-                                                                }
-                                                                if(strcmp($k, "@Group") == 0){
-                                                                    $details["Group"] =$jsons6;
-                                                                }
-                                                                if(strcmp($k, "@Carrier") == 0){
-                                                                    $details["Carrier"]=$jsons6;
-                                                                }
-                                                                if(strcmp($k, "@FlightNumber") == 0){
-                                                                    $details["FlightNumber"]=$jsons6;
-                                                                }
-                                                                if(strcmp($k, "@Origin") == 0){
-                                                                    $details["Origin"]=$jsons6;
-                                                                }
-                                                                if(strcmp($k, "@Destination") == 0){
-                                                                    $details["Destination"]=$jsons6;
-                                                                }
-                                                                if(strcmp($k, "@DepartureTime") == 0){
-                                                                    $details["DepartureTime"]=$jsons6;
-                                                                }
-                                                                if(strcmp($k, "@ArrivalTime") == 0){
-                                                                    $details["ArrivalTime"]=$jsons6;
-                                                                }
-                                                                if(strcmp($k, "@FlightTime") == 0){
-                                                                    $details["FlightTime"]=$jsons6;
-                                                                }
-                                                                if(strcmp($k, "@TravelTime") == 0){
-                                                                    $details["TravelTime"]=$jsons6;
-                                                                }
-                                                                if(strcmp($k, "@Distance") == 0){
-                                                                    $details["Distance"]=$jsons6;
-                                                                }
-                                                                if(strcmp($k, "@ClassOfService") == 0){
-                                                                    $details["ClassOfService"]=$jsons6;
-                                                                }
-                                                               
-
+                                                if(is_array($jsons4)){
+                                                    foreach($jsons4 as $g => $jsons5){
+                                                        //  print_r($jsons5);
+                                                        //     echo "<br/>";
+                                                        if(is_string($jsons5)){
+                                                            if(strcmp($g, "@Key") == 0){
+                                                                $details1["key"]=$jsons5;
                                                             }
+                                                            if(strcmp($g, "@Group") == 0){
+                                                                $details1["Group"] =$jsons5;
+                                                            }
+                                                            if(strcmp($g, "@Carrier") == 0){
+                                                                $details1["Carrier"]=$jsons5;
+                                                            }
+                                                            if(strcmp($g, "@FlightNumber") == 0){
+                                                                $details1["FlightNumber"]=$jsons5;
+                                                            }
+                                                            if(strcmp($g, "@Origin") == 0){
+                                                                $details1["Origin"]=$jsons5;
+                                                            }
+                                                            if(strcmp($g, "@Destination") == 0){
+                                                                $details1["Destination"]=$jsons5;
+                                                            }
+                                                            if(strcmp($g, "@DepartureTime") == 0){
+                                                                $details1["DepartureTime"]=$jsons5;
+                                                            }
+                                                            if(strcmp($g, "@ArrivalTime") == 0){
+                                                                $details1["ArrivalTime"]=$jsons5;
+                                                            }
+                                                            if(strcmp($g, "@FlightTime") == 0){
+                                                                $details1["FlightTime"]=$jsons5;
+                                                            }
+                                                            if(strcmp($g, "@TravelTime") == 0){
+                                                                $details1["TravelTime"]=$jsons5;
+                                                            }
+                                                            if(strcmp($g, "@Distance") == 0){
+                                                                $details1["Distance"]=$jsons5;
+                                                            }
+                                                            if(strcmp($g, "@ClassOfService") == 0){
+                                                                $details1["ClassOfService"]=$jsons5;
+                                                            }
+                                                        }else{
+                                                            $details=[];
+                                                            foreach($jsons5 as $k => $jsons6){
+                                                                // print_r($jsons6);
+                                                                // echo "<br/>";
+                                                                if(is_string($jsons6)){
+                                                                    if(strcmp($k, "@Key") == 0){
+                                                                        $details["key"]=$jsons6;
+                                                                    }
+                                                                    if(strcmp($k, "@Group") == 0){
+                                                                        $details["Group"] =$jsons6;
+                                                                    }
+                                                                    if(strcmp($k, "@Carrier") == 0){
+                                                                        $details["Carrier"]=$jsons6;
+                                                                    }
+                                                                    if(strcmp($k, "@FlightNumber") == 0){
+                                                                        $details["FlightNumber"]=$jsons6;
+                                                                    }
+                                                                    if(strcmp($k, "@Origin") == 0){
+                                                                        $details["Origin"]=$jsons6;
+                                                                    }
+                                                                    if(strcmp($k, "@Destination") == 0){
+                                                                        $details["Destination"]=$jsons6;
+                                                                    }
+                                                                    if(strcmp($k, "@DepartureTime") == 0){
+                                                                        $details["DepartureTime"]=$jsons6;
+                                                                    }
+                                                                    if(strcmp($k, "@ArrivalTime") == 0){
+                                                                        $details["ArrivalTime"]=$jsons6;
+                                                                    }
+                                                                    if(strcmp($k, "@FlightTime") == 0){
+                                                                        $details["FlightTime"]=$jsons6;
+                                                                    }
+                                                                    if(strcmp($k, "@TravelTime") == 0){
+                                                                        $details["TravelTime"]=$jsons6;
+                                                                    }
+                                                                    if(strcmp($k, "@Distance") == 0){
+                                                                        $details["Distance"]=$jsons6;
+                                                                    }
+                                                                    if(strcmp($k, "@ClassOfService") == 0){
+                                                                        $details["ClassOfService"]=$jsons6;
+                                                                    }
+                                                                
+
+                                                                }
+                                                            }
+                                                            if(empty($details1) && !empty($details)){
+                                                                $journey->push($details); 
+                                                            }    
                                                         }
-                                                        if(empty($details1) && !empty($details)){
-                                                            $journey->push($details); 
-                                                        }    
                                                     }
                                                 }
                                                 if(!empty($details1)){
@@ -312,15 +314,17 @@ EOM;
                                                                             foreach($jsons16 as $jsons17){
                                                                                 // print_r($jsons17);
                                                                                 // echo "<br/><br/><br/>";
-                                                                                foreach($jsons17 as $c=> $jsons18){
-                                                                                    if(is_string($jsons18)){
-                                                                                        if(strcmp($c, "$") == 0){
-                                                                                            $details4["changepenalty"]=$jsons18;
+                                                                                if(is_array($jsons17)){
+                                                                                    foreach($jsons17 as $c=> $jsons18){
+                                                                                        if(is_string($jsons18)){
+                                                                                            if(strcmp($c, "$") == 0){
+                                                                                                $details4["changepenalty"]=$jsons18;
+                                                                                            }
+                                                                                            // print_r($c."- " .$jsons18);
+                                                                                            // echo "<br/><br/><br/>"; 
                                                                                         }
-                                                                                        // print_r($c."- " .$jsons18);
-                                                                                        // echo "<br/><br/><br/>"; 
+                                                                                        
                                                                                     }
-                                                                                    
                                                                                 }
                                                                             }
                                                                         }

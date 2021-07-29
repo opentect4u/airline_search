@@ -294,6 +294,7 @@
 
 <section class="search-packages mt-4">
     <div class="container-fluid">
+        @if(count($multiflights)>0)
         <div class="row">
             <div class="col-lg-3 filters_wrapper">
                 <div class="card">
@@ -601,6 +602,14 @@
                
             </div>
         </div>
+        @else
+        <div class="row">
+            <div class="col-lg-9 flight-section">
+                <h3>No flights found</h3>
+                <a href="{{route('index')}}" class="btn btn-primary">GO BACK</a>
+            </div>
+        </div>
+        @endif
     </div>
     </div>
 </section>

@@ -475,3 +475,11 @@
 </section>
 
 @endsection
+@section('script')
+<script type="text/javascript">
+    $( document ).ready(function() {
+        $('#loading').hide();
+        $('#loading_small').hide();
+    });
+</script>
+@endsection

@@ -412,7 +412,7 @@
                                         <a class="nav-link" data-toggle="pill" href="#fare_details{{ $count }}">Fare Details</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" data-toggle="pill" href="#baggage_rules{{ $count }}" onclick="BaggageCancelRule({{ $count }},{{json_encode($flight_data[0])}});">Baggage Rules</a>
+                                        <a class="nav-link" data-toggle="pill" href="#baggage_rules{{ $count }}" onclick="BaggageCancelRule({{ $count }},@foreach($flight_data[0] as $flight_datas){{json_encode($flight_datas[0])}}@endforeach);">Baggage Rules</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" data-toggle="pill" href="#cancellation_rules{{ $count }}" onclick="BaggageCancelRule({{ $count }},{{json_encode($flight_data[0])}});">Cancellation Rules</a>
@@ -1313,7 +1313,7 @@
         
         $.ajax({
             type: "POST",
-            url: "{{ route('BaggageCancelRuleajax') }}",
+            url: "{{ route('roundBaggageCancelRuleReturnajax') }}",
             data: {
                 "_token": "{{ csrf_token() }}",
                 count:count,
