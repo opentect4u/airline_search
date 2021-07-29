@@ -302,17 +302,17 @@
                     } 
                     ?>
                     <?php
-                        if ($DepartureTime>=0 &&$DepartureTime<6) {
-                            $DepartureSlot="Departure16";
+                        if ($DepartureTime>=date("00:00") &&$DepartureTime<date("06:00")) {
+                        $DepartureSlot="Departure16";
                         }
-                        elseif ($DepartureTime>=6 &&$DepartureTime<=12) {
-                            $DepartureSlot="Departure612";
+                        elseif ($DepartureTime>=date("06:00") &&$DepartureTime<=date("12:00")) {
+                        $DepartureSlot="Departure612";
                         }
-                        elseif ($DepartureTime>=12 &&$DepartureTime<=18) {
-                            $DepartureSlot="Departure126";
+                        elseif ($DepartureTime>=date("12:00") &&$DepartureTime<=date("18:00")) {
+                        $DepartureSlot="Departure126";
                         }
-                        elseif ($DepartureTime>=18 &&$DepartureTime<=24) {
-                            $DepartureSlot="Departure6";
+                        elseif ($DepartureTime>=date("18:00") &&$DepartureTime<=date("24:00")) {
+                        $DepartureSlot="Departure6";
                         }
                     ?>
                     
