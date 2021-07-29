@@ -227,6 +227,9 @@
                             <input type="text" name="flights1" value="{{json_encode($searched->flights1)}}" hidden>
                             <input type="text" name="flights2" value="{{json_encode($searched->flights2)}}" hidden>
                             <input type="text" name="flights3" value="{{json_encode($searched->flights3)}}" hidden>
+                            <input type="text" name="flights4" value="{{json_encode($searched->flights4)}}" hidden>
+                            <input type="text" name="flights5" value="{{json_encode($searched->flights5)}}" hidden>
+                            <input type="text" name="flights6" value="{{json_encode($searched->flights6)}}" hidden>
                             <input type="text" name="price" value="{{json_encode($price)}}" hidden>
                             <input type="text" name="adults" value="{{ $searched->adults }}" hidden>
                             <input type="text" name="children" value="{{ $searched->children }}" hidden>

@@ -215,7 +215,7 @@
                                 }
                             }
                         ?></label>
-                        <input type="range" class="custom-range" id="onwwayRange" name="onwwayRange" 
+                        <input type="range" class="custom-range" onchange="loderShow();" id="onwwayRange" name="onwwayRange" 
                         min="<?php foreach($flights[0] as $flight){foreach($flight[1] as $prices){echo (str_replace('GBP','',$prices['Total Price'])*100);}} ?>" 
                         max="<?php foreach($flights[(count($flights)-1)] as $flight){foreach($flight[1] as $prices){echo (str_replace('GBP','',$prices['Total Price'])*100);}} ?>" 
                         value="<?php foreach($flights[(count($flights)-1)] as $flight){foreach($flight[1] as $prices){echo (str_replace('GBP','',$prices['Total Price'])*100);}} ?>">
@@ -290,19 +290,20 @@
                 
                     <?php foreach($flight_data[0] as $datas){
                     $DepartureTime =\Carbon\Carbon::parse($datas[0]['Depart'])->format('H:i'); 
+                    // echo $DepartureTime;
                     } ?>
                      <?php
                      if ($DepartureTime>=0 &&$DepartureTime<6) {
                         $DepartureSlot="Departure16";
                      }
                      elseif ($DepartureTime>=6 &&$DepartureTime<=12) {
-                         $DepartureSlot="Departure612";
+                        $DepartureSlot="Departure612";
                      }
                      elseif ($DepartureTime>=12 &&$DepartureTime<=18) {
-                         $DepartureSlot="Departure126";
+                        $DepartureSlot="Departure126";
                      }
                      elseif ($DepartureTime>=18 &&$DepartureTime<=24) {
-                         $DepartureSlot="Departure6";
+                        $DepartureSlot="Departure6";
                      }
                      ?>
                 
@@ -887,6 +888,9 @@
     //sorting 
     $('#price_order').click(function(){
         // alert("hii");
+        var loading ='<img id="loading-image-small" src="{{ asset('public/loder-small.gif') }}" alt="Loading..." style=" position: absolute;top: 100px;left: 431px;z-index: 100;"/>';
+        $('#loading_small').append(loading);
+        $('#loading_small').show();
         var url= window.location.href;
         var price_order='{{isset($searched->price_order)?$searched->price_order:''}}';
         if(price_order==""){
@@ -1082,19 +1086,117 @@
 
     //slider function
     var slider = document.getElementById("onwwayRange");
+    // alert(slider);
     // var output = document.getElementById("amount");
     // output.innerHTML = slider.value;
-    slider.oninput = function() {
+    $(document).on('change', '#onwwayRange', function() {
+        // alert($(this).val());
+        var var_val=$(this).val();
+        $('#loading_small').attr('data-loading-small-val','1');
+        // var loading_small_val=$("#loading_small").attr("data-loading-small-val")
+        showloders(var_val);
+        // $('#loading_small').attr('data-loading-small-val','1');
+        // var loading_small_val=$("#loading_small").attr("data-loading-small-val")
+
+        // var var_val=$(this).val();
+        // var loading ='<img id="loading-image-small" src="{{ asset('public/loder-small.gif') }}" alt="Loading..." style=" position: absolute;top: 100px;left: 431px;z-index: 100;"/>';
+        // $('#loading_small').append(loading);
+        // $('#loading_small').show();
+        // var min_val=$('#onwwayRange_minprice').val();
+        // var mix_val=$('#onwwayRange_maxprice').val();
+        // var cal_min_val=min_val/100;
+        // // alert(cal_min_val)
+        // // alert(this.value);
+        // var range_val=var_val/100;
+        // var amount='<i class="las la-pound-sign"></i>'+parseFloat(cal_min_val).toFixed(2)+' - <i class="las la-pound-sign"></i>'+parseFloat(range_val).toFixed(2);
+        // $('#amount').empty();
+        // $('#amount').append(amount);
+        // // alert("hii");
+        // // alert(min_val);
+        // for (var index = parseInt(min_val); index <= parseInt(mix_val); index++) {
+        //     // alert(index);
+        //     $(".priceRange"+index).attr("data-GlobalDiv", "0")
+        //     $('.priceRange'+index).hide();
+        // }
+        // for (let index1 = parseInt(min_val); index1 <= parseInt(var_val); index1++) {
+        //     // const element = array[index];
+        //     $(".priceRange"+index1).attr("data-GlobalDiv", "1")
+        //     $('.priceRange'+index1).show();
+            
+        // }
+        // $('#loading_small').hide();
+        // $('#loading_small').empty();
+    });
+    // slider.oninput = function() {
+    //     // $('#loading').show();
+    //     // this.value
+    //     alert(this.value);
+    //     // alert("hii");
+    //     var loading ='<img id="loading-image-small" src="{{ asset('public/loder-small.gif') }}" alt="Loading..." style=" position: absolute;top: 100px;left: 431px;z-index: 100;"/>';
+    //     $('#loading_small').append(loading);
+    //     $('#loading_small').show();
+    //     var min_val=$('#onwwayRange_minprice').val();
+    //     var mix_val=$('#onwwayRange_maxprice').val();
+    //     var cal_min_val=min_val/100;
+    //     // alert(cal_min_val)
+    //     // alert(this.value);
+    //     var range_val=this.value/100;
+    //     var amount='<i class="las la-pound-sign"></i>'+parseFloat(cal_min_val).toFixed(2)+' - <i class="las la-pound-sign"></i>'+parseFloat(range_val).toFixed(2);
+    //     $('#amount').empty();
+    //     $('#amount').append(amount);
+    //     // alert("hii");
+    //     // alert(min_val);
+    //     for (var index = parseInt(min_val); index <= parseInt(mix_val); index++) {
+    //         // alert(index);
+    //         $(".priceRange"+index).attr("data-GlobalDiv", "0")
+    //         $('.priceRange'+index).hide();
+    //     }
+    //     for (let index1 = parseInt(min_val); index1 <= parseInt(this.value); index1++) {
+    //         // const element = array[index];
+    //         $(".priceRange"+index1).attr("data-GlobalDiv", "1")
+    //         $('.priceRange'+index1).show();
+            
+    //     }
+    //     $('#loading_small').hide();
+    //     $('#loading_small').empty();
+    //     // output.innerHTML = this.value;
+    // }
+
+    function loderShow(){
+        // $('#loading').show();
         // alert("hii");
-        var loading ='<img id="loading-image-small" src="{{ asset('public/loder-small.gif') }}" alt="Loading..." style=" position: absolute;top: 100px;left: 431px;z-index: 100;"/>';
-        $('#loading_small').append(loading);
-        $('#loading_small').show();
+        // var loading ='<img id="loading-image-small" src="{{ asset('public/loder-small.gif') }}" alt="Loading..." style=" position: absolute;top: 100px;left: 431px;z-index: 100;"/>';
+        // $('#loading_small').append(loading);
+        // $('#loading_small').show();
+        // $(document).on('change', '#onwwayRange', function() {
+        //     alert("hii");
+        // })
+
+    }
+    // function showloders(var_val){
+    //     // $('#loading').show();
+    //     // alert("hii");
+    //     var loading ='<img id="loading-image-small" src="{{ asset('public/loder-small.gif') }}" alt="Loading..." style=" position: absolute;top: 100px;left: 431px;z-index: 100;"/>';
+    //     $('#loading_small').append(loading);
+    //     $('#loading_small').show();
+    //     // var loading_small_val=$("#loading_small").attr("data-loading-small-val");
+    //     // if(loading_small_val==1){
+    //     //     Rancher(var_val);
+    //     // }
+       
+    //     // Rancher(var_val);
+    // }
+    function Rancher(var_val){
+        // var var_val=$(this).val();
+        // var loading ='<img id="loading-image-small" src="{{ asset('public/loder-small.gif') }}" alt="Loading..." style=" position: absolute;top: 100px;left: 431px;z-index: 100;"/>';
+        // $('#loading_small').append(loading);
+        // $('#loading_small').show();
         var min_val=$('#onwwayRange_minprice').val();
         var mix_val=$('#onwwayRange_maxprice').val();
         var cal_min_val=min_val/100;
         // alert(cal_min_val)
         // alert(this.value);
-        var range_val=this.value/100;
+        var range_val=var_val/100;
         var amount='<i class="las la-pound-sign"></i>'+parseFloat(cal_min_val).toFixed(2)+' - <i class="las la-pound-sign"></i>'+parseFloat(range_val).toFixed(2);
         $('#amount').empty();
         $('#amount').append(amount);
@@ -1105,7 +1207,7 @@
             $(".priceRange"+index).attr("data-GlobalDiv", "0")
             $('.priceRange'+index).hide();
         }
-        for (let index1 = parseInt(min_val); index1 <= parseInt(this.value); index1++) {
+        for (let index1 = parseInt(min_val); index1 <= parseInt(var_val); index1++) {
             // const element = array[index];
             $(".priceRange"+index1).attr("data-GlobalDiv", "1")
             $('.priceRange'+index1).show();
@@ -1113,7 +1215,6 @@
         }
         $('#loading_small').hide();
         $('#loading_small').empty();
-        // output.innerHTML = this.value;
     }
 </script>
 @endsection

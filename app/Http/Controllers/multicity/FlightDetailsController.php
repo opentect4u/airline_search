@@ -17,13 +17,24 @@ class FlightDetailsController extends Controller
         $flights1=json_decode($request->flights1);
         $flights2=json_decode($request->flights2);
         $flights3=json_decode($request->flights3);
+        
+        $flights4=json_decode($request->flights4);
+        $flights5=json_decode($request->flights5);
+        $flights6=json_decode($request->flights6);
+
         // return $flights1;
         $datasegment1='';
         $datasegment2='';
         $datasegment3='';
+        $datasegment4='';
+        $datasegment5='';
+        $datasegment6='';
         $data1=[];
         $data2=[];
         $data3=[];
+        $data4=[];
+        $data5=[];
+        $data6=[];
         $api_url = "https://apac.universal-api.pp.travelport.com/B2BGateway/connect/uAPI/AirService";
         
         // foreach($flights2 as $datas){
@@ -97,6 +108,9 @@ class FlightDetailsController extends Controller
             'flights1'=>$data1,
             'flights2'=>$data2,
             'flights3'=>$data3,
+            'flights4'=>$data4,
+            'flights5'=>$data5,
+            'flights6'=>$data6,
             'searched'=>$request,
             'price'=>$price
         ]);

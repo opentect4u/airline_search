@@ -298,6 +298,9 @@
                         <input type="hidden" name="flights1" id="flights1" value="{{$flights1}}">
                         <input type="hidden" name="flights2" id="flights2" value="{{$flights2}}">
                         <input type="hidden" name="flights3" id="flights3" value="{{$flights3}}">
+                        <input type="hidden" name="flights4" id="flights4" value="{{$flights4}}">
+                        <input type="hidden" name="flights5" id="flights5" value="{{$flights5}}">
+                        <input type="hidden" name="flights6" id="flights6" value="{{$flights6}}">
                         <input type="hidden" name="adults" id="adults" value="{{$searched->adults}}">
                         <input type="hidden" name="children" id="children" value="{{$searched->children}}">
                         <input type="hidden" name="infant" id="infant" value="{{$searched->infant}}">

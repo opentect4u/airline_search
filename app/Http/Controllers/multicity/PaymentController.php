@@ -10,9 +10,13 @@ class PaymentController extends Controller
     public function ShowPayment(Request $request){
         // return $request;
         $flights1=json_decode($request->flights1);
-
         $flights2=json_decode($request->flights2);
         $flights3=json_decode($request->flights3);
+
+        $flights4=json_decode($request->flights4);
+        $flights5=json_decode($request->flights5);
+        $flights6=json_decode($request->flights6);
+
         // return $flights1;
         $all_datasegment='';
         $datasegment1='';
@@ -91,6 +95,25 @@ class PaymentController extends Controller
             // // return  $return3 ;
             // $object3 = $this->XMLToJson($return3);
             // $data3= $this->DataParser($object3);
+        }
+
+        if($flights4 !=null){
+            foreach($flights4 as $journeys){
+                $all_datasegment.= '<air:AirSegment Key="'.get_object_vars($journeys->Key)[0].'" Group="'.get_object_vars($journeys->Group)[0].'" Carrier="'.get_object_vars($journeys->Airline)[0].'" FlightNumber="'.get_object_vars($journeys->Flight)[0].'" Origin="'.get_object_vars($journeys->From)[0].'" Destination="'.get_object_vars($journeys->To)[0].'" DepartureTime="'.get_object_vars($journeys->Depart)[0].'" ArrivalTime="'.get_object_vars($journeys->Arrive)[0].'" FlightTime="'.get_object_vars($journeys->FlightTime)[0].'" Distance="'.get_object_vars($journeys->Distance)[0].'" ETicketability="Yes" ProviderCode="1G" ></air:AirSegment>';
+               
+            }
+        }
+        if($flights5 !=null){
+            foreach($flights5 as $journeys){
+                $all_datasegment.= '<air:AirSegment Key="'.get_object_vars($journeys->Key)[0].'" Group="'.get_object_vars($journeys->Group)[0].'" Carrier="'.get_object_vars($journeys->Airline)[0].'" FlightNumber="'.get_object_vars($journeys->Flight)[0].'" Origin="'.get_object_vars($journeys->From)[0].'" Destination="'.get_object_vars($journeys->To)[0].'" DepartureTime="'.get_object_vars($journeys->Depart)[0].'" ArrivalTime="'.get_object_vars($journeys->Arrive)[0].'" FlightTime="'.get_object_vars($journeys->FlightTime)[0].'" Distance="'.get_object_vars($journeys->Distance)[0].'" ETicketability="Yes" ProviderCode="1G" ></air:AirSegment>';
+               
+            }
+        }
+        if($flights6 !=null){
+            foreach($flights6 as $journeys){
+                $all_datasegment.= '<air:AirSegment Key="'.get_object_vars($journeys->Key)[0].'" Group="'.get_object_vars($journeys->Group)[0].'" Carrier="'.get_object_vars($journeys->Airline)[0].'" FlightNumber="'.get_object_vars($journeys->Flight)[0].'" Origin="'.get_object_vars($journeys->From)[0].'" Destination="'.get_object_vars($journeys->To)[0].'" DepartureTime="'.get_object_vars($journeys->Depart)[0].'" ArrivalTime="'.get_object_vars($journeys->Arrive)[0].'" FlightTime="'.get_object_vars($journeys->FlightTime)[0].'" Distance="'.get_object_vars($journeys->Distance)[0].'" ETicketability="Yes" ProviderCode="1G" ></air:AirSegment>';
+               
+            }
         }
 
         // return $all_datasegment;
@@ -1333,10 +1356,12 @@ EOM;
                     // echo $FareInfo[$i]['Origin'];
                     // echo "<br/>";
                     foreach($flight[5] as $FareRuleKey){
-                        if($FareInfo[$i]['Key']==$FareRuleKey[$i]['FareInfoRef']){
+                        if(isset($FareInfo[$i]['Key']) && isset($FareRuleKey[$i]['FareInfoRef'])){
+                            if($FareInfo[$i]['Key']==$FareRuleKey[$i]['FareInfoRef']){
                             $Fare_Info_FareRuleKey.='<air:FareInfo PromotionalFare="false" Key="'.$FareInfo[$i]['Key'].'" FareFamily="Economy Saver" DepartureDate="'.$FareInfo[$i]['DepartureDate'].'" Amount="'.$FareInfo[$i]['Amount'].'" EffectiveDate="'.$FareInfo[$i]['EffectiveDate'].'" Destination="'.$FareInfo[$i]['Destination'].'" Origin="'.$FareInfo[$i]['Origin'].'" PassengerTypeCode="'.$FareInfo[$i]['PassengerTypeCode'].'" FareBasis="'.$FareInfo[$i]['FareBasis'].'">
                             <air:FareRuleKey FareInfoRef="'.$FareRuleKey[$i]['FareInfoRef'].'" ProviderCode="'.$FareRuleKey[$i]['ProviderCode'].'">'.$FareRuleKey[$i]['FareRuleKeyValue'].'</air:FareRuleKey>
                             </air:FareInfo>';
+                            }
                         }
                         // echo $FareInfo[$i]['Key'];
                         // echo "<br/>";
