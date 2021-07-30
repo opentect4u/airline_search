@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/test',[App\Http\Controllers\TestController::class,'Test']);
+Route::get('/showjson',[App\Http\Controllers\TestController::class,'ShowJson']);
 
 
 // Route::get('/', function () {

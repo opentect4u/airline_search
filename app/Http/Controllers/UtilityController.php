@@ -293,4 +293,22 @@ EOM;
 EOM;
         return $message ;
     }
+
+    // Universal Record Retrieve Request
+    public function UniversalRecordRetrieveReq($UniversalRecord){
+        $Provider =app('App\Http\Controllers\UniversalConfigAPIController')->Provider();
+        $TARGETBRANCH =app('App\Http\Controllers\UniversalConfigAPIController')->TARGETBRANCH();
+        
+        $message = <<<EOM
+        <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+        <soapenv:Body>
+           <univ:UniversalRecordRetrieveReq TargetBranch="$TARGETBRANCH" TraceId="trace" xmlns:univ="http://www.travelport.com/schema/universal_v42_0" xmlns:com="http://www.travelport.com/schema/common_v42_0">
+              <com:BillingPointOfSaleInfo OriginApplication="UAPI" xmlns="http://www.travelport.com/schema/common_v42_0"/>
+              <univ:UniversalRecordLocatorCode>$UniversalRecord</univ:UniversalRecordLocatorCode>
+           </univ:UniversalRecordRetrieveReq>
+        </soapenv:Body>
+     </soapenv:Envelope>
+EOM;
+        return $message;
+    }
 }

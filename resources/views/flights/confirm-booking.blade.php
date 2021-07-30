@@ -73,7 +73,7 @@
                                         @foreach($unidata[0] as $data)
                                         <!-- {{print_r($data)}} -->
                                         <p>{{$data['First']}} {{$data['Last']}}<br>
-                                        {{$data['Address']}}<br>{{$data['street']}}, {{$data['street1']}}<br>{{$data['City']}}<br>{{$data['State']}}<br>{{$searched->Country}}<br>{{$data['PostalCode']}}<br>
+                                        {{$data['Address']}}<br>{{isset($data['Street'])?$data['Street']:''}} <br>{{$data['City']}}<br>{{$data['State']}}<br>{{$searched->Country}}<br>{{$data['PostalCode']}}<br>
                                             <b>TEL:</b>{{$data['Number']}}
                                         @endforeach
                                     </div>
@@ -159,7 +159,8 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach($unidata[1] as $datas)
+                                                    @foreach($unidata[1] as $datas1)
+                                                    @foreach($datas1 as $datas)
                                                     <!-- {{print_r($datas)}} -->
                                                     <tr>
                                                         <td>{{$datas['Carrier']}}
@@ -182,6 +183,7 @@
                                                         <td>0</td>
                                                         <td>0</td>
                                                     </tr>
+                                                    @endforeach
                                                     @endforeach
                                                 </tbody>
                                             </table>
