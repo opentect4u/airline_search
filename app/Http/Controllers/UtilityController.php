@@ -177,7 +177,7 @@ class UtilityController extends Controller
         return $return;
     }
 
-    public function Universal_API_SearchXML($travel_class,$flightFrom,$flightTo,$SearchDate){
+    public function Universal_API_SearchXML($travel_class,$flightFrom,$flightTo,$SearchDate,$var_adults,$var_children,$var_infant){
         $Provider =app('App\Http\Controllers\UniversalConfigAPIController')->Provider();
         $TARGETBRANCH =app('App\Http\Controllers\UniversalConfigAPIController')->TARGETBRANCH();
         
@@ -186,7 +186,16 @@ class UtilityController extends Controller
               	<com:CabinClass xmlns="http://www.travelport.com/schema/common_v42_0" Type="'. $travel_class.'"></com:CabinClass>
               	</air:PreferredCabins>
               </air:AirLegModifiers>';
-   
+        $travel_details='';
+        for ($i=1; $i <= $var_adults; $i++) { 
+            $travel_details.='<com:SearchPassenger BookingTravelerRef="ADT'.$i.'" Code="ADT" xmlns:com="http://www.travelport.com/schema/common_v42_0"/>';
+        }
+        for ($i=1; $i <= $var_children; $i++) { 
+            $travel_details.='<com:SearchPassenger BookingTravelerRef="CNN'.$i.'" Code="CNN" xmlns:com="http://www.travelport.com/schema/common_v42_0"/>';
+        }
+        for ($i=1; $i <= $var_infant; $i++) { 
+            $travel_details.='<com:SearchPassenger BookingTravelerRef="INF'.$i.'" Code="INF" xmlns:com="http://www.travelport.com/schema/common_v42_0"/>';
+        }
              
       $message = <<<EOM
       <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"> 
@@ -209,8 +218,8 @@ class UtilityController extends Controller
                   <com:Provider Code="$Provider"/>
                </air:PreferredProviders>
             </air:AirSearchModifiers>   
-            <com:SearchPassenger BookingTravelerRef="1" Code="ADT" xmlns:com="http://www.travelport.com/schema/common_v42_0"/>
-         </air:LowFareSearchReq>
+            $travel_details
+            </air:LowFareSearchReq>
       </soapenv:Body>
    </soapenv:Envelope>
 EOM;
@@ -310,5 +319,20 @@ EOM;
      </soapenv:Envelope>
 EOM;
         return $message;
+    }
+
+    // tarveller details datasegment return
+    public function TravelDetailsDatasagment($var_adults,$var_children,$var_infant){
+        $travel_details='';
+        for ($i=0; $i < $var_adults; $i++) { 
+            $travel_details.='<com:SearchPassenger BookingTravelerRef="ADT'.$i.'" Code="ADT" xmlns:com="http://www.travelport.com/schema/common_v42_0"/>';
+        }
+        for ($i=0; $i < $var_children; $i++) { 
+            $travel_details.='<com:SearchPassenger BookingTravelerRef="CNN'.$i.'" Code="CNN" xmlns:com="http://www.travelport.com/schema/common_v42_0"/>';
+        }
+        for ($i=0; $i < $var_infant; $i++) { 
+            $travel_details.='<com:SearchPassenger BookingTravelerRef="INF'.$i.'" Code="INF" xmlns:com="http://www.travelport.com/schema/common_v42_0"/>';
+        }
+        return $travel_details;
     }
 }
