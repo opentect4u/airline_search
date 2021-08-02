@@ -74,10 +74,11 @@
                                 <div class="row mt-5">
                                     <div class="col-md-8 col-6">
                                         <h3>To</h3>
+                                        <!-- {{print_r($return_unidata[0])}} -->
                                         @foreach($return_unidata[0] as $data)
                                         <!-- {{print_r($data)}} -->
                                         <p>{{$data['First']}} {{$data['Last']}}<br>
-                                        {{$data['Address']}}<br>{{$data['street']}}, {{$data['street1']}}<br>{{$data['City']}}<br>{{$data['State']}}<br>{{$return_searched->Country}}<br>{{$data['PostalCode']}}<br>
+                                        {{$data['Address']}}<br>{{isset($data['Street'])?$data['Street']:''}} <br>{{$data['City']}}<br>{{$data['State']}}<br>{{$return_searched->Country}}<br>{{$data['PostalCode']}}<br>
                                             <b>TEL:</b>{{$data['Number']}}
                                         @endforeach
                                     </div>
@@ -125,7 +126,7 @@
                                         <p>Note - * denotes the lead passenger</p><br>
                                     </div>
                                     <div class="col-md-12 mt-4">
-                                        <h4 class="mt-3"><b>FLIGHT DETAILS (ROUND TRIP)</b></h4>
+                                        <h4 class="mt-3"><b>FLIGHT DETAILS (ONE WAY)</b></h4>
                                         <p>
                                             <!-- AIRLINE REF: AI
                                             YSYH4 &nbsp;&nbsp;
@@ -137,7 +138,7 @@
                                             </span>
 
                                             | -->
-                                            PNR : {{$return_airreservation['UniversalRecord']}} | &nbsp;&nbsp;UN PNR :IBE10363947 &nbsp;&nbsp; | &nbsp;&nbsp;
+                                            PNR : {{$multicity_airreservation['UniversalRecord']}} | &nbsp;&nbsp;UN PNR :IBE10363947 &nbsp;&nbsp; | &nbsp;&nbsp;
                                             BOOKING DATE :{{date('d/m/Y')}}
                                         </p>
 
@@ -145,9 +146,6 @@
 
                                     </div>
                                     <div class="col-md-12">
-                                        <h3>Outbound Journey</h3>
-                                    </div>
-                                    <div class="col-md-12">
                                         <div class="table-responsive">
                                             <table class="table ">
                                                 <thead class="table-primary">
@@ -164,9 +162,8 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach($return_unidata[1] as $unidatas)
-                                                    @foreach($unidatas[0] as $unidatass)
-                                                    @foreach($unidatass as $datas)
+                                                    @foreach($return_unidata[1] as $datas1)
+                                                    @foreach($datas1 as $datas)
                                                     <!-- {{print_r($datas)}} -->
                                                     <tr>
                                                         <td>{{$datas['Carrier']}}
@@ -177,12 +174,12 @@
                                                             <!-- United Kingdom <br> -->
 
                                                             {{$datas['DepartureTime']}}<br>
-                                                            TERMINAL :- {{$datas['OriginTerminal']}}
+                                                            TERMINAL :- {{isset($datas['OriginTerminal'])?$datas['OriginTerminal']:''}}
                                                         </td>
                                                         <td>{{$datas['Destination']}}<br>
                                                             <!-- india<br> -->
                                                             {{$datas['ArrivalTime']}}<br>
-                                                            TERMINAL :- {{isset($datas['DestinationTerminal'])?$datas['DestinationTerminal']:'*'}}
+                                                            TERMINAL :- {{isset($datas['DestinationTerminal'])?$datas['DestinationTerminal']:''}}
                                                         </td>
                                                         <td>{{$datas['CabinClass']}}</td>
                                                         <td></td>
@@ -191,63 +188,11 @@
                                                     </tr>
                                                     @endforeach
                                                     @endforeach
-                                                    @endforeach
                                                 </tbody>
                                             </table>
                                         </div>
                                     </div>
-                                    <div class="col-md-12">
-                                        <h3>Inbound Journey</h3>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="table-responsive">
-                                            <table class="table ">
-                                                <thead class="table-primary">
-                                                    <tr class="invoice-table">
-                                                        <th>Airline</th>
-                                                        <th>Departure</th>
-                                                        <th>Arrival</th>
 
-                                                        <th>Class</th>
-                                                        <th>Baggage</th>
-                                                        <th>Duration</th>
-                                                        <th>Stops</th>
-
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach($return_unidata[1] as $unidatas)
-                                                    @foreach($unidatas[1] as $unidatass)
-                                                    @foreach($unidatass as $datas)
-                                                    <!-- {{print_r($datas)}} -->
-                                                    <tr>
-                                                        <td>{{$datas['Carrier']}}
-                                                            <br>
-                                                            FLIGHT NO :- {{$datas['Carrier'].$datas['FlightNumber']}}
-                                                        </td>
-                                                        <td>{{$datas['Origin']}}<br>
-                                                            <!-- United Kingdom <br> -->
-
-                                                            {{$datas['DepartureTime']}}<br>
-                                                            TERMINAL :- {{$datas['OriginTerminal']}}
-                                                        </td>
-                                                        <td>{{$datas['Destination']}}<br>
-                                                            <!-- india<br> -->
-                                                            {{$datas['ArrivalTime']}}<br>
-                                                            TERMINAL :- {{isset($datas['DestinationTerminal'])?$datas['DestinationTerminal']:'*'}}
-                                                        </td>
-                                                        <td>{{$datas['CabinClass']}}</td>
-                                                        <td></td>
-                                                        <td>0</td>
-                                                        <td>0</td>
-                                                    </tr>
-                                                    @endforeach
-                                                    @endforeach
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
 
                                     <div class="col-md-12">
                                         <h4 class="mt-3"> <b class="float-right"><b>Total: </b>

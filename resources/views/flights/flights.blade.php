@@ -342,7 +342,17 @@
                         </div>
                        
                         <div class="col-md-3 mt-2 mt-md-0 text-center">
-                            <h3 class="font-weight-bold"><i class="las la-pound-sign"></i><?php foreach($flight_data[1] as $prices){ echo str_replace('GBP','',$prices['Total Price'] );} ?></h3>
+                            <h3 class="font-weight-bold"><i class="las la-pound-sign"></i><?php 
+                            $var_total_price=0;
+                            foreach($flight_data[1] as $prices){ $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->adults);} 
+                            if(isset($flight_data[2])){
+                            foreach($flight_data[2] as $prices){ $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->children);} 
+                            }
+                            if(isset($flight_data[3])){
+                                foreach($flight_data[3] as $prices){ $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->infant);} 
+                            }
+                            echo number_format($var_total_price,2);
+                            ?></h3>
                             <!-- <a href="flight-details.php" class="btn btn-primary">Book Now</a> -->
                             <form action="{{ route('flightDetails') }}" method="POST">
                                 @csrf
@@ -421,16 +431,49 @@
                             <div id="fare_details{{ $count }}" class="container tab-pane">
                                 <table class="table">
                                     <tr>
-                                        <td>Base Fare (1 Adult)</td>
-                                        <td><i class="las la-pound-sign"></i> <?php foreach($flight_data[1] as $prices){ echo str_replace('GBP','',$prices['Approx Base Price'] );} ?></td>
+                                        <td>Base Fare </td>
+                                        <td><i class="las la-pound-sign"></i> <?php 
+                                        $var_app_price=0;
+                                        foreach($flight_data[1] as $prices){ $var_app_price+= (str_replace('GBP','',$prices['Approx Base Price'])*$searched->adults);} 
+                                        if(isset($flight_data[2])){
+                                        foreach($flight_data[2] as $prices){ $var_app_price+= (str_replace('GBP','',$prices['Approx Base Price'])*$searched->children);} 
+                                        }
+                                        if(isset($flight_data[3])){
+                                            foreach($flight_data[3] as $prices){ $var_app_price+= (str_replace('GBP','',$prices['Approx Base Price'])*$searched->infant);} 
+                                        }
+                                        echo number_format($var_app_price,2);
+                                        // foreach($flight_data[1] as $prices){ echo str_replace('GBP','',$prices['Approx Base Price'] );} 
+                                        ?></td>
                                     </tr>
                                     <tr>
-                                        <td>Taxes and Fees (1 Adult)</td>
-                                        <td><i class="las la-pound-sign"></i> <?php foreach($flight_data[1] as $prices){ echo str_replace('GBP','',$prices['Taxes'] );} ?></td>
+                                        <td>Taxes and Fees </td>
+                                        <td><i class="las la-pound-sign"></i> <?php 
+                                        $var_tax_price=0;
+                                        foreach($flight_data[1] as $prices){ $var_tax_price+= (str_replace('GBP','',$prices['Taxes'])*$searched->adults);} 
+                                        if(isset($flight_data[2])){
+                                        foreach($flight_data[2] as $prices){ $var_tax_price+= (str_replace('GBP','',$prices['Taxes'])*$searched->children);} 
+                                        }
+                                        if(isset($flight_data[3])){
+                                            foreach($flight_data[3] as $prices){ $var_tax_price+= (str_replace('GBP','',$prices['Taxes'])*$searched->infant);} 
+                                        }
+                                        echo number_format($var_tax_price,2);
+                                        // foreach($flight_data[1] as $prices){ echo str_replace('GBP','',$prices['Taxes'] );} 
+                                        ?></td>
                                     </tr>
                                     <tr>
-                                        <td>Total Fare (1 Adult)</td>
-                                        <td><i class="las la-pound-sign"></i> <?php foreach($flight_data[1] as $prices){ echo str_replace('GBP','',$prices['Total Price'] );} ?></td>
+                                        <td>Total Fare </td>
+                                        <td><i class="las la-pound-sign"></i> <?php 
+                                        $var_tot_price=0;
+                                        foreach($flight_data[1] as $prices){ $var_tot_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->adults);} 
+                                        if(isset($flight_data[2])){
+                                        foreach($flight_data[2] as $prices){ $var_tot_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->children);} 
+                                        }
+                                        if(isset($flight_data[3])){
+                                            foreach($flight_data[3] as $prices){ $var_tot_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->infant);} 
+                                        }
+                                        echo number_format($var_tot_price,2);
+                                        // foreach($flight_data[1] as $prices){ echo str_replace('GBP','',$prices['Total Price'] );} 
+                                        ?></td>
                                     </tr>
                                 </table>
                             </div>

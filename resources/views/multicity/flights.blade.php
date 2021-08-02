@@ -407,7 +407,17 @@
                                 
                                 <?php //foreach($datas2[1] as $prices){ $total_price=$total_price+str_replace('GBP','',$prices['Total Price']);} ?>
                                 @if($priceShowcount1==count($datas1))
-                                <h3 class="font-weight-bold"><i class="las la-pound-sign"><?php foreach($datas[1] as $prices){ echo str_replace('GBP','',$prices['Total Price']);}?></i></h3>
+                                <h3 class="font-weight-bold"><i class="las la-pound-sign"><?php 
+                                $var_total_price=0;
+                                foreach($datas[1] as $prices){ $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->adults);} 
+                                if(isset($datas[2])){
+                                foreach($datas[2] as $prices){ $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->children);} 
+                                }
+                                if(isset($datas[3])){
+                                    foreach($datas[3] as $prices){ $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->infant);} 
+                                }
+                                echo number_format($var_total_price,2);
+                                ?></i></h3>
                                 <!-- <a href="flight-details.php" class="btn btn-primary">Book Now</a><br> -->
                                 <form name="flightdetails" method="POST" action="{{route('multicityflightdetails')}}">
                                     @csrf
@@ -421,6 +431,8 @@
                                     @endforeach
                                     @endforeach
                                     <input type="hidden" name="price" id="price" value="{{json_encode($datas[1])}}">
+                                    <input type="hidden" name="price1" id="price1" value="{{isset($datas[2])?json_encode($datas[1]):''}}">
+                                    <input type="hidden" name="price2" id="price2" value="{{isset($datas[3])?json_encode($datas[3]):''}}">
                                     <!-- {{count($datas)}} -->
                                     <input type="hidden" name="trip" id="trip" value="@foreach($datas[0] as $datas0){{count($datas0)}}@endforeach">
                                     <input type="hidden" name="adults" id="adults" value="{{$searched->adults}}">
@@ -511,20 +523,50 @@
                                 </div>
                                 <div id="fare_details{{$count}}" class="container tab-pane fade">
                                     <table class="table">
-                                       
+                                        @foreach($data as $datas)
                                         <tr>
-                                            <td></td>
-                                            <td><i class="las la-pound-sign"></i> </td>
-                                        </tr>
-                                        <!-- <tr>
-                                            <td>Taxes and Fees (1 Adult)</td>
-                                            <td><i class="fas fa-rupee-sign"></i> 1,806</td>
+                                            <td>Base Fare</td>
+                                            <td><i class="las la-pound-sign"></i> <?php 
+                                            $var_app_price=0;
+                                            foreach($datas[1] as $prices){ $var_app_price+= (str_replace('GBP','',$prices['Approx Base Price'])*$searched->adults);} 
+                                            if(isset($datas[2])){
+                                            foreach($datas[2] as $prices){ $var_app_price+= (str_replace('GBP','',$prices['Approx Base Price'])*$searched->children);} 
+                                            }
+                                            if(isset($datas[3])){
+                                                foreach($datas[3] as $prices){ $var_app_price+= (str_replace('GBP','',$prices['Approx Base Price'])*$searched->infant);} 
+                                            }
+                                            echo number_format($var_app_price,2);
+                                            ?></td>
                                         </tr>
                                         <tr>
-                                            <td>Total Fare (1 Adult)</td>
-                                            <td><i class="fas fa-rupee-sign"></i> 8,551</td>
-                                        </tr> -->
-                                        
+                                            <td>Taxes and Fees</td>
+                                            <td><i class="las la-pound-sign"></i> <?php 
+                                            $var_tax_price=0;
+                                            foreach($datas[1] as $prices){ $var_tax_price+= (str_replace('GBP','',$prices['Taxes'])*$searched->adults);} 
+                                            if(isset($datas[2])){
+                                            foreach($datas[2] as $prices){ $var_tax_price+= (str_replace('GBP','',$prices['Taxes'])*$searched->children);} 
+                                            }
+                                            if(isset($datas[3])){
+                                                foreach($datas[3] as $prices){ $var_tax_price+= (str_replace('GBP','',$prices['Taxes'])*$searched->infant);} 
+                                            }
+                                            echo number_format($var_tax_price,2);
+                                            ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Total Fare </td>
+                                            <td><i class="las la-pound-sign"></i> <?php 
+                                            $var_tot_price=0;
+                                            foreach($datas[1] as $prices){ $var_tot_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->adults);} 
+                                            if(isset($datas[2])){
+                                            foreach($datas[2] as $prices){ $var_tot_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->children);} 
+                                            }
+                                            if(isset($datas[3])){
+                                                foreach($datas[3] as $prices){ $var_tot_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->infant);} 
+                                            }
+                                            echo number_format($var_tot_price,2);
+                                            ?></td>
+                                        </tr>
+                                        @endforeach
                                     </table>
                                 </div>
                                 <div id="baggage_rules{{$count}}" class="container tab-pane fade">

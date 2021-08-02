@@ -102,6 +102,8 @@ class FlightDetailsController extends Controller
         
         // return $data3;
         $price=json_decode($request->price,true);
+        $price1=json_decode($request->price1,true);
+        $price2=json_decode($request->price2,true);
         // return $price;
         
         return view('multicity.flight-details',[
@@ -112,7 +114,9 @@ class FlightDetailsController extends Controller
             'flights5'=>$data5,
             'flights6'=>$data6,
             'searched'=>$request,
-            'price'=>$price
+            'price'=>$price,
+            'price1'=>$price1,
+            'price2'=>$price2
         ]);
 
     }

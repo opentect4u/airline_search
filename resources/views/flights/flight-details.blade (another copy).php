@@ -17,7 +17,7 @@
                     <div class="card">
                         <h4 class="font-weight-500">Ticket Details</h4><hr>
                         @if(isset($data))
-                        @if(count($data)>0)
+                        @if(count($data)>0 && count($data)==4)
                         <h6 class="mb-0"><i class="fas fa-plane"></i> {{$per_flight_details->addFrom}} - {{$per_flight_details->addTo}} <?php foreach($data[0] as $datas){ echo \Carbon\Carbon::parse($datas[0]['DepartureTime'])->format('d M Y'); } ?>
                         <!-- <h6 class="mb-0"><i class="fas fa-plane"></i> Chandigarh - Bangalore Friday, 29 Nov 2019 -->
                         <a href="javascript:void(0)" data-toggle="modal" data-target="#baggageAndFare" class="float-right badge badge-success font-weight-400">Baggage and Fare Rules</a>
@@ -26,7 +26,7 @@
                         <h6 class="mb-0"><i class="fas fa-plane"></i> No flight Found 
                         @endif
                         <hr>
-                        @if(count($data)>0)
+                        @if(count($data)>0 && count($data)==4)
                         @foreach($data[0] as $datas)
                         @for ($i=0; $i < count($datas); $i++)
                         @if($i>0)
@@ -63,7 +63,7 @@
                                 <span class="text-muted">{{$datas[$i]['Destination']}}</span>
                             </div>
                             <div class="col-md-3 text-center">
-                            <!-- @if(count($datas)==1)<h3 class="font-weight-bold"><i class="las la-pound-sign"></i>{{str_replace('GBP','',$data[2]['price']['TotalPrice'])}}</h3>@endif -->
+                            @if(count($datas)==1)<h3 class="font-weight-bold"><i class="las la-pound-sign"></i>{{str_replace('GBP','',$data[2]['price']['TotalPrice'])}}</h3>@endif
                             </div>
                         </div>
                         <p class="mt-3"><i class="las la-suitcase-rolling"></i> {{str_replace('K','',isset($data[1]['details']['baggageallowanceinfo'])?$data[1]['details']['baggageallowanceinfo']:'')}} Kgs Check-In, {{str_replace('K','', isset($data[1]['details']['carryonallowanceinfo'])?$data[1]['details']['carryonallowanceinfo']:'' )}} Kgs Cabin</p>
@@ -132,9 +132,8 @@
                             </div>
                         </div>
                         <p class="mt-3"><i class="las la-suitcase-rolling"></i> {{str_replace('K','', isset($return_data[1]['details']['baggageallowanceinfo'])?$return_data[1]['details']['baggageallowanceinfo']:'' )}} Kgs Check-In, {{str_replace('K','', isset($data[1]['details']['carryonallowanceinfo'])?$data[1]['details']['carryonallowanceinfo']:'' )}} Kgs Cabin</p>
+                        @if($datas[$i]['Origin']==str_replace(')','',explode('(',$per_flight_details->addFrom)[1]))
                         <hr>
-                        @if($datas[$i]['Destination']==str_replace(')','',explode('(',$per_flight_details->addTo)[1]))
-                        <!-- <hr> -->
                         <h6 class="mb-0"><i class="fas fa-plane"></i> {{$per_flight_details->addTo}} - {{$per_flight_details->addFrom}} {{\Carbon\Carbon::parse($datas[$i]['DepartureTime'])->format('d M Y')}} <?php //foreach($return_data[0] as $datas){ echo \Carbon\Carbon::parse($datas[0]['DepartureTime'])->format('d M Y'); } ?>
                         <!-- <h6 class="mb-0"><i class="fas fa-plane"></i> Chandigarh - Bangalore Friday, 29 Nov 2019 -->
                         <!-- <a href="javascript:void(0)" data-toggle="modal" data-target="#baggageAndFare" class="float-right badge badge-success font-weight-400">Baggage and Fare Rules</a> -->
@@ -184,70 +183,21 @@
                     <h4 class="font-weight-500 mb-0">Fare Summary</h4>
                     <span class="text-muted">Travelers {{$per_flight_details->adults}} Adult</span>
                     <table class="table table-small mt-2">
-                      @foreach($return_data[3] as $price)
-                        @for($i=0;$i< count($price);$i++)
-                        @if($i==0)
-                        <!-- {{$price[$i]['ApproximateBasePrice']}} -->
-                        <tr class="font-weight-bold bg-light">
-                          <td>Passenger Type</td>
-                          <td class="text-right">Adult</td>
-                        </tr>
                         <tr>
                             <td>Base Fare x {{$per_flight_details->adults}}</td>
-                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$price[$i]['ApproximateBasePrice'])*$per_flight_details->adults),2)}}</td>
+                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format( ((str_replace('GBP','',isset($data[2]['price']['ApproximateBasePrice'])?$data[2]['price']['ApproximateBasePrice']:0)+str_replace('GBP','',isset($return_data[2]['price']['ApproximateBasePrice'])?$return_data[2]['price']['ApproximateBasePrice']:0 )) *$per_flight_details->adults),2)}}</td>
                         </tr>
                         <tr>
                             <td>Taxes x {{$per_flight_details->adults}}</td>
-                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$price[$i]['Taxes'])*$per_flight_details->adults),2)}}</td>
-                        </tr>
-                        <tr class="font-weight-bold bg-light">
-                            <td class="text-danger">Price {{$per_flight_details->adults}} adult(s)</td>
-                            <td class="text-right text-danger"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$price[$i]['TotalPrice'])*$per_flight_details->adults),2)}}</td>
-                        </tr>
-                        @elseif($i==1)
-                        <tr class="font-weight-bold bg-light">
-                          <td>Passenger Type</td>
-                          <td class="text-right">Child</td>
+                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format(( (str_replace('GBP','',isset($data[2]['price']['Taxes'])?$data[2]['price']['Taxes']:0)+str_replace('GBP','',isset($return_data[2]['price']['Taxes'])?$return_data[2]['price']['Taxes']:0)) *$per_flight_details->adults),2)}}</td>
                         </tr>
                         <tr>
-                            <td>Base Fare x {{$per_flight_details->children}}</td>
-                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$price[$i]['ApproximateBasePrice'])*$per_flight_details->children),2)}}</td>
-                        </tr>
-                        <tr>
-                            <td>Taxes x {{$per_flight_details->children}}</td>
-                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$price[$i]['Taxes'])*$per_flight_details->children),2)}}</td>
-                        </tr>
-                        <tr class="font-weight-bold bg-light">
-                            <td class="text-danger">Price {{$per_flight_details->children}} child(s)</td>
-                            <td class="text-right text-danger"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$price[$i]['TotalPrice'])*$per_flight_details->children),2)}}</td>
-                        </tr>
-                        @elseif($i==2)
-                        <tr class="font-weight-bold bg-light">
-                          <td>Passenger Type</td>
-                          <td class="text-right">Infant</td>
-                        </tr>
-                        <tr>
-                            <td>Base Fare x {{$per_flight_details->infant}}</td>
-                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$price[$i]['ApproximateBasePrice'])*$per_flight_details->infant),2)}}</td>
-                        </tr>
-                        <tr>
-                            <td>Taxes x {{$per_flight_details->infant}}</td>
-                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$price[$i]['Taxes'])*$per_flight_details->infant),2)}}</td>
-                        </tr>
-                        <tr class="font-weight-bold bg-light">
-                            <td class="text-danger">Price {{$per_flight_details->infant}} infant(s)</td>
-                            <td class="text-right text-danger"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$price[$i]['TotalPrice'])*$per_flight_details->infant),2)}}</td>
-                        </tr>
-                        @endif
-                        @endfor
-                      @endforeach
-                        <!-- <tr>
                             <td>Other taxes</td>
                             <td class="text-right"><i class="las la-pound-sign"></i>0.0</td>
-                        </tr> -->
+                        </tr>
                         <tr class="font-weight-bold bg-light">
-                            <td class="text-danger">Total Price</td>
-                            <td class="text-right text-danger"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$return_data[2]['price']['TotalPrice'])),2)}}</td>
+                            <td>Total</td>
+                            <td class="text-right text-danger"><i class="las la-pound-sign"></i>{{number_format(( (str_replace('GBP','',isset($data[2]['price']['ApproximateBasePrice'])?$data[2]['price']['ApproximateBasePrice']:0)+str_replace('GBP','',isset($return_data[2]['price']['ApproximateBasePrice'])?$return_data[2]['price']['ApproximateBasePrice']:0)) *$per_flight_details->adults)+( (str_replace('GBP','',isset($data[2]['price']['Taxes'])?$data[2]['price']['Taxes']:0)+str_replace('GBP','',isset($return_data[2]['price']['Taxes'])?$return_data[2]['price']['Taxes']:0))*$per_flight_details->adults),2)}}</td>
                         </tr>
                     </table>
                     <form action="{{ route('passengerDetails') }}" method="POST">
@@ -273,76 +223,27 @@
                 </div>
                 @endif
                 @else
-                @if(count($data)>0)
+                @if(count($data)>0 && count($data)==4)
                 <div class="col-md-3">
                   <div class="card">
                     <h4 class="font-weight-500 mb-0">Fare Summary</h4>
-                    <!-- <span class="text-muted">Travelers {{$per_flight_details->adults}} Adult</span> -->
+                    <span class="text-muted">Travelers {{$per_flight_details->adults}} Adult</span>
                     <table class="table table-small mt-2">
-                      @foreach($data[3] as $price)
-                        @for($i=0;$i< count($price);$i++)
-                        @if($i==0)
-                        <!-- {{$price[$i]['ApproximateBasePrice']}} -->
-                        <tr class="font-weight-bold bg-light">
-                          <td>Passenger Type</td>
-                          <td class="text-right">Adult</td>
-                        </tr>
                         <tr>
                             <td>Base Fare x {{$per_flight_details->adults}}</td>
-                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$price[$i]['ApproximateBasePrice'])*$per_flight_details->adults),2)}}</td>
+                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$data[2]['price']['ApproximateBasePrice'])*$per_flight_details->adults),2)}}</td>
                         </tr>
                         <tr>
                             <td>Taxes x {{$per_flight_details->adults}}</td>
-                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$price[$i]['Taxes'])*$per_flight_details->adults),2)}}</td>
-                        </tr>
-                        <tr class="font-weight-bold bg-light">
-                            <td class="text-danger">Price {{$per_flight_details->adults}} adult(s)</td>
-                            <td class="text-right text-danger"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$price[$i]['TotalPrice'])*$per_flight_details->adults),2)}}</td>
-                        </tr>
-                        @elseif($i==1)
-                        <tr class="font-weight-bold bg-light">
-                          <td>Passenger Type</td>
-                          <td class="text-right">Child</td>
+                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$data[2]['price']['Taxes'])*$per_flight_details->adults),2)}}</td>
                         </tr>
                         <tr>
-                            <td>Base Fare x {{$per_flight_details->children}}</td>
-                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$price[$i]['ApproximateBasePrice'])*$per_flight_details->children),2)}}</td>
-                        </tr>
-                        <tr>
-                            <td>Taxes x {{$per_flight_details->children}}</td>
-                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$price[$i]['Taxes'])*$per_flight_details->children),2)}}</td>
-                        </tr>
-                        <tr class="font-weight-bold bg-light">
-                            <td class="text-danger">Price {{$per_flight_details->children}} child(s)</td>
-                            <td class="text-right text-danger"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$price[$i]['TotalPrice'])*$per_flight_details->children),2)}}</td>
-                        </tr>
-                        @elseif($i==2)
-                        <tr class="font-weight-bold bg-light">
-                          <td>Passenger Type</td>
-                          <td class="text-right">Infant</td>
-                        </tr>
-                        <tr>
-                            <td>Base Fare x {{$per_flight_details->infant}}</td>
-                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$price[$i]['ApproximateBasePrice'])*$per_flight_details->infant),2)}}</td>
-                        </tr>
-                        <tr>
-                            <td>Taxes x {{$per_flight_details->infant}}</td>
-                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$price[$i]['Taxes'])*$per_flight_details->infant),2)}}</td>
-                        </tr>
-                        <tr class="font-weight-bold bg-light">
-                            <td class="text-danger">Price {{$per_flight_details->infant}} infant(s)</td>
-                            <td class="text-right text-danger"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$price[$i]['TotalPrice'])*$per_flight_details->infant),2)}}</td>
-                        </tr>
-                        @endif
-                        @endfor
-                      @endforeach
-                        <!-- <tr>
                             <td>Other taxes</td>
                             <td class="text-right"><i class="las la-pound-sign"></i>0.0</td>
-                        </tr> -->
+                        </tr>
                         <tr class="font-weight-bold bg-light">
-                            <td class="text-danger">Total Price</td>
-                            <td class="text-right text-danger"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$data[2]['price']['TotalPrice'])),2)}}</td>
+                            <td>Total</td>
+                            <td class="text-right text-danger"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$data[2]['price']['ApproximateBasePrice'])*$per_flight_details->adults)+(str_replace('GBP','',$data[2]['price']['Taxes'])*$per_flight_details->adults),2)}}</td>
                         </tr>
                     </table>
                     <form action="{{ route('passengerDetails') }}" method="POST">
@@ -368,7 +269,7 @@
 
 <!-- The Modal -->
 @if(isset($data))
-@if(count($data)>0)
+@if(count($data)>0 && count($data)==4 )
 <div class="modal fade" id="baggageAndFare">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">

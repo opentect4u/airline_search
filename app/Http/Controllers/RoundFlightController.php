@@ -17,6 +17,11 @@ class RoundFlightController extends Controller
         $flights_inbound=json_decode($request->flights_inbound,true);
             // return $flights_outbound;
             // return "hii";
+        $var_adults=$request->adults;
+        $var_children=$request->children;
+        $var_infant=$request->infant;
+        $travel_class =app('App\Http\Controllers\UtilityController')->TravelDetailsDatasagment($var_adults,$var_children,$var_infant);
+        // return $travel_class;
         $datasegment='';
         $alldatasegment='';
         foreach($flights_outbound as $journeys){
@@ -100,7 +105,7 @@ class RoundFlightController extends Controller
                 '.$alldatasegment.'
               </air:AirItinerary>
               <air:AirPricingModifiers/>
-              <com:SearchPassenger Key="1" Code="ADT" xmlns:com="http://www.travelport.com/schema/common_v42_0"/>
+              '.$travel_class.'
               <air:AirPricingCommand/>
            </air:AirPriceReq>
         </soap:Body>
@@ -131,7 +136,9 @@ EOM;
         $return_dom->loadXML($return_return);
         $return_json = new \FluentDOM\Serializer\Json\RabbitFish($return_dom);
         $return_object = json_decode($return_json,true);
-        $return_data=$this->XMLData($return_object,$request);
+        // return $return_object;
+        // $return_data=$this->XMLData($return_object,$request);
+        $return_data =app('App\Http\Controllers\XMlToParseDataController')->AirPrice($return_object);
         
         // return $return_data;
         // return $request;

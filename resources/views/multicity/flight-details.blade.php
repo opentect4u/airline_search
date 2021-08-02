@@ -200,25 +200,84 @@
                 <div class="col-md-3">
                     <div class="card">
                         <h4 class="font-weight-500 mb-0">Fare Summary</h4>
-                        <span class="text-muted">Travelers {{$searched->adults}} Adult</span>
+                        <!-- <span class="text-muted">Travelers {{$searched->adults}} Adult</span> -->
                         <table class="table table-small mt-2">
+                            <tr class="font-weight-bold bg-light">
+                                <td>Passenger Type</td>
+                                <td class="text-right">Adult</td>
+                            </tr>
                             <tr>
                                 <td>Base Fare x {{$searched->adults}}</td>
-                                <td class="text-right"><i class="las la-pound-sign"></i>@foreach($price as $prices){{ str_replace('GBP','',$prices['Approx Base Price'][0])}}@endforeach</td>
+                                <td class="text-right"><i class="las la-pound-sign"></i>@foreach($price as $prices){{ number_format((str_replace('GBP','',$prices['Approx Base Price'][0])*$searched->adults),2)}}@endforeach</td>
                                 <!-- <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','', isset($flights1[2]['price']['ApproximateBasePrice'])? $flights1[2]['price']['ApproximateBasePrice']:0)*$searched->adults)+(str_replace('GBP','',isset($flights2[2]['price']['ApproximateBasePrice'])?$flights2[2]['price']['ApproximateBasePrice']:0)*$searched->adults)+(str_replace('GBP','', isset($flights3[2]['price']['ApproximateBasePrice'])?$flights3[2]['price']['ApproximateBasePrice']:0 )*$searched->adults),2)}}</td> -->
                             </tr>
                             <tr>
                                 <td>Taxes x {{$searched->adults}}</td>
-                                <td class="text-right"><i class="las la-pound-sign"></i>@foreach($price as $prices){{ str_replace('GBP','',$prices['Taxes'][0])}}@endforeach</td>
+                                <td class="text-right"><i class="las la-pound-sign"></i>@foreach($price as $prices){{ number_format((str_replace('GBP','',$prices['Taxes'][0])*$searched->adults),2)}}@endforeach</td>
                                 <!-- <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','', isset($flights1[2]['price']['Taxes'])?$flights1[2]['price']['Taxes']:0)*$searched->adults)+(str_replace('GBP','',isset($flights2[2]['price']['Taxes'])?$flights2[2]['price']['Taxes']:0)*$searched->adults)+(str_replace('GBP','', isset($flights3[2]['price']['Taxes'])?$flights3[2]['price']['Taxes']:0 )*$searched->adults),2)}}</td> -->
                             </tr>
+                            <tr class="font-weight-bold bg-light">
+                                <td class="text-danger">Price {{$searched->adults}} adult(s)</td>
+                                <td class="text-right text-danger"><i class="las la-pound-sign"></i>@foreach($price as $prices){{ number_format((str_replace('GBP','',$prices['Total Price'][0])*$searched->adults),2)}}@endforeach</td>
+                            </tr>
+                            @if(isset($price1))
+                            <tr class="font-weight-bold bg-light">
+                                <td>Passenger Type</td>
+                                <td class="text-right">Child</td>
+                            </tr>
                             <tr>
-                                <td>Other taxes</td>
-                                <td class="text-right"><i class="las la-pound-sign"></i>0.0</td>
+                                <td>Base Fare x {{$searched->children}}</td>
+                                <td class="text-right"><i class="las la-pound-sign"></i>@foreach($price1 as $prices){{ number_format((str_replace('GBP','',$prices['Approx Base Price'][0])*$searched->children),2)}}@endforeach</td>
+                                <!-- <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','', isset($flights1[2]['price']['ApproximateBasePrice'])? $flights1[2]['price']['ApproximateBasePrice']:0)*$searched->adults)+(str_replace('GBP','',isset($flights2[2]['price']['ApproximateBasePrice'])?$flights2[2]['price']['ApproximateBasePrice']:0)*$searched->adults)+(str_replace('GBP','', isset($flights3[2]['price']['ApproximateBasePrice'])?$flights3[2]['price']['ApproximateBasePrice']:0 )*$searched->adults),2)}}</td> -->
+                            </tr>
+                            <tr>
+                                <td>Taxes x {{$searched->children}}</td>
+                                <td class="text-right"><i class="las la-pound-sign"></i>@foreach($price1 as $prices){{ number_format((str_replace('GBP','',$prices['Taxes'][0])*$searched->children),2)}}@endforeach</td>
+                                <!-- <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','', isset($flights1[2]['price']['Taxes'])?$flights1[2]['price']['Taxes']:0)*$searched->adults)+(str_replace('GBP','',isset($flights2[2]['price']['Taxes'])?$flights2[2]['price']['Taxes']:0)*$searched->adults)+(str_replace('GBP','', isset($flights3[2]['price']['Taxes'])?$flights3[2]['price']['Taxes']:0 )*$searched->adults),2)}}</td> -->
                             </tr>
                             <tr class="font-weight-bold bg-light">
-                                <td>Total</td>
-                                <td class="text-right text-danger"><i class="las la-pound-sign">@foreach($price as $prices){{ str_replace('GBP','',$prices['Total Price'][0])}}@endforeach</i></td>
+                                <td class="text-danger">Price {{$searched->children}} child(s)</td>
+                                <td class="text-right text-danger"><i class="las la-pound-sign"></i>@foreach($price1 as $prices){{ number_format((str_replace('GBP','',$prices['Total Price'][0])*$searched->children),2)}}@endforeach</td>
+                            </tr>
+                            @endif
+                            @if(isset($price2))
+                            <tr class="font-weight-bold bg-light">
+                                <td>Passenger Type</td>
+                                <td class="text-right">Infant</td>
+                            </tr>
+                            <tr>
+                                <td>Base Fare x {{$searched->infant}}</td>
+                                <td class="text-right"><i class="las la-pound-sign"></i>@foreach($price2 as $prices){{ number_format((str_replace('GBP','',$prices['Approx Base Price'][0])*$searched->infant),2)}}@endforeach</td>
+                                <!-- <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','', isset($flights1[2]['price']['ApproximateBasePrice'])? $flights1[2]['price']['ApproximateBasePrice']:0)*$searched->adults)+(str_replace('GBP','',isset($flights2[2]['price']['ApproximateBasePrice'])?$flights2[2]['price']['ApproximateBasePrice']:0)*$searched->adults)+(str_replace('GBP','', isset($flights3[2]['price']['ApproximateBasePrice'])?$flights3[2]['price']['ApproximateBasePrice']:0 )*$searched->adults),2)}}</td> -->
+                            </tr>
+                            <tr>
+                                <td>Taxes x {{$searched->infant}}</td>
+                                <td class="text-right"><i class="las la-pound-sign"></i>@foreach($price2 as $prices){{ number_format((str_replace('GBP','',$prices['Taxes'][0])*$searched->infant),2)}}@endforeach</td>
+                                <!-- <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','', isset($flights1[2]['price']['Taxes'])?$flights1[2]['price']['Taxes']:0)*$searched->adults)+(str_replace('GBP','',isset($flights2[2]['price']['Taxes'])?$flights2[2]['price']['Taxes']:0)*$searched->adults)+(str_replace('GBP','', isset($flights3[2]['price']['Taxes'])?$flights3[2]['price']['Taxes']:0 )*$searched->adults),2)}}</td> -->
+                            </tr>
+                            <tr class="font-weight-bold bg-light">
+                                <td class="text-danger">Price {{$searched->infant}} infant(s)</td>
+                                <td class="text-right text-danger"><i class="las la-pound-sign"></i>@foreach($price2 as $prices){{ number_format((str_replace('GBP','',$prices['Total Price'][0])*$searched->infant),2)}}@endforeach</td>
+                            </tr>
+                            @endif
+                            <!-- <tr>
+                                <td>Other taxes</td>
+                                <td class="text-right"><i class="las la-pound-sign"></i>0.0</td>
+                            </tr> -->
+                            <tr class="font-weight-bold bg-light">
+                                <td class="text-danger">Total Price</td>
+                                <td class="text-right text-danger"><i class="las la-pound-sign"><?php 
+                                $var_tot_price=0;
+                                foreach($price as $prices){ $var_tot_price+= number_format((str_replace('GBP','',$prices['Total Price'][0])*$searched->adults),2);}
+                                
+                                if(isset($price1)){
+                                    foreach($price1 as $prices){ $var_tot_price+= number_format((str_replace('GBP','',$prices['Total Price'][0])*$searched->children),2);}
+                                }
+                                if(isset($price2)){
+                                    foreach($price2 as $prices){ $var_tot_price+= number_format((str_replace('GBP','',$prices['Total Price'][0])*$searched->infant),2);}
+                                }
+                                echo number_format($var_tot_price,2);
+                                ?></i></td>
                                 <!-- <td class="text-right text-danger"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','', isset($flights1[2]['price']['ApproximateBasePrice'])? $flights1[2]['price']['ApproximateBasePrice']:0 )*$searched->adults)+(str_replace('GBP','', isset($flights2[2]['price']['ApproximateBasePrice'])? $flights2[2]['price']['ApproximateBasePrice']:0 )*$searched->adults)+(str_replace('GBP','', isset($flights3[2]['price']['ApproximateBasePrice'])? $flights3[2]['price']['Taxes']:0 )*$searched->adults)+(str_replace('GBP','', isset($flights1[2]['price']['Taxes'])? $flights1[2]['price']['Taxes']:0 )*$searched->adults)+(str_replace('GBP','',isset($flights2[2]['price']['Taxes'])?$flights2[2]['price']['Taxes']:0 )*$searched->adults)+(str_replace('GBP','', isset($flights3[2]['price']['Taxes'])? $flights3[2]['price']['Taxes']:0 )*$searched->adults),2)}}</td> -->
                             </tr>
                         </table>
@@ -231,6 +290,8 @@
                             <input type="text" name="flights5" value="{{json_encode($searched->flights5)}}" hidden>
                             <input type="text" name="flights6" value="{{json_encode($searched->flights6)}}" hidden>
                             <input type="text" name="price" value="{{json_encode($price)}}" hidden>
+                            <input type="text" name="price1" value="{{isset($price1)?json_encode($price1):''}}" hidden>
+                            <input type="text" name="price2" value="{{isset($price2)?json_encode($price2):''}}" hidden>
                             <input type="text" name="adults" value="{{ $searched->adults }}" hidden>
                             <input type="text" name="children" value="{{ $searched->children }}" hidden>
                             <input type="text" name="infant" value="{{ $searched->infant }}" hidden>

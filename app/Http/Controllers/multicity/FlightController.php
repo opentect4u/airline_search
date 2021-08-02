@@ -30,9 +30,26 @@ class FlightController extends Controller
         $var_from3 =  str_replace(')','',explode('(',$request->from3)[1]);
         $var_to3 =  str_replace(')','',explode('(',$request->to3)[1]);
 
+        $var_adults=$request->adults;
+        $var_children=$request->children;
+        $var_infant=$request->infant;
+
         $var_flight0_date = Carbon::parse($request->flight0_date)->format('Y-m-d');
         $var_flight1_date = Carbon::parse($request->flight1_date)->format('Y-m-d');
         $var_flight2_date = Carbon::parse($request->flight2_date)->format('Y-m-d');
+
+        $travel_details='';
+        for ($i=1; $i <= $var_adults; $i++) { 
+            $travel_details.='<com:SearchPassenger BookingTravelerRef="ADT'.$i.'" Code="ADT" xmlns:com="http://www.travelport.com/schema/common_v42_0"/>';
+        }
+        for ($i=1; $i <= $var_children; $i++) { 
+            $travel_details.='<com:SearchPassenger BookingTravelerRef="CNN'.$i.'" Code="CNN" xmlns:com="http://www.travelport.com/schema/common_v42_0"/>';
+        }
+        for ($i=1; $i <= $var_infant; $i++) { 
+            $travel_details.='<com:SearchPassenger BookingTravelerRef="INF'.$i.'" Code="INF" xmlns:com="http://www.travelport.com/schema/common_v42_0"/>';
+        }
+
+
         $searchLegModifier = '<air:AirLegModifiers>
                     <air:PreferredCabins>
                 <com:CabinClass xmlns="http://www.travelport.com/schema/common_v42_0" Type="'.$request->travel_class.'"></com:CabinClass>
@@ -186,7 +203,7 @@ class FlightController extends Controller
                     <com:Provider Code="'.$Provider.'"/>
                  </air:PreferredProviders>
               </air:AirSearchModifiers>
-              <com:SearchPassenger BookingTravelerRef="1" Code="ADT" xmlns:com="http://www.travelport.com/schema/common_v42_0"/>
+              '.$travel_details.'
            </air:LowFareSearchReq>
         </soapenv:Body>
      </soapenv:Envelope>';

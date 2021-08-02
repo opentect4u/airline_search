@@ -228,10 +228,21 @@ EOM;
 
     }
 
-    public function Universal_API_SearchXMLReturn($travel_class,$flightFrom,$flightTo,$SearchPreferredDate,$SearchDate){
+    public function Universal_API_SearchXMLReturn($travel_class,$flightFrom,$flightTo,$SearchPreferredDate,$SearchDate,$var_adults,$var_children,$var_infant){
         $Provider =app('App\Http\Controllers\UniversalConfigAPIController')->Provider();
         $TARGETBRANCH =app('App\Http\Controllers\UniversalConfigAPIController')->TARGETBRANCH();
         
+        $travel_details='';
+        for ($i=1; $i <= $var_adults; $i++) { 
+            $travel_details.='<com:SearchPassenger BookingTravelerRef="ADT'.$i.'" Code="ADT" xmlns:com="http://www.travelport.com/schema/common_v42_0"/>';
+        }
+        for ($i=1; $i <= $var_children; $i++) { 
+            $travel_details.='<com:SearchPassenger BookingTravelerRef="CNN'.$i.'" Code="CNN" xmlns:com="http://www.travelport.com/schema/common_v42_0"/>';
+        }
+        for ($i=1; $i <= $var_infant; $i++) { 
+            $travel_details.='<com:SearchPassenger BookingTravelerRef="INF'.$i.'" Code="INF" xmlns:com="http://www.travelport.com/schema/common_v42_0"/>';
+        }
+
         $searchLegModifier = ' <air:AirLegModifiers>
               	<air:PreferredCabins>
               	<com:CabinClass xmlns="http://www.travelport.com/schema/common_v42_0" Type="'. $travel_class.'"></com:CabinClass>
@@ -270,8 +281,8 @@ EOM;
                <air:PreferredProviders>
                   <com:Provider Code="$Provider"/>
                </air:PreferredProviders>
-            </air:AirSearchModifiers>   
-            <com:SearchPassenger BookingTravelerRef="1" Code="ADT" xmlns:com="http://www.travelport.com/schema/common_v42_0"/>
+            </air:AirSearchModifiers> 
+            $travel_details  
          </air:LowFareSearchReq>
       </soapenv:Body>
    </soapenv:Envelope>
@@ -281,7 +292,7 @@ EOM;
 
     }
 
-
+    // flight details Retrieve Request
     public function universal_API_FlightDetails($datasegment){
         $Provider =app('App\Http\Controllers\UniversalConfigAPIController')->Provider();
         $TARGETBRANCH =app('App\Http\Controllers\UniversalConfigAPIController')->TARGETBRANCH();
@@ -302,6 +313,26 @@ EOM;
 EOM;
         return $message ;
     }
+
+    // Air Ticketing Retrieve Request
+    public function universal_API_AirTicketing($AirReservation,$AirPricingInfoKey){
+        $Provider =app('App\Http\Controllers\UniversalConfigAPIController')->Provider();
+        $TARGETBRANCH =app('App\Http\Controllers\UniversalConfigAPIController')->TARGETBRANCH();
+        
+        $message = <<<EOM
+        <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+        <soap:Body>
+            <air:AirTicketingReq AuthorizedBy="user" TargetBranch="$TARGETBRANCH" TraceId="trace" xmlns:air="http://www.travelport.com/schema/air_v42_0">
+            <BillingPointOfSaleInfo OriginApplication="UAPI" xmlns="http://www.travelport.com/schema/common_v42_0"/>
+            <air:AirReservationLocatorCode>$AirReservation</air:AirReservationLocatorCode>
+            <air:AirPricingInfoRef Key="$AirPricingInfoKey" />
+            </air:AirTicketingReq>   
+        </soap:Body>
+    </soap:Envelope>
+EOM;
+        return $message;
+    }
+
 
     // Universal Record Retrieve Request
     public function UniversalRecordRetrieveReq($UniversalRecord){
