@@ -296,6 +296,16 @@ EOM;
         //         }
         //     }
         // }
+        if($request->price_order == "price_order"){
+            $multiflights= array_reverse(collect($multiflights)->toArray());
+            // $search = collect($search)->sortByDesc('available_from_dt')->toArray();
+
+        }
+        $var_direct_flight='';
+        $var_flexi='';
+        $airlines=$this->Airline($multiflights,$var_direct_flight,$var_flexi);
+        $stops=$this->Stops($multiflights,$var_direct_flight,$var_flexi);
+        // return rsort($stops);
         
         return view('multicity.flights',[
             'searched' => $request,
@@ -632,43 +642,59 @@ EOM;
     }
 
 
-    public function Stops($data,$direct_flight,$flexi){
-        $stops= [];
-        foreach($data as $datas){
-            foreach($datas as $datass){
-                foreach($datass[0] as $journeys){
-                    if($direct_flight=="DF" && count($journeys)>1 && $flexi=="")
-                    {
-                        continue;
-                    }elseif ($direct_flight=="" && count($journeys)==1 && $flexi=="F") {
-                        continue;
+    public function Stops($data,$var_direct_flight,$var_flexi){
+        $return_stops= [];
+        foreach($data as $flight){
+            foreach($flight as $flight_data){
+                foreach($flight_data[0] as $datas){
+                    foreach($datas[0] as $journeys){
+                    // foreach($datas[1] as $journeys1){
+
+                    // }
+                        if($var_direct_flight=="DF" && count($journeys)>1 && $var_flexi=="")
+                        {
+                            continue;
+                        }
+                        else if($var_direct_flight=="DF" && count($journeys)>1 && $var_flexi=="F")
+                        {
+                            continue;
+                        }
+                       
+                        array_push($return_stops,count($journeys)-1);
                     }
-                    array_push($stops,count($journeys)-1);
                 }
             }
         }
-        $stops = array_unique($stops);
-        return $stops;
+        // $return_stops = collect($return_stops)->sortByDesc('available_from_dt')->toArray();
+        $return_stops = array_unique($return_stops);
+        return $return_stops;
     }
-    public function Airline($data,$direct_flight,$flexi){
-        $airlines = [];
-        foreach($data as $datas){
-            foreach($datas as $datass){
-                foreach($datass[0] as $journeys){
-                    for ($i=0; $i < count($journeys); $i++) { 
-                    if($direct_flight=="DF" && count($journeys)>1 && $flexi=="")
-                    {
-                        continue;
-                    }elseif ($direct_flight=="" && count($journeys)==1 && $flexi=="F") {
-                        continue;
-                    }
-                        array_push($airlines,$journeys[$i]['Airline']);
+    public function Airline($data,$var_direct_flight,$var_flexi){
+        $return_airlines = [];
+        foreach($data as $flight){
+            foreach($flight as $flight_data){
+                foreach($flight_data[0] as $datas){
+                    foreach($datas[0] as $journeys){
+                        for ($i=0; $i < count($journeys); $i++) { 
+                            if($var_direct_flight=="DF" && count($journeys)>1 && $var_flexi=="")
+                            {
+                                continue;
+                            }
+                            else if($var_direct_flight=="DF" && count($journeys)>1 && $var_flexi=="F")
+                            {
+                                continue;
+                            }
+                            // elseif ($var_direct_flight=="" && count($journeys)==1 && $var_flexi=="F") {
+                            //     continue;
+                            // }
+                            array_push($return_airlines,$journeys[$i]['Airline']);
+                        }
                     }
                 }
             }
         }
-        $airlines = array_unique($airlines);
-        return $airlines;
+        $return_airlines = array_unique($return_airlines);
+        return $return_airlines;
     }
 
 }

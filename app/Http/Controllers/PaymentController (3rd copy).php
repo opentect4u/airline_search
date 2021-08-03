@@ -3547,67 +3547,7 @@ EOM;
                 $hostToken.='<HostToken Key="'.$hashToken[$i]['Key'].'" xmlns="http://www.travelport.com/schema/common_v42_0">'.$hashToken[$i]['HostTokenvalue'].'</HostToken>';
             }
         }
-        // return $hostToken;
-
-        if ($request->gender1=="Male") {
-            $gender="M";
-        }else{
-            $gender="F"; 
-        }
-
-        $booking_traveler_details='';
-        for ($j=0; $j < $var_adults; $j++) { 
-            $booking_traveler_details.='<com:BookingTraveler TravelerType="ADT" DOB="'.date("Y-m-d",strtotime($request->date_of_birth1)).'" Gender="'.$gender.'" Nationality="IN" xmlns:com="http://www.travelport.com/schema/common_v42_0">
-            <com:BookingTravelerName Prefix="'.$request->title1.'" First="'.$request->first_name1.'" Last="'.$request->last_name1.'"/>
-            <com:PhoneNumber Key="" Number="'.$request->mob_no.'" Type="Home" Text="Abc-Xy"/>
-            <com:Email Type="Home" EmailID="'.$request->email.'"/>
-            <com:SSR Type="DOCS" Carrier="AI" FreeText=""/>
-            <com:Address>
-                <com:AddressName>'.$request->add_1.'</com:AddressName>
-                <com:Street>'.$request->add_2.'</com:Street>
-                <com:Street>'.$request->add_2.'</com:Street>
-                <com:City>'.$request->city.'</com:City>
-                <com:State>'.$request->state_code.'</com:State>
-                <com:PostalCode>'.$request->postcode.'</com:PostalCode>
-                <com:Country>IN</com:Country>
-            </com:Address>
-        </com:BookingTraveler>';
-        }
-        for ($j=0; $j < $var_children; $j++) { 
-            $booking_traveler_details.='<com:BookingTraveler TravelerType="CNN" DOB="'.date("Y-m-d",strtotime($request->date_of_birth1)).'" Gender="'.$gender.'" Nationality="IN" xmlns:com="http://www.travelport.com/schema/common_v42_0">
-            <com:BookingTravelerName Prefix="'.$request->title1.'" First="'.$request->first_name1.'" Last="'.$request->last_name1.'"/>
-            <com:PhoneNumber Key="" Number="'.$request->mob_no.'" Type="Home" Text="Abc-Xy"/>
-            <com:Email Type="Home" EmailID="'.$request->email.'"/>
-            <com:SSR Key="1" Type="DOCS" Carrier="AI" FreeText=""/>
-            <com:Address>
-                <com:AddressName>'.$request->add_1.'</com:AddressName>
-                <com:Street>'.$request->add_2.'</com:Street>
-                <com:Street>'.$request->add_2.'</com:Street>
-                <com:City>'.$request->city.'</com:City>
-                <com:State>'.$request->state_code.'</com:State>
-                <com:PostalCode>'.$request->postcode.'</com:PostalCode>
-                <com:Country>IN</com:Country>
-            </com:Address>
-        </com:BookingTraveler>';
-        } 
-        for ($j=0; $j < $var_infant; $j++) { 
-            $booking_traveler_details.='<com:BookingTraveler TravelerType="INF" DOB="'.date("Y-m-d",strtotime($request->date_of_birth1)).'" Gender="'.$gender.'" Nationality="IN" xmlns:com="http://www.travelport.com/schema/common_v42_0">
-            <com:BookingTravelerName Prefix="'.$request->title1.'" First="'.$request->first_name1.'" Last="'.$request->last_name1.'"/>
-            <com:PhoneNumber Key="" Number="'.$request->mob_no.'" Type="Home" Text="Abc-Xy"/>
-            <com:Email Type="Home" EmailID="'.$request->email.'"/>
-            <com:SSR Key="1" Type="DOCS" Carrier="AI" FreeText=""/>
-            <com:Address>
-                <com:AddressName>'.$request->add_1.'</com:AddressName>
-                <com:Street>'.$request->add_2.'</com:Street>
-                <com:Street>'.$request->add_2.'</com:Street>
-                <com:City>'.$request->city.'</com:City>
-                <com:State>'.$request->state_code.'</com:State>
-                <com:PostalCode>'.$request->postcode.'</com:PostalCode>
-                <com:Country>IN</com:Country>
-            </com:Address>
-        </com:BookingTraveler>';
-        } 
-        // return $booking_traveler_details;
+        return $hostToken;
         // return $datasegment;
         $TARGETBRANCH = 'P7141733';
         $CREDENTIALS = 'Universal API/uAPI4648209292-e1e4ba84:9Jw*C+4c/5';
@@ -3616,12 +3556,30 @@ EOM;
         $searchLegModifier = '';
         // $PreferredDate = Carbon::parse($request->departure_date)->format('Y-m-d');
         // return $request->gender1;
-        
+        if ($request->gender1=="Male") {
+            $gender="M";
+        }else{
+            $gender="F"; 
+        }
         $query = '<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
         <soap:Body>
             <univ:AirCreateReservationReq RetainReservation="Both" TraceId="trace" TargetBranch="'.$TARGETBRANCH.'" AuthorizedBy="user" xmlns:univ="http://www.travelport.com/schema/universal_v42_0">
                 <com:BillingPointOfSaleInfo OriginApplication="UAPI" xmlns:com="http://www.travelport.com/schema/common_v42_0"/>
-                '.$booking_traveler_details.'
+                <com:BookingTraveler TravelerType="ADT" DOB="'.date("Y-m-d",strtotime($request->date_of_birth1)).'" Gender="'.$gender.'" Nationality="IN" xmlns:com="http://www.travelport.com/schema/common_v42_0">
+                    <com:BookingTravelerName Prefix="'.$request->title1.'" First="'.$request->first_name1.'" Last="'.$request->last_name1.'"/>
+                    <com:PhoneNumber Key="" Number="'.$request->mob_no.'" Type="Home" Text="Abc-Xy"/>
+                    <com:Email Type="Home" EmailID="'.$request->email.'"/>
+                    <com:SSR Key="1" Type="DOCS" Carrier="AI" FreeText="P/CA/F9850356/GB/04JAN80/M/01JAN14/LINDELOEV/CARSTENGJELLERUPMr"/>
+                    <com:Address>
+                        <com:AddressName>'.$request->add_1.'</com:AddressName>
+                        <com:Street>'.$request->add_2.'</com:Street>
+                        <com:Street>'.$request->add_2.'</com:Street>
+                        <com:City>'.$request->city.'</com:City>
+                        <com:State>'.$request->state_code.'</com:State>
+                        <com:PostalCode>'.$request->postcode.'</com:PostalCode>
+                        <com:Country>IN</com:Country>
+                    </com:Address>
+                </com:BookingTraveler>
                 <GeneralRemark UseProviderNativeMode="true" TypeInGds="Basic" xmlns="http://www.travelport.com/schema/common_v42_0">
                     <RemarkData>Booking 1</RemarkData>
                 </GeneralRemark>
@@ -3640,9 +3598,15 @@ EOM;
                     </com:CreditCard>
                 </com:FormOfPayment>
                 <air:AirPricingSolution Key="'.$flight[2]['price']['Key'].'" TotalPrice="'.$flight[2]['price']['TotalPrice'].'" BasePrice="'.$flight[2]['price']['BasePrice'].'" ApproximateTotalPrice="'.$flight[2]['price']['ApproximateTotalPrice'].'" ApproximateBasePrice="'.$flight[2]['price']['ApproximateBasePrice'].'" Taxes="'.$flight[2]['price']['Taxes'].'" Fees="'.$flight[2]['price']['Fees'].'" ApproximateTaxes="'.$flight[2]['price']['ApproximateTaxes'].'" QuoteDate="'.$flight[2]['price']['QuoteDate'].'" xmlns:air="http://www.travelport.com/schema/air_v42_0">
-                    '.$datasegment
-                    .$var_AirPricingInfo_FareInfo_FareRuleKey_BookingInfo
-                    .$hostToken.'
+                    '.$datasegment.'
+                    <air:AirPricingInfo PricingMethod="Auto" Key="'.$flight[3]['AirPricingInfo']['Key'].'" TotalPrice="'.$flight[3]['AirPricingInfo']['TotalPrice'].'" BasePrice="'.$flight[3]['AirPricingInfo']['BasePrice'].'" ApproximateTotalPrice="'.$flight[3]['AirPricingInfo']['ApproximateTotalPrice'].'" ApproximateBasePrice="'.$flight[3]['AirPricingInfo']['ApproximateBasePrice'].'" Taxes="'.$flight[3]['AirPricingInfo']['Taxes'].'" ProviderCode="1G">
+                    <air:FareInfo PromotionalFare="false" Key="'.$flight[4]['FareInfo']['Key'].'" FareFamily="Economy Saver" DepartureDate="'.$flight[4]['FareInfo']['DepartureDate'].'" Amount="'.$flight[4]['FareInfo']['Amount'].'" EffectiveDate="'.$flight[4]['FareInfo']['EffectiveDate'].'" Destination="'.$flight[4]['FareInfo']['Destination'].'" Origin="'.$flight[4]['FareInfo']['Origin'].'" PassengerTypeCode="'.$flight[4]['FareInfo']['PassengerTypeCode'].'" FareBasis="'.$flight[4]['FareInfo']['FareBasis'].'">
+                    <air:FareRuleKey FareInfoRef="'.$flight[5]['FareRuleKey']['FareInfoRef'].'" ProviderCode="'.$flight[5]['FareRuleKey']['ProviderCode'].'">'.$flight[5]['FareRuleKey']['FareRuleKeyValue'].'</air:FareRuleKey>
+                    </air:FareInfo>
+                    '.$booking_info.'
+                    <air:PassengerType Code="ADT" />
+                    </air:AirPricingInfo> 
+                    <HostToken Key="'.$flight[7]['HostToken']['Key'].'" xmlns="http://www.travelport.com/schema/common_v42_0">'.$flight[7]['HostToken']['HostTokenValue'].'</HostToken>
                 </air:AirPricingSolution>
                 <com:ActionStatus TicketDate="T*" Type="ACTIVE" ProviderCode="'.$Provider.'" xmlns:com="http://www.travelport.com/schema/common_v42_0"/>
             </univ:AirCreateReservationReq>
@@ -3670,7 +3634,7 @@ EOM;
         curl_setopt($soap_do, CURLOPT_RETURNTRANSFER, true);
         $return = curl_exec($soap_do);
         curl_close($soap_do);
-        return $return;
+        // return $return;
         $dom = new \DOMDocument();
         $dom->loadXML($return);
         $json = new \FluentDOM\Serializer\Json\RabbitFish($dom);

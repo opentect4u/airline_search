@@ -22,7 +22,7 @@
                         <h4 class="font-weight-500">FLIGHT 1</h4>
                         <hr>
                         <h6 class="mb-0"><i class="fas fa-plane"></i>@foreach($flights1[0] as $datas) {{$datas[0]['Origin']." - ".$datas[(count($datas)-1)]['Destination']." ".\Carbon\Carbon::parse($datas[0]['DepartureTime'])->format('d M Y')}} @endforeach 
-                        <a href="javascript:void(0)" data-toggle="modal" data-target="#baggage-and-fare" class="float-right badge badge-success font-weight-400">Baggage and Fare Rules</a>
+                        <a href="javascript:void(0)" data-toggle="modal" data-target="#baggageAndFare1" class="float-right badge badge-success font-weight-400">Baggage and Fare Rules</a>
                         </h6>
                         <hr>
                         @foreach($flights1[0] as $datas)
@@ -81,7 +81,7 @@
                         <h4 class="font-weight-500">FLIGHT 2</h4>
                         <hr>
                         <h6 class="mb-0"><i class="fas fa-plane"></i>@foreach($flights2[0] as $datas) {{$datas[0]['Origin']." - ".$datas[(count($datas)-1)]['Destination']." ".\Carbon\Carbon::parse($datas[0]['DepartureTime'])->format('d M Y')}} @endforeach 
-                        <a href="javascript:void(0)" data-toggle="modal" data-target="#baggage-and-fare" class="float-right badge badge-success font-weight-400">Baggage and Fare Rules</a>
+                        <a href="javascript:void(0)" data-toggle="modal" data-target="#baggageAndFare2" class="float-right badge badge-success font-weight-400">Baggage and Fare Rules</a>
                         </h6>
                         <hr>
                         @foreach($flights2[0] as $datas)
@@ -208,17 +208,17 @@
                             </tr>
                             <tr>
                                 <td>Base Fare x {{$searched->adults}}</td>
-                                <td class="text-right"><i class="las la-pound-sign"></i>@foreach($price as $prices){{ number_format((str_replace('GBP','',$prices['Approx Base Price'][0])*$searched->adults),2)}}@endforeach</td>
+                                <td class="text-right"><i class="las la-pound-sign"></i>@foreach($price as $prices){{ number_format((str_replace('GBP','',$prices['Approx Base Price'][0])*$searched->adults),2, '.', '')}}@endforeach</td>
                                 <!-- <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','', isset($flights1[2]['price']['ApproximateBasePrice'])? $flights1[2]['price']['ApproximateBasePrice']:0)*$searched->adults)+(str_replace('GBP','',isset($flights2[2]['price']['ApproximateBasePrice'])?$flights2[2]['price']['ApproximateBasePrice']:0)*$searched->adults)+(str_replace('GBP','', isset($flights3[2]['price']['ApproximateBasePrice'])?$flights3[2]['price']['ApproximateBasePrice']:0 )*$searched->adults),2)}}</td> -->
                             </tr>
                             <tr>
                                 <td>Taxes x {{$searched->adults}}</td>
-                                <td class="text-right"><i class="las la-pound-sign"></i>@foreach($price as $prices){{ number_format((str_replace('GBP','',$prices['Taxes'][0])*$searched->adults),2)}}@endforeach</td>
+                                <td class="text-right"><i class="las la-pound-sign"></i>@foreach($price as $prices){{ number_format((str_replace('GBP','',$prices['Taxes'][0])*$searched->adults),2, '.', '')}}@endforeach</td>
                                 <!-- <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','', isset($flights1[2]['price']['Taxes'])?$flights1[2]['price']['Taxes']:0)*$searched->adults)+(str_replace('GBP','',isset($flights2[2]['price']['Taxes'])?$flights2[2]['price']['Taxes']:0)*$searched->adults)+(str_replace('GBP','', isset($flights3[2]['price']['Taxes'])?$flights3[2]['price']['Taxes']:0 )*$searched->adults),2)}}</td> -->
                             </tr>
                             <tr class="font-weight-bold bg-light">
                                 <td class="text-danger">Price {{$searched->adults}} adult(s)</td>
-                                <td class="text-right text-danger"><i class="las la-pound-sign"></i>@foreach($price as $prices){{ number_format((str_replace('GBP','',$prices['Total Price'][0])*$searched->adults),2)}}@endforeach</td>
+                                <td class="text-right text-danger"><i class="las la-pound-sign"></i>@foreach($price as $prices){{ number_format((str_replace('GBP','',$prices['Total Price'][0])*$searched->adults),2, '.', '')}}@endforeach</td>
                             </tr>
                             @if(isset($price1))
                             <tr class="font-weight-bold bg-light">
@@ -227,17 +227,17 @@
                             </tr>
                             <tr>
                                 <td>Base Fare x {{$searched->children}}</td>
-                                <td class="text-right"><i class="las la-pound-sign"></i>@foreach($price1 as $prices){{ number_format((str_replace('GBP','',$prices['Approx Base Price'][0])*$searched->children),2)}}@endforeach</td>
+                                <td class="text-right"><i class="las la-pound-sign"></i>@foreach($price1 as $prices){{ number_format((str_replace('GBP','',$prices['Approx Base Price'][0])*$searched->children),2, '.', '')}}@endforeach</td>
                                 <!-- <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','', isset($flights1[2]['price']['ApproximateBasePrice'])? $flights1[2]['price']['ApproximateBasePrice']:0)*$searched->adults)+(str_replace('GBP','',isset($flights2[2]['price']['ApproximateBasePrice'])?$flights2[2]['price']['ApproximateBasePrice']:0)*$searched->adults)+(str_replace('GBP','', isset($flights3[2]['price']['ApproximateBasePrice'])?$flights3[2]['price']['ApproximateBasePrice']:0 )*$searched->adults),2)}}</td> -->
                             </tr>
                             <tr>
                                 <td>Taxes x {{$searched->children}}</td>
-                                <td class="text-right"><i class="las la-pound-sign"></i>@foreach($price1 as $prices){{ number_format((str_replace('GBP','',$prices['Taxes'][0])*$searched->children),2)}}@endforeach</td>
+                                <td class="text-right"><i class="las la-pound-sign"></i>@foreach($price1 as $prices){{ number_format((str_replace('GBP','',$prices['Taxes'][0])*$searched->children),2, '.', '')}}@endforeach</td>
                                 <!-- <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','', isset($flights1[2]['price']['Taxes'])?$flights1[2]['price']['Taxes']:0)*$searched->adults)+(str_replace('GBP','',isset($flights2[2]['price']['Taxes'])?$flights2[2]['price']['Taxes']:0)*$searched->adults)+(str_replace('GBP','', isset($flights3[2]['price']['Taxes'])?$flights3[2]['price']['Taxes']:0 )*$searched->adults),2)}}</td> -->
                             </tr>
                             <tr class="font-weight-bold bg-light">
                                 <td class="text-danger">Price {{$searched->children}} child(s)</td>
-                                <td class="text-right text-danger"><i class="las la-pound-sign"></i>@foreach($price1 as $prices){{ number_format((str_replace('GBP','',$prices['Total Price'][0])*$searched->children),2)}}@endforeach</td>
+                                <td class="text-right text-danger"><i class="las la-pound-sign"></i>@foreach($price1 as $prices){{ number_format((str_replace('GBP','',$prices['Total Price'][0])*$searched->children),2, '.', '')}}@endforeach</td>
                             </tr>
                             @endif
                             @if(isset($price2))
@@ -247,17 +247,17 @@
                             </tr>
                             <tr>
                                 <td>Base Fare x {{$searched->infant}}</td>
-                                <td class="text-right"><i class="las la-pound-sign"></i>@foreach($price2 as $prices){{ number_format((str_replace('GBP','',$prices['Approx Base Price'][0])*$searched->infant),2)}}@endforeach</td>
+                                <td class="text-right"><i class="las la-pound-sign"></i>@foreach($price2 as $prices){{ number_format((str_replace('GBP','',$prices['Approx Base Price'][0])*$searched->infant),2, '.', '')}}@endforeach</td>
                                 <!-- <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','', isset($flights1[2]['price']['ApproximateBasePrice'])? $flights1[2]['price']['ApproximateBasePrice']:0)*$searched->adults)+(str_replace('GBP','',isset($flights2[2]['price']['ApproximateBasePrice'])?$flights2[2]['price']['ApproximateBasePrice']:0)*$searched->adults)+(str_replace('GBP','', isset($flights3[2]['price']['ApproximateBasePrice'])?$flights3[2]['price']['ApproximateBasePrice']:0 )*$searched->adults),2)}}</td> -->
                             </tr>
                             <tr>
                                 <td>Taxes x {{$searched->infant}}</td>
-                                <td class="text-right"><i class="las la-pound-sign"></i>@foreach($price2 as $prices){{ number_format((str_replace('GBP','',$prices['Taxes'][0])*$searched->infant),2)}}@endforeach</td>
+                                <td class="text-right"><i class="las la-pound-sign"></i>@foreach($price2 as $prices){{ number_format((str_replace('GBP','',$prices['Taxes'][0])*$searched->infant),2, '.', '')}}@endforeach</td>
                                 <!-- <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','', isset($flights1[2]['price']['Taxes'])?$flights1[2]['price']['Taxes']:0)*$searched->adults)+(str_replace('GBP','',isset($flights2[2]['price']['Taxes'])?$flights2[2]['price']['Taxes']:0)*$searched->adults)+(str_replace('GBP','', isset($flights3[2]['price']['Taxes'])?$flights3[2]['price']['Taxes']:0 )*$searched->adults),2)}}</td> -->
                             </tr>
                             <tr class="font-weight-bold bg-light">
                                 <td class="text-danger">Price {{$searched->infant}} infant(s)</td>
-                                <td class="text-right text-danger"><i class="las la-pound-sign"></i>@foreach($price2 as $prices){{ number_format((str_replace('GBP','',$prices['Total Price'][0])*$searched->infant),2)}}@endforeach</td>
+                                <td class="text-right text-danger"><i class="las la-pound-sign"></i>@foreach($price2 as $prices){{ number_format((str_replace('GBP','',$prices['Total Price'][0])*$searched->infant),2, '.', '')}}@endforeach</td>
                             </tr>
                             @endif
                             <!-- <tr>
@@ -268,13 +268,13 @@
                                 <td class="text-danger">Total Price</td>
                                 <td class="text-right text-danger"><i class="las la-pound-sign"><?php 
                                 $var_tot_price=0;
-                                foreach($price as $prices){ $var_tot_price+= number_format((str_replace('GBP','',$prices['Total Price'][0])*$searched->adults),2);}
+                                foreach($price as $prices){ $var_tot_price+= number_format((str_replace('GBP','',$prices['Total Price'][0])*$searched->adults),2, '.', '');}
                                 
                                 if(isset($price1)){
-                                    foreach($price1 as $prices){ $var_tot_price+= number_format((str_replace('GBP','',$prices['Total Price'][0])*$searched->children),2);}
+                                    foreach($price1 as $prices){ $var_tot_price+= number_format((str_replace('GBP','',$prices['Total Price'][0])*$searched->children),2, '.', '');}
                                 }
                                 if(isset($price2)){
-                                    foreach($price2 as $prices){ $var_tot_price+= number_format((str_replace('GBP','',$prices['Total Price'][0])*$searched->infant),2);}
+                                    foreach($price2 as $prices){ $var_tot_price+= number_format((str_replace('GBP','',$prices['Total Price'][0])*$searched->infant),2, '.', '');}
                                 }
                                 echo number_format($var_tot_price,2);
                                 ?></i></td>
@@ -315,4 +315,135 @@
         </div>
     </section>
 </div>
+
+@if(isset($flights1))
+@if(count($flights1)>0)
+<div class="modal fade" id="baggageAndFare1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Baggage and Fare Rules</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <!-- Modal body -->
+      <div class="modal-body">
+        <ul class="nav nav-pills" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" data-toggle="pill" href="#fare_details">Fare Details</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="pill" href="#baggage_rules">Baggage Rules</a>
+          </li>
+        </ul>
+        <div class="tab-content row mt-3">
+          <div id="fare_details" class="container tab-pane active">
+            <table class="table table-bordered small">
+              <tr>
+                <td>Base Fare (1 Adult)</td>
+                <td><i class="las la-pound-sign"></i> {{str_replace('GBP','',$flights1[2]['price']['ApproximateBasePrice'])}}</td>
+              </tr>
+              <tr>
+                <td>Taxes and Fees (1 Adult)</td>
+                <td><i class="las la-pound-sign"></i> {{str_replace('GBP','',$flights1[2]['price']['Taxes'])}}</td>
+              </tr>
+              <tr>
+                <td>Total Fare (1 Adult)</td>
+                <td><i class="las la-pound-sign"></i> {{str_replace('GBP','',$flights1[2]['price']['TotalPrice'])}}</td>
+              </tr>
+            </table>
+          </div>
+          <div id="baggage_rules" class="container tab-pane fade">
+            <div class="media mb-3">
+              <div class="media-left"><img src="https://goprivate.wspan.com/sharedservices/images/airlineimages/logoAir<?php foreach($flights1[0] as $datas){echo $datas[0]['Carrier'];}?>.gif" alt="6E.png" style="width:50px;height:50px;" class="mr-2"/></div>
+              <div class="media-body align-self-center">
+                <h6 class="m-0"><?php foreach($flights1[0] as $datas){echo $datas[0]['Origin']."-".$datas[count($datas)-1]['Destination'];}?> <small class="text-muted"><?php foreach($flights1[0] as $datas){echo $datas[0]['Carrier']."-".$datas[0]['FlightNumber'];}?></small></h6>
+              </div>
+            </div>
+            <table class="table table-bordered small">
+              <tr>
+                <td>Baggage Type</td>
+                <td>Check-In</td>
+                <td>Cabin</td>
+              </tr>
+              <tr>
+                <td>Adult</td>
+                <td>{{str_replace('K','', isset($flights1[1]['details']['baggageallowanceinfo'])?$flights1[1]['details']['baggageallowanceinfo']:'' )}} Kgs</td>
+                <td>{{str_replace('K','', isset($flights1[1]['details']['carryonallowanceinfo'])?$flights1[1]['details']['carryonallowanceinfo']:'')}} Kgs</td>
+              </tr>
+            </table>
+            <small>The baggage information is just for reference. Please Check with airline before check-in. For more information, visit IndiGo Airlines Website.</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+@endif
+@endif
+@if(isset($flights2))
+@if(count($flights2)>0)
+<div class="modal fade" id="baggageAndFare2">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Baggage and Fare Rules</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <!-- Modal body -->
+      <div class="modal-body">
+        <ul class="nav nav-pills" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" data-toggle="pill" href="#fare_details1">Fare Details</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="pill" href="#baggage_rules1">Baggage Rules</a>
+          </li>
+        </ul>
+        <div class="tab-content row mt-3">
+          <div id="fare_details1" class="container tab-pane active">
+            <table class="table table-bordered small">
+              <tr>
+                <td>Base Fare (1 Adult)</td>
+                <td><i class="las la-pound-sign"></i> {{str_replace('GBP','',$flights2[2]['price']['ApproximateBasePrice'])}}</td>
+              </tr>
+              <tr>
+                <td>Taxes and Fees (1 Adult)</td>
+                <td><i class="las la-pound-sign"></i> {{str_replace('GBP','',$flights2[2]['price']['Taxes'])}}</td>
+              </tr>
+              <tr>
+                <td>Total Fare (1 Adult)</td>
+                <td><i class="las la-pound-sign"></i> {{str_replace('GBP','',$flights2[2]['price']['TotalPrice'])}}</td>
+              </tr>
+            </table>
+          </div>
+          <div id="baggage_rules1" class="container tab-pane fade">
+            <div class="media mb-3">
+              <div class="media-left"><img src="https://goprivate.wspan.com/sharedservices/images/airlineimages/logoAir<?php foreach($flights2[0] as $datas){echo $datas[0]['Carrier'];}?>.gif" alt="6E.png" style="width:50px;height:50px;" class="mr-2"/></div>
+              <div class="media-body align-self-center">
+                <h6 class="m-0"><?php foreach($flights2[0] as $datas){echo $datas[0]['Origin']."-".$datas[count($datas)-1]['Destination'];}?> <small class="text-muted"><?php foreach($flights2[0] as $datas){echo $datas[0]['Carrier']."-".$datas[0]['FlightNumber'];}?></small></h6>
+              </div>
+            </div>
+            <table class="table table-bordered small">
+              <tr>
+                <td>Baggage Type</td>
+                <td>Check-In</td>
+                <td>Cabin</td>
+              </tr>
+              <tr>
+                <td>Adult</td>
+                <td>{{str_replace('K','', isset($flights2[1]['details']['baggageallowanceinfo'])?$flights2[1]['details']['baggageallowanceinfo']:'' )}} Kgs</td>
+                <td>{{str_replace('K','', isset($flights2[1]['details']['carryonallowanceinfo'])?$flights2[1]['details']['carryonallowanceinfo']:'')}} Kgs</td>
+              </tr>
+            </table>
+            <small>The baggage information is just for reference. Please Check with airline before check-in. For more information, visit IndiGo Airlines Website.</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+@endif
+@endif
 @endsection

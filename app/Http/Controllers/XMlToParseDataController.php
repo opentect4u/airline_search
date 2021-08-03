@@ -16,6 +16,7 @@ class XMlToParseDataController extends Controller
     }
 
     // json data to parse particular record Air Price Req
+    // some note: - this function one way flight price user whole code same
     public function AirPrice($object){
         $data=collect();
         $journey=collect();
@@ -911,20 +912,22 @@ class XMlToParseDataController extends Controller
                                                                 } 
                                                             }
                                                         }
-                                                        if(empty($FareRuleKey) && !empty($FareRuleKey0)){
-                                                            $FareRuleKey1->push($FareRuleKey0);
-                                                        }
+                                                        // if(empty($FareRuleKey) && !empty($FareRuleKey0)){
+                                                        //     $FareRuleKey1->push($FareRuleKey0);
+                                                        // }
                                                     }
                                                 }
-                                                if(!empty($FareRuleKey)){
-                                                    $FareRuleKey1->push($FareRuleKey);
-                                                }
+                                                // if(!empty($FareRuleKey)){
+                                                //     $FareRuleKey1->push($FareRuleKey);
+                                                // }
                                             }
                                         }
                                         if(!empty($FareInfo)){
                                             $FareInfo1->push($FareInfo);
                                         }
-
+                                        if(!empty($FareRuleKey)){
+                                            $FareRuleKey1->push($FareRuleKey);
+                                        }
                                         
                                         
                                     }

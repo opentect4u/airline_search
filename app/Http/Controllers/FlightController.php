@@ -1515,20 +1515,22 @@ EOM;
                                                                 } 
                                                             }
                                                         }
-                                                        if(empty($FareRuleKey) && !empty($FareRuleKey0)){
-                                                            $FareRuleKey1->push($FareRuleKey0);
-                                                        }
+                                                        // if(empty($FareRuleKey) && !empty($FareRuleKey0)){
+                                                        //     $FareRuleKey1->push($FareRuleKey0);
+                                                        // }
                                                     }
                                                 }
-                                                if(!empty($FareRuleKey)){
-                                                    $FareRuleKey1->push($FareRuleKey);
-                                                }
+                                                // if(!empty($FareRuleKey)){
+                                                //     $FareRuleKey1->push($FareRuleKey);
+                                                // }
                                             }
                                         }
                                         if(!empty($FareInfo)){
                                             $FareInfo1->push($FareInfo);
                                         }
-
+                                        if(!empty($FareRuleKey)){
+                                            $FareRuleKey1->push($FareRuleKey);
+                                        }
                                         
                                         
                                     }

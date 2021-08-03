@@ -385,15 +385,17 @@ EOM;
                                                                             foreach($jsons16 as $jsons17){
                                                                                 // print_r($jsons17);
                                                                                 // echo "<br/><br/><br/>";
-                                                                                foreach($jsons17 as $c=> $jsons18){
-                                                                                    if(is_string($jsons18)){
-                                                                                        if(strcmp($c, "$") == 0){
-                                                                                            $details4["changepenalty"]=$jsons18;
+                                                                                if(is_array($jsons17)){
+                                                                                    foreach($jsons17 as $c=> $jsons18){
+                                                                                        if(is_string($jsons18)){
+                                                                                            if(strcmp($c, "$") == 0){
+                                                                                                $details4["changepenalty"]=$jsons18;
+                                                                                            }
+                                                                                            // print_r($c."- " .$jsons18);
+                                                                                            // echo "<br/><br/><br/>"; 
                                                                                         }
-                                                                                        // print_r($c."- " .$jsons18);
-                                                                                        // echo "<br/><br/><br/>"; 
+                                                                                        
                                                                                     }
-                                                                                    
                                                                                 }
                                                                             }
                                                                         }
