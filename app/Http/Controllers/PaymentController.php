@@ -47,10 +47,12 @@ class PaymentController extends Controller
             
         }
         // return $datasegment;
-        // $datasegment.= '<air:AirSegment Key="'.get_object_vars($journeys[$i]->Key)[0].'" Group="'.get_object_vars($journeys[$i]->Group)[0].'" Carrier="'.get_object_vars($journeys[$i]->Airline)[0].'" FlightNumber="'.get_object_vars($journeys[$i]->Flight)[0].'" Origin="'.get_object_vars($journeys[$i]->From)[0].'" Destination="'.get_object_vars($journeys[$i]->To)[0].'" DepartureTime="'.get_object_vars($journeys[$i]->Depart)[0].'" ArrivalTime="'.get_object_vars($journeys[$i]->Arrive)[0].'" FlightTime="'.get_object_vars($journeys[$i]->FlightTime)[0].'" Distance="'.get_object_vars($journeys[$i]->Distance)[0].'" ETicketability="Yes" Equipment="E90" ChangeOfPlane="false" ParticipantLevel="Secure Sell" LinkAvailability="true" PolledAvailabilityOption="Polled avail used" OptionalServicesIndicator="false" AvailabilitySource="S" AvailabilityDisplayType="Fare Shop/Optimal Shop" ProviderCode="1G" ClassOfService="W"></air:AirSegment>';
-        // echo  get_object_vars($journeys[$i]->Key)[0]; echo "<br/>";
-        
-        
+        $var_adults=$request->adults;
+        $var_children=$request->children;
+        $var_infant=$request->infant;
+        $travel_details=app('App\Http\Controllers\UtilityController')->TravelDetailsDatasagment($var_adults,$var_children,$var_infant);
+        // return $travel_details;
+
         $TARGETBRANCH = 'P7141733';
         $CREDENTIALS = 'Universal API/uAPI4648209292-e1e4ba84:9Jw*C+4c/5';
         $Provider = '1G'; // Any provider you want to use like 1G/1P/1V/ACH
@@ -67,7 +69,7 @@ class PaymentController extends Controller
                 '.$datasegment.'
               </air:AirItinerary>
               <air:AirPricingModifiers/>
-              <com:SearchPassenger Key="1" Code="ADT" xmlns:com="http://www.travelport.com/schema/common_v42_0"/>
+              '.$travel_details.'
               <air:AirPricingCommand/>
            </air:AirPriceReq>
         </soap:Body>
@@ -94,15 +96,11 @@ EOM;
             $return = curl_exec($soap_do);
             curl_close($soap_do);
             // return $return;
-            $dom = new \DOMDocument();
-            $dom->loadXML($return);
-            $json = new \FluentDOM\Serializer\Json\RabbitFish($dom);
-            $object = json_decode($json,true);
+            $object =app('App\Http\Controllers\XMlToParseDataController')->XMlToJSON($return);
             // return $object ;
             $data=$this->XMLData($object);
+            // $data =app('App\Http\Controllers\XMlToParseDataController')->AirPrice($object);
             
-            // return $data;
-        
             // return $data;
         }else{
         
@@ -143,10 +141,7 @@ EOM;
             $return = curl_exec($soap_do);
             curl_close($soap_do);
             // return $return;
-            $dom = new \DOMDocument();
-            $dom->loadXML($return);
-            $json = new \FluentDOM\Serializer\Json\RabbitFish($dom);
-            $object = json_decode($json,true);
+            $object =app('App\Http\Controllers\XMlToParseDataController')->XMlToJSON($return);
             // return $object;
             $flight_data=$this->XMLData_Round($object);
             // return $flight_data;
@@ -3133,6 +3128,7 @@ EOM;
                                                                     foreach($jsons14['air:AirPricingInfo']['air:BookingInfo'] as $bki => $jsons17){
                                                                         // print_r($jsons17);
                                                                         // echo "<br/><br/><br/>";
+                                                                        $BookingInfo0=[];
                                                                         if(is_string($jsons17)){
                                                                             // print_r($bki."-".$jsons17);
                                                                             // echo "<br/><br/><br/>";
@@ -3157,23 +3153,29 @@ EOM;
                                                                                     // print_r($bki."-".$jsons17);
                                                                                     // echo "<br/><br/><br/>";
                                                                                     if(strcmp($bki, "@BookingCode") == 0){
-                                                                                        $BookingInfo["BookingCode"] =$jsons18;
+                                                                                        $BookingInfo0["BookingCode"] =$jsons18;
                                                                                     }
                                                                                     if(strcmp($bki, "@CabinClass") == 0){
-                                                                                        $BookingInfo["CabinClass"] =$jsons18;
+                                                                                        $BookingInfo0["CabinClass"] =$jsons18;
                                                                                     }
                                                                                     if(strcmp($bki, "@FareInfoRef") == 0){
-                                                                                        $BookingInfo["FareInfoRef"] =$jsons18;
+                                                                                        $BookingInfo0["FareInfoRef"] =$jsons18;
                                                                                     }
                                                                                     if(strcmp($bki, "@SegmentRef") == 0){
-                                                                                        $BookingInfo["SegmentRef"] =$jsons18;
+                                                                                        $BookingInfo0["SegmentRef"] =$jsons18;
                                                                                     }
                                                                                     if(strcmp($bki, "@HostTokenRef") == 0){
-                                                                                        $BookingInfo["HostTokenRef"] =$jsons18;
+                                                                                        $BookingInfo0["HostTokenRef"] =$jsons18;
                                                                                     }
                                                                                 }
                                                                             } 
                                                                         }
+                                                                        if(empty($BookingInfo) && !empty($BookingInfo0)){
+                                                                            $BookingInfo1->push($BookingInfo);
+                                                                        }
+                                                                        // $BookingInfo1->push($BookingInfo);
+                                                                    }
+                                                                    if(!empty($BookingInfo)){
                                                                         $BookingInfo1->push($BookingInfo);
                                                                     }
                                                                 }

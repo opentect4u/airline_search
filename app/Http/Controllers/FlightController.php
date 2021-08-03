@@ -613,10 +613,7 @@ EOM;
         curl_close($soap_do);
         // return $return;
 
-        $dom = new \DOMDocument();
-        $dom->loadXML($return);
-        $json = new \FluentDOM\Serializer\Json\RabbitFish($dom);
-        $object = json_decode($json,true);
+        $object =app('App\Http\Controllers\XMlToParseDataController')->XMlToJSON($return);
         // return $object;
         // $array=array_search('SOAP:Fault',$object,true);
         // $array=array_key_exists('air:AirSegment', $object);
@@ -1855,7 +1852,7 @@ EOM;
             }
         }
 
-        $data =app('App\Http\Controllers\XMlToParseDataController')->AirPrice($object);
+        // $data =app('App\Http\Controllers\XMlToParseDataController')->AirPrice($object);
         // return $data;
 
 

@@ -67,57 +67,29 @@
                     </div>
                 </div>
             </div>
-            <div class="row" id="3rdFlight">
+            <div class="row" id="3rdFlight" data-show-value="0">
                 <div class="col-md-2">
                     <h6 class="text-uppercase text-muted">Flight 3</h6>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
                         <label>From</label>
-                        <input type="text" name="from3" id="from3" required placeholder="(IXC) | Chandigarh Airport" class="form-control search_input">
+                        <input type="text" name="from3" id="from3" placeholder="(IXC) | Chandigarh Airport" class="form-control search_input">
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
                         <label>To</label>
-                        <input type="text" name="to3" id="to3" required placeholder="(BOM) | Chhatrapati Shivaji Int'l Airport" class="form-control search_input">
+                        <input type="text" name="to3" id="to3"  placeholder="(BOM) | Chhatrapati Shivaji Int'l Airport" class="form-control search_input">
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class="form-group">
                         <label>Date</label>
                         <div id="flight2_date_datetimepicker" class="input-group flight2_date_datetimepicker_class">
-                            <input type="text" name="flight2_date" id="flight2_date" value="" required placeholder="dd-mm-yyyy" class="form-control border-right-0 flight2_date_datetimepicker_class" data-format="dd-MM-yyyy">
+                            <input type="text" name="flight2_date" id="flight2_date" value=""  placeholder="dd-mm-yyyy" class="form-control border-right-0 flight2_date_datetimepicker_class" data-format="dd-MM-yyyy">
                             <div class="input-group-append add-on flight2_date_datetimepicker_class">
                             <span class="input-group-text bg-white pl-0 flight2_date_datetimepicker_class"><i class="lar la-calendar-alt flight2_date_datetimepicker_class"></i></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row" id="4rdFlight" data-show-value="0">
-                <div class="col-md-2">
-                    <h6 class="text-uppercase text-muted">Flight 4</h6>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label>From</label>
-                        <input type="text" name="from4" id="from4"  placeholder="(IXC) | Chandigarh Airport" class="form-control search_input">
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label>To</label>
-                        <input type="text" name="to4" id="to4"  placeholder="(BOM) | Chhatrapati Shivaji Int'l Airport" class="form-control search_input">
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-group">
-                        <label>Date</label>
-                        <div id="flight3_date_datetimepicker" class="input-group flight3_date_datetimepicker_class">
-                            <input type="text" name="flight3_date" id="flight3_date" value=""  placeholder="dd-mm-yyyy" class="form-control border-right-0 flight3_date_datetimepicker_class" data-format="dd-MM-yyyy">
-                            <div class="input-group-append add-on flight3_date_datetimepicker_class">
-                            <span class="input-group-text bg-white pl-0 flight3_date_datetimepicker_class"><i class="lar la-calendar-alt flight3_date_datetimepicker_class"></i></span>
                             </div>
                         </div>
                     </div>
@@ -126,73 +98,10 @@
                     <span class="input-group-text" id="crossIcon_flight3" style="cursor: pointer;"><i class="las la-times"></i></span>
                 </div>
             </div>
-            <div class="row" id="5rdFlight" data-show-value="0">
-                <div class="col-md-2">
-                    <h6 class="text-uppercase text-muted">Flight 5</h6>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label>From</label>
-                        <input type="text" name="from5" id="from5"  placeholder="(IXC) | Chandigarh Airport" class="form-control search_input">
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label>To</label>
-                        <input type="text" name="to5" id="to5"  placeholder="(BOM) | Chhatrapati Shivaji Int'l Airport" class="form-control search_input">
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-group">
-                        <label>Date</label>
-                        <div id="flight4_date_datetimepicker" class="input-group flight4_date_datetimepicker_class">
-                            <input type="text" name="flight4_date" id="flight4_date" value=""  placeholder="dd-mm-yyyy" class="form-control border-right-0 flight4_date_datetimepicker_class" data-format="dd-MM-yyyy">
-                            <div class="input-group-append add-on flight4_date_datetimepicker_class">
-                            <span class="input-group-text bg-white pl-0 flight4_date_datetimepicker_class"><i class="lar la-calendar-alt flight4_date_datetimepicker_class"></i></span>
-                            </div>
-                            <!-- <span class="input-group-text pl-0" id="crossIcon_flight4" style="cursor: pointer;"><i class="las la-times"></i></span> -->
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-1">
-                    <span class="input-group-text" id="crossIcon_flight4" style="cursor: pointer;"><i class="las la-times"></i></span>
-                </div>
-            </div>
-            <div class="row" id="6rdFlight" data-show-value="0">
-                <div class="col-md-2">
-                    <h6 class="text-uppercase text-muted">Flight 6</h6>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label>From</label>
-                        <input type="text" name="from6" id="from6"  placeholder="(IXC) | Chandigarh Airport" class="form-control search_input">
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label>To</label>
-                        <input type="text" name="to6" id="to6"  placeholder="(BOM) | Chhatrapati Shivaji Int'l Airport" class="form-control search_input">
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-group">
-                        <label>Date</label>
-                        <div id="flight5_date_datetimepicker" class="input-group flight5_date_datetimepicker_class">
-                            <input type="text" name="flight5_date" id="flight5_date" value=""  placeholder="dd-mm-yyyy" class="form-control border-right-0 flight5_date_datetimepicker_class" data-format="dd-MM-yyyy">
-                            <div class="input-group-append add-on flight5_date_datetimepicker_class">
-                            <span class="input-group-text bg-white pl-0 flight5_date_datetimepicker_class"><i class="lar la-calendar-alt flight5_date_datetimepicker_class"></i></span>
-                            </div>
-                            <!-- <span class="input-group-text pl-0" id="crossIcon_flight5" style="cursor: pointer;"><i class="las la-times"></i></span> -->
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-1">
-                    <span class="input-group-text" id="crossIcon_flight5" style="cursor: pointer;"><i class="las la-times"></i></span>
-                </div>
-            </div>
+            
             <div class="row">
                 <div class="col-md-12">
-                    <a href="javascript:void(0)" id="addFlight"><i class="las la-plus-circle"></i> Add Another Flight (Add upto 6 cities)</a>
+                    <a href="javascript:void(0)" id="addFlight"><i class="las la-plus-circle"></i> Add Another Flight (Add upto 3 cities)</a>
                 </div>
             </div>
             <div class="row mt-4">
@@ -343,9 +252,10 @@
 <script type="text/javascript">
     $( document ).ready(function() {
         // start show anather flights
-        $('#4rdFlight').hide();
-        $('#5rdFlight').hide();
-        $('#6rdFlight').hide();
+        $('#3rdFlight').hide();
+        // $('#4rdFlight').hide();
+        // $('#5rdFlight').hide();
+        // $('#6rdFlight').hide();
         // end show anather flights
 
         $('#loading').hide();
@@ -653,74 +563,74 @@
         //  click on add anathor flight
         $('#addFlight').click(function(){
             // alert("hii");
-            var attr_4rdFlight=$("#4rdFlight").attr("data-show-value");
-            var attr_5rdFlight=$("#5rdFlight").attr("data-show-value");
-            var attr_6rdFlight=$("#6rdFlight").attr("data-show-value");
+            var attr_3rdFlight=$("#3rdFlight").attr("data-show-value");
+            // var attr_5rdFlight=$("#5rdFlight").attr("data-show-value");
+            // var attr_6rdFlight=$("#6rdFlight").attr("data-show-value");
             // alert(attr_4rdFlight)
             // if(attr_4rdFlight==0)
-                $('#4rdFlight').show();
-                $("#4rdFlight").attr("data-show-value", "1");
+                $('#3rdFlight').show();
+                $("#3rdFlight").attr("data-show-value", "1");
                 // to3
-                var to3_val=$('#to3').val();
+                var to3_val=$('#to2').val();
                 if(to3_val!=''){
                     // from4
-                    $('#from4').val('');
-                    $('#from4').val(to3_val);
+                    $('#from3').val('');
+                    $('#from3').val(to3_val);
                 }
             // }
-            if(attr_4rdFlight==1){
-                $('#5rdFlight').show();
-                $("#5rdFlight").attr("data-show-value", "1");
-                // crossIcon_flight3
-                $('#crossIcon_flight3').hide();
-                var to4_val=$('#to4').val();
-                if(to4_val!=''){
-                    // from4
-                    $('#from5').val('');
-                    $('#from5').val(to4_val);
-                }
-            }
-            if(attr_5rdFlight==1){
-                $('#6rdFlight').show();
-                $("#6rdFlight").attr("data-show-value", "1");
-                $('#crossIcon_flight4').hide();
-                var to5_val=$('#to5').val();
-                if(to5_val!=''){
-                    // from4
-                    $('#from6').val('');
-                    $('#from6').val(to5_val);
-                }
-            }
+            // if(attr_4rdFlight==1){
+            //     $('#5rdFlight').show();
+            //     $("#5rdFlight").attr("data-show-value", "1");
+            //     // crossIcon_flight3
+            //     $('#crossIcon_flight3').hide();
+            //     var to4_val=$('#to4').val();
+            //     if(to4_val!=''){
+            //         // from4
+            //         $('#from5').val('');
+            //         $('#from5').val(to4_val);
+            //     }
+            // }
+            // if(attr_5rdFlight==1){
+            //     $('#6rdFlight').show();
+            //     $("#6rdFlight").attr("data-show-value", "1");
+            //     $('#crossIcon_flight4').hide();
+            //     var to5_val=$('#to5').val();
+            //     if(to5_val!=''){
+            //         // from4
+            //         $('#from6').val('');
+            //         $('#from6').val(to5_val);
+            //     }
+            // }
             // data-show-value
         });
 
-        $('#crossIcon_flight5').click(function(){
-            // alert('hii');
-            $('#6rdFlight').hide();
-            $("#6rdFlight").attr("data-show-value", "0");
-            $('#from6').val('');
-            $('#to6').val('');
-            $('#flight5_date').val('');
-            $('#crossIcon_flight4').show();
-        });
-        $('#crossIcon_flight4').click(function(){
-            // alert('hii');
-            $('#5rdFlight').hide();
-            $("#5rdFlight").attr("data-show-value", "0");
-            $('#from5').val('');
-            $('#to5').val('');
-            $('#flight4_date').val('');
-            $('#crossIcon_flight3').show();
-        });
         $('#crossIcon_flight3').click(function(){
             // alert('hii');
-            $('#4rdFlight').hide();
-            $("#4rdFlight").attr("data-show-value", "0");
-            $('#from4').val('');
-            $('#to4').val('');
-            $('#flight3_date').val('');
-            $('#crossIcon_flight2').show();
+            $('#3rdFlight').hide();
+            $("#3rdFlight").attr("data-show-value", "0");
+            $('#from3').val('');
+            $('#to3').val('');
+            $('#flight2_date').val('');
+            // $('#crossIcon_flight4').show();
         });
+        // $('#crossIcon_flight4').click(function(){
+        //     // alert('hii');
+        //     $('#5rdFlight').hide();
+        //     $("#5rdFlight").attr("data-show-value", "0");
+        //     $('#from5').val('');
+        //     $('#to5').val('');
+        //     $('#flight4_date').val('');
+        //     $('#crossIcon_flight3').show();
+        // });
+        // $('#crossIcon_flight3').click(function(){
+        //     // alert('hii');
+        //     $('#4rdFlight').hide();
+        //     $("#4rdFlight").attr("data-show-value", "0");
+        //     $('#from4').val('');
+        //     $('#to4').val('');
+        //     $('#flight3_date').val('');
+        //     $('#crossIcon_flight2').show();
+        // });
         
 
         // select flight to add value automatic select from value 
