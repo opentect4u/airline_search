@@ -1704,10 +1704,15 @@ class XMlToParseDataController extends Controller
                                     }
                                 }
                             }
+                            $per_details1=collect();
                             $per_details=[];
+                            $per_details0=[];
                             if(array_key_exists('common_v42_0:BookingTraveler',$unvjson1['universal:UniversalRecordRetrieveRsp']['universal:UniversalRecord'])){
                                 // print_r ($unvjson1['universal:UniversalRecordRetrieveRsp']['universal:UniversalRecord']['common_v42_0:BookingTraveler']);
+                                // return ($unvjson1['universal:UniversalRecordRetrieveRsp']['universal:UniversalRecord']['common_v42_0:BookingTraveler']);
+                                // return is_array($unvjson1['universal:UniversalRecordRetrieveRsp']['universal:UniversalRecord']['common_v42_0:BookingTraveler']);
                                 foreach($unvjson1['universal:UniversalRecordRetrieveRsp']['universal:UniversalRecord']['common_v42_0:BookingTraveler'] as $key => $value){
+                                    // $per_details0=[];
                                     if(is_string($value)){
                                         if(strcmp($key, "@TravelerType") == 0){
                                             $per_details['TravelerType']=$value;
@@ -1718,6 +1723,147 @@ class XMlToParseDataController extends Controller
                                         if(strcmp($key, "@Status") == 0){
                                             $per_details['Gender']=$value;
                                         }
+                                    }else{
+                                      // print_r($value);
+                                      // echo "<br/><br/><br/><br/><br/><br/>";
+                                      // return ($unvjson1['universal:UniversalRecordRetrieveRsp']['universal:UniversalRecord']['common_v42_0:BookingTraveler']);
+                                      foreach($value as $key => $value1){
+                                        if(is_string($value1)){
+                                          // print_r($key."----".$value1);
+                                          // echo "<br/><br/>";
+                                          if(strcmp($key, "@TravelerType") == 0){
+                                              $per_details0['TravelerType']=$value1;
+                                          }
+                                          if(strcmp($key, "@DOB") == 0){
+                                              $per_details0['DOB']=$value1;
+                                          }
+                                          if(strcmp($key, "@Gender") == 0){
+                                              $per_details0['Gender']=$value1;
+                                          }
+                                        }
+                                      }
+                                      if(array_key_exists('common_v42_0:BookingTravelerName',$value)){
+                                        // return $value['common_v42_0:BookingTravelerName'];
+                                        foreach($value['common_v42_0:BookingTravelerName'] as $key => $value1){
+                                          // print_r($value1);
+                                          // echo "<br/><br/>";
+                                            if(is_string($value1)){
+                                              // print_r($key."----".$value1);
+                                              // echo "<br/><br/>";
+                                                if(strcmp($key, "@Prefix") == 0){
+                                                    $per_details0['Prefix']=$value1;
+                                                }
+                                                if(strcmp($key, "@First") == 0){
+                                                    $per_details0['First']=$value1;
+                                                }
+                                                if(strcmp($key, "@Last") == 0){
+                                                    $per_details0['Last']=$value1;
+                                                }
+                                            }
+                                        }
+                                      }
+                                      if(array_key_exists('common_v42_0:PhoneNumber',$value)){
+                                        // print_r ($unvjson1['universal:UniversalRecordRetrieveRsp']['universal:UniversalRecord']['common_v42_0:BookingTraveler']['common_v42_0:PhoneNumber']);
+                                        foreach($value['common_v42_0:PhoneNumber'] as $key => $value1){
+                                            if(is_string($value1)){
+                                                if(strcmp($key, "@Type") == 0){
+                                                    $per_details0['Type']=$value1;
+                                                }
+                                                if(strcmp($key, "@Location") == 0){
+                                                    $per_details0['Location']=$value1;
+                                                }
+                                                if(strcmp($key, "@Number") == 0){
+                                                    $per_details0['Number']=$value1;
+                                                }
+                                                if(strcmp($key, "@Text") == 0){
+                                                    $per_details0['Text']=$value1;
+                                                }
+                                            }
+                                        }
+                                      }
+                                      if(array_key_exists('common_v42_0:Email',$value)){
+                                        // print_r ($unvjson1['universal:UniversalRecordRetrieveRsp']['universal:UniversalRecord']['common_v42_0:BookingTraveler']['common_v42_0:Email']);
+                                        foreach($value['common_v42_0:Email'] as $key => $value1){
+                                            if(is_string($value1)){
+                                                if(strcmp($key, "@EmailID") == 0){
+                                                    $per_details0['EmailID']=$value1;
+                                                }
+                                                
+                                            }
+                                        }
+                                      }
+                                      if(array_key_exists('common_v42_0:Address',$value)){
+                                        if(array_key_exists('common_v42_0:AddressName',$value['common_v42_0:Address'])){
+                                            // print_r ($unvjson1['universal:UniversalRecordRetrieveRsp']['universal:UniversalRecord']['common_v42_0:BookingTraveler']['common_v42_0:Address']['common_v42_0:AddressName']);
+                                            foreach($value['common_v42_0:Address']['common_v42_0:AddressName'] as $key => $value1){
+                                                if(is_string($value1)){
+                                                    if(strcmp($key, "$") == 0){
+                                                        $per_details0['Address']=$value1;
+                                                    }
+                                                    
+                                                }
+                                            }
+                                        }
+                                        if(array_key_exists('common_v42_0:Street',$value['common_v42_0:Address'])){
+                                            // print_r ($unvjson1['universal:UniversalRecordRetrieveRsp']['universal:UniversalRecord']['common_v42_0:BookingTraveler']['common_v42_0:Address']['common_v42_0:Street']);
+                                            foreach($value['common_v42_0:Address']['common_v42_0:Street'] as $key => $value1){
+                                                if(is_string($value1)){
+                                                    if(strcmp($key, "$") == 0){
+                                                        $per_details0['Street']=$value1;
+                                                    }
+                                                    
+                                                }
+                                            }
+                                        }
+                                        if(array_key_exists('common_v42_0:City',$value['common_v42_0:Address'])){
+                                            // print_r ($unvjson1['universal:UniversalRecordRetrieveRsp']['universal:UniversalRecord']['common_v42_0:BookingTraveler']['common_v42_0:Address']['common_v42_0:City']);
+                                            foreach($value['common_v42_0:Address']['common_v42_0:City'] as $key => $value1){
+                                                if(is_string($value1)){
+                                                    if(strcmp($key, "$") == 0){
+                                                        $per_details0['City']=$value1;
+                                                    }
+                                                    
+                                                }
+                                            }
+                                        }
+                                        if(array_key_exists('common_v42_0:State',$value['common_v42_0:Address'])){
+                                            // print_r ($unvjson1['universal:UniversalRecordRetrieveRsp']['universal:UniversalRecord']['common_v42_0:BookingTraveler']['common_v42_0:Address']['common_v42_0:State']);
+                                            foreach($value['common_v42_0:Address']['common_v42_0:State'] as $key => $value1){
+                                                if(is_string($value1)){
+                                                    if(strcmp($key, "$") == 0){
+                                                        $per_details0['State']=$value1;
+                                                    }
+                                                    
+                                                }
+                                            }
+                                        }
+                                        if(array_key_exists('common_v42_0:PostalCode',$value['common_v42_0:Address'])){
+                                            // print_r ($unvjson1['universal:UniversalRecordRetrieveRsp']['universal:UniversalRecord']['common_v42_0:BookingTraveler']['common_v42_0:Address']['common_v42_0:PostalCode']);
+                                            foreach($value['common_v42_0:Address']['common_v42_0:PostalCode'] as $key => $value1){
+                                                if(is_string($value1)){
+                                                    if(strcmp($key, "$") == 0){
+                                                        $per_details0['PostalCode']=$value1;
+                                                    }
+                                                    
+                                                }
+                                            }
+                                        }
+                                        if(array_key_exists('common_v42_0:Country',$value['common_v42_0:Address'])){
+                                            // print_r ($unvjson1['universal:UniversalRecordRetrieveRsp']['universal:UniversalRecord']['common_v42_0:BookingTraveler']['common_v42_0:Address']['common_v42_0:Country']);
+                                            foreach($value['common_v42_0:Address']['common_v42_0:Country'] as $key => $value1){
+                                                if(is_string($value1)){
+                                                    if(strcmp($key, "$") == 0){
+                                                        $per_details0['Country']=$value1;
+                                                    }
+                                                    
+                                                }
+                                            }
+                                        }
+                                      }
+                                      
+                                      if(empty($per_details) && !empty($per_details0)){
+                                        $per_details1->push($per_details0);
+                                      }
                                     }
                                 }
                                 if(array_key_exists('common_v42_0:BookingTravelerName',$unvjson1['universal:UniversalRecordRetrieveRsp']['universal:UniversalRecord']['common_v42_0:BookingTraveler'])){
@@ -1835,8 +1981,12 @@ class XMlToParseDataController extends Controller
                                         }
                                     }
                                 }
+                                if(!empty($per_details)){
+                                  $per_details1->push($per_details);
+                                }
                             }
                             $journey1=collect();
+                            $price1=collect();
                             $price=[];
                             if(array_key_exists('air:AirReservation',$unvjson1['universal:UniversalRecordRetrieveRsp']['universal:UniversalRecord'])){
                                 // print_r ($unvjson1['universal:UniversalRecordRetrieveRsp']['universal:UniversalRecord']['air:AirReservation']);
@@ -1966,7 +2116,9 @@ class XMlToParseDataController extends Controller
                                     }
                                 }
                                 if(array_key_exists('air:AirPricingInfo',$unvjson1['universal:UniversalRecordRetrieveRsp']['universal:UniversalRecord']['air:AirReservation'])){
+                                    // return ($unvjson1['universal:UniversalRecordRetrieveRsp']['universal:UniversalRecord']['air:AirReservation']['air:AirPricingInfo']);
                                     // print_r ($unvjson1['universal:UniversalRecordRetrieveRsp']['universal:UniversalRecord']['air:AirReservation']['air:AirPricingInfo']);
+                                    $price0=[];
                                     foreach($unvjson1['universal:UniversalRecordRetrieveRsp']['universal:UniversalRecord']['air:AirReservation']['air:AirPricingInfo'] as $key => $value){
                                         if(is_string($value)){
                                             if(strcmp($key, "@Key") == 0){
@@ -1996,7 +2148,45 @@ class XMlToParseDataController extends Controller
                                             if(strcmp($key, "@TrueLastDateToTicket") == 0){
                                                 $price['TrueLastDateToTicket']=$value;
                                             }
+                                        }else{
+                                          foreach($value as $key => $value1){
+                                            if(is_string($value1)){
+                                              if(strcmp($key, "@Key") == 0){
+                                                  $price0['Key']=$value1;
+                                              }
+                                              if(strcmp($key, "@TotalPrice") == 0){
+                                                  $price0['TotalPrice']=$value1;
+                                              }
+                                              if(strcmp($key, "@BasePrice") == 0){
+                                                  $price0['BasePrice']=$value1;
+                                              }
+                                              if(strcmp($key, "@ApproximateTotalPrice") == 0){
+                                                  $price0['ApproximateTotalPrice']=$value1;
+                                              }
+                                              if(strcmp($key, "@ApproximateBasePrice") == 0){
+                                                  $price0['ApproximateBasePrice']=$value1;
+                                              }
+                                              if(strcmp($key, "@EquivalentBasePrice") == 0){
+                                                  $price0['EquivalentBasePrice']=$value1;
+                                              }
+                                              if(strcmp($key, "@Taxes") == 0){
+                                                  $price0['Taxes']=$value1;
+                                              }
+                                              if(strcmp($key, "@LatestTicketingTime") == 0){
+                                                  $price0['LatestTicketingTime']=$value1;
+                                              }
+                                              if(strcmp($key, "@TrueLastDateToTicket") == 0){
+                                                  $price0['TrueLastDateToTicket']=$value1;
+                                              }
+                                          }
+                                          }
                                         }
+                                        if(empty($price) && !empty($price0)){
+                                          $price1->push($price0);
+                                        }
+                                    }
+                                    if(!empty($price) ){
+                                      $price1->push($price);
                                     }
                                 }
                             }
@@ -2004,14 +2194,14 @@ class XMlToParseDataController extends Controller
                         
                     }
                     // unvjson7
-                    $unidata->push(['personal_details'=>collect($per_details)]);
+                    $unidata->push(['personal_details'=>collect($per_details1)]);
                     $unidata->push(['journey'=>collect($journey1)]);
-                    $unidata->push(['price'=>collect($price)]);
+                    $unidata->push(['price'=>collect($price1)]);
                     $unidata->push(['UniversalRecord'=>collect($UniversalRecord)]);
                     $unidata->push(['Transaction_details'=>collect($Transaction_details)]);
                 }
             }
-        }
+        }    
         return $unidata;
     }
 }

@@ -72,9 +72,9 @@
                                         <!-- {{print_r($unidata[0])}} -->
                                         @foreach($unidata[0] as $data)
                                         <!-- {{print_r($data)}} -->
-                                        <p>{{$data['First']}} {{$data['Last']}}<br>
-                                        {{$data['Address']}}<br>{{isset($data['Street'])?$data['Street']:''}} <br>{{$data['City']}}<br>{{$data['State']}}<br>{{$searched->Country}}<br>{{$data['PostalCode']}}<br>
-                                            <b>TEL:</b>{{$data['Number']}}
+                                        <p>{{$data[0]['First']}} {{$data[0]['Last']}}<br>
+                                        {{$data[0]['Address']}}<br>{{isset($data[0]['Street'])?$data[0]['Street']:''}} <br>{{$data[0]['City']}}<br>{{$data[0]['State']}}<br>{{$searched->Country}}<br>{{$data[0]['PostalCode']}}<br>
+                                            <b>TEL:</b>{{$data[0]['Number']}}
                                         @endforeach
                                     </div>
                                     <div class="col-md-4 col-6">
@@ -106,9 +106,10 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    
+                                                    @foreach($unidata[0] as $data1)
                                                     <?php $count=1;?>
-                                                    <!-- @for($i=1;$i<=$searched->adults; $i++) -->
-                                                    @foreach($unidata[0] as $data)
+                                                    @foreach($data1 as $data)
                                                     <tr>
                                                         <td>{{$count++}}</td>
                                                         <td>{{$data['TravelerType']}}</td>
@@ -116,7 +117,7 @@
                                                         <td>{{$data['Last']}}</td>
                                                     </tr>
                                                     @endforeach
-                                                    <!-- @endfor -->
+                                                    @endforeach
                                                 </tbody>
                                             </table>
                                         </div>
@@ -194,9 +195,20 @@
                                     <div class="col-md-12">
                                         <h4 class="mt-3"> <b class="float-right"><b>Total: </b>
                                         <span class="text-light-blue">£
-                                            @foreach($unidata[2] as $datas)
-                                            {{number_format(str_replace('GBP','',$datas['TotalPrice'])*$searched->adults,2)}}
-                                            @endforeach
+                                            
+                                            <?php 
+                                            $var_tot=0;
+                                            foreach($unidata[2] as $datas){
+                                                $var_tot+=(str_replace('GBP','',$datas[0]['TotalPrice'])*$searched->adults);
+                                                if(isset($datas[1])){
+                                                $var_tot+=(str_replace('GBP','',$datas[1]['TotalPrice'])*$searched->children);
+                                                }
+                                                if(isset($datas[2])){
+                                                $var_tot+=(str_replace('GBP','',$datas[2]['TotalPrice'])*$searched->infant);
+                                                }
+                                            }
+                                            echo number_format($var_tot,2);
+                                            ?>
                                                     </span></b></h4>
                                     </div>
                                 </div>
@@ -215,9 +227,19 @@
                                             <div class="" style="display:inline-block;">
                                                 <p class="mb-1"> £
 
-                                                @foreach($unidata[2] as $datas)
-                                            {{number_format(str_replace('GBP','',$datas['TotalPrice'])*$searched->adults,2)}}
-                                            @endforeach
+                                                <?php 
+                                            $var_tot=0;
+                                            foreach($unidata[2] as $datas){
+                                                $var_tot+=(str_replace('GBP','',$datas[0]['TotalPrice'])*$searched->adults);
+                                                if(isset($datas[1])){
+                                                $var_tot+=(str_replace('GBP','',$datas[1]['TotalPrice'])*$searched->children);
+                                                }
+                                                if(isset($datas[2])){
+                                                $var_tot+=(str_replace('GBP','',$datas[2]['TotalPrice'])*$searched->infant);
+                                                }
+                                            }
+                                            echo number_format($var_tot,2);
+                                            ?>
                                                 </p>
                                             </div>
 
@@ -227,9 +249,19 @@
                                                 <p class="mb-1"><b>Balance Due:</b></p>
                                             </div>
                                             <div class="" style="display:inline-block;">
-                                                £ @foreach($unidata[2] as $datas)
-                                            {{number_format(str_replace('GBP','',$datas['TotalPrice'])*$searched->adults,2)}}
-                                            @endforeach </div>
+                                                £ <?php 
+                                            $var_tot=0;
+                                            foreach($unidata[2] as $datas){
+                                                $var_tot+=(str_replace('GBP','',$datas[0]['TotalPrice'])*$searched->adults);
+                                                if(isset($datas[1])){
+                                                $var_tot+=(str_replace('GBP','',$datas[1]['TotalPrice'])*$searched->children);
+                                                }
+                                                if(isset($datas[2])){
+                                                $var_tot+=(str_replace('GBP','',$datas[2]['TotalPrice'])*$searched->infant);
+                                                }
+                                            }
+                                            echo number_format($var_tot,2);
+                                            ?> </div>
                                         </div>
 
 

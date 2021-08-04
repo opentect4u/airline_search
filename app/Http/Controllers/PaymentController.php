@@ -3516,6 +3516,7 @@ EOM;
                                 //     <air:BookingInfo BookingCode="'.$BookingInfo[($i+1)]['BookingCode'].'" CabinClass="'.$BookingInfo[($i+1)]['CabinClass'].'" FareInfoRef="'.$BookingInfo[($i+1)]['FareInfoRef'].'" SegmentRef="'.$BookingInfo[($i+1)]['SegmentRef'].'" HostTokenRef="'.$BookingInfo[($i+1)]['HostTokenRef'].'" />
                                 //     ';
                                 // }else{
+                                if(count($journeys)==2){    
                                     $fare_info='<air:FareInfo PromotionalFare="false" Key="'.$FareInfo[($i*2)]['Key'].'" FareFamily="Economy Saver" DepartureDate="'.$FareInfo[($i*2)]['DepartureDate'].'" Amount="'.$FareInfo[($i*2)]['Amount'].'" EffectiveDate="'.$FareInfo[($i*2)]['EffectiveDate'].'" Destination="'.$FareInfo[($i*2)]['Destination'].'" Origin="'.$FareInfo[($i*2)]['Origin'].'" PassengerTypeCode="'.$FareInfo[($i*2)]['PassengerTypeCode'].'" FareBasis="'.$FareInfo[($i*2)]['FareBasis'].'">
                                         <air:FareRuleKey FareInfoRef="'.$FareRuleKey[($i*2)]['FareInfoRef'].'" ProviderCode="'.$FareRuleKey[($i*2)]['ProviderCode'].'">'.$FareRuleKey[($i*2)]['FareRuleKeyValue'].'</air:FareRuleKey>
                                     </air:FareInfo>
@@ -3526,7 +3527,17 @@ EOM;
                                     <air:BookingInfo BookingCode="'.$BookingInfo[(($i*2)+1)]['BookingCode'].'" CabinClass="'.$BookingInfo[(($i*2)+1)]['CabinClass'].'" FareInfoRef="'.$BookingInfo[(($i*2)+1)]['FareInfoRef'].'" SegmentRef="'.$BookingInfo[(($i*2)+1)]['SegmentRef'].'" HostTokenRef="'.$BookingInfo[(($i*2)+1)]['HostTokenRef'].'" />
                                     ';
                                     
-                                // }
+                                }else if(count($journeys)==3){
+                                    $fare_info='<air:FareInfo PromotionalFare="false" Key="'.$FareInfo[($i*3)]['Key'].'" FareFamily="Economy Saver" DepartureDate="'.$FareInfo[($i*3)]['DepartureDate'].'" Amount="'.$FareInfo[($i*3)]['Amount'].'" EffectiveDate="'.$FareInfo[($i*3)]['EffectiveDate'].'" Destination="'.$FareInfo[($i*3)]['Destination'].'" Origin="'.$FareInfo[($i*3)]['Origin'].'" PassengerTypeCode="'.$FareInfo[($i*3)]['PassengerTypeCode'].'" FareBasis="'.$FareInfo[($i*3)]['FareBasis'].'">
+                                    <air:FareRuleKey FareInfoRef="'.$FareRuleKey[($i*3)]['FareInfoRef'].'" ProviderCode="'.$FareRuleKey[($i*3)]['ProviderCode'].'">'.$FareRuleKey[($i*3)]['FareRuleKeyValue'].'</air:FareRuleKey>
+                                </air:FareInfo>
+                                <air:FareInfo PromotionalFare="false" Key="'.$FareInfo[(($i*3)+1)]['Key'].'" FareFamily="Economy Saver" DepartureDate="'.$FareInfo[(($i*3)+1)]['DepartureDate'].'" Amount="'.$FareInfo[(($i*3)+1)]['Amount'].'" EffectiveDate="'.$FareInfo[(($i*3)+1)]['EffectiveDate'].'" Destination="'.$FareInfo[(($i*3)+1)]['Destination'].'" Origin="'.$FareInfo[(($i*3)+1)]['Origin'].'" PassengerTypeCode="'.$FareInfo[(($i*3)+1)]['PassengerTypeCode'].'" FareBasis="'.$FareInfo[(($i*3)+1)]['FareBasis'].'">
+                                    <air:FareRuleKey FareInfoRef="'.$FareRuleKey[(($i*3)+1)]['FareInfoRef'].'" ProviderCode="'.$FareRuleKey[(($i*3)+1)]['ProviderCode'].'">'.$FareRuleKey[(($i*3)+1)]['FareRuleKeyValue'].'</air:FareRuleKey>
+                                </air:FareInfo>
+                                <air:BookingInfo BookingCode="'.$BookingInfo[($i*3)]['BookingCode'].'" CabinClass="'.$BookingInfo[($i*3)]['CabinClass'].'" FareInfoRef="'.$BookingInfo[($i*3)]['FareInfoRef'].'" SegmentRef="'.$BookingInfo[($i*3)]['SegmentRef'].'" HostTokenRef="'.$BookingInfo[($i*3)]['HostTokenRef'].'" />
+                                <air:BookingInfo BookingCode="'.$BookingInfo[(($i*3)+1)]['BookingCode'].'" CabinClass="'.$BookingInfo[(($i*3)+1)]['CabinClass'].'" FareInfoRef="'.$BookingInfo[(($i*3)+1)]['FareInfoRef'].'" SegmentRef="'.$BookingInfo[(($i*3)+1)]['SegmentRef'].'" HostTokenRef="'.$BookingInfo[(($i*3)+1)]['HostTokenRef'].'" />
+                                '; 
+                                }
                                 $var_adtcount='';
                                 if ($i==0) {
                                     for ($j=0; $j < $var_adults; $j++) { 
@@ -3554,18 +3565,18 @@ EOM;
                                 ';
                                 $var_adtcount='';
                                 if ($i==0) {
-                                    for ($j=0; $j < $var_adults; $j++) { 
-                                        $var_adtcount.='<air:PassengerType Code="ADT" />';
+                                    for ($j=1; $j <= $var_adults; $j++) { 
+                                        $var_adtcount.='<air:PassengerType Code="ADT" BookingTravelerRef="ADT'.$j.'" />';
                                     }
                                 }
                                 if($i==1){
-                                    for ($j=0; $j < $var_adults; $j++) { 
-                                        $var_adtcount.='<air:PassengerType Code="CNN"  />';
+                                    for ($j=1; $j <= $var_adults; $j++) { 
+                                        $var_adtcount.='<air:PassengerType Code="CNN" BookingTravelerRef="CNN'.$j.'" />';
                                     } 
                                 }
                                 if($i==2){
-                                    for ($j=0; $j < $var_adults; $j++) { 
-                                        $var_adtcount.='<air:PassengerType Code="INF" />';
+                                    for ($j=1; $j <= $var_adults; $j++) { 
+                                        $var_adtcount.='<air:PassengerType Code="INF" BookingTravelerRef="INF'.$j.'" />';
                                     } 
                                 }
                                 $var2='</air:AirPricingInfo>';
@@ -3619,7 +3630,7 @@ EOM;
                 $gender="F"; 
             }
             // return $request->$title ;
-            $booking_traveler_details.='<com:BookingTraveler TravelerType="ADT" DOB="'.date("Y-m-d",strtotime($request->$date_of_birth)).'" Gender="'.$gender.'" Nationality="IN" xmlns:com="http://www.travelport.com/schema/common_v42_0">
+            $booking_traveler_details.='<com:BookingTraveler Key="ADT'.$j.'" TravelerType="ADT" DOB="'.date("Y-m-d",strtotime($request->$date_of_birth)).'" Gender="'.$gender.'" Nationality="IN" xmlns:com="http://www.travelport.com/schema/common_v42_0">
             <com:BookingTravelerName Prefix="'.$request->$title.'" First="'.$request->$first_name.'" Last="'.$request->$last_name.'"/>
             <com:PhoneNumber Key="" Number="'.$request->mob_no.'" Type="Home" Text="Abc-Xy"/>
             <com:Email Type="Home" EmailID="'.$request->email.'"/>
@@ -3651,11 +3662,11 @@ EOM;
                 $gender="F"; 
             }
 
-            $booking_traveler_details.='<com:BookingTraveler TravelerType="CNN" DOB="'.date("Y-m-d",strtotime($request->$date_of_birth)).'" Gender="'.$gender.'" Nationality="IN" xmlns:com="http://www.travelport.com/schema/common_v42_0">
+            $booking_traveler_details.='<com:BookingTraveler Key="CNN'.$j.'" TravelerType="CNN" DOB="'.date("Y-m-d",strtotime($request->$date_of_birth)).'" Gender="'.$gender.'" Nationality="IN" xmlns:com="http://www.travelport.com/schema/common_v42_0">
             <com:BookingTravelerName Prefix="'.$request->$title.'" First="'.$request->$first_name.'" Last="'.$request->$last_name.'"/>
             <com:PhoneNumber Key="" Number="'.$request->mob_no.'" Type="Home" Text="Abc-Xy"/>
             <com:Email Type="Home" EmailID="'.$request->email.'"/>
-            <com:SSR Key="1" Type="DOCS" Carrier="AI" FreeText=""/>
+            <com:SSR Type="DOCS" Carrier="AI" FreeText=""/>
             <com:Address>
                 <com:AddressName>'.$request->add_1.'</com:AddressName>
                 <com:Street>'.$request->add_2.'</com:Street>
@@ -3682,11 +3693,11 @@ EOM;
             }else{
                 $gender="F"; 
             }
-            $booking_traveler_details.='<com:BookingTraveler TravelerType="INF" DOB="'.date("Y-m-d",strtotime($request->$date_of_birth)).'" Gender="'.$gender.'" Nationality="IN" xmlns:com="http://www.travelport.com/schema/common_v42_0">
+            $booking_traveler_details.='<com:BookingTraveler Key="INF'.$j.'" TravelerType="INF" DOB="'.date("Y-m-d",strtotime($request->$date_of_birth)).'" Gender="'.$gender.'" Nationality="IN" xmlns:com="http://www.travelport.com/schema/common_v42_0">
             <com:BookingTravelerName Prefix="'.$request->$title.'" First="'.$request->$first_name.'" Last="'.$request->$last_name.'"/>
             <com:PhoneNumber Key="" Number="'.$request->mob_no.'" Type="Home" Text="Abc-Xy"/>
             <com:Email Type="Home" EmailID="'.$request->email.'"/>
-            <com:SSR Key="1" Type="DOCS" Carrier="AI" FreeText=""/>
+            <com:SSR Type="DOCS" Carrier="AI" FreeText=""/>
             <com:Address>
                 <com:AddressName>'.$request->add_1.'</com:AddressName>
                 <com:Street>'.$request->add_2.'</com:Street>
@@ -3767,7 +3778,7 @@ EOM;
         $json = new \FluentDOM\Serializer\Json\RabbitFish($dom);
         $object = json_decode($json,true);
         // return $object;
-        $data=[];
+        $data=collect();
         foreach($object as $json1){
             // print_r($json1);
             // echo "<br/><br/>";
@@ -3810,7 +3821,9 @@ EOM;
                                                 if($count2==9){
                                                     // print_r($json6);
                                                     // echo "<br/><br/>";
+                                                    $AirPricingInfo1=collect();
                                                     $AirPricingInfo=[];
+                                                    $AirPricingInfo0=[];
                                                     foreach($json6 as $api => $json7){
                                                         // print_r($json7);
                                                         // echo "<br/><br/>";
@@ -3879,9 +3892,89 @@ EOM;
                                                             }
 
 
+                                                        }else{
+                                                            // print_r($json7);
+                                                            // echo "<br/><br/>";
+                                                           foreach($json7 as $api => $json8) {
+                                                            if(is_string($json8)){
+                                                                // print_r( $api." -- ".$json7); 
+                                                                // echo "<br/><br/>";
+                                                                if(strcmp($api, "@Key") == 0){
+                                                                    $AirPricingInfo0['Key']=$json8;
+                                                                }
+                                                                if(strcmp($api, "@TotalPrice") == 0){
+                                                                    $AirPricingInfo0['TotalPrice']=$json8;
+                                                                }
+                                                                if(strcmp($api, "@BasePrice") == 0){
+                                                                    $AirPricingInfo0['BasePrice']=$json8;
+                                                                }
+                                                                if(strcmp($api, "@ApproximateTotalPrice") == 0){
+                                                                    $AirPricingInfo0['ApproximateTotalPrice']=$json8;
+                                                                }
+                                                                if(strcmp($api, "@ApproximateBasePrice") == 0){
+                                                                    $AirPricingInfo0['ApproximateBasePrice']=$json8;
+                                                                }
+                                                                if(strcmp($api, "@EquivalentBasePrice") == 0){
+                                                                    $AirPricingInfo0['EquivalentBasePrice']=$json8;
+                                                                }
+                                                                if(strcmp($api, "@Taxes") == 0){
+                                                                    $AirPricingInfo0['Taxes']=$json8;
+                                                                }
+                                                                if(strcmp($api, "@LatestTicketingTime") == 0){
+                                                                    $AirPricingInfo0['LatestTicketingTime']=$json8;
+                                                                }
+                                                                if(strcmp($api, "@TrueLastDateToTicket") == 0){
+                                                                    $AirPricingInfo0['TrueLastDateToTicket']=$json8;
+                                                                }
+                                                                if(strcmp($api, "@PricingMethod") == 0){
+                                                                    $AirPricingInfo0['PricingMethod']=$json8;
+                                                                }
+                                                                if(strcmp($api, "@Refundable") == 0){
+                                                                    $AirPricingInfo0['Refundable']=$json8;
+                                                                }
+                                                                if(strcmp($api, "@Exchangeable") == 0){
+                                                                    $AirPricingInfo0['Exchangeable']=$json8;
+                                                                }
+                                                                if(strcmp($api, "@IncludesVAT") == 0){
+                                                                    $AirPricingInfo0['IncludesVAT']=$json8;
+                                                                }
+                                                                if(strcmp($api, "@ETicketability") == 0){
+                                                                    $AirPricingInfo0['ETicketability']=$json8;
+                                                                }
+                                                                if(strcmp($api, "@ProviderCode") == 0){
+                                                                    $AirPricingInfo0['ProviderCode']=$json8;
+                                                                }
+                                                                if(strcmp($api, "@ProviderReservationInfoRef") == 0){
+                                                                    $AirPricingInfo0['ProviderReservationInfoRef']=$json8;
+                                                                }
+                                                                if(strcmp($api, "@AirPricingInfoGroup") == 0){
+                                                                    $AirPricingInfo0['AirPricingInfoGroup']=$json8;
+                                                                }
+                                                                if(strcmp($api, "@PricingType") == 0){
+                                                                    $AirPricingInfo0['PricingType']=$json8;
+                                                                }
+                                                                if(strcmp($api, "@ElStat") == 0){
+                                                                    $AirPricingInfo0['ElStat']=$json8;
+                                                                }
+                                                                if(strcmp($api, "@FareCalculationInd") == 0){
+                                                                    $AirPricingInfo0['FareCalculationInd']=$json8;
+                                                                }
+    
+    
+                                                            }
+                                                           }
+
+                                                        }
+                                                        if(empty($AirPricingInfo) && !empty($AirPricingInfo0)){
+                                                            $AirPricingInfo1->push($AirPricingInfo0);
                                                         }
                                                     }
-                                                    $data['AirPricingInfo']=$AirPricingInfo;
+                                                    if(!empty($AirPricingInfo)){
+                                                        $AirPricingInfo1->push($AirPricingInfo);
+                                                    }
+                                                    // $data(['AirPricingInfo']=$AirPricingInfo;
+                                                    $data->push(['AirPricingInfo'=>collect($AirPricingInfo1)]);
+
                                                 }
                                                 $count2++;
                                             } 
@@ -3898,15 +3991,24 @@ EOM;
             }
         }
         // return $data;
-        // return $data['AirPricingInfo']['Key'];
+        // return $data[0];
         // echo $data['UniversalRecord']." <br/>";
+        $AirPricingInfoRef='';
+        foreach($data[0] as $datas){
+            foreach($datas as $datas1){
+                // echo $datas1['Key'];
+                $AirPricingInfoRef.='<air:AirPricingInfoRef Key="'.$datas1['Key'].'" />';
+            }
+        }
+        // print_r($data[0]);
+        // return $data[0];
 
         $query = '<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
         <soap:Body>
             <air:AirTicketingReq AuthorizedBy="user" TargetBranch="'.$TARGETBRANCH.'" TraceId="trace" xmlns:air="http://www.travelport.com/schema/air_v42_0">
             <BillingPointOfSaleInfo OriginApplication="UAPI" xmlns="http://www.travelport.com/schema/common_v42_0"/>
             <air:AirReservationLocatorCode>'.$data['AirReservation'].'</air:AirReservationLocatorCode>
-            <air:AirPricingInfoRef Key="'.$data['AirPricingInfo']['Key'].'" />
+            '.$AirPricingInfoRef.'
             </air:AirTicketingReq>   
         </soap:Body>
     </soap:Envelope>';
@@ -4044,6 +4146,7 @@ EOM;
         $object2 =app('App\Http\Controllers\XMlToParseDataController')->XMlToJSON($return2);
         $unidata =app('App\Http\Controllers\XMlToParseDataController')->UniversalRecord($object2);
 
+        // return $unidata;
         // return $data;
         // return $request;
         return view('flights.confirm-booking',[
