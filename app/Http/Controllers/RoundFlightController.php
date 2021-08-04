@@ -132,12 +132,8 @@ EOM;
         $return_return = curl_exec($soap_do);
         curl_close($soap_do);
         // return $return;
-        $return_dom = new \DOMDocument();
-        $return_dom->loadXML($return_return);
-        $return_json = new \FluentDOM\Serializer\Json\RabbitFish($return_dom);
-        $return_object = json_decode($return_json,true);
-        // return $return_object;
-        // $return_data=$this->XMLData($return_object,$request);
+        $return_object =app('App\Http\Controllers\XMlToParseDataController')->XMlToJSON($return_return);
+        // return $object;
         $return_data =app('App\Http\Controllers\XMlToParseDataController')->AirPrice($return_object);
         
         // return $return_data;

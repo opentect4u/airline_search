@@ -15,10 +15,27 @@
             </div>
             <div class="col-lg-12">
                 <div class="card align-items-center">
+                    @if(isset($unidata))
+                    @if(count($unidata)>0)
                     <img src="{{ asset('public/images/done.gif') }}" alt="done" style="width:120px;" class="img-fluid m-auto" />
                     <h1 class="font-weight-600 mt-4">Thank You</h1>
                     <h4>You successfully created your booking</h4>
-
+                    @else
+                    <img src="{{ asset('public/images/dne.gif') }}" alt="failed" style="width:120px;" class="img-fluid m-auto" />
+                    <h1 class="font-weight-600 mt-4">Booking Failed</h1>
+                    <h4>Booking Failed</h4>
+                    @endif
+                    @elseif(isset($return_unidata))
+                    @if(count($return_unidata)>0)
+                    <img src="{{ asset('public/images/done.gif') }}" alt="done" style="width:120px;" class="img-fluid m-auto" />
+                    <h1 class="font-weight-600 mt-4">Thank You</h1>
+                    <h4>You successfully created your booking</h4>
+                    @else
+                    <img src="{{ asset('public/images/dne.gif') }}" alt="failed" style="width:120px;" class="img-fluid m-auto" />
+                    <h1 class="font-weight-600 mt-4">Booking Failed</h1>
+                    <h4>Booking Failed</h4>
+                    @endif
+                    @endif
                     <section class="content">
                         <div class="outer-div">
                             <div class="container outer-div-inner">
@@ -270,6 +287,7 @@
                                 </div>
                                 <hr>
                                 @elseif(isset($return_unidata))
+                                @if(count($return_unidata)>0)
                                 <div class="row">
                                     <div class="col-md-4 responsive-center">
 
@@ -299,9 +317,9 @@
                                         <h3>To</h3>
                                         @foreach($return_unidata[0] as $data)
                                         <!-- {{print_r($data)}} -->
-                                        <p>{{$data['First']}} {{$data['Last']}}<br>
-                                        {{$data['Address']}}<br>{{$data['street']}}, {{$data['street1']}}<br>{{$data['City']}}<br>{{$data['State']}}<br>{{$return_searched->Country}}<br>{{$data['PostalCode']}}<br>
-                                            <b>TEL:</b>{{$data['Number']}}
+                                        <p>{{$data[0]['First']}} {{$data[0]['Last']}}<br>
+                                        {{$data[0]['Address']}}<br>{{isset($data[0]['Street'])?$data[0]['Street']:''}} <br>{{$data[0]['City']}}<br>{{$data[0]['State']}}<br>{{$return_searched->Country}}<br>{{$data[0]['PostalCode']}}<br>
+                                            <b>TEL:</b>{{$data[0]['Number']}}
                                         @endforeach
                                     </div>
                                     <div class="col-md-4 col-6">
@@ -333,14 +351,17 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    
+                                                    @foreach($return_unidata[0] as $data11)
                                                     <?php $count=1;?>
-                                                    @foreach($return_unidata[0] as $data)
+                                                    @foreach($data11 as $data)
                                                     <tr>
                                                         <td>{{$count++}}</td>
                                                         <td>{{$data['TravelerType']}}</td>
                                                         <td>{{$data['First']}}</td>
                                                         <td>{{$data['Last']}}</td>
                                                     </tr>
+                                                    @endforeach
                                                     @endforeach
                                                 </tbody>
                                             </table>
@@ -367,9 +388,9 @@
 
 
                                     </div>
-                                    <div class="col-md-12">
+                                    <!-- <div class="col-md-12">
                                         <h3>Outbound Journey</h3>
-                                    </div>
+                                    </div> -->
                                     <div class="col-md-12">
                                         <div class="table-responsive">
                                             <table class="table ">
@@ -387,9 +408,8 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach($return_unidata[1] as $unidatas)
-                                                    @foreach($unidatas[0] as $unidatass)
-                                                    @foreach($unidatass as $datas)
+                                                    @foreach($return_unidata[1] as $datas1)
+                                                    @foreach($datas1 as $datas)
                                                     <!-- {{print_r($datas)}} -->
                                                     <tr>
                                                         <td>{{$datas['Carrier']}}
@@ -400,7 +420,7 @@
                                                             <!-- United Kingdom <br> -->
 
                                                             {{$datas['DepartureTime']}}<br>
-                                                            TERMINAL :- {{$datas['OriginTerminal']}}
+                                                            TERMINAL :- {{isset($datas['OriginTerminal'])?$datas['OriginTerminal']:'*'}}
                                                         </td>
                                                         <td>{{$datas['Destination']}}<br>
                                                             <!-- india<br> -->
@@ -414,70 +434,31 @@
                                                     </tr>
                                                     @endforeach
                                                     @endforeach
-                                                    @endforeach
                                                 </tbody>
                                             </table>
                                         </div>
                                     </div>
-                                    <div class="col-md-12">
+                                    <!-- <div class="col-md-12">
                                         <h3>Inbound Journey</h3>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="table-responsive">
-                                            <table class="table ">
-                                                <thead class="table-primary">
-                                                    <tr class="invoice-table">
-                                                        <th>Airline</th>
-                                                        <th>Departure</th>
-                                                        <th>Arrival</th>
-
-                                                        <th>Class</th>
-                                                        <th>Baggage</th>
-                                                        <th>Duration</th>
-                                                        <th>Stops</th>
-
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach($return_unidata[1] as $unidatas)
-                                                    @foreach($unidatas[1] as $unidatass)
-                                                    @foreach($unidatass as $datas)
-                                                    <!-- {{print_r($datas)}} -->
-                                                    <tr>
-                                                        <td>{{$datas['Carrier']}}
-                                                            <br>
-                                                            FLIGHT NO :- {{$datas['Carrier'].$datas['FlightNumber']}}
-                                                        </td>
-                                                        <td>{{$datas['Origin']}}<br>
-                                                            <!-- United Kingdom <br> -->
-
-                                                            {{$datas['DepartureTime']}}<br>
-                                                            TERMINAL :- {{$datas['OriginTerminal']}}
-                                                        </td>
-                                                        <td>{{$datas['Destination']}}<br>
-                                                            <!-- india<br> -->
-                                                            {{$datas['ArrivalTime']}}<br>
-                                                            TERMINAL :- {{isset($datas['DestinationTerminal'])?$datas['DestinationTerminal']:'*'}}
-                                                        </td>
-                                                        <td>{{$datas['CabinClass']}}</td>
-                                                        <td></td>
-                                                        <td>0</td>
-                                                        <td>0</td>
-                                                    </tr>
-                                                    @endforeach
-                                                    @endforeach
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
+                                    </div> -->
+                                   
 
                                     <div class="col-md-12">
                                         <h4 class="mt-3"> <b class="float-right"><b>Total: </b>
                                         <span class="text-light-blue">£
-                                            @foreach($return_unidata[2] as $datas)
-                                            {{number_format(str_replace('GBP','',$datas['TotalPrice'])*$return_searched->adults,2)}}
-                                            @endforeach
+                                        <?php 
+                                            $var_tot=0;
+                                            foreach($return_unidata[2] as $datas){
+                                                $var_tot+=(str_replace('GBP','',$datas[0]['TotalPrice'])*$return_searched->adults);
+                                                if(isset($datas[1])){
+                                                $var_tot+=(str_replace('GBP','',$datas[1]['TotalPrice'])*$return_searched->children);
+                                                }
+                                                if(isset($datas[2])){
+                                                $var_tot+=(str_replace('GBP','',$datas[2]['TotalPrice'])*$return_searched->infant);
+                                                }
+                                            }
+                                            echo number_format($var_tot,2);
+                                            ?>
                                                     </span></b></h4>
                                     </div>
                                 </div>
@@ -496,9 +477,19 @@
                                             <div class="" style="display:inline-block;">
                                                 <p class="mb-1"> £
 
-                                                @foreach($return_unidata[2] as $datas)
-                                            {{number_format(str_replace('GBP','',$datas['TotalPrice'])*$return_searched->adults,2)}}
-                                            @endforeach
+                                                <?php 
+                                            $var_tot=0;
+                                            foreach($return_unidata[2] as $datas){
+                                                $var_tot+=(str_replace('GBP','',$datas[0]['TotalPrice'])*$return_searched->adults);
+                                                if(isset($datas[1])){
+                                                $var_tot+=(str_replace('GBP','',$datas[1]['TotalPrice'])*$return_searched->children);
+                                                }
+                                                if(isset($datas[2])){
+                                                $var_tot+=(str_replace('GBP','',$datas[2]['TotalPrice'])*$return_searched->infant);
+                                                }
+                                            }
+                                            echo number_format($var_tot,2);
+                                            ?>
                                                 </p>
                                             </div>
 
@@ -508,9 +499,19 @@
                                                 <p class="mb-1"><b>Balance Due:</b></p>
                                             </div>
                                             <div class="" style="display:inline-block;">
-                                                £ @foreach($return_unidata[2] as $datas)
-                                            {{number_format(str_replace('GBP','',$datas['TotalPrice'])*$return_searched->adults,2)}}
-                                            @endforeach </div>
+                                                £ <?php 
+                                            $var_tot=0;
+                                            foreach($return_unidata[2] as $datas){
+                                                $var_tot+=(str_replace('GBP','',$datas[0]['TotalPrice'])*$return_searched->adults);
+                                                if(isset($datas[1])){
+                                                $var_tot+=(str_replace('GBP','',$datas[1]['TotalPrice'])*$return_searched->children);
+                                                }
+                                                if(isset($datas[2])){
+                                                $var_tot+=(str_replace('GBP','',$datas[2]['TotalPrice'])*$return_searched->infant);
+                                                }
+                                            }
+                                            echo number_format($var_tot,2);
+                                            ?> </div>
                                         </div>
 
 
@@ -518,6 +519,7 @@
 
                                 </div>
                                 <hr>
+                                @endif
                                 @endif
                                 <br>
                                 <div class="row">

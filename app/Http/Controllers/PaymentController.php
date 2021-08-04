@@ -114,7 +114,7 @@ EOM;
                     '.$datasegment.'
                   </air:AirItinerary>
                   <air:AirPricingModifiers/>
-                  <com:SearchPassenger Key="1" Code="ADT" xmlns:com="http://www.travelport.com/schema/common_v42_0"/>
+                  '.$travel_details.'
                   <air:AirPricingCommand/>
                </air:AirPriceReq>
             </soap:Body>
@@ -143,7 +143,9 @@ EOM;
             // return $return;
             $object =app('App\Http\Controllers\XMlToParseDataController')->XMlToJSON($return);
             // return $object;
-            $flight_data=$this->XMLData_Round($object);
+            // $flight_data=$this->XMLData_Round($object);
+            $flight_data =app('App\Http\Controllers\XMlToParseDataController')->AirPrice($object);
+            
             // return $flight_data;
             
             return view('flights.payment',[
@@ -3991,6 +3993,17 @@ EOM;
             }
         }
         // return $data;
+        if(count($data)==0){
+            // return "hii";
+            $unidata=[];
+            $alldetails=[];
+            return view('flights.confirm-booking',[
+                'searched'=>$request,
+                'airreservation'=>$data,
+                'airticketing'=>$alldetails,
+                'unidata'=>$unidata
+            ]);
+        }
         // return $data[0];
         // echo $data['UniversalRecord']." <br/>";
         $AirPricingInfoRef='';
