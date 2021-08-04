@@ -1519,11 +1519,27 @@
                 // alert(obj.baggageallowanceinfo);
                 $('#loading_small').hide();
                 $('#loading_small').empty();
-                var changepenalty='<i class="las la-pound-sign"></i>'+obj.changepenalty.replace('GBP','');
-                var cancelpenalty='<i class="las la-pound-sign"></i>'+obj.cancelpenalty.replace('GBP','');
-                var baggageallowanceinfo=obj.baggageallowanceinfo+"gs";
-                var carryonallowanceinfo=obj.carryonallowanceinfo+"gs";
-                
+                if(obj.changepenalty!=''){
+                    var changepenalty='<i class="las la-pound-sign"></i>'+obj.changepenalty.replace('GBP','');
+                }else{
+                    var changepenalty='';
+                }
+                if(obj.cancelpenalty!=''){
+                    var cancelpenalty='<i class="las la-pound-sign"></i>'+obj.cancelpenalty.replace('GBP','');
+                }else{
+                    var cancelpenalty='';
+                }
+                if(obj.baggageallowanceinfo!=''){
+                    var baggageallowanceinfo=obj.baggageallowanceinfo+"gs";
+                }else{
+                    var baggageallowanceinfo='';
+                }
+                if(obj.carryonallowanceinfo!=''){
+                    var carryonallowanceinfo=obj.carryonallowanceinfo+"gs";
+                }else{
+                    var carryonallowanceinfo='';
+                }
+
                 $("#cancellation"+count).append(cancelpenalty);
                 $("#reschedule"+count).append(changepenalty);
                 $("#checkIn"+count).append(baggageallowanceinfo);
