@@ -3485,6 +3485,8 @@ EOM;
                 // ';
             }
         }
+        // return count($journeys);
+
         // AirPricingInfo 
         // return $flight;
         $var_adults=$request->adults;
@@ -3500,31 +3502,75 @@ EOM;
                     foreach($flight[5] as $FareRuleKey){
                         // BookingInfo 
                         foreach($flight[6] as $BookingInfo){
-                               
-                            $var1='<air:AirPricingInfo PricingMethod="Auto" Key="'.$AirPricingInfo[$i]['Key'].'" TotalPrice="'.$AirPricingInfo[$i]['TotalPrice'].'" BasePrice="'.$AirPricingInfo[$i]['BasePrice'].'" ApproximateTotalPrice="'.$AirPricingInfo[$i]['ApproximateTotalPrice'].'" ApproximateBasePrice="'.$AirPricingInfo[$i]['ApproximateBasePrice'].'" Taxes="'.$AirPricingInfo[$i]['Taxes'].'" ProviderCode="'.$AirPricingInfo[$i]['ProviderCode'].'">
-                            <air:FareInfo PromotionalFare="false" Key="'.$FareInfo[$i]['Key'].'" FareFamily="Economy Saver" DepartureDate="'.$FareInfo[$i]['DepartureDate'].'" Amount="'.$FareInfo[$i]['Amount'].'" EffectiveDate="'.$FareInfo[$i]['EffectiveDate'].'" Destination="'.$FareInfo[$i]['Destination'].'" Origin="'.$FareInfo[$i]['Origin'].'" PassengerTypeCode="'.$FareInfo[$i]['PassengerTypeCode'].'" FareBasis="'.$FareInfo[$i]['FareBasis'].'">
-                                <air:FareRuleKey FareInfoRef="'.$FareRuleKey[$i]['FareInfoRef'].'" ProviderCode="'.$FareRuleKey[$i]['ProviderCode'].'">'.$FareRuleKey[$i]['FareRuleKeyValue'].'</air:FareRuleKey>
-                            </air:FareInfo>
-                            <air:BookingInfo BookingCode="'.$BookingInfo[$i]['BookingCode'].'" CabinClass="'.$BookingInfo[$i]['CabinClass'].'" FareInfoRef="'.$BookingInfo[$i]['FareInfoRef'].'" SegmentRef="'.$BookingInfo[$i]['SegmentRef'].'" HostTokenRef="'.$BookingInfo[$i]['HostTokenRef'].'" />
-                            ';
-                            $var_adtcount='';
-                            if ($i==0) {
-                                for ($j=0; $j < $var_adults; $j++) { 
-                                    $var_adtcount.='<air:PassengerType Code="ADT" />';
+                            if(count($journeys)>1) {
+                                // return "hii";
+                                $var1='<air:AirPricingInfo PricingMethod="Auto" Key="'.$AirPricingInfo[$i]['Key'].'" TotalPrice="'.$AirPricingInfo[$i]['TotalPrice'].'" BasePrice="'.$AirPricingInfo[$i]['BasePrice'].'" ApproximateTotalPrice="'.$AirPricingInfo[$i]['ApproximateTotalPrice'].'" ApproximateBasePrice="'.$AirPricingInfo[$i]['ApproximateBasePrice'].'" Taxes="'.$AirPricingInfo[$i]['Taxes'].'" ProviderCode="'.$AirPricingInfo[$i]['ProviderCode'].'">';
+                                // if($i==0){
+                                //     $fare_info='<air:FareInfo PromotionalFare="false" Key="'.$FareInfo[$i]['Key'].'" FareFamily="Economy Saver" DepartureDate="'.$FareInfo[$i]['DepartureDate'].'" Amount="'.$FareInfo[$i]['Amount'].'" EffectiveDate="'.$FareInfo[$i]['EffectiveDate'].'" Destination="'.$FareInfo[$i]['Destination'].'" Origin="'.$FareInfo[$i]['Origin'].'" PassengerTypeCode="'.$FareInfo[$i]['PassengerTypeCode'].'" FareBasis="'.$FareInfo[$i]['FareBasis'].'">
+                                //         <air:FareRuleKey FareInfoRef="'.$FareRuleKey[$i]['FareInfoRef'].'" ProviderCode="'.$FareRuleKey[$i]['ProviderCode'].'">'.$FareRuleKey[$i]['FareRuleKeyValue'].'</air:FareRuleKey>
+                                //     </air:FareInfo>
+                                //     <air:FareInfo PromotionalFare="false" Key="'.$FareInfo[($i+1)]['Key'].'" FareFamily="Economy Saver" DepartureDate="'.$FareInfo[($i+1)]['DepartureDate'].'" Amount="'.$FareInfo[($i+1)]['Amount'].'" EffectiveDate="'.$FareInfo[($i+1)]['EffectiveDate'].'" Destination="'.$FareInfo[($i+1)]['Destination'].'" Origin="'.$FareInfo[($i+1)]['Origin'].'" PassengerTypeCode="'.$FareInfo[($i+1)]['PassengerTypeCode'].'" FareBasis="'.$FareInfo[($i+1)]['FareBasis'].'">
+                                //         <air:FareRuleKey FareInfoRef="'.$FareRuleKey[($i+1)]['FareInfoRef'].'" ProviderCode="'.$FareRuleKey[($i+1)]['ProviderCode'].'">'.$FareRuleKey[($i+1)]['FareRuleKeyValue'].'</air:FareRuleKey>
+                                //     </air:FareInfo>
+                                //     <air:BookingInfo BookingCode="'.$BookingInfo[$i]['BookingCode'].'" CabinClass="'.$BookingInfo[$i]['CabinClass'].'" FareInfoRef="'.$BookingInfo[$i]['FareInfoRef'].'" SegmentRef="'.$BookingInfo[$i]['SegmentRef'].'" HostTokenRef="'.$BookingInfo[$i]['HostTokenRef'].'" />
+                                //     <air:BookingInfo BookingCode="'.$BookingInfo[($i+1)]['BookingCode'].'" CabinClass="'.$BookingInfo[($i+1)]['CabinClass'].'" FareInfoRef="'.$BookingInfo[($i+1)]['FareInfoRef'].'" SegmentRef="'.$BookingInfo[($i+1)]['SegmentRef'].'" HostTokenRef="'.$BookingInfo[($i+1)]['HostTokenRef'].'" />
+                                //     ';
+                                // }else{
+                                    $fare_info='<air:FareInfo PromotionalFare="false" Key="'.$FareInfo[($i*2)]['Key'].'" FareFamily="Economy Saver" DepartureDate="'.$FareInfo[($i*2)]['DepartureDate'].'" Amount="'.$FareInfo[($i*2)]['Amount'].'" EffectiveDate="'.$FareInfo[($i*2)]['EffectiveDate'].'" Destination="'.$FareInfo[($i*2)]['Destination'].'" Origin="'.$FareInfo[($i*2)]['Origin'].'" PassengerTypeCode="'.$FareInfo[($i*2)]['PassengerTypeCode'].'" FareBasis="'.$FareInfo[($i*2)]['FareBasis'].'">
+                                        <air:FareRuleKey FareInfoRef="'.$FareRuleKey[($i*2)]['FareInfoRef'].'" ProviderCode="'.$FareRuleKey[($i*2)]['ProviderCode'].'">'.$FareRuleKey[($i*2)]['FareRuleKeyValue'].'</air:FareRuleKey>
+                                    </air:FareInfo>
+                                    <air:FareInfo PromotionalFare="false" Key="'.$FareInfo[(($i*2)+1)]['Key'].'" FareFamily="Economy Saver" DepartureDate="'.$FareInfo[(($i*2)+1)]['DepartureDate'].'" Amount="'.$FareInfo[(($i*2)+1)]['Amount'].'" EffectiveDate="'.$FareInfo[(($i*2)+1)]['EffectiveDate'].'" Destination="'.$FareInfo[(($i*2)+1)]['Destination'].'" Origin="'.$FareInfo[(($i*2)+1)]['Origin'].'" PassengerTypeCode="'.$FareInfo[(($i*2)+1)]['PassengerTypeCode'].'" FareBasis="'.$FareInfo[(($i*2)+1)]['FareBasis'].'">
+                                        <air:FareRuleKey FareInfoRef="'.$FareRuleKey[(($i*2)+1)]['FareInfoRef'].'" ProviderCode="'.$FareRuleKey[(($i*2)+1)]['ProviderCode'].'">'.$FareRuleKey[(($i*2)+1)]['FareRuleKeyValue'].'</air:FareRuleKey>
+                                    </air:FareInfo>
+                                    <air:BookingInfo BookingCode="'.$BookingInfo[($i*2)]['BookingCode'].'" CabinClass="'.$BookingInfo[($i*2)]['CabinClass'].'" FareInfoRef="'.$BookingInfo[($i*2)]['FareInfoRef'].'" SegmentRef="'.$BookingInfo[($i*2)]['SegmentRef'].'" HostTokenRef="'.$BookingInfo[($i*2)]['HostTokenRef'].'" />
+                                    <air:BookingInfo BookingCode="'.$BookingInfo[(($i*2)+1)]['BookingCode'].'" CabinClass="'.$BookingInfo[(($i*2)+1)]['CabinClass'].'" FareInfoRef="'.$BookingInfo[(($i*2)+1)]['FareInfoRef'].'" SegmentRef="'.$BookingInfo[(($i*2)+1)]['SegmentRef'].'" HostTokenRef="'.$BookingInfo[(($i*2)+1)]['HostTokenRef'].'" />
+                                    ';
+                                    
+                                // }
+                                $var_adtcount='';
+                                if ($i==0) {
+                                    for ($j=0; $j < $var_adults; $j++) { 
+                                        $var_adtcount.='<air:PassengerType Code="ADT" />';
+                                    }
                                 }
+                                if($i==1){
+                                    for ($j=0; $j < $var_adults; $j++) { 
+                                        $var_adtcount.='<air:PassengerType Code="CNN"  />';
+                                    } 
+                                }
+                                if($i==2){
+                                    for ($j=0; $j < $var_adults; $j++) { 
+                                        $var_adtcount.='<air:PassengerType Code="INF" />';
+                                    } 
+                                }
+                                $var2='</air:AirPricingInfo>';
+                                $var_AirPricingInfo_FareInfo_FareRuleKey_BookingInfo.=$var1.$fare_info.$var_adtcount.$var2;
+                            }else{
+                                $var1='<air:AirPricingInfo PricingMethod="Auto" Key="'.$AirPricingInfo[$i]['Key'].'" TotalPrice="'.$AirPricingInfo[$i]['TotalPrice'].'" BasePrice="'.$AirPricingInfo[$i]['BasePrice'].'" ApproximateTotalPrice="'.$AirPricingInfo[$i]['ApproximateTotalPrice'].'" ApproximateBasePrice="'.$AirPricingInfo[$i]['ApproximateBasePrice'].'" Taxes="'.$AirPricingInfo[$i]['Taxes'].'" ProviderCode="'.$AirPricingInfo[$i]['ProviderCode'].'">
+                                <air:FareInfo PromotionalFare="false" Key="'.$FareInfo[$i]['Key'].'" FareFamily="Economy Saver" DepartureDate="'.$FareInfo[$i]['DepartureDate'].'" Amount="'.$FareInfo[$i]['Amount'].'" EffectiveDate="'.$FareInfo[$i]['EffectiveDate'].'" Destination="'.$FareInfo[$i]['Destination'].'" Origin="'.$FareInfo[$i]['Origin'].'" PassengerTypeCode="'.$FareInfo[$i]['PassengerTypeCode'].'" FareBasis="'.$FareInfo[$i]['FareBasis'].'">
+                                    <air:FareRuleKey FareInfoRef="'.$FareRuleKey[$i]['FareInfoRef'].'" ProviderCode="'.$FareRuleKey[$i]['ProviderCode'].'">'.$FareRuleKey[$i]['FareRuleKeyValue'].'</air:FareRuleKey>
+                                </air:FareInfo>
+                                <air:BookingInfo BookingCode="'.$BookingInfo[$i]['BookingCode'].'" CabinClass="'.$BookingInfo[$i]['CabinClass'].'" FareInfoRef="'.$BookingInfo[$i]['FareInfoRef'].'" SegmentRef="'.$BookingInfo[$i]['SegmentRef'].'" HostTokenRef="'.$BookingInfo[$i]['HostTokenRef'].'" />
+                                ';
+                                $var_adtcount='';
+                                if ($i==0) {
+                                    for ($j=0; $j < $var_adults; $j++) { 
+                                        $var_adtcount.='<air:PassengerType Code="ADT" />';
+                                    }
+                                }
+                                if($i==1){
+                                    for ($j=0; $j < $var_adults; $j++) { 
+                                        $var_adtcount.='<air:PassengerType Code="CNN"  />';
+                                    } 
+                                }
+                                if($i==2){
+                                    for ($j=0; $j < $var_adults; $j++) { 
+                                        $var_adtcount.='<air:PassengerType Code="INF" />';
+                                    } 
+                                }
+                                $var2='</air:AirPricingInfo>';
+                                $var_AirPricingInfo_FareInfo_FareRuleKey_BookingInfo.=$var1.$var_adtcount.$var2;
                             }
-                            if($i==1){
-                                for ($j=0; $j < $var_adults; $j++) { 
-                                    $var_adtcount.='<air:PassengerType Code="CNN"  />';
-                                } 
-                            }
-                            if($i==2){
-                                for ($j=0; $j < $var_adults; $j++) { 
-                                    $var_adtcount.='<air:PassengerType Code="INF" />';
-                                } 
-                            }
-                            $var2='</air:AirPricingInfo>';
-                            $var_AirPricingInfo_FareInfo_FareRuleKey_BookingInfo.=$var1.$var_adtcount.$var2;
                         }
                     }
                 }
@@ -3598,8 +3644,15 @@ EOM;
             $seating = "children_seating".$j;
             $assistance = "children_assistance".$j;
             $meal = "children_meal".$j;
-            $booking_traveler_details.='<com:BookingTraveler TravelerType="CNN" DOB="'.date("Y-m-d",strtotime($request->date_of_birth1)).'" Gender="'.$gender.'" Nationality="IN" xmlns:com="http://www.travelport.com/schema/common_v42_0">
-            <com:BookingTravelerName Prefix="'.$request->title1.'" First="'.$request->first_name1.'" Last="'.$request->last_name1.'"/>
+
+            if ($request->gender=="Male") {
+                $gender="M";
+            }else{
+                $gender="F"; 
+            }
+
+            $booking_traveler_details.='<com:BookingTraveler TravelerType="CNN" DOB="'.date("Y-m-d",strtotime($request->$date_of_birth)).'" Gender="'.$gender.'" Nationality="IN" xmlns:com="http://www.travelport.com/schema/common_v42_0">
+            <com:BookingTravelerName Prefix="'.$request->$title.'" First="'.$request->$first_name.'" Last="'.$request->$last_name.'"/>
             <com:PhoneNumber Key="" Number="'.$request->mob_no.'" Type="Home" Text="Abc-Xy"/>
             <com:Email Type="Home" EmailID="'.$request->email.'"/>
             <com:SSR Key="1" Type="DOCS" Carrier="AI" FreeText=""/>
@@ -3615,8 +3668,22 @@ EOM;
             </com:BookingTraveler>';
         } 
         for ($j=1; $j <= $var_infant; $j++) { 
-            $booking_traveler_details.='<com:BookingTraveler TravelerType="INF" DOB="'.date("Y-m-d",strtotime($request->date_of_birth1)).'" Gender="'.$gender.'" Nationality="IN" xmlns:com="http://www.travelport.com/schema/common_v42_0">
-            <com:BookingTravelerName Prefix="'.$request->title1.'" First="'.$request->first_name1.'" Last="'.$request->last_name1.'"/>
+            $title = "infant_title".$j;
+            $first_name = "infant_first_name".$j;
+            $last_name = "infant_last_name".$j;
+            $gender = "infant_gender".$j;
+            $date_of_birth = "infant_date_of_birth".$j;
+            $seating = "infant_seating".$j;
+            $assistance = "infant_assistance".$j;
+            $meal = "infant_meal".$j;
+
+            if ($request->gender=="Male") {
+                $gender="M";
+            }else{
+                $gender="F"; 
+            }
+            $booking_traveler_details.='<com:BookingTraveler TravelerType="INF" DOB="'.date("Y-m-d",strtotime($request->$date_of_birth)).'" Gender="'.$gender.'" Nationality="IN" xmlns:com="http://www.travelport.com/schema/common_v42_0">
+            <com:BookingTravelerName Prefix="'.$request->$title.'" First="'.$request->$first_name.'" Last="'.$request->$last_name.'"/>
             <com:PhoneNumber Key="" Number="'.$request->mob_no.'" Type="Home" Text="Abc-Xy"/>
             <com:Email Type="Home" EmailID="'.$request->email.'"/>
             <com:SSR Key="1" Type="DOCS" Carrier="AI" FreeText=""/>

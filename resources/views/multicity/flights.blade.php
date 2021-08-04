@@ -808,7 +808,7 @@
         // var flight5_date=$('#flight5_date').val();
         
         // alert(from3);
-        if(from3=='' && to3=='' && flight2_date==''){
+        if(from3=='' || to3=='' || flight2_date==''){
             $('#3rdFlight').hide();
         }else{
             $("#3rdFlight").attr("data-show-value", "1");

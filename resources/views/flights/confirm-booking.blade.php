@@ -171,12 +171,12 @@
                                                             <!-- United Kingdom <br> -->
 
                                                             {{$datas['DepartureTime']}}<br>
-                                                            TERMINAL :- {{$datas['OriginTerminal']}}
+                                                            TERMINAL :- {{isset($datas['OriginTerminal'])?$datas['OriginTerminal']:'*'}}
                                                         </td>
                                                         <td>{{$datas['Destination']}}<br>
                                                             <!-- india<br> -->
                                                             {{$datas['ArrivalTime']}}<br>
-                                                            TERMINAL :- {{isset($datas['DestinationTerminal'])?$datas['DestinationTerminal']:''}}
+                                                            TERMINAL :- {{isset($datas['DestinationTerminal'])?$datas['DestinationTerminal']:'*'}}
                                                         </td>
                                                         <td>{{$datas['CabinClass']}}</td>
                                                         <td></td>
