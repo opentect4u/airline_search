@@ -3478,6 +3478,11 @@ EOM;
                 <air:FlightDetails Key="" Origin="'.$journeys[$i]['Origin'].'" Destination="'.$journeys[$i]['Destination'].'" DepartureTime="'.$journeys[$i]['DepartureTime'].'" ArrivalTime="'.$journeys[$i]['ArrivalTime'].'" FlightTime="'.$journeys[$i]['FlightTime'].'" TravelTime="'.$journeys[$i]['TravelTime'].'" Distance="'.$journeys[$i]['Distance'].'"/>
                 </air:AirSegment>
                 ';
+                // $datasegment.='<air:AirSegment Key="'.$journeys[$i]['key'].'" Group="'.$journeys[$i]['Group'].'" Carrier="'.$journeys[$i]['Carrier'].'" FlightNumber="'.$journeys[$i]['FlightNumber'].'" ProviderCode="1G" Origin="'.$journeys[$i]['Origin'].'" Destination="'.$journeys[$i]['Destination'].'" DepartureTime="'.$journeys[$i]['DepartureTime'].'" ArrivalTime="'.$journeys[$i]['ArrivalTime'].'" FlightTime="'.$journeys[$i]['FlightTime'].'" TravelTime="'.$journeys[$i]['TravelTime'].'" Distance="'.$journeys[$i]['Distance'].'" ClassOfService="'.$journeys[$i]['ClassOfService'].'" Equipment="E90" ChangeOfPlane="false" OptionalServicesIndicator="false" AvailabilitySource="S" ParticipantLevel="Secure Sell" LinkAvailability="true" PolledAvailabilityOption="O and D cache or polled status used with different local status" AvailabilityDisplayType="Fare Specific Fare Quote Unbooked">
+                // <air:CodeshareInfo OperatingCarrier="'.$journeys[$i]['Carrier'].'"></air:CodeshareInfo>
+                // <air:FlightDetails Key="" Origin="'.$journeys[$i]['Origin'].'" Destination="'.$journeys[$i]['Destination'].'" DepartureTime="'.$journeys[$i]['DepartureTime'].'" ArrivalTime="'.$journeys[$i]['ArrivalTime'].'" FlightTime="'.$journeys[$i]['FlightTime'].'" TravelTime="'.$journeys[$i]['TravelTime'].'" Distance="'.$journeys[$i]['Distance'].'"/>
+                // </air:AirSegment>
+                // ';
             }
         }
         // AirPricingInfo 
@@ -3500,25 +3505,25 @@ EOM;
                             <air:FareInfo PromotionalFare="false" Key="'.$FareInfo[$i]['Key'].'" FareFamily="Economy Saver" DepartureDate="'.$FareInfo[$i]['DepartureDate'].'" Amount="'.$FareInfo[$i]['Amount'].'" EffectiveDate="'.$FareInfo[$i]['EffectiveDate'].'" Destination="'.$FareInfo[$i]['Destination'].'" Origin="'.$FareInfo[$i]['Origin'].'" PassengerTypeCode="'.$FareInfo[$i]['PassengerTypeCode'].'" FareBasis="'.$FareInfo[$i]['FareBasis'].'">
                                 <air:FareRuleKey FareInfoRef="'.$FareRuleKey[$i]['FareInfoRef'].'" ProviderCode="'.$FareRuleKey[$i]['ProviderCode'].'">'.$FareRuleKey[$i]['FareRuleKeyValue'].'</air:FareRuleKey>
                             </air:FareInfo>
-                            <air:BookingInfo BookingCode="'.$BookingInfo[$i]['BookingCode'].'" CabinClass="'.$BookingInfo[$i]['CabinClass'].'" FareInfoRef="'.$BookingInfo[$i]['FareInfoRef'].'" SegmentRef="'.$BookingInfo[$i]['SegmentRef'].'" HostTokenRef="'.$BookingInfo[$i]['HostTokenRef'].'"/>
+                            <air:BookingInfo BookingCode="'.$BookingInfo[$i]['BookingCode'].'" CabinClass="'.$BookingInfo[$i]['CabinClass'].'" FareInfoRef="'.$BookingInfo[$i]['FareInfoRef'].'" SegmentRef="'.$BookingInfo[$i]['SegmentRef'].'" HostTokenRef="'.$BookingInfo[$i]['HostTokenRef'].'" />
                             ';
                             $var_adtcount='';
                             if ($i==0) {
                                 for ($j=0; $j < $var_adults; $j++) { 
-                                    $var_adtcount.='<PassengerType Code="ADT" BookingTravelerRef="ADT'.$j.'" />';
+                                    $var_adtcount.='<air:PassengerType Code="ADT" />';
                                 }
                             }
                             if($i==1){
                                 for ($j=0; $j < $var_adults; $j++) { 
-                                    $var_adtcount.='<PassengerType Code="CNN" BookingTravelerRef="CNN'.$j.'" />';
+                                    $var_adtcount.='<air:PassengerType Code="CNN"  />';
                                 } 
                             }
                             if($i==2){
                                 for ($j=0; $j < $var_adults; $j++) { 
-                                    $var_adtcount.='<PassengerType Code="INF" BookingTravelerRef="INF'.$j.'" />';
+                                    $var_adtcount.='<air:PassengerType Code="INF" />';
                                 } 
                             }
-                            $var2='</AirPricingInfo>';
+                            $var2='</air:AirPricingInfo>';
                             $var_AirPricingInfo_FareInfo_FareRuleKey_BookingInfo.=$var1.$var_adtcount.$var2;
                         }
                     }
@@ -3549,16 +3554,27 @@ EOM;
         }
         // return $hostToken;
 
-        if ($request->gender1=="Male") {
-            $gender="M";
-        }else{
-            $gender="F"; 
-        }
+        
 
         $booking_traveler_details='';
-        for ($j=0; $j < $var_adults; $j++) { 
-            $booking_traveler_details.='<com:BookingTraveler TravelerType="ADT" DOB="'.date("Y-m-d",strtotime($request->date_of_birth1)).'" Gender="'.$gender.'" Nationality="IN" xmlns:com="http://www.travelport.com/schema/common_v42_0">
-            <com:BookingTravelerName Prefix="'.$request->title1.'" First="'.$request->first_name1.'" Last="'.$request->last_name1.'"/>
+        for ($j=1; $j <= $var_adults; $j++) { 
+            $title = "title".$j;
+            $first_name = "first_name".$j;
+            $last_name = "last_name".$j;
+            $gender = "gender".$j;
+            $date_of_birth = "date_of_birth".$j;
+            $seating = "seating".$j;
+            $assistance = "assistance".$j;
+            $meal = "meal".$j;
+
+            if ($request->gender=="Male") {
+                $gender="M";
+            }else{
+                $gender="F"; 
+            }
+            // return $request->$title ;
+            $booking_traveler_details.='<com:BookingTraveler TravelerType="ADT" DOB="'.date("Y-m-d",strtotime($request->$date_of_birth)).'" Gender="'.$gender.'" Nationality="IN" xmlns:com="http://www.travelport.com/schema/common_v42_0">
+            <com:BookingTravelerName Prefix="'.$request->$title.'" First="'.$request->$first_name.'" Last="'.$request->$last_name.'"/>
             <com:PhoneNumber Key="" Number="'.$request->mob_no.'" Type="Home" Text="Abc-Xy"/>
             <com:Email Type="Home" EmailID="'.$request->email.'"/>
             <com:SSR Type="DOCS" Carrier="AI" FreeText=""/>
@@ -3571,9 +3587,17 @@ EOM;
                 <com:PostalCode>'.$request->postcode.'</com:PostalCode>
                 <com:Country>IN</com:Country>
             </com:Address>
-        </com:BookingTraveler>';
+            </com:BookingTraveler>';
         }
-        for ($j=0; $j < $var_children; $j++) { 
+        for ($j=1; $j <= $var_children; $j++) { 
+            $title = "children_title".$j;
+            $first_name = "children_first_name".$j;
+            $last_name = "children_last_name".$j;
+            $gender = "children_gender".$j;
+            $date_of_birth = "children_date_of_birth".$j;
+            $seating = "children_seating".$j;
+            $assistance = "children_assistance".$j;
+            $meal = "children_meal".$j;
             $booking_traveler_details.='<com:BookingTraveler TravelerType="CNN" DOB="'.date("Y-m-d",strtotime($request->date_of_birth1)).'" Gender="'.$gender.'" Nationality="IN" xmlns:com="http://www.travelport.com/schema/common_v42_0">
             <com:BookingTravelerName Prefix="'.$request->title1.'" First="'.$request->first_name1.'" Last="'.$request->last_name1.'"/>
             <com:PhoneNumber Key="" Number="'.$request->mob_no.'" Type="Home" Text="Abc-Xy"/>
@@ -3588,9 +3612,9 @@ EOM;
                 <com:PostalCode>'.$request->postcode.'</com:PostalCode>
                 <com:Country>IN</com:Country>
             </com:Address>
-        </com:BookingTraveler>';
+            </com:BookingTraveler>';
         } 
-        for ($j=0; $j < $var_infant; $j++) { 
+        for ($j=1; $j <= $var_infant; $j++) { 
             $booking_traveler_details.='<com:BookingTraveler TravelerType="INF" DOB="'.date("Y-m-d",strtotime($request->date_of_birth1)).'" Gender="'.$gender.'" Nationality="IN" xmlns:com="http://www.travelport.com/schema/common_v42_0">
             <com:BookingTravelerName Prefix="'.$request->title1.'" First="'.$request->first_name1.'" Last="'.$request->last_name1.'"/>
             <com:PhoneNumber Key="" Number="'.$request->mob_no.'" Type="Home" Text="Abc-Xy"/>
@@ -3605,7 +3629,7 @@ EOM;
                 <com:PostalCode>'.$request->postcode.'</com:PostalCode>
                 <com:Country>IN</com:Country>
             </com:Address>
-        </com:BookingTraveler>';
+            </com:BookingTraveler>';
         } 
         // return $booking_traveler_details;
         // return $datasegment;
@@ -3641,8 +3665,8 @@ EOM;
                 </com:FormOfPayment>
                 <air:AirPricingSolution Key="'.$flight[2]['price']['Key'].'" TotalPrice="'.$flight[2]['price']['TotalPrice'].'" BasePrice="'.$flight[2]['price']['BasePrice'].'" ApproximateTotalPrice="'.$flight[2]['price']['ApproximateTotalPrice'].'" ApproximateBasePrice="'.$flight[2]['price']['ApproximateBasePrice'].'" Taxes="'.$flight[2]['price']['Taxes'].'" Fees="'.$flight[2]['price']['Fees'].'" ApproximateTaxes="'.$flight[2]['price']['ApproximateTaxes'].'" QuoteDate="'.$flight[2]['price']['QuoteDate'].'" xmlns:air="http://www.travelport.com/schema/air_v42_0">
                     '.$datasegment
-                    .$var_AirPricingInfo_FareInfo_FareRuleKey_BookingInfo
-                    .$hostToken.'
+                    .$var_AirPricingInfo_FareInfo_FareRuleKey_BookingInfo.
+                    $hostToken.'
                 </air:AirPricingSolution>
                 <com:ActionStatus TicketDate="T*" Type="ACTIVE" ProviderCode="'.$Provider.'" xmlns:com="http://www.travelport.com/schema/common_v42_0"/>
             </univ:AirCreateReservationReq>
@@ -3670,7 +3694,7 @@ EOM;
         curl_setopt($soap_do, CURLOPT_RETURNTRANSFER, true);
         $return = curl_exec($soap_do);
         curl_close($soap_do);
-        return $return;
+        // return $return;
         $dom = new \DOMDocument();
         $dom->loadXML($return);
         $json = new \FluentDOM\Serializer\Json\RabbitFish($dom);
@@ -3953,7 +3977,7 @@ EOM;
         $object2 =app('App\Http\Controllers\XMlToParseDataController')->XMlToJSON($return2);
         $unidata =app('App\Http\Controllers\XMlToParseDataController')->UniversalRecord($object2);
 
-        // return $unidata;
+        // return $data;
         // return $request;
         return view('flights.confirm-booking',[
             'searched'=>$request,
