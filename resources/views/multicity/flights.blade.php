@@ -528,6 +528,14 @@
                                     <input type="hidden" name="adults" id="adults" value="{{$searched->adults}}">
                                     <input type="hidden" name="children" id="children" value="{{$searched->children}}">
                                     <input type="hidden" name="infant" id="infant" value="{{$searched->infant}}">
+                                    <!-- all search datas -->
+                                    <input type="hidden" name="from1" id="from1" value="{{$searched->from1}}">
+                                    <input type="hidden" name="from2" id="from2" value="{{$searched->from2}}">
+                                    <input type="hidden" name="from3" id="from3" value="{{$searched->from3}}">
+                                    <input type="hidden" name="to1" id="to1" value="{{$searched->to1}}">
+                                    <input type="hidden" name="to2" id="to2" value="{{$searched->to2}}">
+                                    <input type="hidden" name="to3" id="to3" value="{{$searched->to3}}">
+
                                     <!-- <input type="hidden" name="flights" id="flights" value="{{json_encode($datas)}}"> -->
                                     <input type="submit" id="submit" value="Book Now" class="btn btn-primary"> <br>
                                 </form>
