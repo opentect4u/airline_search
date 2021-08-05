@@ -157,3 +157,6 @@
   <ActionStatus xmlns="http://www.travelport.com/schema/common_v42_0" Type="ACTIVE" TicketDate="T*" ProviderCode="1G" />
   <Payment xmlns="http://www.travelport.com/schema/common_v42_0" Key="2" Type="Itinerary" FormOfPaymentRef="1" Amount="GBP248.80" />
 </AirCreateReservationReq>
+
+
+
