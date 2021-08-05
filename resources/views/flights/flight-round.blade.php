@@ -209,16 +209,21 @@
                                 }
                             }
                             echo ' - <i class="las la-pound-sign"></i>';
+                            if(isset($searched->slider_order)){echo number_format(($searched->slider_order/100),2);}else{
                             foreach($return_flights[(count($return_flights)-1)] as $flight){
                                 foreach($flight[1] as $prices){ 
                                     echo str_replace('GBP','',$prices['Total Price']);
                                 }
                             }
+                            }
                         ?></label>
                         <input type="range" class="custom-range" id="onwwayRange" name="onwwayRange" 
                         min="<?php foreach($return_flights[0] as $flight){foreach($flight[1] as $prices){echo (str_replace('GBP','',$prices['Total Price'])*100);}} ?>" 
                         max="<?php foreach($return_flights[(count($return_flights)-1)] as $flight){foreach($flight[1] as $prices){echo (str_replace('GBP','',$prices['Total Price'])*100);}} ?>" 
-                        value="<?php foreach($return_flights[(count($return_flights)-1)] as $flight){foreach($flight[1] as $prices){echo (str_replace('GBP','',$prices['Total Price'])*100);}} ?>">
+                        value="<?php if(isset($searched->slider_order)){echo $searched->slider_order;}else{
+                        foreach($return_flights[(count($return_flights)-1)] as $flight){foreach($flight[1] as $prices){echo (str_replace('GBP','',$prices['Total Price'])*100);}} 
+                        }
+                        ?>">
                         <input type="hidden" class="custom-range" id="onwwayRange_minprice" name="onwwayRange_minprice" value="<?php 
                             foreach($return_flights[0] as $flight){
                                 foreach($flight[1] as $prices){ 
@@ -292,6 +297,24 @@
                     @if($searched->direct_flight == 'DF' && $rrr>1 && $searched->flexi=="" || $sss>1)
                     @continue
                     @elseif($searched->direct_flight == 'DF' && $rrr>1 && $searched->flexi=="F" || $sss>1)
+                    @continue
+                    @endif
+                    @endif
+                    <?php
+                                    
+                        $var_total_price=0;
+                        foreach($flight_data[1] as $prices){ $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->adults);} 
+                        if(isset($datas[2])){
+                        foreach($flight_data[2] as $prices){ $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->children);} 
+                        }
+                        if(isset($datas[3])){
+                            foreach($flight_data[3] as $prices){ $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->infant);} 
+                        }
+                     $format_tot_price=(number_format($var_total_price,2,'.','')*100);
+                    //  echo $format_tot_price;
+                    ?>
+                    @if(isset($searched->slider_order))
+                    @if($format_tot_price > $searched->slider_order)
                     @continue
                     @endif
                     @endif
@@ -666,6 +689,10 @@
 		
 <script type="text/javascript">
     $( document ).ready(function() {
+        var slider_order='{{isset($searched->slider_order)?$searched->slider_order:''}}';
+        $('onwwayRange').val('');
+        $('onwwayRange').val((slider_order/100));
+        
         $('#loading').hide();
         $('#loading_small').hide();
         var path = "{{ route('searchairport') }}";
@@ -1572,40 +1599,97 @@
     }
 
      // onword price slider function
-     var slider = document.getElementById("onwwayRange");
-    // var output = document.getElementById("amount");
-    // output.innerHTML = slider.value;
-    slider.oninput = function() {
-        // alert("hii");
-        var loading ='<img id="loading-image-small" src="{{ asset('public/loder-small.gif') }}" alt="Loading..." style=" position: absolute;top: 100px;left: 431px;z-index: 100;"/>';
+     $(document).on('change', '#onwwayRange', function() {
+        // alert($(this).val());
+        var var_val=$(this).val();
+        var loading ='<img id="loading-image-small" src="{{ asset('public/loder-small.gif') }}" alt="Loading..." style=" position: absolute;top: 100px;left: 431px;z-index: 100;" />';
         // alert(loading)
         $('#loading_small').append(loading);
         $('#loading_small').show();
-        var min_val=$('#onwwayRange_minprice').val();
-        var mix_val=$('#onwwayRange_maxprice').val();
-        var cal_min_val=min_val/100;
-        // alert(cal_min_val)
-        // alert(this.value);
-        var range_val=this.value/100;
-        var amount='<i class="las la-pound-sign"></i>'+parseFloat(cal_min_val).toFixed(2)+' - <i class="las la-pound-sign"></i>'+parseFloat(range_val).toFixed(2);
-        $('#amount').empty();
-        $('#amount').append(amount);
-        // alert("hii");
-        // alert(min_val);
-        for (var index = parseInt(min_val); index <= parseInt(mix_val); index++) {
-            // alert(index);
-            $(".priceRange"+index).attr("data-GlobalDiv", "0")
-            $('.priceRange'+index).hide();
+        var url= window.location.href;
+        var slider_order='{{isset($searched->slider_order)?$searched->slider_order:''}}';
+        if(slider_order==""){
+            var newurl=url+'&slider_order='+var_val;
+        }else{
+            var newurl=url.split('&slider_order='+slider_order)[0];
+            var newurl=newurl+'&slider_order='+var_val;
         }
-        for (let index1 = parseInt(min_val); index1 <= parseInt(this.value); index1++) {
-            // const element = array[index];
-            $(".priceRange"+index1).attr("data-GlobalDiv", "1")
-            $('.priceRange'+index1).show();
+        window.location.assign(newurl);
+
+
+        // $('#loading_small').attr('data-loading-small-val','1');
+        // // var loading_small_val=$("#loading_small").attr("data-loading-small-val")
+        // // showloders(var_val);
+        // // $('#loading_small').attr('data-loading-small-val','1');
+        // // var loading_small_val=$("#loading_small").attr("data-loading-small-val")
+
+        // var var_val=$(this).val();
+        // var loading ='<img id="loading-image-small" src="{{ asset('public/loder-small.gif') }}" alt="Loading..." style=" position: absolute;top: 100px;left: 431px;z-index: 100;" />';
+        // // alert(loading)
+        // $('#loading_small').append(loading);
+        // $('#loading_small').show();
+        // var min_val=$('#onwwayRange_minprice').val();
+        // var mix_val=$('#onwwayRange_maxprice').val();
+        // var cal_min_val=min_val/100;
+        // // alert(cal_min_val)
+        // // alert(this.value);
+        // var range_val=var_val/100;
+        // var amount='<i class="las la-pound-sign"></i>'+parseFloat(cal_min_val).toFixed(2)+' - <i class="las la-pound-sign"></i>'+parseFloat(range_val).toFixed(2);
+        // $('#amount').empty();
+        // $('#amount').append(amount);
+        // // alert("hii");
+        // // alert(min_val);
+        // for (var index = parseInt(min_val); index <= parseInt(mix_val); index++) {
+        //     // alert(index);
+        //     $(".priceRange"+index).attr("data-GlobalDiv", "0")
+        //     $('.priceRange'+index).hide();
+        // }
+        // for (let index1 = parseInt(min_val); index1 <= parseInt(var_val); index1++) {
+        //     // const element = array[index];
+        //     $(".priceRange"+index1).attr("data-GlobalDiv", "1")
+        //     $('.priceRange'+index1).show();
             
-        }
-        $('#loading_small').hide();
-        $('#loading_small').empty();
-        // output.innerHTML = this.value;
-    }
+        // }
+        // // setTimeout(loderHide, 3000);
+        // // setInterval(loderHide, 900);
+        // setTimeout(loderHide, 900);
+        // $('#loading_small').hide();
+        // $('#loading_small').empty();
+    });
+     var slider = document.getElementById("onwwayRange");
+    // var output = document.getElementById("amount");
+    // output.innerHTML = slider.value;
+    // slider.oninput = function() {
+    //     // alert("hii");
+    //     var loading ='<img id="loading-image-small" src="{{ asset('public/loder-small.gif') }}" alt="Loading..." style=" position: absolute;top: 100px;left: 431px;z-index: 100;"/>';
+    //     // alert(loading)
+    //     $('#loading_small').append(loading);
+    //     $('#loading_small').show();
+    //     var min_val=$('#onwwayRange_minprice').val();
+    //     var mix_val=$('#onwwayRange_maxprice').val();
+    //     var cal_min_val=min_val/100;
+    //     // alert(cal_min_val)
+    //     // alert(this.value);
+    //     var range_val=this.value/100;
+    //     var amount='<i class="las la-pound-sign"></i>'+parseFloat(cal_min_val).toFixed(2)+' - <i class="las la-pound-sign"></i>'+parseFloat(range_val).toFixed(2);
+    //     $('#amount').empty();
+    //     $('#amount').append(amount);
+    //     // alert("hii");
+    //     // alert(min_val);
+    //     for (var index = parseInt(min_val); index <= parseInt(mix_val); index++) {
+    //         // alert(index);
+    //         $(".priceRange"+index).attr("data-GlobalDiv", "0")
+    //         $('.priceRange'+index).hide();
+    //     }
+    //     for (let index1 = parseInt(min_val); index1 <= parseInt(this.value); index1++) {
+    //         // const element = array[index];
+    //         $(".priceRange"+index1).attr("data-GlobalDiv", "1")
+    //         $('.priceRange'+index1).show();
+            
+    //     }
+    //     $('#loading_small').hide();
+    //     $('#loading_small').empty();
+    //     // output.innerHTML = this.value;
+    // }
 </script>
 @endsection

@@ -209,16 +209,21 @@
                                 }
                             }
                             echo ' - <i class="las la-pound-sign"></i>';
-                            foreach($flights[(count($flights)-1)] as $flight){
-                                foreach($flight[1] as $prices){ 
-                                    echo str_replace('GBP','',$prices['Total Price']);
+                            if(isset($searched->slider_order)){ echo number_format(($searched->slider_order/100),2,'.','') ;}else{ 
+                                foreach($flights[(count($flights)-1)] as $flight){
+                                    foreach($flight[1] as $prices){ 
+                                        echo str_replace('GBP','',$prices['Total Price']);
+                                    }
                                 }
                             }
                         ?></label>
                         <input type="range" class="custom-range" onchange="loderShow();" id="onwwayRange" name="onwwayRange" 
                         min="<?php foreach($flights[0] as $flight){foreach($flight[1] as $prices){echo (str_replace('GBP','',$prices['Total Price'])*100);}} ?>" 
                         max="<?php foreach($flights[(count($flights)-1)] as $flight){foreach($flight[1] as $prices){echo (str_replace('GBP','',$prices['Total Price'])*100);}} ?>" 
-                        value="<?php foreach($flights[(count($flights)-1)] as $flight){foreach($flight[1] as $prices){echo (str_replace('GBP','',$prices['Total Price'])*100);}} ?>">
+                        value="<?php 
+                        if(isset($searched->slider_order)){ echo $searched->slider_order ;}else{ 
+                        foreach($flights[(count($flights)-1)] as $flight){foreach($flight[1] as $prices){echo (str_replace('GBP','',$prices['Total Price'])*100);}}
+                        } ?>">
                         <input type="hidden" class="custom-range" id="onwwayRange_minprice" name="onwwayRange_minprice" value="<?php 
                             foreach($flights[0] as $flight){
                                 foreach($flight[1] as $prices){ 
@@ -281,11 +286,29 @@
                 array_push($DurationTimeOrder,\Carbon\Carbon::parse($datas[0]['Depart'])->diff(\Carbon\Carbon::parse($datas[count($datas)-1]['Arrive']))->format('%d%H%I'));
                 ?>
                 @endforeach
+                <?php 
+                    $var_total_price=0;
+                    foreach($flight_data[1] as $prices){ $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->adults);} 
+                    if(isset($flight_data[2])){
+                    foreach($flight_data[2] as $prices){ $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->children);} 
+                    }
+                    if(isset($flight_data[3])){
+                        foreach($flight_data[3] as $prices){ $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->infant);} 
+                    }
+                    // echo number_format($var_total_price,2);
+                    $format_tot_price=($var_total_price*100);
+                ?>
                 
                 @if($searched->direct_flight == 'DF' && $rrr>1 && $searched->flexi=="")
                 @continue
                 @elseif($searched->flexi == 'F' && $rrr==1 && $searched->direct_flight=="")
                 @continue
+                @endif
+
+                @if(isset($searched->slider_order))
+                @if($format_tot_price > $searched->slider_order)
+                @continue
+                @endif
                 @endif
                 
                     <?php foreach($flight_data[0] as $datas){
@@ -625,6 +648,13 @@
         
     }
     $( document ).ready(function() {
+        var slider_order='{{isset($searched->slider_order)?$searched->slider_order:''}}';
+        $('onwwayRange').val('');
+        $('onwwayRange').val((slider_order/100));
+       
+        
+
+
         $('#loading').hide();
         $('#loading_small').hide();
 
@@ -1218,42 +1248,57 @@
     $(document).on('change', '#onwwayRange', function() {
         // alert($(this).val());
         var var_val=$(this).val();
-        $('#loading_small').attr('data-loading-small-val','1');
-        // var loading_small_val=$("#loading_small").attr("data-loading-small-val")
-        // showloders(var_val);
-        // $('#loading_small').attr('data-loading-small-val','1');
-        // var loading_small_val=$("#loading_small").attr("data-loading-small-val")
-
-        var var_val=$(this).val();
         var loading ='<img id="loading-image-small" src="{{ asset('public/loder-small.gif') }}" alt="Loading..." style=" position: absolute;top: 100px;left: 431px;z-index: 100;" />';
         // alert(loading)
         $('#loading_small').append(loading);
         $('#loading_small').show();
-        var min_val=$('#onwwayRange_minprice').val();
-        var mix_val=$('#onwwayRange_maxprice').val();
-        var cal_min_val=min_val/100;
-        // alert(cal_min_val)
-        // alert(this.value);
-        var range_val=var_val/100;
-        var amount='<i class="las la-pound-sign"></i>'+parseFloat(cal_min_val).toFixed(2)+' - <i class="las la-pound-sign"></i>'+parseFloat(range_val).toFixed(2);
-        $('#amount').empty();
-        $('#amount').append(amount);
-        // alert("hii");
-        // alert(min_val);
-        for (var index = parseInt(min_val); index <= parseInt(mix_val); index++) {
-            // alert(index);
-            $(".priceRange"+index).attr("data-GlobalDiv", "0")
-            $('.priceRange'+index).hide();
+        var url= window.location.href;
+        var slider_order='{{isset($searched->slider_order)?$searched->slider_order:''}}';
+        if(slider_order==""){
+            var newurl=url+'&slider_order='+var_val;
+        }else{
+            var newurl=url.split('&slider_order='+slider_order)[0];
+            var newurl=newurl+'&slider_order='+var_val;
         }
-        for (let index1 = parseInt(min_val); index1 <= parseInt(var_val); index1++) {
-            // const element = array[index];
-            $(".priceRange"+index1).attr("data-GlobalDiv", "1")
-            $('.priceRange'+index1).show();
+        window.location.assign(newurl);
+
+
+        // $('#loading_small').attr('data-loading-small-val','1');
+        // // var loading_small_val=$("#loading_small").attr("data-loading-small-val")
+        // // showloders(var_val);
+        // // $('#loading_small').attr('data-loading-small-val','1');
+        // // var loading_small_val=$("#loading_small").attr("data-loading-small-val")
+
+        // var var_val=$(this).val();
+        // var loading ='<img id="loading-image-small" src="{{ asset('public/loder-small.gif') }}" alt="Loading..." style=" position: absolute;top: 100px;left: 431px;z-index: 100;" />';
+        // // alert(loading)
+        // $('#loading_small').append(loading);
+        // $('#loading_small').show();
+        // var min_val=$('#onwwayRange_minprice').val();
+        // var mix_val=$('#onwwayRange_maxprice').val();
+        // var cal_min_val=min_val/100;
+        // // alert(cal_min_val)
+        // // alert(this.value);
+        // var range_val=var_val/100;
+        // var amount='<i class="las la-pound-sign"></i>'+parseFloat(cal_min_val).toFixed(2)+' - <i class="las la-pound-sign"></i>'+parseFloat(range_val).toFixed(2);
+        // $('#amount').empty();
+        // $('#amount').append(amount);
+        // // alert("hii");
+        // // alert(min_val);
+        // for (var index = parseInt(min_val); index <= parseInt(mix_val); index++) {
+        //     // alert(index);
+        //     $(".priceRange"+index).attr("data-GlobalDiv", "0")
+        //     $('.priceRange'+index).hide();
+        // }
+        // for (let index1 = parseInt(min_val); index1 <= parseInt(var_val); index1++) {
+        //     // const element = array[index];
+        //     $(".priceRange"+index1).attr("data-GlobalDiv", "1")
+        //     $('.priceRange'+index1).show();
             
-        }
-        // setTimeout(loderHide, 3000);
-        // setInterval(loderHide, 900);
-        setTimeout(loderHide, 900);
+        // }
+        // // setTimeout(loderHide, 3000);
+        // // setInterval(loderHide, 900);
+        // setTimeout(loderHide, 900);
         // $('#loading_small').hide();
         // $('#loading_small').empty();
     });
