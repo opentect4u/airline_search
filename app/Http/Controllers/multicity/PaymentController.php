@@ -1247,6 +1247,7 @@ EOM;
                                 }else{
                                 // }else if(count($journeys)==3){
                                     $journeyCount=count($journeys);
+                                    if(isset($FareInfo[($i*$journeyCount)]['Key'])){
                                     $fare_info='<air:FareInfo PromotionalFare="false" Key="'.$FareInfo[($i*$journeyCount)]['Key'].'" FareFamily="Economy Saver" DepartureDate="'.$FareInfo[($i*$journeyCount)]['DepartureDate'].'" Amount="'.$FareInfo[($i*$journeyCount)]['Amount'].'" EffectiveDate="'.$FareInfo[($i*$journeyCount)]['EffectiveDate'].'" Destination="'.$FareInfo[($i*$journeyCount)]['Destination'].'" Origin="'.$FareInfo[($i*$journeyCount)]['Origin'].'" PassengerTypeCode="'.$FareInfo[($i*$journeyCount)]['PassengerTypeCode'].'" FareBasis="'.$FareInfo[($i*$journeyCount)]['FareBasis'].'">
                                     <air:FareRuleKey FareInfoRef="'.$FareRuleKey[($i*$journeyCount)]['FareInfoRef'].'" ProviderCode="'.$FareRuleKey[($i*$journeyCount)]['ProviderCode'].'">'.$FareRuleKey[($i*$journeyCount)]['FareRuleKeyValue'].'</air:FareRuleKey>
                                     </air:FareInfo>
@@ -1256,6 +1257,10 @@ EOM;
                                     <air:BookingInfo BookingCode="'.$BookingInfo[($i*$journeyCount)]['BookingCode'].'" CabinClass="'.$BookingInfo[($i*$journeyCount)]['CabinClass'].'" FareInfoRef="'.$BookingInfo[($i*$journeyCount)]['FareInfoRef'].'" SegmentRef="'.$BookingInfo[($i*$journeyCount)]['SegmentRef'].'" HostTokenRef="'.$BookingInfo[($i*$journeyCount)]['HostTokenRef'].'" />
                                     <air:BookingInfo BookingCode="'.$BookingInfo[(($i*$journeyCount)+1)]['BookingCode'].'" CabinClass="'.$BookingInfo[(($i*$journeyCount)+1)]['CabinClass'].'" FareInfoRef="'.$BookingInfo[(($i*$journeyCount)+1)]['FareInfoRef'].'" SegmentRef="'.$BookingInfo[(($i*$journeyCount)+1)]['SegmentRef'].'" HostTokenRef="'.$BookingInfo[(($i*$journeyCount)+1)]['HostTokenRef'].'" />
                                     '; 
+                                    }else{
+                                        return $this->BookingFailedResponce($request);
+                                        
+                                    }
                                 }
                                 $var_adtcount='';
                                 if ($i==0) {
@@ -1778,5 +1783,17 @@ EOM;
             'return_unidata'=>$unidata
         ]);
 
+    }
+
+    public function BookingFailedResponce($request){
+        $data=[];
+        $alldetails=[];
+        $unidata=[];
+        return view('multicity.confirm-booking',[
+            'return_searched'=>$request,
+            'multicity_airreservation'=>$data,
+            'return_airticketing'=>$alldetails,
+            'return_unidata'=>$unidata
+        ]);
     }
 }

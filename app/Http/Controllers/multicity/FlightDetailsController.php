@@ -85,7 +85,7 @@ EOM;
         $object =app('App\Http\Controllers\XMlToParseDataController')->XMlToJSON($return);
         // return $object;
         $data =app('App\Http\Controllers\XMlToParseDataController')->AirPrice($object);
-        return $data;
+        // return $data;
         // return $data3;
         
         // return $request;
