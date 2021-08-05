@@ -440,3 +440,12 @@ Timings are subject to change, please reconfirming with your airline operator be
 </section>
 
 @endsection
+
+@section('script')
+<script>
+    $( document ).ready(function() {
+        $('#loading').hide();
+        $('#loading_small').hide();
+    });
+</script>
+@endsection

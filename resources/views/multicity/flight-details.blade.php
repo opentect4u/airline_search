@@ -204,3 +204,12 @@
 
 
 @endsection
+
+@section('script')
+<script>
+    $( document ).ready(function() {
+        $('#loading').hide();
+        $('#loading_small').hide();
+    });
+</script>
+@endsection
