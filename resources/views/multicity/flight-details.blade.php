@@ -94,13 +94,16 @@
                         @endif
                         @endfor
                         @endforeach
+                        @else
+                        <hr>
+                        <h4 class="font-weight-500">No Flights Found</h4>
                         @endif
                         @endif
 
                     </div>
                 </div>
 
-               
+                @if(count($flights1)>0)
                 <div class="col-md-3">
                   <div class="card">
                     <h4 class="font-weight-500 mb-0">Fare Summary</h4>
@@ -186,7 +189,7 @@
                     <!-- <a href="{{route('passengerDetails')}}" class="btn btn-primary w-100">Book Now</a> -->
                   </div>
                 </div>
-
+                @endif
                 <!--                
                 <div class="col-md-3">
                     <div class="card">

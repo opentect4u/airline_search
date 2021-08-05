@@ -18,7 +18,7 @@ class FlightDetailsController extends Controller
         $flights2=json_decode($request->flights2);
         $flights3=json_decode($request->flights3);
         
-        // return $flights1;
+        // return $flights3;
         $datasegment1='';        
         $data1=[];
 
@@ -41,7 +41,7 @@ class FlightDetailsController extends Controller
                 $datasegment1.= '<air:AirSegment Key="'.get_object_vars($journeys->Key)[0].'" Group="'.get_object_vars($journeys->Group)[0].'" Carrier="'.get_object_vars($journeys->Airline)[0].'" FlightNumber="'.get_object_vars($journeys->Flight)[0].'" Origin="'.get_object_vars($journeys->From)[0].'" Destination="'.get_object_vars($journeys->To)[0].'" DepartureTime="'.get_object_vars($journeys->Depart)[0].'" ArrivalTime="'.get_object_vars($journeys->Arrive)[0].'" FlightTime="'.get_object_vars($journeys->FlightTime)[0].'" Distance="'.get_object_vars($journeys->Distance)[0].'" ETicketability="Yes" ProviderCode="1G" ></air:AirSegment>';
             }
         }
-
+        // return $datasegment1;
         $TARGETBRANCH = 'P7141733';
         $CREDENTIALS = 'Universal API/uAPI4648209292-e1e4ba84:9Jw*C+4c/5';
         $Provider = '1G'; // Any provider you want to use like 1G/1P/1V/ACH
@@ -59,6 +59,7 @@ class FlightDetailsController extends Controller
            </air:AirPriceReq>
         </soap:Body>
      </soap:Envelope>';
+    //  return $query1;
             $message = <<<EOM
 $query1
 EOM;
@@ -84,7 +85,7 @@ EOM;
         $object =app('App\Http\Controllers\XMlToParseDataController')->XMlToJSON($return);
         // return $object;
         $data =app('App\Http\Controllers\XMlToParseDataController')->AirPrice($object);
-        // return $data;
+        return $data;
         // return $data3;
         
         // return $request;
