@@ -288,12 +288,10 @@
                     @endforeach
                     @endforeach
                     
-                    @if($searched->direct_flight!="" || $searched->flexi!="")
                     @if($searched->direct_flight == 'DF' && $rrr>1 && $searched->flexi=="" || $sss>1)
                     @continue
                     @elseif($searched->direct_flight == 'DF' && $rrr>1 && $searched->flexi=="F" || $sss>1)
                     @continue
-                    @endif
                     @endif
                     
                     <?php 

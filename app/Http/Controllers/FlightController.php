@@ -218,6 +218,7 @@ class FlightController extends Controller
         //         // echo "<br/>";
         //     }
         // }
+        // return $new_return_flight;
         if($request->returning_date!=''){
             return view('flights.flight-round',[
                 'searched' => $request,
