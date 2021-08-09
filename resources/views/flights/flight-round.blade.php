@@ -206,14 +206,14 @@
                             $var_total_price1=0;
                             foreach($return_flights[0] as $flight){
                                 foreach($flight[1] as $prices){ 
-                                    $var_total_price1+= str_replace('GBP','',$prices['Total Price']);
+                                    $var_total_price1+= (str_replace('GBP','',$prices['Total Price'])*$searched->adults);
                                 }
                                 if(isset($flight[2])){
                                     foreach($flight[2] as $prices){ $var_total_price1+= (str_replace('GBP','',$prices['Total Price'])*$searched->children);} 
-                                    }
-                                    if(isset($flight[3])){
-                                        foreach($flight[3] as $prices){ $var_total_price1+= (str_replace('GBP','',$prices['Total Price'])*$searched->infant);} 
-                                    }
+                                }
+                                if(isset($flight[3])){
+                                    foreach($flight[3] as $prices){ $var_total_price1+= (str_replace('GBP','',$prices['Total Price'])*$searched->infant);} 
+                                }
                             }
                             echo number_format($var_total_price1,2,'.','');
                             echo ' - <i class="las la-pound-sign"></i>';
@@ -238,7 +238,7 @@
                         $var_total_price1=0;
                         foreach($return_flights[0] as $flight){
                             foreach($flight[1] as $prices){ 
-                                $var_total_price1+= str_replace('GBP','',$prices['Total Price']);
+                                $var_total_price1+= (str_replace('GBP','',$prices['Total Price'])*$searched->adults);
                             }
                             if(isset($flight[2])){
                                 foreach($flight[2] as $prices){ $var_total_price1+= (str_replace('GBP','',$prices['Total Price'])*$searched->children);} 
@@ -286,7 +286,7 @@
                             $var_total_price1=0;
                             foreach($return_flights[0] as $flight){
                                 foreach($flight[1] as $prices){ 
-                                    $var_total_price1+= str_replace('GBP','',$prices['Total Price']);
+                                    $var_total_price1+= (str_replace('GBP','',$prices['Total Price'])*$searched->adults);
                                 }
                                 if(isset($flight[2])){
                                     foreach($flight[2] as $prices){ $var_total_price1+= (str_replace('GBP','',$prices['Total Price'])*$searched->children);} 
@@ -396,7 +396,7 @@
                     //  echo $format_tot_price ." - ". $searched->slider_order;
                     ?>
                     @if(isset($searched->slider_order))
-                        @if($format_tot_price >= $searched->slider_order)
+                        @if($format_tot_price > $searched->slider_order)
                         @continue
                         @endif
                     @endif
@@ -766,7 +766,7 @@
 @section('script')
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script> -->
 <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>   -->
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
 <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>   -->
 		
 <script type="text/javascript">
