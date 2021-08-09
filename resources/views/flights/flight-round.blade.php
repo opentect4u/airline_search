@@ -203,47 +203,129 @@
                         <h6 class="font-weight-600">Price Range</h6>
                         <label for="onwwayRange" id="amount"><i class="las la-pound-sign"></i>
                         <?php  
+                            $var_total_price1=0;
                             foreach($return_flights[0] as $flight){
                                 foreach($flight[1] as $prices){ 
-                                    echo str_replace('GBP','',$prices['Total Price']);
+                                    $var_total_price1+= str_replace('GBP','',$prices['Total Price']);
                                 }
+                                if(isset($flight[2])){
+                                    foreach($flight[2] as $prices){ $var_total_price1+= (str_replace('GBP','',$prices['Total Price'])*$searched->children);} 
+                                    }
+                                    if(isset($flight[3])){
+                                        foreach($flight[3] as $prices){ $var_total_price1+= (str_replace('GBP','',$prices['Total Price'])*$searched->infant);} 
+                                    }
                             }
+                            echo number_format($var_total_price1,2,'.','');
                             echo ' - <i class="las la-pound-sign"></i>';
                             if(isset($searched->slider_order)){echo number_format(($searched->slider_order/100),2);}else{
                             foreach($return_flights[(count($return_flights)-1)] as $flight){
-                                foreach($flight[1] as $prices){ 
-                                    echo str_replace('GBP','',$prices['Total Price']);
-                                }
+                                $var_total_price=0;
+                                    foreach($flight[1] as $prices){ 
+                                        $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->adults);
+                                    }
+                                    if(isset($flight[2])){
+                                        foreach($flight[2] as $prices){ $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->children);} 
+                                    }
+                                    if(isset($flight[3])){
+                                        foreach($flight[3] as $prices){ $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->infant);} 
+                                    }
                             }
+                            echo number_format($var_total_price,2,'.','');
                             }
                         ?></label>
                         <input type="range" class="custom-range" id="onwwayRange" name="onwwayRange" 
-                        min="<?php foreach($return_flights[0] as $flight){foreach($flight[1] as $prices){echo (str_replace('GBP','',$prices['Total Price'])*100);}} ?>" 
-                        max="<?php foreach($return_flights[(count($return_flights)-1)] as $flight){foreach($flight[1] as $prices){echo (str_replace('GBP','',$prices['Total Price'])*100);}} ?>" 
-                        value="<?php if(isset($searched->slider_order)){echo $searched->slider_order;}else{
-                        foreach($return_flights[(count($return_flights)-1)] as $flight){foreach($flight[1] as $prices){echo (str_replace('GBP','',$prices['Total Price'])*100);}} 
+                        min="<?php 
+                        $var_total_price1=0;
+                        foreach($return_flights[0] as $flight){
+                            foreach($flight[1] as $prices){ 
+                                $var_total_price1+= str_replace('GBP','',$prices['Total Price']);
+                            }
+                            if(isset($flight[2])){
+                                foreach($flight[2] as $prices){ $var_total_price1+= (str_replace('GBP','',$prices['Total Price'])*$searched->children);} 
+                                }
+                                if(isset($flight[3])){
+                                    foreach($flight[3] as $prices){ $var_total_price1+= (str_replace('GBP','',$prices['Total Price'])*$searched->infant);} 
+                                }
                         }
+                        echo (number_format($var_total_price1,2,'.','')*100);
+                        ?>" 
+                        max="<?php 
+                            foreach($return_flights[(count($return_flights)-1)] as $flight){
+                                $var_total_price=0;
+                                    foreach($flight[1] as $prices){ 
+                                        $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->adults);
+                                    }
+                                    if(isset($flight[2])){
+                                        foreach($flight[2] as $prices){ $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->children);} 
+                                    }
+                                    if(isset($flight[3])){
+                                        foreach($flight[3] as $prices){ $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->infant);} 
+                                    }
+                            }
+                            echo (number_format($var_total_price,2,'.','')*100);
+                            
+                        ?>" 
+                        value="<?php 
+                        if(isset($searched->slider_order)){echo $searched->slider_order;}else{
+                            foreach($return_flights[(count($return_flights)-1)] as $flight){
+                                $var_total_price=0;
+                                    foreach($flight[1] as $prices){ 
+                                        $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->adults);
+                                    }
+                                    if(isset($flight[2])){
+                                        foreach($flight[2] as $prices){ $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->children);} 
+                                    }
+                                    if(isset($flight[3])){
+                                        foreach($flight[3] as $prices){ $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->infant);} 
+                                    }
+                            }
+                            echo (number_format($var_total_price,2,'.','')*100);
+                            }
                         ?>">
                         <input type="hidden" class="custom-range" id="onwwayRange_minprice" name="onwwayRange_minprice" value="<?php 
+                            $var_total_price1=0;
                             foreach($return_flights[0] as $flight){
                                 foreach($flight[1] as $prices){ 
-                                    echo (str_replace('GBP','',$prices['Total Price'])*100);
+                                    $var_total_price1+= str_replace('GBP','',$prices['Total Price']);
                                 }
+                                if(isset($flight[2])){
+                                    foreach($flight[2] as $prices){ $var_total_price1+= (str_replace('GBP','',$prices['Total Price'])*$searched->children);} 
+                                    }
+                                    if(isset($flight[3])){
+                                        foreach($flight[3] as $prices){ $var_total_price1+= (str_replace('GBP','',$prices['Total Price'])*$searched->infant);} 
+                                    }
                             }
+                            echo (number_format($var_total_price1,2,'.','')*100);
                         ?>">
                         <input type="hidden" class="custom-range" id="onwwayRange_maxprice" name="onwwayRange_maxprice" value="<?php 
-                            foreach($return_flights[(count($return_flights)-1)] as $flight){
-                                foreach($flight[1] as $prices){ 
-                                    echo (str_replace('GBP','',$prices['Total Price'])*100);
-                                }
+                             foreach($return_flights[(count($return_flights)-1)] as $flight){
+                                $var_total_price=0;
+                                    foreach($flight[1] as $prices){ 
+                                        $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->adults);
+                                    }
+                                    if(isset($flight[2])){
+                                        foreach($flight[2] as $prices){ $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->children);} 
+                                    }
+                                    if(isset($flight[3])){
+                                        foreach($flight[3] as $prices){ $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->infant);} 
+                                    }
                             }
+                            echo (number_format($var_total_price,2,'.','')*100);
                         ?>">
                         <input type="hidden" class="custom-range" id="onwwayRange_rangeprice" name="onwwayRange_rangeprice" value="<?php 
-                            foreach($return_flights[(count($return_flights)-1)] as $flight){
-                                foreach($flight[1] as $prices){ 
-                                    echo (str_replace('GBP','',$prices['Total Price'])*100);
-                                }
+                             foreach($return_flights[(count($return_flights)-1)] as $flight){
+                                $var_total_price=0;
+                                    foreach($flight[1] as $prices){ 
+                                        $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->adults);
+                                    }
+                                    if(isset($flight[2])){
+                                        foreach($flight[2] as $prices){ $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->children);} 
+                                    }
+                                    if(isset($flight[3])){
+                                        foreach($flight[3] as $prices){ $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->infant);} 
+                                    }
                             }
+                            echo (number_format($var_total_price,2,'.','')*100);
                         ?>"/>
                         
                     </div>
@@ -304,19 +386,19 @@
                                     
                         $var_total_price=0;
                         foreach($flight_data[1] as $prices){ $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->adults);} 
-                        if(isset($datas[2])){
+                        if(isset($flight_data[2])){
                         foreach($flight_data[2] as $prices){ $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->children);} 
                         }
-                        if(isset($datas[3])){
+                        if(isset($flight_data[3])){
                             foreach($flight_data[3] as $prices){ $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->infant);} 
                         }
                      $format_tot_price=(number_format($var_total_price,2,'.','')*100);
-                    //  echo $format_tot_price;
+                    //  echo $format_tot_price ." - ". $searched->slider_order;
                     ?>
                     @if(isset($searched->slider_order))
-                    @if($format_tot_price > $searched->slider_order)
-                    @continue
-                    @endif
+                        @if($format_tot_price >= $searched->slider_order)
+                        @continue
+                        @endif
                     @endif
                     
                     <?php 
