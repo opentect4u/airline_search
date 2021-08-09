@@ -27,13 +27,23 @@
                         @if(count($flights1)>0)
                         @foreach($flights1[0] as $datas)
                         @for ($i=0; $i < count($datas); $i++)
-                        @if($i>0)
-                        <!-- <hr>
-                            <div class="col-md-12 text-center my-2">
-                            <span class="badge badge-pill badge-warning"><i class="far fa-clock"></i> {{$datas[$i]['Origin']}} {{\Carbon\Carbon::parse($datas[$i]['DepartureTime'])->diff(\Carbon\Carbon::parse($datas[($i-1)]['ArrivalTime']))->format('%Hh %Im')}} Layover</span><br>
-                            <small> Re-Checkin your baggage</small>
-                            </div>
-                        <hr> -->
+                        @if(isset($searched->from3) && isset($searched->to3))
+                          @if($i>0 && $datas[$i]['Origin']!=str_replace(')','',explode('(',$searched->from2)[1]) && $datas[$i]['Origin']!=str_replace(')','',explode('(',$searched->from3)[1]))
+                          <div class="col-md-12 text-center my-2">
+                              <span class="badge badge-pill badge-warning"><i class="far fa-clock"></i> {{$datas[$i]['Origin']}} {{\Carbon\Carbon::parse($datas[$i]['DepartureTime'])->diff(\Carbon\Carbon::parse($datas[($i-1)]['ArrivalTime']))->format('%Hh %Im')}} Layover</span><br>
+                              <small> Re-Checkin your baggage</small>
+                              </div>
+                          <hr>
+                          @endif
+                        @else
+                          @if($i>0 && $datas[$i]['Origin']!=str_replace(')','',explode('(',$searched->from2)[1]))
+                          <!-- <hr> -->
+                              <div class="col-md-12 text-center my-2">
+                              <span class="badge badge-pill badge-warning"><i class="far fa-clock"></i> {{$datas[$i]['Origin']}} {{\Carbon\Carbon::parse($datas[$i]['DepartureTime'])->diff(\Carbon\Carbon::parse($datas[($i-1)]['ArrivalTime']))->format('%Hh %Im')}} Layover</span><br>
+                              <small> Re-Checkin your baggage</small>
+                              </div>
+                          <hr>
+                          @endif
                         @endif
                         @if($i==0)
                         <hr>

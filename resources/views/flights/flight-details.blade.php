@@ -74,34 +74,29 @@
                         @endif
 
                       <!-- start return flights all details -->
-                        @if(isset($return_data))
-                        <!-- {{print_r($return_data)}} -->
-
-                        @if(count($return_data)>0)
-                        <hr>
-                        <h6 class="mb-0"><i class="fas fa-plane"></i> {{$per_flight_details->addFrom}} - {{$per_flight_details->addTo}} <?php foreach($return_data[0] as $datas){ echo \Carbon\Carbon::parse($datas[0]['DepartureTime'])->format('d M Y'); } ?>
-                        <!-- <h6 class="mb-0"><i class="fas fa-plane"></i> Chandigarh - Bangalore Friday, 29 Nov 2019 -->
-                        <a href="javascript:void(0)" data-toggle="modal" data-target="#baggageAndFare" class="float-right badge badge-success font-weight-400">Baggage and Fare Rules</a>
-                        </h6>
-                        @else
-                        <h6 class="mb-0"><i class="fas fa-plane"></i> No flight Found 
-                        @endif
-
-                        @endif
+                       
                         @if(isset($return_data))
                         <!-- <hr> -->
                         @if(count($return_data)>0)
                         @foreach($return_data[0] as $datas)
                         @for ($i=0; $i < count($datas); $i++)
-                        @if($i>0)
-                        <!-- <hr>
+                        @if($i>0 && $datas[$i]['Origin']!=str_replace(')','',explode('(',$per_flight_details->addTo)[1]))
+                        <!-- {{$i}} -->
+                        <!-- <hr> -->
                             <div class="col-md-12 text-center my-2">
                             <span class="badge badge-pill badge-warning"><i class="far fa-clock"></i> {{$datas[$i]['Origin']}} {{\Carbon\Carbon::parse($datas[$i]['DepartureTime'])->diff(\Carbon\Carbon::parse($datas[($i-1)]['ArrivalTime']))->format('%Hh %Im')}} Layover</span><br>
                             <small> Re-Checkin your baggage</small>
                             </div>
-                        <hr> -->
+                        <hr>
                         @endif
-                        
+                        @if($i==0)
+                        <!-- <hr> -->
+                        <h6 class="mb-0"><i class="fas fa-plane"></i> {{$per_flight_details->addFrom}} - {{$per_flight_details->addTo}} <?php foreach($return_data[0] as $datas){ echo \Carbon\Carbon::parse($datas[0]['DepartureTime'])->format('d M Y'); } ?>
+                        <!-- <h6 class="mb-0"><i class="fas fa-plane"></i> Chandigarh - Bangalore Friday, 29 Nov 2019 -->
+                        <a href="javascript:void(0)" data-toggle="modal" data-target="#baggageAndFare" class="float-right badge badge-success font-weight-400">Baggage and Fare Rules</a>
+                        </h6>
+                        <hr>
+                        @endif
                         <!-- {{$datas[$i]['key']}} -->
                         <div class="row align-items-center">
                             <div class="col-md-3">
@@ -135,7 +130,7 @@
                         <hr>
                         @if($datas[$i]['Destination']==str_replace(')','',explode('(',$per_flight_details->addTo)[1]))
                         <!-- <hr> -->
-                        <h6 class="mb-0"><i class="fas fa-plane"></i> {{$per_flight_details->addTo}} - {{$per_flight_details->addFrom}} {{\Carbon\Carbon::parse($datas[$i]['DepartureTime'])->format('d M Y')}} <?php //foreach($return_data[0] as $datas){ echo \Carbon\Carbon::parse($datas[0]['DepartureTime'])->format('d M Y'); } ?>
+                        <h6 class="mb-0"><i class="fas fa-plane"></i> {{$per_flight_details->addTo}} - {{$per_flight_details->addFrom}} {{\Carbon\Carbon::parse($datas[$i+1]['DepartureTime'])->format('d M Y')}} <?php //foreach($return_data[0] as $datas){ echo \Carbon\Carbon::parse($datas[0]['DepartureTime'])->format('d M Y'); } ?>
                         <!-- <h6 class="mb-0"><i class="fas fa-plane"></i> Chandigarh - Bangalore Friday, 29 Nov 2019 -->
                         <!-- <a href="javascript:void(0)" data-toggle="modal" data-target="#baggageAndFare" class="float-right badge badge-success font-weight-400">Baggage and Fare Rules</a> -->
                         </h6>
@@ -143,6 +138,8 @@
                         @endif
                         @endfor
                         @endforeach
+                        @else
+                        <h6 class="mb-0"><i class="fas fa-plane"></i> No flight Found 
                         @endif
                         @endif
 
