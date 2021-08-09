@@ -82,7 +82,7 @@
                             <a href="javascript:void(0)" data-toggle="modal" data-target="#baggageAndFare2" class="float-right badge badge-success font-weight-400">Baggage and Fare Rules</a>
                         </h6>
                         <hr>
-                        @elseif(isset($searched->from3))
+                        @elseif(isset($searched->from3) && isset($searched->to3))
                         @if($datas[$i]['Destination']==str_replace(')','',explode('(',$searched->from3)[1]))
                         <h4 class="font-weight-500">FLIGHT 3</h4>
                         <hr>
@@ -205,6 +205,201 @@
     </section>
 </div>
 
+@if(count($flights1)>0)
+
+<div class="modal fade" id="baggageAndFare1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Baggage and Fare Rules</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <!-- Modal body -->
+      <div class="modal-body">
+        <ul class="nav nav-pills" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" data-toggle="pill" href="#fare_details">Fare Details</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="pill" href="#baggage_rules">Baggage Rules</a>
+          </li>
+        </ul>
+        <div class="tab-content row mt-3">
+          <div id="fare_details" class="container tab-pane active">
+            <table class="table table-bordered small">
+              @foreach($flights1[4] as $price)
+              <tr>
+                <td>Base Fare (1 Adult)</td>
+                <td><i class="las la-pound-sign"></i> {{str_replace('GBP','',$price[0]['Amount'])}}</td>
+              </tr>
+              <tr>
+                <td>Taxes and Fees (1 Adult)</td>
+                <td><i class="las la-pound-sign"></i> {{str_replace('GBP','',$price[0]['TaxAmount'])}}</td>
+              </tr>
+              <tr>
+                <td>Total Fare (1 Adult)</td>
+                <td><i class="las la-pound-sign"></i> {{number_format((str_replace('GBP','',$price[0]['Amount'])+str_replace('GBP','',$price[0]['TaxAmount'])),2)}}</td>
+              </tr>
+              @endforeach
+            </table>
+          </div>
+          <div id="baggage_rules" class="container tab-pane fade">
+            <!-- <div class="media mb-3">
+              <div class="media-left"><img src="https://goprivate.wspan.com/sharedservices/images/airlineimages/logoAir<?php //foreach($flights1[0] as $datas){echo $datas[0]['Carrier'];}?>.gif" alt="6E.png" style="width:50px;height:50px;" class="mr-2"/></div>
+              <div class="media-body align-self-center">
+                <h6 class="m-0"><?php// foreach($return_data[0] as $datas){echo $datas[0]['Origin']."-".$datas[count($datas)-1]['Destination'];}?> <small class="text-muted"><?php //foreach($return_data[0] as $datas){echo $datas[0]['Carrier']."-".$datas[0]['FlightNumber'];}?></small></h6>
+              </div>
+            </div> -->
+            <table class="table table-bordered small">
+              <tr>
+                <td>Baggage Type</td>
+                <td>Check-In</td>
+                <td>Cabin</td>
+              </tr>
+              <tr>
+                <td>Adult</td>
+                <td>{{str_replace('K','', isset($flights1[1]['details']['baggageallowanceinfo'])?$flights1[1]['details']['baggageallowanceinfo']:'' )}} Kgs</td>
+                <td>{{str_replace('K','', isset($flights1[1]['details']['carryonallowanceinfo'])?$flights1[1]['details']['carryonallowanceinfo']:'')}} Kgs</td>
+              </tr>
+            </table>
+            <small>The baggage information is just for reference. Please Check with airline before check-in. For more information, visit IndiGo Airlines Website.</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="baggageAndFare2">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Baggage and Fare Rules</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <!-- Modal body -->
+      <div class="modal-body">
+        <ul class="nav nav-pills" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" data-toggle="pill" href="#fare_details2">Fare Details</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="pill" href="#baggage_rules2">Baggage Rules</a>
+          </li>
+        </ul>
+        <div class="tab-content row mt-3">
+          <div id="fare_details2" class="container tab-pane active">
+            <table class="table table-bordered small">
+            @foreach($flights1[4] as $price)
+            <tr>
+                <td>Base Fare (1 Adult)</td>
+                <td><i class="las la-pound-sign"></i> {{str_replace('GBP','',$price[1]['Amount'])}}</td>
+              </tr>
+              <tr>
+                <td>Taxes and Fees (1 Adult)</td>
+                <td><i class="las la-pound-sign"></i> {{str_replace('GBP','',$price[1]['TaxAmount'])}}</td>
+              </tr>
+              <tr>
+                <td>Total Fare (1 Adult)</td>
+                <td><i class="las la-pound-sign"></i> {{number_format((str_replace('GBP','',$price[1]['Amount'])+str_replace('GBP','',$price[1]['TaxAmount'])),2)}}</td>
+              </tr>
+              @endforeach
+            </table>
+          </div>
+          <div id="baggage_rules2" class="container tab-pane fade">
+            <!-- <div class="media mb-3">
+              <div class="media-left"><img src="https://goprivate.wspan.com/sharedservices/images/airlineimages/logoAir<?php // foreach($return_data[0] as $datas){echo $datas[0]['Carrier'];}?>.gif" alt="6E.png" style="width:50px;height:50px;" class="mr-2"/></div>
+              <div class="media-body align-self-center">
+                <h6 class="m-0"><?php // foreach($return_data[0] as $datas){echo $datas[0]['Origin']."-".$datas[count($datas)-1]['Destination'];}?> <small class="text-muted"><?php // foreach($return_data[0] as $datas){echo $datas[0]['Carrier']."-".$datas[0]['FlightNumber'];}?></small></h6>
+              </div>
+            </div> -->
+            <table class="table table-bordered small">
+              <tr>
+                <td>Baggage Type</td>
+                <td>Check-In</td>
+                <td>Cabin</td>
+              </tr>
+              <tr>
+                <td>Adult</td>
+                <td>{{str_replace('K','', isset($flights1[1]['details']['baggageallowanceinfo'])?$flights1[1]['details']['baggageallowanceinfo']:'' )}} Kgs</td>
+                <td>{{str_replace('K','', isset($flights1[1]['details']['carryonallowanceinfo'])?$flights1[1]['details']['carryonallowanceinfo']:'')}} Kgs</td>
+              </tr>
+            </table>
+            <small>The baggage information is just for reference. Please Check with airline before check-in. For more information, visit IndiGo Airlines Website.</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+@if(isset($searched->from3) && isset($searched->to3))
+<div class="modal fade" id="baggageAndFare3">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Baggage and Fare Rules</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <!-- Modal body -->
+      <div class="modal-body">
+        <ul class="nav nav-pills" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" data-toggle="pill" href="#fare_details3">Fare Details</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="pill" href="#baggage_rules3">Baggage Rules</a>
+          </li>
+        </ul>
+        <div class="tab-content row mt-3">
+          <div id="fare_details3" class="container tab-pane active">
+            <table class="table table-bordered small">
+            @foreach($flights1[4] as $price)
+            <tr>
+                <td>Base Fare (1 Adult)</td>
+                <td><i class="las la-pound-sign"></i> {{str_replace('GBP','',$price[2]['Amount'])}}</td>
+              </tr>
+              <tr>
+                <td>Taxes and Fees (1 Adult)</td>
+                <td><i class="las la-pound-sign"></i> {{str_replace('GBP','',$price[2]['TaxAmount'])}}</td>
+              </tr>
+              <tr>
+                <td>Total Fare (1 Adult)</td>
+                <td><i class="las la-pound-sign"></i> {{number_format((str_replace('GBP','',$price[2]['Amount'])+str_replace('GBP','',$price[2]['TaxAmount'])),2)}}</td>
+              </tr>
+              @endforeach
+            </table>
+          </div>
+          <div id="baggage_rules3" class="container tab-pane fade">
+            <!-- <div class="media mb-3">
+              <div class="media-left"><img src="https://goprivate.wspan.com/sharedservices/images/airlineimages/logoAir<?php // foreach($return_data[0] as $datas){echo $datas[0]['Carrier'];}?>.gif" alt="6E.png" style="width:50px;height:50px;" class="mr-2"/></div>
+              <div class="media-body align-self-center">
+                <h6 class="m-0"><?php //foreach($return_data[0] as $datas){echo $datas[0]['Origin']."-".$datas[count($datas)-1]['Destination'];}?> <small class="text-muted"><?php //foreach($return_data[0] as $datas){echo $datas[0]['Carrier']."-".$datas[0]['FlightNumber'];}?></small></h6>
+              </div>
+            </div> -->
+            <table class="table table-bordered small">
+              <tr>
+                <td>Baggage Type</td>
+                <td>Check-In</td>
+                <td>Cabin</td>
+              </tr>
+              <tr>
+                <td>Adult</td>
+                <td>{{str_replace('K','', isset($flights1[1]['details']['baggageallowanceinfo'])?$flights1[1]['details']['baggageallowanceinfo']:'' )}} Kgs</td>
+                <td>{{str_replace('K','', isset($flights1[1]['details']['carryonallowanceinfo'])?$flights1[1]['details']['carryonallowanceinfo']:'')}} Kgs</td>
+              </tr>
+            </table>
+            <small>The baggage information is just for reference. Please Check with airline before check-in. For more information, visit IndiGo Airlines Website.</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+@endif
+@endif
 
 @endsection
 
