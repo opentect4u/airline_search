@@ -146,6 +146,11 @@
                                             </select>
                                         </div>
                                     </div>
+                                    <div class="col-6 px-2">
+                                        <div class="form-group">
+                                            <input type="button" name="" id="buttonApply" class="btn btn-primary" onclick="traveller_selection();" value="Apply">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
