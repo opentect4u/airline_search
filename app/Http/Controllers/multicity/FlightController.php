@@ -24,8 +24,8 @@ class FlightController extends Controller
         $var_from1 =  str_replace(')','',explode('(',$request->from1)[1]);
         $var_to1 =  str_replace(')','',explode('(',$request->to1)[1]);
 
-        $var_from2 =  str_replace(')','',explode('(',$request->from2)[1]);
-        $var_to2 =  str_replace(')','',explode('(',$request->to2)[1]);
+        // $var_from2 =  str_replace(')','',explode('(',$request->from2)[1]);
+        // $var_to2 =  str_replace(')','',explode('(',$request->to2)[1]);
        
 
         $var_adults=$request->adults;
@@ -33,7 +33,7 @@ class FlightController extends Controller
         $var_infant=$request->infant;
 
         $var_flight0_date = Carbon::parse($request->flight0_date)->format('Y-m-d');
-        $var_flight1_date = Carbon::parse($request->flight1_date)->format('Y-m-d');
+        // $var_flight1_date = Carbon::parse($request->flight1_date)->format('Y-m-d');
 
         $travel_details='';
         for ($i=1; $i <= $var_adults; $i++) { 
@@ -63,19 +63,24 @@ class FlightController extends Controller
         <air:SearchDepTime PreferredTime="'.$var_flight0_date.'">
         </air:SearchDepTime>    
         '.$searchLegModifier.'        
-     </air:SearchAirLeg>
-     <air:SearchAirLeg>
-        <air:SearchOrigin>
-           <com:Airport Code="'.$var_from2.'"/>
-        </air:SearchOrigin>
-        <air:SearchDestination>
-           <com:Airport Code="'.$var_to2.'"/>
-        </air:SearchDestination>
-        <air:SearchDepTime PreferredTime="'.$var_flight1_date.'">
-        </air:SearchDepTime>
-        '.$searchLegModifier.'            
      </air:SearchAirLeg>';
         // return $datasegment;
+        if($request->from2!='' && $request->to2!='' && $request->flight1_date!=''){
+            $var_from2 =  str_replace(')','',explode('(',$request->from2)[1]);
+            $var_to2 =  str_replace(')','',explode('(',$request->to2)[1]);
+            $var_flight1_date = Carbon::parse($request->flight1_date)->format('Y-m-d');
+            $datasegment.=' <air:SearchAirLeg>
+            <air:SearchOrigin>
+               <com:Airport Code="'.$var_from2.'"/>
+            </air:SearchOrigin>
+            <air:SearchDestination>
+               <com:Airport Code="'.$var_to2.'"/>
+            </air:SearchDestination>
+            <air:SearchDepTime PreferredTime="'.$var_flight1_date.'">
+            </air:SearchDepTime>  
+            '.$searchLegModifier.'          
+         </air:SearchAirLeg>';
+        }
         if($request->from3!='' && $request->to3!='' && $request->flight2_date!=''){
             $var_from3 =  str_replace(')','',explode('(',$request->from3)[1]);
             $var_to3 =  str_replace(')','',explode('(',$request->to3)[1]);

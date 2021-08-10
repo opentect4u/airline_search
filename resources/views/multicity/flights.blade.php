@@ -12,7 +12,7 @@
                 </div>
                 <div class="col-md col-6">
                     <small class="text-muted d-block mb-1">To</small>
-                    <h6 class="font-weight-600 mb-0">{{isset($searched->to3)?$searched->to3:$searched->to2}}</h6>
+                    <h6 class="font-weight-600 mb-0">{{isset($searched->to3)?$searched->to3:isset($searched->to2)?$searched->to2:$searched->to1}}</h6>
                 </div>
                 <!-- <div class="col-md col-6 my-2 my-md-0">
                     <small class="text-muted d-block mb-1">Departure date</small>
@@ -69,32 +69,35 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" id="2rdFlight" data-show-value="0">
                         <div class="col-md-2">
                             <h6 class="text-uppercase text-muted">Flight 2</h6>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>From</label>
-                                <input type="text" name="from2" id="from2" required value="{{$searched->from2}}" required placeholder="(IXC) | Chandigarh Airport" class="form-control search_input">
+                                <input type="text" name="from2" id="from2"  value="{{$searched->from2}}"  placeholder="(IXC) | Chandigarh Airport" class="form-control search_input">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label>To</label>
-                                <input type="text" name="to2" id="to2" required value="{{$searched->to2}}" required placeholder="(BOM) | Chhatrapati Shivaji Int'l Airport" class="form-control search_input">
+                                <input type="text" name="to2" id="to2"  value="{{$searched->to2}}"  placeholder="(BOM) | Chhatrapati Shivaji Int'l Airport" class="form-control search_input">
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label>Date</label>
                                 <div id="flight1_date_datetimepicker" class="input-group flight1_date_datetimepicker_class">
-                                    <input type="text" name="flight1_date" required id="flight1_date" value="{{ isset($searched->flight1_date)? \Carbon\Carbon::parse($searched->flight1_date)->format('d-m-Y'):'' }}" placeholder="dd-mm-yyyy" class="form-control border-right-0 flight1_date_datetimepicker_class" data-format="dd-MM-yyyy">
+                                    <input type="text" name="flight1_date"  id="flight1_date" value="{{ isset($searched->flight1_date)? \Carbon\Carbon::parse($searched->flight1_date)->format('d-m-Y'):'' }}" placeholder="dd-mm-yyyy" class="form-control border-right-0 flight1_date_datetimepicker_class" data-format="dd-MM-yyyy">
                                     <div class="input-group-append add-on flight1_date_datetimepicker_class">
                                     <span class="input-group-text bg-white pl-0 flight1_date_datetimepicker_class"><i class="lar la-calendar-alt"></i></span>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="col-md-1">
+                            <span class="input-group-text" id="crossIcon_flight2" style="cursor: pointer;"><i class="las la-times"></i></span>
                         </div>
                     </div>
                     <div class="row" id="3rdFlight" data-show-value="0">
@@ -440,15 +443,17 @@
                                 foreach($datas1[0] as $journey){
                                     $var1= (count($journey)-1); 
                                 }
-                                foreach($datas1[1] as $journey1){
-                                    $var2= (count($journey1)-1); 
+                                if(isset($datas1[1])){
+                                    foreach($datas1[1] as $journey1){
+                                        $var2= (count($journey1)-1); 
+                                    }
                                 }
                                 if(isset($datas1[2])){
                                     foreach($datas1[2] as $journey1){
                                         $var3= (count($journey1)-1); 
                                     } 
                                 }
-                                }} if(isset($var3)){if($var1==$var2 && $var1==$var3 && $var2==$var3){echo $var1;}else{echo "other";}}else{ if($var1==$var2){echo $var1;}else{echo "other";}} ?>
+                                }} if(isset($var3)){if($var1==$var2 && $var1==$var3 && $var2==$var3){echo $var1;}else{echo "other";}}else{ if(isset($var2)){ if($var1==$var2){echo $var1;}else{echo "other";}}else{echo $var1;} } ?>
                                 priceRange<?php 
                                 foreach($data as $datas){
                                     
@@ -824,6 +829,11 @@
                     }
         });
 
+        var from2=$('#from2').val();
+        var to2=$('#to2').val();
+        var flight1_date=$('#flight1_date').val();
+
+
         var from3=$('#from3').val();
         var to3=$('#to3').val();
         var flight2_date=$('#flight2_date').val();
@@ -841,6 +851,11 @@
         // var flight5_date=$('#flight5_date').val();
         
         // alert(from3);
+        if(from2=='' || to2=='' || flight1_date==''){
+            $('#2rdFlight').hide();
+        }else{
+            $("#2rdFlight").attr("data-show-value", "1");
+        }
         if(from3=='' || to3=='' || flight2_date==''){
             $('#3rdFlight').hide();
         }else{
@@ -996,19 +1011,34 @@
         //  click on add anathor flight
         $('#addFlight').click(function(){
             // alert("hii");
-            // var attr_4rdFlight=$("#4rdFlight").attr("data-show-value");
+            var attr_2rdFlight=$("#2rdFlight").attr("data-show-value");
             // var attr_5rdFlight=$("#5rdFlight").attr("data-show-value");
             // var attr_6rdFlight=$("#6rdFlight").attr("data-show-value");
             // alert(attr_4rdFlight)
             // if(attr_4rdFlight==0)
-            $('#3rdFlight').show();
-            $("#3rdFlight").attr("data-show-value", "1");
-            // to3
-            var to3_val=$('#to2').val();
-            if(to3_val!=''){
-                // from4
-                $('#from3').val('');
-                $('#from3').val(to3_val);
+                $('#2rdFlight').show();
+                $("#2rdFlight").attr("data-show-value", "1");
+                // to3
+                var to3_val=$('#to1').val();
+                if(to3_val!=''){
+                    // from4
+                    $('#from2').val('');
+                    $('#from2').val(to3_val);
+                }
+            // }
+            if(attr_2rdFlight==1){
+                $('#3rdFlight').show();
+                $("#3rdFlight").attr("data-show-value", "1");
+                // crossIcon_flight3
+                $('#crossIcon_flight2').hide();
+                var to4_val=$('#to4').val();
+                if(to4_val!=''){
+                    // from4
+                    $('#from5').val('');
+                    $('#from5').val(to4_val);
+                }
+                $('#addFlight').hide();
+                
             }
                 // $('#4rdFlight').show();
                 // $("#4rdFlight").attr("data-show-value", "1");
@@ -1064,6 +1094,15 @@
         //     $('#flight4_date').val('');
         //     $('#crossIcon_flight3').show();
         // });
+        $('#crossIcon_flight2').click(function(){
+            // alert('hii');
+            $('#2rdFlight').hide();
+            $("#2rdFlight").attr("data-show-value", "0");
+            $('#from2').val('');
+            $('#to2').val('');
+            $('#flight1_date').val('');
+            // $('#crossIcon_flight2').show();
+        });
         $('#crossIcon_flight3').click(function(){
             // alert('hii');
             $('#3rdFlight').hide();
@@ -1071,6 +1110,8 @@
             $('#from3').val('');
             $('#to3').val('');
             $('#flight2_date').val('');
+            $('#crossIcon_flight2').show();
+            $('#addFlight').show();
         });
 
         $("#to1").typeahead({

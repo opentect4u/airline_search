@@ -85,6 +85,7 @@
                         </div>
                         <p class="mt-3"><i class="las la-suitcase-rolling"></i> {{str_replace('K','', isset($flights1[1]['details']['baggageallowanceinfo'])?$flights1[1]['details']['baggageallowanceinfo']:'' )}} Kgs Check-In, {{str_replace('K','', isset($data[1]['details']['carryonallowanceinfo'])?$data[1]['details']['carryonallowanceinfo']:'' )}} Kgs Cabin</p>
                         <hr>
+                        @if(isset($searched->from2) && isset($searched->to2))
                         @if($datas[$i]['Destination']==str_replace(')','',explode('(',$searched->from2)[1]))
                         <h4 class="font-weight-500">FLIGHT 2</h4>
                         <hr>
@@ -92,6 +93,7 @@
                             <a href="javascript:void(0)" data-toggle="modal" data-target="#baggageAndFare2" class="float-right badge badge-success font-weight-400">Baggage and Fare Rules</a>
                         </h6>
                         <hr>
+                        @endif
                         @elseif(isset($searched->from3) && isset($searched->to3))
                         @if($datas[$i]['Destination']==str_replace(')','',explode('(',$searched->from3)[1]))
                         <h4 class="font-weight-500">FLIGHT 3</h4>
@@ -281,6 +283,7 @@
   </div>
 </div>
 
+@if(isset($searched->from2) && isset($searched->to2))
 <div class="modal fade" id="baggageAndFare2">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
@@ -344,6 +347,7 @@
     </div>
   </div>
 </div>
+@endif
 @if(isset($searched->from3) && isset($searched->to3))
 <div class="modal fade" id="baggageAndFare3">
   <div class="modal-dialog modal-dialog-centered">
