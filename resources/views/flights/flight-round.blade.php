@@ -352,6 +352,27 @@
                 <div class="card">
                     <!-- <h4>Onward Journey</h4>
                     <br/> -->
+                    <div class="flight-devider cheapestDiv">
+                        <?php
+                        foreach($return_flights[0] as $datas){
+                                        
+                            $var_total_price_low=0;
+                            foreach($datas[1] as $prices){ $var_total_price_low+= (str_replace('GBP','',$prices['Total Price'])*$searched->adults);} 
+                            if(isset($datas[2])){
+                            foreach($datas[2] as $prices){ $var_total_price_low+= (str_replace('GBP','',$prices['Total Price'])*$searched->children);} 
+                            }
+                            if(isset($datas[3])){
+                                foreach($datas[3] as $prices){ $var_total_price_low+= (str_replace('GBP','',$prices['Total Price'])*$searched->infant);} 
+                            }
+                        }
+                        $format_tot_price_low=number_format($var_total_price_low,2,'.','');
+                        //  echo $format_tot_price;
+                        ?>
+                        <div class="font-weight-bold"><i class="las la-database" style="color:#xf1c0;" ></i>Cheapest</div>
+                        <!-- <div><i class="las la-database" style="color:#xf1c0;" ></i>Cheapest</div> -->
+                        <div class="font-weight-bold">Price : <i class="las la-pound-sign"><?php echo $format_tot_price_low;?></i></div>
+                        <!-- <div>Total journey time: 51.70</div> -->
+                    </div>
                     <div class="row row-heading d-none d-md-flex">
                         <div class="col-md-3">Airlines</div>
                         <div class="col-md-2" >Departure</div>
