@@ -44,6 +44,7 @@
                 <input type="hidden" name="flexi" id="flexi" value="{{isset($searched->flexi)?$searched->flexi:''}}">
                 <input type="hidden" name="direct_flight" id="direct_flight" value="{{isset($searched->direct_flight)?$searched->direct_flight:''}}">
                 <input type="hidden" name="price_order" id="price_order" value="{{isset($searched->price_order)?$searched->price_order:''}}">
+                <input type="hidden" name="slider_order" id="slider_order" value="{{isset($searched->slider_order)?$searched->slider_order:''}}">
                 <div class="form-group">
                     <ul class="cld__selectors">
                         <li><a href="javascript:void(0)" class="active" id="one_way">One way</a></li>
@@ -430,6 +431,16 @@
                 array_push($DurationTimeOrder,\Carbon\Carbon::parse($datas[0]['Depart'])->diff(\Carbon\Carbon::parse($datas[count($datas)-1]['Arrive']))->format('%d%H%I'));
                 ?>
                 @endforeach
+                
+                
+                @if($searched->direct_flight!="" || $searched->flexi!="")
+                @if($searched->direct_flight == 'DF' && $rrr>1 && $searched->flexi=="")
+                @continue
+                @elseif($searched->flexi == 'F' && $rrr==1 && $searched->direct_flight=="")
+                @continue
+                @endif
+                @endif
+
                 <?php 
                     $var_total_price=0;
                     foreach($flight_data[1] as $prices){ $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->adults);} 
@@ -443,16 +454,13 @@
                     $format_tot_price=($var_total_price*100);
 
                 ?>
-                
-                @if($searched->direct_flight == 'DF' && $rrr>1 && $searched->flexi=="")
-                @continue
-                @elseif($searched->flexi == 'F' && $rrr==1 && $searched->direct_flight=="")
-                @continue
-                @endif
 
                 @if(isset($searched->slider_order))
+                    @if($searched->slider_order==$format_tot_price)
+                    @else
                     @if($format_tot_price >= $searched->slider_order)
                         @continue
+                    @endif
                     @endif
                 @endif
                 
@@ -1397,6 +1405,32 @@
 
     //slider function
     var slider = document.getElementById("onwwayRange");
+    slider.oninput = function() {
+        // output.innerHTML = this.value;
+        // alert(this.value)
+        var range_val=this.value;
+        var min_val=$('#onwwayRange_minprice').val();
+        var mix_val=$('#onwwayRange_maxprice').val();
+        var cal_min_val=min_val/100;
+        var amount='<i class="las la-pound-sign"></i>'+parseFloat(cal_min_val).toFixed(2)+' - <i class="las la-pound-sign"></i>'+parseFloat(range_val/100).toFixed(2);
+        $('#amount').empty();
+        $('#amount').append(amount);
+        // $('#flightSearch').submit();
+    }
+
+    // $( "#slider-range-min" ).slider({
+    //   range: "min",
+    //   value: 37,
+    //   min: 1,
+    //   max: 700,
+    //   slide: function( event, ui ) {
+    //     // $( "#amount" ).val( "$" + ui.value );
+    //     $( "#amount" ).empty( );
+    //     $( "#amount" ).append( "$" + ui.value );
+    //   }
+    // });
+    // $( "#amount" ).empty( "$" + $( "#slider-range-min" ).slider( "value" ) );
+    // $( "#amount" ).val( "$" + $( "#slider-range-min" ).slider( "value" ) );
     // alert(slider);
     // var output = document.getElementById("amount");
     // output.innerHTML = slider.value;
@@ -1406,17 +1440,23 @@
         var loading ='<img id="loading-image-small" src="{{ asset('public/loder-small.gif') }}" alt="Loading..." style=" position: absolute;top: 100px;left: 431px;z-index: 100;" />';
         // alert(loading)
         $('#loading_small').append(loading);
-        $('#loading_small').show();
+        // $('#loading_small').show();
         var url= window.location.href;
         var slider_order='{{isset($searched->slider_order)?$searched->slider_order:''}}';
         if(slider_order==""){
-            var newurl=url+'&slider_order='+var_val;
+            $('#slider_order').val('')
+            $('#slider_order').val(var_val)
+            // var newurl=url+'&slider_order='+var_val;
         }else{
-            var newurl=url.split('&slider_order='+slider_order)[0];
-            var newurl=newurl+'&slider_order='+var_val;
+            $('#slider_order').val('')
+            $('#slider_order').val(var_val)
+            // var newurl=url.split('&slider_order='+slider_order)[0];
+            // var newurl=newurl+'&slider_order='+var_val;
         }
-        window.location.assign(newurl);
 
+        
+        // window.location.assign(newurl);
+        $('#flightSearch').submit();
 
         // $('#loading_small').attr('data-loading-small-val','1');
         // // var loading_small_val=$("#loading_small").attr("data-loading-small-val")

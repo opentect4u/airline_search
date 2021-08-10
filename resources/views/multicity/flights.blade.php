@@ -38,6 +38,7 @@
                 <form id="multiCity" method="post" action="{{route('multicityflight')}}" class="w-100">
                     @csrf
                     <input type="hidden" name="price_order" id="price_order" value="{{isset($searched->price_order)?$searched->price_order:''}}">
+                    <input type="hidden" name="slider_order" id="slider_order" value="{{isset($searched->slider_order)?$searched->slider_order:''}}">
                     <div class="row">
                         <div class="col-md-12">
                             <h3 class="font-weight-600 mb-3">Multi City / Stop Over <i class="las la-plane"></i></h3>
@@ -1596,6 +1597,20 @@
           }
     }
 
+    // price slider
+    var slider = document.getElementById("onwwayRange");
+    slider.oninput = function() {
+        // output.innerHTML = this.value;
+        // alert(this.value)
+        var range_val=this.value;
+        var min_val=$('#onwwayRange_minprice').val();
+        var mix_val=$('#onwwayRange_maxprice').val();
+        var cal_min_val=min_val/100;
+        var amount='<i class="las la-pound-sign"></i>'+parseFloat(cal_min_val).toFixed(2)+' - <i class="las la-pound-sign"></i>'+parseFloat(range_val/100).toFixed(2);
+        $('#amount').empty();
+        $('#amount').append(amount);
+        // $('#flightSearch').submit();
+    }
     $(document).on('change', '#onwwayRange', function() {
         // alert($(this).val());
         var var_val=$(this).val();
@@ -1606,12 +1621,17 @@
         var url= window.location.href;
         var slider_order='{{isset($searched->slider_order)?$searched->slider_order:''}}';
         if(slider_order==""){
-            var newurl=url+'&slider_order='+var_val;
+            $('#slider_order').val('')
+            $('#slider_order').val(var_val)
+            // var newurl=url+'&slider_order='+var_val;
         }else{
-            var newurl=url.split('&slider_order='+slider_order)[0];
-            var newurl=newurl+'&slider_order='+var_val;
+            $('#slider_order').val('')
+            $('#slider_order').val(var_val)
+            // var newurl=url.split('&slider_order='+slider_order)[0];
+            // var newurl=newurl+'&slider_order='+var_val;
         }
-        window.location.assign(newurl);
+        // window.location.assign(newurl);
+        $('#multiCity').submit();
 
         // var min_val=$('#onwwayRange_minprice').val();
         // var mix_val=$('#onwwayRange_maxprice').val();

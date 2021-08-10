@@ -44,6 +44,7 @@
                 <input type="hidden" name="flexi" id="flexi" value="{{isset($searched->flexi)?$searched->flexi:''}}">
                 <input type="hidden" name="direct_flight" id="direct_flight" value="{{isset($searched->direct_flight)?$searched->direct_flight:''}}">
                 <input type="hidden" name="price_order" id="price_order" value="{{isset($searched->price_order)?$searched->price_order:''}}">
+                <input type="hidden" name="slider_order" id="slider_order" value="{{isset($searched->slider_order)?$searched->slider_order:''}}">
                 <div class="form-group">
                     <ul class="cld__selectors">
                         <li><a href="javascript:void(0)" class="active" id="one_way">One way</a></li>
@@ -1759,6 +1760,19 @@
     }
 
      // onword price slider function
+    var slider = document.getElementById("onwwayRange");
+    slider.oninput = function() {
+        // output.innerHTML = this.value;
+        // alert(this.value)
+        var range_val=this.value;
+        var min_val=$('#onwwayRange_minprice').val();
+        var mix_val=$('#onwwayRange_maxprice').val();
+        var cal_min_val=min_val/100;
+        var amount='<i class="las la-pound-sign"></i>'+parseFloat(cal_min_val).toFixed(2)+' - <i class="las la-pound-sign"></i>'+parseFloat(range_val/100).toFixed(2);
+        $('#amount').empty();
+        $('#amount').append(amount);
+        // $('#flightSearch').submit();
+    }
      $(document).on('change', '#onwwayRange', function() {
         // alert($(this).val());
         var var_val=$(this).val();
@@ -1769,13 +1783,18 @@
         var url= window.location.href;
         var slider_order='{{isset($searched->slider_order)?$searched->slider_order:''}}';
         if(slider_order==""){
-            var newurl=url+'&slider_order='+var_val;
+            $('#slider_order').val('')
+            $('#slider_order').val(var_val)
+            // var newurl=url+'&slider_order='+var_val;
         }else{
-            var newurl=url.split('&slider_order='+slider_order)[0];
-            var newurl=newurl+'&slider_order='+var_val;
+            $('#slider_order').val('')
+            $('#slider_order').val(var_val)
+            // var newurl=url.split('&slider_order='+slider_order)[0];
+            // var newurl=newurl+'&slider_order='+var_val;
         }
-        window.location.assign(newurl);
+        // window.location.assign(newurl);
 
+        $('#flightSearch').submit();
 
         // $('#loading_small').attr('data-loading-small-val','1');
         // // var loading_small_val=$("#loading_small").attr("data-loading-small-val")
@@ -1816,7 +1835,7 @@
         // $('#loading_small').hide();
         // $('#loading_small').empty();
     });
-     var slider = document.getElementById("onwwayRange");
+    
     // var output = document.getElementById("amount");
     // output.innerHTML = slider.value;
     // slider.oninput = function() {
