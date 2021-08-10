@@ -72,7 +72,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-2 col-6">
+                    <div class="col-md-2 col-6" id="returnDateDiv">
                         <div class="form-group">
                             <label>Returning Date</label>
                             <div id="returning_date_datetimepicker" class="input-group returning_date_datetimepickerclass">
@@ -158,6 +158,7 @@
                     <div class="col-md-2">
                         <button type="submit" id="flight_submit" class="btn btn-primary" onclick="showLoder();">Search</button>
                     </div>
+                    <br><br>
                 </div>
             </form>
             </div>
@@ -752,6 +753,8 @@
         $('#loading_small').hide();
 
         $('#refreshDiv').hide();
+        $('#returnDateDiv').hide();
+
         // setInterval(AutomaticRefresh, 5000);
         setInterval(AutomaticRefresh, 400000);
 
@@ -820,6 +823,7 @@
             $('#flexiDiv').show();
             $('#one_way').removeAttr('class');
             $('#round_trip').attr('class','active');
+            $('#returnDateDiv').show();
             // $("#returning_date_datetimepicker").datetimepicker("show"); 
             var dep_val=$('#departure_date').val();
             $('#returning_date').val('');
@@ -894,6 +898,7 @@
             $('#returning_date').val('');
             $('#round_trip').removeAttr('class');
             $('#one_way').attr('class','active');
+            $('#returnDateDiv').hide();
         });
 
         $("#adults").change(function(){

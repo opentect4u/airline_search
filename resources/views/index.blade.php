@@ -91,7 +91,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-6" id="returnDateDiv">
                             <div class="form-group">
                                 <label>Returning Date</label>
                                 <div id="returning_date_datetimepicker" class="input-group returning_date_datetimepickerclass">
@@ -578,6 +578,8 @@
         $('#loading').hide();
         $('#loading_small').hide();
         $('#flexiDiv').hide();
+        $('#returnDateDiv').hide();
+        
         var path = "{{ route('searchairport') }}";
 
         // Set the Options for "Bloodhound" suggestion engine
@@ -683,12 +685,14 @@
             $('#round_trip').removeAttr('class');
             $('#one_way').attr('class','active');
             $('#flexiDiv').hide();
+            $('#returnDateDiv').hide(); 
         });
         $('#round_trip').click(function(){
             // alert("hii");
             $('#flexiDiv').show();
             $('#one_way').removeAttr('class');
             $('#round_trip').attr('class','active');
+            $('#returnDateDiv').show(); 
             // $("#returning_date_datetimepicker").datetimepicker("show"); 
             var dep_val=$('#departure_date').val();
             var newdate = dep_val.split("-").reverse().join("/");
@@ -702,8 +706,8 @@
                 todayHighlight: false,
             });
             $("#returning_date_datetimepicker").datetimepicker("show"); 
-            
-            
+
+
         });
         // returning_date
         // $(".returning_date_datetimepickerclass").on('click', function(event){

@@ -72,7 +72,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-2 col-6">
+                    <div class="col-md-2 col-6" id="returnDateDiv">
                         <div class="form-group">
                             <label>Returning Date</label>
                             <div id="returning_date_datetimepicker" class="input-group returning_date_datetimepickerclass">
@@ -158,6 +158,7 @@
                     <div class="col-md-2">
                         <button type="submit" id="flight_submit" class="btn btn-primary" onclick="showLoder();">Search</button>
                     </div>
+                    <br><br>
                 </div>
             </form>
             </div>
@@ -850,6 +851,7 @@
             $('#returning_date').val('');
             $('#round_trip').removeAttr('class');
             $('#one_way').attr('class','active');
+            $('#returnDateDiv').hide();
         });
 
         $('#round_trip').click(function(){
@@ -857,6 +859,7 @@
             $("#returning_date_datetimepicker").datetimepicker("destroy");
             $('#one_way').removeAttr('class');
             $('#round_trip').attr('class','active');
+            $('#returnDateDiv').show();
             // $("#returning_date_datetimepicker").datetimepicker("show"); 
             var dep_val=$('#departure_date').val();
             var return_val=$('#returning_date').val();
