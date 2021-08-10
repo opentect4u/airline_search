@@ -1070,6 +1070,8 @@
 
         $('#flight_submit').click(function(){
             // alert("hii");
+            $('#price_order').val('');
+            $('#slider_order').val('');
             var addFrom=$('#addFrom').val();
             var addTo=$('#addTo').val();
             if(addFrom===""){

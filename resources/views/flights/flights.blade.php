@@ -1045,6 +1045,9 @@
 
         $('#flight_submit').click(function(){
             // alert("hii");
+           
+            $('#price_order').val('');
+            $('#slider_order').val('');
             var addFrom=$('#addFrom').val();
             var addTo=$('#addTo').val();
             if(addFrom===""){
@@ -1440,7 +1443,7 @@
         var loading ='<img id="loading-image-small" src="{{ asset('public/loder-small.gif') }}" alt="Loading..." style=" position: absolute;top: 100px;left: 431px;z-index: 100;" />';
         // alert(loading)
         $('#loading_small').append(loading);
-        // $('#loading_small').show();
+        $('#loading_small').show();
         var url= window.location.href;
         var slider_order='{{isset($searched->slider_order)?$searched->slider_order:''}}';
         if(slider_order==""){
