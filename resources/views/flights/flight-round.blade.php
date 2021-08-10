@@ -448,7 +448,7 @@
                                     <span class="text-muted">{{$datas[0]['From']}}</span>
                                 </div>
                                 <div class="col-md-2 text-center col-4">
-                                    <span class="exchange-arrow exchange-relative m-auto" title="hello"><i class="las la-exchange-alt"></i></span>
+                                    <span class="exchange-arrow exchange-relative m-auto" title=""><i class="las la-long-arrow-alt-right"></i></span>
                                     <h5 class="font-weight-600 mb-0 mt-2">  {{\Carbon\Carbon::parse($datas[0]['Depart'])->diff(\Carbon\Carbon::parse($datas[count($datas)-1]['Arrive']))->format('%dD %Hh %Im')}}</h5>
                                     <small class="text-muted">
                                     <?php 
@@ -481,7 +481,7 @@
                                     <span class="text-muted">{{$datas[0]['From']}}</span>
                                 </div>
                                 <div class="col-md-2 text-center col-4">
-                                    <span class="exchange-arrow exchange-relative m-auto" title="hello"><i class="las la-exchange-alt"></i></span>
+                                    <span class="exchange-arrow exchange-relative m-auto" title=""><i class="las la-long-arrow-alt-left"></i></span>
                                     <h5 class="font-weight-600 mb-0 mt-2">  {{\Carbon\Carbon::parse($datas[0]['Depart'])->diff(\Carbon\Carbon::parse($datas[count($datas)-1]['Arrive']))->format('%dD %Hh %Im')}}</h5>
                                     <small class="text-muted">
                                     <?php 
@@ -545,7 +545,7 @@
                                     <div id="flight_details{{ $count }}" class="container tab-pane active">
                                         @foreach($flight_data[0] as $datas1)
                                         @foreach($datas1[0] as $datas)
-                                        <h4>Outbound Journey | {{$datas[0]['From']}} - {{$datas[count($datas)-1]['To']}}</h4>
+                                        <span class="exchange-arrow exchange-relative"><i class="las la-long-arrow-alt-right"></i></span><h4 style="margin-left: 50px;margin-top: -29px;">Outbound Journey | {{$datas[0]['From']}} - {{$datas[count($datas)-1]['To']}}</h4>
                                         @for($i=0; $i < count($datas); $i++) 
                                         @if($i>0)
                                         <div class="row align-items-center">
@@ -568,7 +568,7 @@
                                                 <span class="text-muted"><?php echo $datas[$i]['From']; ?></span>
                                             </div>
                                             <div class="col-md-2 text-center col-4">
-                                                <span class="exchange-arrow exchange-relative m-auto" title="hello"><i class="las la-exchange-alt"></i></span>
+                                                <span class="exchange-arrow exchange-relative m-auto" title=""><i class="las la-long-arrow-alt-right"></i></span>
                                                 <h5 class="font-weight-600 mb-0 mt-2">  <?php  echo \Carbon\Carbon::parse($datas[$i]['Depart'])->diff(\Carbon\Carbon::parse($datas[$i]['Arrive']))->format('%Hh %Im'); ?></h5>
                                                 <!-- <small class="text-muted">
                                                 <?php 
@@ -585,7 +585,7 @@
                                         @endfor
                                         @endforeach
                                         @foreach($datas1[1] as $datas)
-                                        <h4>Inbound Journey | {{$datas[0]['From']}} - {{$datas[count($datas)-1]['To']}}</h4>
+                                        <span class="exchange-arrow exchange-relative"><i class="las la-long-arrow-alt-left"></i></span><h4 style="margin-left: 50px;margin-top: -29px;">Inbound Journey | {{$datas[0]['From']}} - {{$datas[count($datas)-1]['To']}}</h4>
                                         @for($i=0; $i < count($datas); $i++) 
                                         @if($i>0)
                                         <div class="row align-items-center">
@@ -608,7 +608,7 @@
                                                 <span class="text-muted"><?php echo $datas[$i]['From']; ?></span>
                                             </div>
                                             <div class="col-md-2 text-center col-4">
-                                                <span class="exchange-arrow exchange-relative m-auto" title="hello"><i class="las la-exchange-alt"></i></span>
+                                                <span class="exchange-arrow exchange-relative m-auto" title=""><i class="las la-long-arrow-alt-left"></i></span>
                                                 <h5 class="font-weight-600 mb-0 mt-2">  <?php  echo \Carbon\Carbon::parse($datas[$i]['Depart'])->diff(\Carbon\Carbon::parse($datas[$i]['Arrive']))->format('%Hh %Im'); ?></h5>
                                                 <!-- <small class="text-muted">
                                                 <?php 

@@ -53,7 +53,7 @@
                                 <span class="text-muted">{{$datas[$i]['Origin']}}</span>
                             </div>
                             <div class="col-md-2 text-center">
-                                <span class="exchange-arrow exchange-relative m-auto"><i class="las la-exchange-alt"></i></span>
+                                <span class="exchange-arrow exchange-relative m-auto"><i class="las la-long-arrow-alt-right"></i></span>
                                 <h5 class="font-weight-600 mb-0 mt-2">{{\Carbon\Carbon::parse($datas[$i]['DepartureTime'])->diff(\Carbon\Carbon::parse($datas[$i]['ArrivalTime']))->format('%Hh %Im')}}</h5>
                                 <!-- <small class="text-muted">Non stop</small> -->
                             </div>
@@ -113,7 +113,14 @@
                                 <span class="text-muted">{{$datas[$i]['Origin']}}</span>
                             </div>
                             <div class="col-md-2 text-center">
-                                <span class="exchange-arrow exchange-relative m-auto"><i class="las la-exchange-alt"></i></span>
+                                <span class="exchange-arrow exchange-relative m-auto">
+                                  @if($datas[$i]['Destination']==str_replace(')','',explode('(',$per_flight_details->addTo)[1]))
+                                  <!-- {{$i}} -->
+                                  <i class="las la-long-arrow-alt-right"></i>
+                                  @else
+                                  <i class="las la-long-arrow-alt-left"></i>
+                                  @endif
+                                </span>
                                 <h5 class="font-weight-600 mb-0 mt-2">{{\Carbon\Carbon::parse($datas[$i]['DepartureTime'])->diff(\Carbon\Carbon::parse($datas[$i]['ArrivalTime']))->format('%Hh %Im')}}</h5>
                                 <!-- <small class="text-muted">Non stop</small> -->
                             </div>

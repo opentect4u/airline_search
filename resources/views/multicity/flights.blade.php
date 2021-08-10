@@ -497,7 +497,7 @@
                                 <span class="text-muted"><?php foreach($datas2 as $journey){ echo $journey[0]['From']; }?></span>
                             </div>
                             <div class="col-md-2 text-center col-4">
-                                <span class="exchange-arrow exchange-relative m-auto"><i class="las la-exchange-alt"></i></span>
+                                <span class="exchange-arrow exchange-relative m-auto"><i class="las la-long-arrow-alt-right"></i></span>
                                 <h5 class="font-weight-600 mb-0 mt-2"><?php foreach($datas2 as $journey){ echo \Carbon\Carbon::parse($journey[0]['Depart'])->diff(\Carbon\Carbon::parse($journey[count($journey)-1]['Arrive']))->format('%Hh %Im');} ?></h5>
                                 <small class="text-muted"><?php 
                             foreach($datas2 as $journey){ if(count($journey)==1){ echo "Non stop"; }else{echo ucwords(app('App\Http\Controllers\UtilityController')->convert_number_to_words((count($journey)-1)))." stop";}}
@@ -613,7 +613,7 @@
                                             <span class="text-muted"><?php echo $datas[$i]['From']; ?></span>
                                         </div>
                                         <div class="col-md-2 text-center col-4">
-                                            <span class="exchange-arrow exchange-relative m-auto" title="hello"><i class="las la-exchange-alt"></i></span>
+                                            <span class="exchange-arrow exchange-relative m-auto" title=""><i class="las la-long-arrow-alt-right"></i></span>
                                             <h5 class="font-weight-600 mb-0 mt-2">  <?php  echo \Carbon\Carbon::parse($datas[$i]['Depart'])->diff(\Carbon\Carbon::parse($datas[$i]['Arrive']))->format('%Hh %Im'); ?></h5>
                                             <!-- <small class="text-muted">
                                             <?php 
