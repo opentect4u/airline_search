@@ -9,7 +9,7 @@
                     <small class="text-muted d-block mb-1">From</small>
                     <h6 class="font-weight-600 mb-0">{{$searched->addFrom}}</h6>
                     <!-- <h6 class="font-weight-600 mb-0">Chandigarh Airport</h6> -->
-                    <small class="exchange-arrow"><i class="las la-exchange-alt"></i></small>
+                    <small class="exchange-arrow"><i class="las la-long-arrow-alt-right"></i></small>
                 </div>
                 <div class="col-md col-6">
                     <small class="text-muted d-block mb-1">To</small>
@@ -21,11 +21,13 @@
                     <h6 class="font-weight-600 mb-0">{{ Carbon\Carbon::parse($searched->departure_date)->format('d/m/Y')}}</h6>
                     <!-- <h6 class="font-weight-600 mb-0">05/03/2021</h6> -->
                 </div>
+                @if(isset($searched->returning_date))
                 <div class="col-md col-6 my-2 my-md-0">
                     <small class="text-muted d-block mb-1">Returning date</small>
                     <!-- <h6 class="font-weight-600 mb-0">{{ $searched->returning_date}}</h6> -->
                     <h6 class="font-weight-600 mb-0">{{ isset($searched->returning_date)?Carbon\Carbon::parse($searched->returning_date)->format('d/m/Y'):''}}</h6>
                 </div>
+                @endif
                 <div class="col-md col-6">
                     <small class="text-muted d-block mb-1">Passangers & Class</small>
                     <h6 class="font-weight-600 mb-0">{{ isset($searched->adults)?$searched->adults.'Adult':''}} <?php if($searched->children > 0){echo ' ,'.$searched->children.'Child';} if($searched->infant > 0){echo ' ,'.$searched->infant.'Infant';} ?>, {{$searched->travel_class}}</h6>

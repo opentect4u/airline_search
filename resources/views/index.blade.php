@@ -52,7 +52,7 @@
 
         <div class="tab-content">
             <div id="flight" class="tab-pane active">
-                <form method="post" action="{{route('flights')}}">
+                <form name="myform" method="post" action="{{route('flights')}}">
                     @csrf
                     <div class="form-group">
                         <ul class="cld__selectors">
@@ -74,11 +74,11 @@
                     </div>
                     <div class="form-group">
                         <label>From</label>
-                        <input type="text" name="addFrom" id="addFrom"  placeholder="(IXC) | Chandigarh Airport" class="form-control search_input" >
+                        <input type="text" name="addFrom" id="addFrom"  placeholder="(IXC) | Chandigarh Airport" class="form-control search_input" required oninvalid="this.setCustomValidity('Please Enter From')" oninput="setCustomValidity('')">
                     </div>
                     <div class="form-group">
                         <label>To</label>
-                        <input type="text" name="addTo" id="addTo"  placeholder="(BOM) | Chhatrapati Shivaji Int'l Airport" class="form-control search_input" >
+                        <input type="text" name="addTo" id="addTo"  placeholder="(BOM) | Chhatrapati Shivaji Int'l Airport" class="form-control search_input" required oninvalid="this.setCustomValidity('Please Enter To')" oninput="setCustomValidity('')">
                     </div>
                     <div class="row">
                         <div class="col-6">
@@ -96,7 +96,7 @@
                             <div class="form-group">
                                 <label>Returning Date</label>
                                 <div id="returning_date_datetimepicker" class="input-group returning_date_datetimepickerclass">
-                                    <input type="text" name="returning_date" id="returning_date" placeholder="dd-mm-yyyy" class="form-control border-right-0 returning_date_datetimepickerclass" data-format="dd-MM-yyyy">
+                                    <input type="text" name="returning_date" id="returning_date" placeholder="dd-mm-yyyy" class="form-control border-right-0 returning_date_datetimepickerclass" data-format="dd-MM-yyyy" oninput="setCustomValidity('')">
                                     <div class="input-group-append add-on returning_date_datetimepickerclass">
                                       <span class="input-group-text bg-white pl-0 returning_date_datetimepickerclass"><i class="lar la-calendar-alt returning_date_datetimepickerclass"></i></span>
                                     </div>
@@ -673,15 +673,16 @@
             $('#flexiDiv').show();
 
         });
-        $(".returning_date_datetimepickerclass").blur(function(){
-            // alert("This input field has lost its focus.");
-            // alert($('#returning_date').val());
-            if($('#returning_date').val()==''){
-                $('#round_trip').removeAttr('class');
-                $('#one_way').attr('class','active');
-            }
+
+        // $(".returning_date_datetimepickerclass").blur(function(){
+        //     // alert("This input field has lost its focus.");
+        //     // alert($('#returning_date').val());
+        //     if($('#returning_date').val()==''){
+        //         $('#round_trip').removeAttr('class');
+        //         $('#one_way').attr('class','active');
+        //     }
             
-        });
+        // });
         
         $('#one_way').click(function(){
             // returning_date
@@ -692,6 +693,7 @@
             $('#returnDateDiv').hide(); 
             // $('#returnDateDiv').removeAttr('returnDateDiv-data'); 
             $('#returnDateDiv').attr('returnDateDiv-data','0'); 
+            $('#returning_date').removeAttr('required');
 
         });
         $('#round_trip').click(function(){
@@ -701,7 +703,7 @@
             $('#round_trip').attr('class','active');
             $('#returnDateDiv').show(); 
             $('#returnDateDiv').attr('returnDateDiv-data','1'); 
-            // $('#returning_date').attr('required','required'); 
+            $('#returning_date').attr('required','required'); 
             
             // $("#returning_date_datetimepicker").datetimepicker("show"); 
             var dep_val=$('#departure_date').val();
@@ -816,42 +818,58 @@
             var returning_date=$('#returning_date').val();
             // alert(returning_date);
             var returnDateDivval=$("#returnDateDiv").attr("returnDateDiv-data");
+            // alert(returnDateDivval);
             if(returnDateDivval==1){
-                if(addFrom==""){
-                    // alert('Please enter From');
-                    var blankval="Please enter From";
-                    blankCheck(blankval);
-                    return false;
-                    // $('#addFrom').focus();
-                }else if(addTo==""){
-                    // alert('Please enter To');
-                    var blankval="Please enter To";
-                    blankCheck(blankval);
-                    return false;
-                }else if(returning_date==""){
-                    // alert('Please enter To');
-                    var blankval="Please enter Return Date";
-                    blankCheck(blankval);
-                    return false;
-                }else{
-                    $('#loading').show();
-                }
-            }else if(returnDateDivval==0){
-                if(addFrom==""){
-                    // alert('Please enter From');
-                    var blankval="Please enter From";
-                    blankCheck(blankval,'addFrom');
-                    return false;
-                    // $('#addFrom').focus();
+                // if(addFrom==""){
+                //     // alert('Please enter From');
+                //     var blankval="Please enter From";
+                //     blankCheck(blankval);
+                //     return false;
+                //     // $('#addFrom').focus();
+                // }else if(addTo==""){
+                //     // alert('Please enter To');
+                //     var blankval="Please enter To";
+                //     blankCheck(blankval);
+                //     return false;
+                // }else 
+                // if(returning_date==""){
+                //     // alert('Please enter To');
+                //     // var blankval="Please enter Return Date";
+                //     // document.getElementById ('returning_date').setCustomValidity('');
+                //     returning_date.setCustomValidity( "Please enter Retuen Date." );
+                //     // document.getElementById ('returning_date').setCustomValidity( "Please enter Retuen Date." );
+                //     document.myform.returning_date.focus ( );
+                //     // returning_date.setCustomValidity ('');
+                //     // document.getElementById('returning_date').setCustomValidity('');
+                //     // $("#returning_date_datetimepicker").datetimepicker("show"); 
 
-                }else if(addTo==""){
-                    // alert('Please enter To');
-                    var blankval="Please enter To";
-                    blankCheck(blankval);
-                    return false;
-                }else{
+                //     // blankCheck(blankval);
+                //     return false;
+                // }else{
+                    // document.getElementById ( 'returning_date' ).setCustomValidity ( " " );
+                if(addFrom!="" && addTo!="" && returning_date!=""){
+                    $('#loading').show();
+                    return true;
+                }
+
+            }else if(returnDateDivval==0){
+                if(addFrom!="" && addTo!=""){
+                //     // alert('Please enter From');
+                //     var blankval="Please enter From";
+                //     blankCheck(blankval,'addFrom');
+                //     return false;
+                //     // $('#addFrom').focus();
+
+                // }else if(addTo==""){
+                //     // alert('Please enter To');
+                //     var blankval="Please enter To";
+                //     blankCheck(blankval);
+                //     return false;
+                // }else{
+
                     $('#loading').show();
                 }
+                // return true;
             }
             // var returnDateDivval=$("#returnDateDiv").attr("returnDateDiv-data");
             // alert(returning_date);
