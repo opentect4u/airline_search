@@ -27,6 +27,7 @@ Route::get('/searchairport',[App\Http\Controllers\HomeController::class,'SearchA
 
 
 // Route::get('/flights',[App\Http\Controllers\FlightsController::class,'Search'])->name('flights');
+Route::post('/flights',[App\Http\Controllers\FlightController::class,'Search'])->name('flights');
 Route::get('/flights',[App\Http\Controllers\FlightController::class,'Search'])->name('flights');
 // Route::post('/flightDetails',[App\Http\Controllers\FlightDetailsController::class,'FlightDetails'])->name('flightDetails');
 Route::post('/flightDetails',[App\Http\Controllers\FlightController::class,'FlightDetails'])->name('flightDetails');
@@ -50,7 +51,8 @@ Route::post('/roundBaggageCancelRuleReturnajax',[App\Http\Controllers\RoundFligh
 
             // Multi City
 Route::get('/multicity',[App\Http\Controllers\multicity\HomeController::class,'Index'])->name('multicityindex');
-Route::get('/multicityflight',[App\Http\Controllers\multicity\FlightController::class,'Search'])->name('multicityflight');
+Route::post('/multicityflight',[App\Http\Controllers\multicity\FlightController::class,'Search'])->name('multicityflight');
+// Route::get('/multicityflight',[App\Http\Controllers\multicity\FlightController::class,'Search'])->name('multicityflight');
 Route::post('/multicityflightdetails',[App\Http\Controllers\multicity\FlightDetailsController::class,'FlightDetails'])->name('multicityflightdetails');
 Route::post('/multicitypassengerDetails',[App\Http\Controllers\multicity\PassengerDetailsController::class,'PassengerDetails'])->name('multicitypassengerDetails');
 

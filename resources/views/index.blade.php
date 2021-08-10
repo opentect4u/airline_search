@@ -52,7 +52,8 @@
 
         <div class="tab-content">
             <div id="flight" class="tab-pane active">
-                <form method="get" action="{{route('flights')}}">
+                <form method="post" action="{{route('flights')}}">
+                    @csrf
                     <div class="form-group">
                         <ul class="cld__selectors">
                             <li><a href="javascript:void(0)" class="active" id="one_way">One way</a></li>
@@ -73,11 +74,11 @@
                     </div>
                     <div class="form-group">
                         <label>From</label>
-                        <input type="text" name="addFrom" id="addFrom" required placeholder="(IXC) | Chandigarh Airport" class="form-control search_input">
+                        <input type="text" name="addFrom" id="addFrom"  placeholder="(IXC) | Chandigarh Airport" class="form-control search_input" >
                     </div>
                     <div class="form-group">
                         <label>To</label>
-                        <input type="text" name="addTo" id="addTo" required placeholder="(BOM) | Chhatrapati Shivaji Int'l Airport" class="form-control search_input">
+                        <input type="text" name="addTo" id="addTo"  placeholder="(BOM) | Chhatrapati Shivaji Int'l Airport" class="form-control search_input" >
                     </div>
                     <div class="row">
                         <div class="col-6">
@@ -91,7 +92,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-6" id="returnDateDiv">
+                        <div class="col-6" id="returnDateDiv" returnDateDiv-data="0">
                             <div class="form-group">
                                 <label>Returning Date</label>
                                 <div id="returning_date_datetimepicker" class="input-group returning_date_datetimepickerclass">
@@ -566,8 +567,10 @@
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.css" rel="stylesheet">  
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.4/jquery-confirm.min.css" />
 @endsection
 @section('script')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.4/jquery-confirm.min.js"></script>
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script> -->
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script>  -->
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script> </head> -->
@@ -632,6 +635,7 @@
                 // $('#departure_date_datetimepicker').hide();
                 $('#departure_date_datetimepicker').datetimepicker("hide")
             });
+            // $('#returnDateDiv').attr('returnDateDiv-data','1'); 
         
         });
 
@@ -686,6 +690,9 @@
             $('#one_way').attr('class','active');
             $('#flexiDiv').hide();
             $('#returnDateDiv').hide(); 
+            // $('#returnDateDiv').removeAttr('returnDateDiv-data'); 
+            $('#returnDateDiv').attr('returnDateDiv-data','0'); 
+
         });
         $('#round_trip').click(function(){
             // alert("hii");
@@ -693,6 +700,9 @@
             $('#one_way').removeAttr('class');
             $('#round_trip').attr('class','active');
             $('#returnDateDiv').show(); 
+            $('#returnDateDiv').attr('returnDateDiv-data','1'); 
+            // $('#returning_date').attr('required','required'); 
+            
             // $("#returning_date_datetimepicker").datetimepicker("show"); 
             var dep_val=$('#departure_date').val();
             var newdate = dep_val.split("-").reverse().join("/");
@@ -803,19 +813,57 @@
             // alert("hii");
             var addFrom=$('#addFrom').val();
             var addTo=$('#addTo').val();
-            // if(addFrom===""){
-            //     alert('Please enter From');
-            //     return false;
-            // }else 
-            // if(addTo===""){
-            //     alert('Please enter To');
-            //     return false;
-            // }else{
-            //     $('#loading').show();
-            // }
-            if(addFrom!='' && addTo!=''){
-                $('#loading').show();
+            var returning_date=$('#returning_date').val();
+            // alert(returning_date);
+            var returnDateDivval=$("#returnDateDiv").attr("returnDateDiv-data");
+            if(returnDateDivval==1){
+                if(addFrom==""){
+                    // alert('Please enter From');
+                    var blankval="Please enter From";
+                    blankCheck(blankval);
+                    return false;
+                    // $('#addFrom').focus();
+                }else if(addTo==""){
+                    // alert('Please enter To');
+                    var blankval="Please enter To";
+                    blankCheck(blankval);
+                    return false;
+                }else if(returning_date==""){
+                    // alert('Please enter To');
+                    var blankval="Please enter Return Date";
+                    blankCheck(blankval);
+                    return false;
+                }else{
+                    $('#loading').show();
+                }
+            }else if(returnDateDivval==0){
+                if(addFrom==""){
+                    // alert('Please enter From');
+                    var blankval="Please enter From";
+                    blankCheck(blankval,'addFrom');
+                    return false;
+                    // $('#addFrom').focus();
+
+                }else if(addTo==""){
+                    // alert('Please enter To');
+                    var blankval="Please enter To";
+                    blankCheck(blankval);
+                    return false;
+                }else{
+                    $('#loading').show();
+                }
             }
+            // var returnDateDivval=$("#returnDateDiv").attr("returnDateDiv-data");
+            // alert(returning_date);
+            // if(returnDateDivval==1){
+            //     if(addFrom!='' && addTo!='' && returning_date!=''){
+            //         $('#loading').show();
+            //     }
+            // }else if(returnDateDivval==0){
+            //     if(addFrom!='' && addTo!=''){
+            //         $('#loading').show();
+            //     }
+            // }
             // alert(addFrom);
             // path='<?php echo route('flights');?>';
             // var url=("{{route('flights')}}")
@@ -824,5 +872,27 @@
         })
 
     });
+    function blankCheck(blankval,adval){
+        $.confirm ( {
+            title: false,
+            content: blankval,
+            animation: 'scale',
+            type: 'blue',
+            opacity: 0.5,
+            buttons: {
+                'confirm': {
+                    text: 'Ok',
+                    btnClass: 'btn-blue',
+                    // action: function ( ) {
+                    //     // alert("hii");
+                    //     $('#'+adval).focus();
+                    //     // $('#'+adval).focus();
+                    //     // return false;
+                    // }
+                }
+            }
+        });
+        // return false;
+    }
 </script>
 @endsection

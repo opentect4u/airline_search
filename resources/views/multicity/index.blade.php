@@ -8,8 +8,8 @@
         </div>
     </div>
    <div class="cld__book__form search__modify">
-        <form name="multicity" id="multicity" method="GET" action="{{route('multicityflight')}}" class="w-100">
-        
+        <form name="multicity" id="multicity" method="POST" action="{{route('multicityflight')}}" class="w-100">
+            @csrf
             <div class="row">
                 <div class="col-md-2">
                     <h6 class="text-uppercase text-muted">Flight 1</h6>
@@ -249,6 +249,7 @@
    
 </div>
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.4/jquery-confirm.min.css" />
 @endsection
 @section('script')
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script> -->
@@ -871,6 +872,22 @@
 
     });
 
+
+    function blankCheck(blankval){
+        $.confirm ( {
+            title: false,
+            content: blankval,
+            animation: 'scale',
+            type: 'blue',
+            opacity: 0.5,
+            buttons: {
+                'confirm': {
+                    text: 'Ok',
+                    btnClass: 'btn-orange',
+                }
+            }
+        });
+    }
     
 </script>
 @endsection

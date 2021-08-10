@@ -39,9 +39,11 @@
     <section id="search-container" class="bg-white collapse">
         <div class="container-fluid">
             <div class="cld__book__form search__modify">
-            <form method="get" class="{{route('flights')}}">
+            <form method="post" id="flightSearch" class="{{route('flights')}}">
+                @csrf
                 <input type="hidden" name="flexi" id="flexi" value="{{isset($searched->flexi)?$searched->flexi:''}}">
                 <input type="hidden" name="direct_flight" id="direct_flight" value="{{isset($searched->direct_flight)?$searched->direct_flight:''}}">
+                <input type="hidden" name="price_order" id="price_order" value="{{isset($searched->price_order)?$searched->price_order:''}}">
                 <div class="form-group">
                     <ul class="cld__selectors">
                         <li><a href="javascript:void(0)" class="active" id="one_way">One way</a></li>
@@ -352,6 +354,29 @@
                 <div class="card">
                     <!-- <h4>Onward Journey</h4>
                     <br/> -->
+                    @if(isset($searched->price_order))
+                    <div class="flight-devider cheapestDiv">
+                        <?php
+                        foreach($return_flights[(count($return_flights)-1)] as $datas){
+                                        
+                            $var_total_price_low=0;
+                            foreach($datas[1] as $prices){ $var_total_price_low+= (str_replace('GBP','',$prices['Total Price'])*$searched->adults);} 
+                            if(isset($datas[2])){
+                            foreach($datas[2] as $prices){ $var_total_price_low+= (str_replace('GBP','',$prices['Total Price'])*$searched->children);} 
+                            }
+                            if(isset($datas[3])){
+                                foreach($datas[3] as $prices){ $var_total_price_low+= (str_replace('GBP','',$prices['Total Price'])*$searched->infant);} 
+                            }
+                        }
+                        $format_tot_price_low=number_format($var_total_price_low,2,'.','');
+                        //  echo $format_tot_price;
+                        ?>
+                        <div class="font-weight-bold"><i class="las la-database" style="color:#xf1c0;" ></i>Cheapest</div>
+                        <!-- <div><i class="las la-database" style="color:#xf1c0;" ></i>Cheapest</div> -->
+                        <div class="font-weight-bold">Price : <i class="las la-pound-sign"><?php echo $format_tot_price_low;?></i></div>
+                        <!-- <div>Total journey time: 51.70</div> -->
+                    </div>
+                    @else
                     <div class="flight-devider cheapestDiv">
                         <?php
                         foreach($return_flights[0] as $datas){
@@ -373,6 +398,8 @@
                         <div class="font-weight-bold">Price : <i class="las la-pound-sign"><?php echo $format_tot_price_low;?></i></div>
                         <!-- <div>Total journey time: 51.70</div> -->
                     </div>
+                    @endif
+
                     <div class="row row-heading d-none d-md-flex">
                         <div class="col-md-3">Airlines</div>
                         <div class="col-md-2" >Departure</div>
@@ -381,7 +408,7 @@
                         <!-- <div class="col-md-2" data-departureordervalue="ASC" id="departure_order" style="cursor: pointer;">Departure<i class="las la-long-arrow-alt-up"></i><i class="las la-long-arrow-alt-down"></i></div>
                         <div class="col-md-2 text-center" data-durationordervalue="ASC" id="duration_order" style="cursor: pointer;">Duration<i class="las la-long-arrow-alt-up"></i><i class="las la-long-arrow-alt-down"></i></div>
                         <div class="col-md-2" data-arrivalordervalue="ASC" id="arrival_order" style="cursor: pointer;">Arrival<i class="las la-long-arrow-alt-up"></i><i class="las la-long-arrow-alt-down"></i></div> -->
-                        <div class="col-md-3 text-center" id="price_order" style="cursor: pointer;">Price <i class="las la-long-arrow-alt-up"></i><i class="las la-long-arrow-alt-down"></i></div>
+                        <div class="col-md-3 text-center" id="price_order1" style="cursor: pointer;">Price <i class="las la-long-arrow-alt-up"></i><i class="las la-long-arrow-alt-down"></i></div>
                     </div>
                     <div class="MainDiv">
                     <?php $count=1; $flightCount=0;$DepartureTime="";$DepartureSlot="";$DepartureTimeOrder =[];$ArrivalTimeOrder =[];$DurationTimeOrder =[];?>
@@ -1199,23 +1226,45 @@
         
 
     //sorting 
-    $('#price_order').click(function(){
+    $('#price_order1').click(function(){
         // alert("hii");
         var loading ='<img id="loading-image-small" src="{{ asset('public/loder-small.gif') }}" alt="Loading..." style=" position: absolute;top: 100px;left: 431px;z-index: 100;"/>';
         $('#loading_small').append(loading);
         $('#loading_small').show();
         var url= window.location.href;
         var price_order='{{isset($searched->price_order)?$searched->price_order:''}}';
+        // alert(price_order)
         if(price_order==""){
-            var newurl=url+'&price_order=price_order';
+            $('#price_order').val('price_order');
+            
+            // var newurl=url+'&price_order=price_order';
         }else{
-            var newurl=url.split('&price_order=price_order')[0];
+            $('#price_order').val('');
+            // var newurl=url.split('&price_order=price_order')[0];
             // alert(newurl);
         }
         // alert(url); 
-        window.location.assign(newurl);
+        // window.location.assign(newurl);
+        $('#flightSearch').submit();
 
     });
+    // $('#price_order').click(function(){
+    //     // alert("hii");
+    //     var loading ='<img id="loading-image-small" src="{{ asset('public/loder-small.gif') }}" alt="Loading..." style=" position: absolute;top: 100px;left: 431px;z-index: 100;"/>';
+    //     $('#loading_small').append(loading);
+    //     $('#loading_small').show();
+    //     var url= window.location.href;
+    //     var price_order='{{isset($searched->price_order)?$searched->price_order:''}}';
+    //     if(price_order==""){
+    //         var newurl=url+'&price_order=price_order';
+    //     }else{
+    //         var newurl=url.split('&price_order=price_order')[0];
+    //         // alert(newurl);
+    //     }
+    //     // alert(url); 
+    //     window.location.assign(newurl);
+
+    // });
 
     $('#departure_order').click(function(){
             // alert("hii");
