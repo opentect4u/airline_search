@@ -73,11 +73,11 @@
                     </div>
                     <div class="form-group">
                         <label>From</label>
-                        <input type="text" name="addFrom" id="addFrom" placeholder="(IXC) | Chandigarh Airport" class="form-control search_input">
+                        <input type="text" name="addFrom" id="addFrom" required placeholder="(IXC) | Chandigarh Airport" class="form-control search_input">
                     </div>
                     <div class="form-group">
                         <label>To</label>
-                        <input type="text" name="addTo" id="addTo" placeholder="(BOM) | Chhatrapati Shivaji Int'l Airport" class="form-control search_input">
+                        <input type="text" name="addTo" id="addTo" required placeholder="(BOM) | Chhatrapati Shivaji Int'l Airport" class="form-control search_input">
                     </div>
                     <div class="row">
                         <div class="col-6">
@@ -803,13 +803,17 @@
             // alert("hii");
             var addFrom=$('#addFrom').val();
             var addTo=$('#addTo').val();
-            if(addFrom===""){
-                alert('Please enter From');
-                return false;
-            }else if(addTo===""){
-                alert('Please enter To');
-                return false;
-            }else{
+            // if(addFrom===""){
+            //     alert('Please enter From');
+            //     return false;
+            // }else 
+            // if(addTo===""){
+            //     alert('Please enter To');
+            //     return false;
+            // }else{
+            //     $('#loading').show();
+            // }
+            if(addFrom!='' && addTo!=''){
                 $('#loading').show();
             }
             // alert(addFrom);

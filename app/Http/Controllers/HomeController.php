@@ -23,7 +23,7 @@ class HomeController extends Controller
     }
     public function SearchAirport(Request $request){
         return AirportCodes::search($request->get('q'))->select('name','code')->get()->map(function($airport){
-            return $airport->name . '('. $airport->code.')';
+            return $airport->name . ' ('. $airport->code.')';
         });
     }
 }
