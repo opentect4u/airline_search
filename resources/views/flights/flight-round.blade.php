@@ -28,7 +28,7 @@
                 </div>
                 <div class="col-md col-6">
                     <small class="text-muted d-block mb-1">Passangers & Class</small>
-                    <h6 class="font-weight-600 mb-0">{{ isset($searched->adults)?$searched->adults.'Adult':''}} <?php if($searched->children > 0){echo ' ,'.$searched->children.'Child';} if($searched->infant > 0){echo ' ,'.$searched->infant.'Infant';} ?>, {{$searched->travel_class}}</h6>
+                    <h6 class="font-weight-600 mb-0">{{ isset($searched->adults)?$searched->adults.'Adult':''}}<?php if($searched->children > 0){echo ', '.$searched->children.'Child';} if($searched->infant > 0){echo ', '.$searched->infant.'Infant';} ?>, {{$searched->travel_class}}</h6>
                 </div>
                 <div class="col-md mt-md-0 col-6">
                     <a href="#" class="btn btn-yellow btn-sm" data-toggle="collapse" data-target="#search-container">Modify Search</a>
