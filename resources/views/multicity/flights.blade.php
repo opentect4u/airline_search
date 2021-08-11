@@ -1703,12 +1703,12 @@
                     var cancelpenalty='';
                 }
                 if(obj.baggageallowanceinfo!=''){
-                    var baggageallowanceinfo=obj.baggageallowanceinfo+"gs";
+                    var baggageallowanceinfo=obj.baggageallowanceinfo;
                 }else{
                     var baggageallowanceinfo='';
                 }
                 if(obj.carryonallowanceinfo!=''){
-                    var carryonallowanceinfo=obj.carryonallowanceinfo+"gs";
+                    var carryonallowanceinfo=obj.carryonallowanceinfo;
                 }else{
                     var carryonallowanceinfo='';
                 }
