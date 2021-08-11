@@ -39,6 +39,10 @@ class FlightController extends Controller
             $xmldata=app('App\Http\Controllers\UtilityController')->Universal_API_SearchXMLReturn($travel_class,$flightFrom,$flightTo,$SearchPreferredDate,$SearchDate,$var_adults,$var_children,$var_infant);
             $api_url = "https://apac.universal-api.pp.travelport.com/B2BGateway/connect/uAPI/AirService";
             $return_return =app('App\Http\Controllers\UtilityController')->universal_API($xmldata,$api_url);
+            if($return_return==null){
+                // return $return;
+                return redirect()->route('errorPage');
+            }
             $return_content = $this->prettyPrint($return_return);
             $return_flights = $this->parseOutputReturn($return_content);
             // $return_stops=$this->Stops($return_flights,$var_direct_flight,$var_flexi);
@@ -154,6 +158,10 @@ class FlightController extends Controller
             $api_url = "https://apac.universal-api.pp.travelport.com/B2BGateway/connect/uAPI/AirService";
             $return =app('App\Http\Controllers\UtilityController')->universal_API($xmldata,$api_url);
             // return $return;
+            if($return==null){
+                // return $return;
+                return redirect()->route('errorPage');
+            }
             $content = $this->prettyPrint($return);
             $flights = $this->parseOutput($content);
             
@@ -1671,6 +1679,7 @@ EOM;
         //                             }
         //                             if(array_key_exists('air:BaggageAllowances', $jsons14)){
         //                                 // print_r($jsons14['air:BaggageAllowances']);
+        //                                 // return $jsons14['air:BaggageAllowances'];
         //                                 // echo "<br/><br/>";
         //                                 $count17=1;   
         //                                 foreach($jsons14['air:BaggageAllowances'] as $jsons17){

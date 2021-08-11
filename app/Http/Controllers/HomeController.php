@@ -26,4 +26,8 @@ class HomeController extends Controller
             return $airport->name . ' ('. $airport->code.')';
         });
     }
+
+    public function Error(){
+        return view('error');
+    }
 }

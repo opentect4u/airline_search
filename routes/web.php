@@ -58,3 +58,7 @@ Route::post('/multicitypassengerDetails',[App\Http\Controllers\multicity\Passeng
 
 Route::post('/multicityshowpayment',[App\Http\Controllers\multicity\PaymentController::class,'ShowPayment'])->name('multicityshowpayment');
 Route::post('/multicitypaymentcredit',[App\Http\Controllers\multicity\PaymentController::class,'PaymentCredit'])->name('multicitypaymentcredit');
+
+
+// 404 not found page
+Route::get('/errorPage',[App\Http\Controllers\HomeController::class,'Error'])->name('errorPage');
