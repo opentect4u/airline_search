@@ -59,6 +59,7 @@
                          </div> -->
                                 </div>
                                 @if(isset($unidata))
+                                @if(count($unidata)>0)
                                 <div class="row">
                                     <div class="col-md-4 responsive-center">
 
@@ -286,6 +287,7 @@
 
                                 </div>
                                 <hr>
+                                @endif
                                 @elseif(isset($return_unidata))
                                 @if(count($return_unidata)>0)
                                 <div class="row">

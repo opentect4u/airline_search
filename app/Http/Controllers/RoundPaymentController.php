@@ -46,7 +46,8 @@ class RoundPaymentController extends Controller
                                 $var1='<air:AirPricingInfo PricingMethod="Auto" Key="'.$AirPricingInfo[$i]['Key'].'" TotalPrice="'.$AirPricingInfo[$i]['TotalPrice'].'" BasePrice="'.$AirPricingInfo[$i]['BasePrice'].'" ApproximateTotalPrice="'.$AirPricingInfo[$i]['ApproximateTotalPrice'].'" ApproximateBasePrice="'.$AirPricingInfo[$i]['ApproximateBasePrice'].'" Taxes="'.$AirPricingInfo[$i]['Taxes'].'" ProviderCode="'.$AirPricingInfo[$i]['ProviderCode'].'">';
                                 
                                 if(count($journeys)==2){    
-                                    $fare_info='<air:FareInfo PromotionalFare="false" Key="'.$FareInfo[($i*2)]['Key'].'" FareFamily="Economy Saver" DepartureDate="'.$FareInfo[($i*2)]['DepartureDate'].'" Amount="'.$FareInfo[($i*2)]['Amount'].'" EffectiveDate="'.$FareInfo[($i*2)]['EffectiveDate'].'" Destination="'.$FareInfo[($i*2)]['Destination'].'" Origin="'.$FareInfo[($i*2)]['Origin'].'" PassengerTypeCode="'.$FareInfo[($i*2)]['PassengerTypeCode'].'" FareBasis="'.$FareInfo[($i*2)]['FareBasis'].'">
+                                    if(isset($FareInfo[($i*2)]['Key']) && isset($FareInfo[(($i*2)+1)]['Key'])){
+                                        $fare_info='<air:FareInfo PromotionalFare="false" Key="'.$FareInfo[($i*2)]['Key'].'" FareFamily="Economy Saver" DepartureDate="'.$FareInfo[($i*2)]['DepartureDate'].'" Amount="'.$FareInfo[($i*2)]['Amount'].'" EffectiveDate="'.$FareInfo[($i*2)]['EffectiveDate'].'" Destination="'.$FareInfo[($i*2)]['Destination'].'" Origin="'.$FareInfo[($i*2)]['Origin'].'" PassengerTypeCode="'.$FareInfo[($i*2)]['PassengerTypeCode'].'" FareBasis="'.$FareInfo[($i*2)]['FareBasis'].'">
                                         <air:FareRuleKey FareInfoRef="'.$FareRuleKey[($i*2)]['FareInfoRef'].'" ProviderCode="'.$FareRuleKey[($i*2)]['ProviderCode'].'">'.$FareRuleKey[($i*2)]['FareRuleKeyValue'].'</air:FareRuleKey>
                                     </air:FareInfo>
                                     <air:FareInfo PromotionalFare="false" Key="'.$FareInfo[(($i*2)+1)]['Key'].'" FareFamily="Economy Saver" DepartureDate="'.$FareInfo[(($i*2)+1)]['DepartureDate'].'" Amount="'.$FareInfo[(($i*2)+1)]['Amount'].'" EffectiveDate="'.$FareInfo[(($i*2)+1)]['EffectiveDate'].'" Destination="'.$FareInfo[(($i*2)+1)]['Destination'].'" Origin="'.$FareInfo[(($i*2)+1)]['Origin'].'" PassengerTypeCode="'.$FareInfo[(($i*2)+1)]['PassengerTypeCode'].'" FareBasis="'.$FareInfo[(($i*2)+1)]['FareBasis'].'">
@@ -55,17 +56,36 @@ class RoundPaymentController extends Controller
                                     <air:BookingInfo BookingCode="'.$BookingInfo[($i*2)]['BookingCode'].'" CabinClass="'.$BookingInfo[($i*2)]['CabinClass'].'" FareInfoRef="'.$BookingInfo[($i*2)]['FareInfoRef'].'" SegmentRef="'.$BookingInfo[($i*2)]['SegmentRef'].'" HostTokenRef="'.$BookingInfo[($i*2)]['HostTokenRef'].'" />
                                     <air:BookingInfo BookingCode="'.$BookingInfo[(($i*2)+1)]['BookingCode'].'" CabinClass="'.$BookingInfo[(($i*2)+1)]['CabinClass'].'" FareInfoRef="'.$BookingInfo[(($i*2)+1)]['FareInfoRef'].'" SegmentRef="'.$BookingInfo[(($i*2)+1)]['SegmentRef'].'" HostTokenRef="'.$BookingInfo[(($i*2)+1)]['HostTokenRef'].'" />
                                     ';
+                                    }else{
+                                        return $this->BookingFailedResponce($request);
+                                        
+                                    }
                                     
                                 }else if(count($journeys)==3){
-                                    $fare_info='<air:FareInfo PromotionalFare="false" Key="'.$FareInfo[($i*3)]['Key'].'" FareFamily="Economy Saver" DepartureDate="'.$FareInfo[($i*3)]['DepartureDate'].'" Amount="'.$FareInfo[($i*3)]['Amount'].'" EffectiveDate="'.$FareInfo[($i*3)]['EffectiveDate'].'" Destination="'.$FareInfo[($i*3)]['Destination'].'" Origin="'.$FareInfo[($i*3)]['Origin'].'" PassengerTypeCode="'.$FareInfo[($i*3)]['PassengerTypeCode'].'" FareBasis="'.$FareInfo[($i*3)]['FareBasis'].'">
-                                    <air:FareRuleKey FareInfoRef="'.$FareRuleKey[($i*3)]['FareInfoRef'].'" ProviderCode="'.$FareRuleKey[($i*3)]['ProviderCode'].'">'.$FareRuleKey[($i*3)]['FareRuleKeyValue'].'</air:FareRuleKey>
+                                    // $fare_info='<air:FareInfo PromotionalFare="false" Key="'.$FareInfo[($i*3)]['Key'].'" FareFamily="Economy Saver" DepartureDate="'.$FareInfo[($i*3)]['DepartureDate'].'" Amount="'.$FareInfo[($i*3)]['Amount'].'" EffectiveDate="'.$FareInfo[($i*3)]['EffectiveDate'].'" Destination="'.$FareInfo[($i*3)]['Destination'].'" Origin="'.$FareInfo[($i*3)]['Origin'].'" PassengerTypeCode="'.$FareInfo[($i*3)]['PassengerTypeCode'].'" FareBasis="'.$FareInfo[($i*3)]['FareBasis'].'">
+                                    // <air:FareRuleKey FareInfoRef="'.$FareRuleKey[($i*3)]['FareInfoRef'].'" ProviderCode="'.$FareRuleKey[($i*3)]['ProviderCode'].'">'.$FareRuleKey[($i*3)]['FareRuleKeyValue'].'</air:FareRuleKey>
+                                    // </air:FareInfo>
+                                    // <air:FareInfo PromotionalFare="false" Key="'.$FareInfo[(($i*3)+1)]['Key'].'" FareFamily="Economy Saver" DepartureDate="'.$FareInfo[(($i*3)+1)]['DepartureDate'].'" Amount="'.$FareInfo[(($i*3)+1)]['Amount'].'" EffectiveDate="'.$FareInfo[(($i*3)+1)]['EffectiveDate'].'" Destination="'.$FareInfo[(($i*3)+1)]['Destination'].'" Origin="'.$FareInfo[(($i*3)+1)]['Origin'].'" PassengerTypeCode="'.$FareInfo[(($i*3)+1)]['PassengerTypeCode'].'" FareBasis="'.$FareInfo[(($i*3)+1)]['FareBasis'].'">
+                                    //     <air:FareRuleKey FareInfoRef="'.$FareRuleKey[(($i*3)+1)]['FareInfoRef'].'" ProviderCode="'.$FareRuleKey[(($i*3)+1)]['ProviderCode'].'">'.$FareRuleKey[(($i*3)+1)]['FareRuleKeyValue'].'</air:FareRuleKey>
+                                    // </air:FareInfo>
+                                    // <air:BookingInfo BookingCode="'.$BookingInfo[($i*3)]['BookingCode'].'" CabinClass="'.$BookingInfo[($i*3)]['CabinClass'].'" FareInfoRef="'.$BookingInfo[($i*3)]['FareInfoRef'].'" SegmentRef="'.$BookingInfo[($i*3)]['SegmentRef'].'" HostTokenRef="'.$BookingInfo[($i*3)]['HostTokenRef'].'" />
+                                    // <air:BookingInfo BookingCode="'.$BookingInfo[(($i*3)+1)]['BookingCode'].'" CabinClass="'.$BookingInfo[(($i*3)+1)]['CabinClass'].'" FareInfoRef="'.$BookingInfo[(($i*3)+1)]['FareInfoRef'].'" SegmentRef="'.$BookingInfo[(($i*3)+1)]['SegmentRef'].'" HostTokenRef="'.$BookingInfo[(($i*3)+1)]['HostTokenRef'].'" />
+                                    // '; 
+                                    $journeyCount=count($journeys);
+                                    if(isset($FareInfo[($i*$journeyCount)]['Key']) && isset($FareInfo[(($i*$journeyCount)+1)]['Key'])){
+                                        $fare_info='<air:FareInfo PromotionalFare="false" Key="'.$FareInfo[($i*$journeyCount)]['Key'].'" FareFamily="Economy Saver" DepartureDate="'.$FareInfo[($i*$journeyCount)]['DepartureDate'].'" Amount="'.$FareInfo[($i*$journeyCount)]['Amount'].'" EffectiveDate="'.$FareInfo[($i*$journeyCount)]['EffectiveDate'].'" Destination="'.$FareInfo[($i*$journeyCount)]['Destination'].'" Origin="'.$FareInfo[($i*$journeyCount)]['Origin'].'" PassengerTypeCode="'.$FareInfo[($i*$journeyCount)]['PassengerTypeCode'].'" FareBasis="'.$FareInfo[($i*$journeyCount)]['FareBasis'].'">
+                                    <air:FareRuleKey FareInfoRef="'.$FareRuleKey[($i*$journeyCount)]['FareInfoRef'].'" ProviderCode="'.$FareRuleKey[($i*$journeyCount)]['ProviderCode'].'">'.$FareRuleKey[($i*$journeyCount)]['FareRuleKeyValue'].'</air:FareRuleKey>
                                     </air:FareInfo>
-                                    <air:FareInfo PromotionalFare="false" Key="'.$FareInfo[(($i*3)+1)]['Key'].'" FareFamily="Economy Saver" DepartureDate="'.$FareInfo[(($i*3)+1)]['DepartureDate'].'" Amount="'.$FareInfo[(($i*3)+1)]['Amount'].'" EffectiveDate="'.$FareInfo[(($i*3)+1)]['EffectiveDate'].'" Destination="'.$FareInfo[(($i*3)+1)]['Destination'].'" Origin="'.$FareInfo[(($i*3)+1)]['Origin'].'" PassengerTypeCode="'.$FareInfo[(($i*3)+1)]['PassengerTypeCode'].'" FareBasis="'.$FareInfo[(($i*3)+1)]['FareBasis'].'">
-                                        <air:FareRuleKey FareInfoRef="'.$FareRuleKey[(($i*3)+1)]['FareInfoRef'].'" ProviderCode="'.$FareRuleKey[(($i*3)+1)]['ProviderCode'].'">'.$FareRuleKey[(($i*3)+1)]['FareRuleKeyValue'].'</air:FareRuleKey>
+                                    <air:FareInfo PromotionalFare="false" Key="'.$FareInfo[(($i*$journeyCount)+1)]['Key'].'" FareFamily="Economy Saver" DepartureDate="'.$FareInfo[(($i*$journeyCount)+1)]['DepartureDate'].'" Amount="'.$FareInfo[(($i*$journeyCount)+1)]['Amount'].'" EffectiveDate="'.$FareInfo[(($i*$journeyCount)+1)]['EffectiveDate'].'" Destination="'.$FareInfo[(($i*$journeyCount)+1)]['Destination'].'" Origin="'.$FareInfo[(($i*$journeyCount)+1)]['Origin'].'" PassengerTypeCode="'.$FareInfo[(($i*$journeyCount)+1)]['PassengerTypeCode'].'" FareBasis="'.$FareInfo[(($i*$journeyCount)+1)]['FareBasis'].'">
+                                        <air:FareRuleKey FareInfoRef="'.$FareRuleKey[(($i*$journeyCount)+1)]['FareInfoRef'].'" ProviderCode="'.$FareRuleKey[(($i*$journeyCount)+1)]['ProviderCode'].'">'.$FareRuleKey[(($i*$journeyCount)+1)]['FareRuleKeyValue'].'</air:FareRuleKey>
                                     </air:FareInfo>
-                                    <air:BookingInfo BookingCode="'.$BookingInfo[($i*3)]['BookingCode'].'" CabinClass="'.$BookingInfo[($i*3)]['CabinClass'].'" FareInfoRef="'.$BookingInfo[($i*3)]['FareInfoRef'].'" SegmentRef="'.$BookingInfo[($i*3)]['SegmentRef'].'" HostTokenRef="'.$BookingInfo[($i*3)]['HostTokenRef'].'" />
-                                    <air:BookingInfo BookingCode="'.$BookingInfo[(($i*3)+1)]['BookingCode'].'" CabinClass="'.$BookingInfo[(($i*3)+1)]['CabinClass'].'" FareInfoRef="'.$BookingInfo[(($i*3)+1)]['FareInfoRef'].'" SegmentRef="'.$BookingInfo[(($i*3)+1)]['SegmentRef'].'" HostTokenRef="'.$BookingInfo[(($i*3)+1)]['HostTokenRef'].'" />
+                                    <air:BookingInfo BookingCode="'.$BookingInfo[($i*$journeyCount)]['BookingCode'].'" CabinClass="'.$BookingInfo[($i*$journeyCount)]['CabinClass'].'" FareInfoRef="'.$BookingInfo[($i*$journeyCount)]['FareInfoRef'].'" SegmentRef="'.$BookingInfo[($i*$journeyCount)]['SegmentRef'].'" HostTokenRef="'.$BookingInfo[($i*$journeyCount)]['HostTokenRef'].'" />
+                                    <air:BookingInfo BookingCode="'.$BookingInfo[(($i*$journeyCount)+1)]['BookingCode'].'" CabinClass="'.$BookingInfo[(($i*$journeyCount)+1)]['CabinClass'].'" FareInfoRef="'.$BookingInfo[(($i*$journeyCount)+1)]['FareInfoRef'].'" SegmentRef="'.$BookingInfo[(($i*$journeyCount)+1)]['SegmentRef'].'" HostTokenRef="'.$BookingInfo[(($i*$journeyCount)+1)]['HostTokenRef'].'" />
                                     '; 
+                                    }else{
+                                        return $this->BookingFailedResponce($request);
+                                        
+                                    }
                                 }
                                 $var_adtcount='';
                                 if ($i==0) {
@@ -586,5 +606,17 @@ EOM;
             'return_unidata'=>$unidata
         ]);
 
+    }
+
+    public function BookingFailedResponce($request){
+        $data=[];
+        $alldetails=[];
+        $unidata=[];
+        return view('flights.confirm-booking',[
+            'return_searched'=>$request,
+            'return_airreservation'=>$data,
+            'return_airticketing'=>$alldetails,
+            'return_unidata'=>$unidata
+        ]);
     }
 }
