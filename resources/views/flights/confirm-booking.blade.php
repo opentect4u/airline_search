@@ -2,7 +2,7 @@
 @section('content')
 
 
-<section class="search-packages bg-light-gray py-4">
+<section class="search-packages bg-light-gray py-4" id="">
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
@@ -36,20 +36,20 @@
                     <h4>Booking Failed</h4>
                     @endif
                     @endif
-                    <section class="content">
+                    <section class="content" id="sectionDiv">
                         <div class="outer-div">
                             <div class="container outer-div-inner">
                                 <div class="row"
                                     style="border-bottom:2px solid #797777;padding-bottom:10px;margin-bottom:10px;">
 
-    <div class="col-md-12">
-        <table width="100%" border="0">
-            <tbody>
-            <tr>
-        <th scope="col"><img src="https://www.cloudtravels.co.uk/software/public/images/logo.png" alt="logo" class="img-fluid img-responsive"></th>
-        <th scope="col"><img src="https://www.cloudtravels.co.uk/software/public/images/atol_logo_final.png" alt="logo" class="img-fluid img-responsive" align="right">
-        </th>
-    </tr>
+                        <div class="col-md-12">
+                            <table width="100%" border="0">
+                                <tbody>
+                                    <tr>
+                                        <th scope="col"><img src="{{ asset('public/images/logo.png') }}" alt="logo" class="img-fluid img-responsive"></th>
+                                        <th scope="col"><img src="{{ asset('public/images/logo.png') }}" alt="logo" class="img-fluid img-responsive" align="right">
+                                        </th>
+                                    </tr>
                        </tbody>
                                         </table>
                                     </div>
@@ -71,7 +71,7 @@
                                         <table class="m-0" align="right">
                                             <tr>
                                                 <td><b>Invoice Date :</b> </td>
-                                                <td class="text-left"> &nbsp;6 April 2021</td>
+                                                <td class="text-left"> &nbsp;{{date('d M Y')}}</td>
                                             </tr>
                                             <tr>
                                                 <td><b>Invoice No &nbsp;&nbsp;&nbsp;: </b></td>
@@ -301,7 +301,7 @@
                                         <table class="m-0" align="right">
                                             <tr>
                                                 <td><b>Invoice Date :</b> </td>
-                                                <td class="text-left"> &nbsp;6 April 2021</td>
+                                                <td class="text-left"> &nbsp;{{date('d M Y')}}</td>
                                             </tr>
                                             <tr>
                                                 <td><b>Invoice No &nbsp;&nbsp;&nbsp;: </b></td>
@@ -665,13 +665,14 @@ Timings are subject to change, please reconfirming with your airline operator be
                                             </li>
                                             </ul><hr>
                                             <div align="center">
-<span class="font-weight-bold text-primary">Book with Confidence</span>
-    <img src="{{ asset('public/images/cards.png') }}" alt="" class="img-fluid"/><br>
-    <span><span class="text-primary">Registered in England No.</span> 09677123</span>
+                                        <span class="font-weight-bold text-primary">Book with Confidence</span>
+                                            <img src="{{ asset('public/images/cards.png') }}" alt="" class="img-fluid"/><br>
+                                            <span><span class="text-primary">Registered in England No.</span> 09677123</span>
                                             </div><br>
-                                            <p align="center"> <a href="javascript:void(0);"
-                                                    class="btn btn-success noprint" onclick="window.print()">Print
-                                                    Invoice</a> </p>
+                                            <p align="center"> 
+                                                <!-- <a href="javascript:void(0);" class="btn btn-success noprint" onclick="window.print()">Print Invoice</a> -->
+                                                <a href="javascript:void(0);" class="btn btn-success noprint" onclick="printContent('sectionDiv');">Print Invoice</a>
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
@@ -688,4 +689,16 @@ Timings are subject to change, please reconfirming with your airline operator be
     </div>
 </section>
 
+<script>
+    function printContent(divName) {
+        var printContents = document.getElementById(divName).innerHTML;
+        var originalContents = document.body.innerHTML;
+
+        document.body.innerHTML = printContents;
+
+        window.print();
+
+        document.body.innerHTML = originalContents;
+    }
+</script>
 @endsection

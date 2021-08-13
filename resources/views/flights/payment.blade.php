@@ -162,8 +162,65 @@
                                         <div class="custom-control custom-checkbox">
                                             <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
                                             <label class="custom-control-label" for="customCheck">By clicking on Pay , I agree to accept the <a href="#">Booking Terms</a> & Cloud Travels General <a href="#">Terms of use and services</a></label>
-                                          </div>
-                                        <a href="confirm-booking.php" class="btn btn-primary">Pay <i class="las la-pound-sign"></i>88.00</a>
+                                        </div>
+                                        <form name="credit_or_debit" method="POST" action="@if(isset($return_flights)){{route('roundpaymentcredit')}}@else{{route('paymentcredit')}}@endif">
+                                        @csrf
+                                            @for($i=1;$i<=$per_flight_details->adults; $i++)
+                                            <input type="hidden" name="title{{$i}}" id="title{{$i}}" value="<?php  $title='title'.$i; echo $per_flight_details->$title;?>" />
+                                            <input type="hidden" name="first_name{{$i}}" id="first_name{{$i}}" value="<?php  $first_name='first_name'.$i; echo $per_flight_details->$first_name;?>" />
+                                            <input type="hidden" name="last_name{{$i}}" id="last_name{{$i}}" value="<?php  $last_name='last_name'.$i; echo $per_flight_details->$last_name;?>" />
+                                            <input type="hidden" name="gender{{$i}}" id="gender{{$i}}" value="<?php  $gender='gender'.$i; echo $per_flight_details->$gender;?>" />
+                                            <input type="hidden" name="date_of_birth{{$i}}" id="date_of_birth{{$i}}" value="<?php  $date_of_birth='date_of_birth'.$i; echo $per_flight_details->$date_of_birth;?>" />
+                                            <input type="hidden" name="seating{{$i}}" id="seating{{$i}}" value="<?php  $seating='seating'.$i; echo $per_flight_details->$seating;?>" />
+                                            <input type="hidden" name="assistance{{$i}}" id="assistance{{$i}}" value="<?php  $assistance='assistance'.$i; echo $per_flight_details->$assistance;?>" />
+                                            <input type="hidden" name="meal{{$i}}" id="meal{{$i}}" value="<?php $meal='meal'.$i; echo $per_flight_details->$meal;?>" />
+                                            @endfor
+                                            @for($i=1;$i<=$per_flight_details->children; $i++)
+                                            <input type="hidden" name="children_title{{$i}}" id="children_title{{$i}}" value="<?php  $title='children_title'.$i; echo $per_flight_details->$title;?>" />
+                                            <input type="hidden" name="children_first_name{{$i}}" id="children_first_name{{$i}}" value="<?php  $first_name='children_first_name'.$i; echo $per_flight_details->$first_name;?>" />
+                                            <input type="hidden" name="children_last_name{{$i}}" id="children_last_name{{$i}}" value="<?php  $last_name='children_last_name'.$i; echo $per_flight_details->$last_name;?>" />
+                                            <input type="hidden" name="children_gender{{$i}}" id="children_gender{{$i}}" value="<?php  $gender='children_gender'.$i; echo $per_flight_details->$gender;?>" />
+                                            <input type="hidden" name="children_date_of_birth{{$i}}" id="children_date_of_birth{{$i}}" value="<?php  $date_of_birth='children_date_of_birth'.$i; echo $per_flight_details->$date_of_birth;?>" />
+                                            <input type="hidden" name="children_seating{{$i}}" id="children_seating{{$i}}" value="<?php  $seating='children_seating'.$i; echo $per_flight_details->$seating;?>" />
+                                            <input type="hidden" name="children_assistance{{$i}}" id="children_assistance{{$i}}" value="<?php  $assistance='children_assistance'.$i; echo $per_flight_details->$assistance;?>" />
+                                            <input type="hidden" name="children_meal{{$i}}" id="children_meal{{$i}}" value="<?php $meal='children_meal'.$i; echo $per_flight_details->$meal;?>" />
+                                            @endfor
+
+                                            @for($i=1;$i<=$per_flight_details->infant; $i++)
+                                            <input type="hidden" name="infant_title{{$i}}" id="infant_title{{$i}}" value="<?php  $title='infant_title'.$i; echo $per_flight_details->$title;?>" />
+                                            <input type="hidden" name="infant_first_name{{$i}}" id="infant_first_name{{$i}}" value="<?php  $first_name='infant_first_name'.$i; echo $per_flight_details->$first_name;?>" />
+                                            <input type="hidden" name="infant_last_name{{$i}}" id="infant_last_name{{$i}}" value="<?php  $last_name='infant_last_name'.$i; echo $per_flight_details->$last_name;?>" />
+                                            <input type="hidden" name="infant_gender{{$i}}" id="infant_gender{{$i}}" value="<?php  $gender='infant_gender'.$i; echo $per_flight_details->$gender;?>" />
+                                            <input type="hidden" name="infant_date_of_birth{{$i}}" id="infant_date_of_birth{{$i}}" value="<?php  $date_of_birth='infant_date_of_birth'.$i; echo $per_flight_details->$date_of_birth;?>" />
+                                            <input type="hidden" name="infant_seating{{$i}}" id="infant_seating{{$i}}" value="<?php  $seating='infant_seating'.$i; echo $per_flight_details->$seating;?>" />
+                                            <input type="hidden" name="infant_assistance{{$i}}" id="infant_assistance{{$i}}" value="<?php  $assistance='infant_assistance'.$i; echo $per_flight_details->$assistance;?>" />
+                                            <input type="hidden" name="infant_meal{{$i}}" id="infant_meal{{$i}}" value="<?php $meal='infant_meal'.$i; echo $per_flight_details->$meal;?>" />
+                                            @endfor
+
+                                            <input type="hidden" name="postcode" id="postcode" value="{{$per_flight_details->postcode}}" />
+                                            <input type="hidden" name="add_1" id="add_1" value="{{$per_flight_details->add_1}}" />
+                                            <input type="hidden" name="add_2" id="add_2" value="{{$per_flight_details->add_2}}" />
+                                            <input type="hidden" name="city" id="city" value="{{$per_flight_details->city}}" />
+                                            <input type="hidden" name="state_code" id="state_code" value="{{$per_flight_details->state_code}}" />
+                                            <input type="hidden" name="country" id="country" value="{{$per_flight_details->country}}" />
+
+                                            <input type="hidden" name="email" id="email" value="{{$per_flight_details->email}}" />
+                                            <input type="hidden" name="mob_no" id="mob_no" value="{{$per_flight_details->mob_no}}" />
+
+                                            <input type="hidden" name="adults" id="adults" value="{{$per_flight_details->adults}}" />
+                                            <input type="hidden" name="children" id="children" value="{{$per_flight_details->children}}" />
+                                            <input type="hidden" name="infant" id="infant" value="{{$per_flight_details->infant}}" />
+                                            <!-- <input type="text" name="passenger_details" id="passenger_details" value="" /> -->
+                                            @if(isset($return_flights))
+                                            <input type="hidden" name="return_flight" id="return_flight" value="{{json_encode($return_flights)}}" />
+                                            <input type="submit" name="" id="submit_credit" class="btn btn-primary" value="Pay £ {{number_format((float)(str_replace('GBP','',$return_flights[2]['price']['ApproximateBasePrice']))+(str_replace('GBP','',$return_flights[2]['price']['Taxes'])),2, '.', '')}}" />
+                                            @else
+                                            <input type="hidden" name="flight" id="flight" value="{{json_encode($data)}}" />
+                                            <input type="submit" name="" id="submit_credit" class="btn btn-primary" value="Pay £ {{number_format((float)(str_replace('GBP','',$data[2]['price']['ApproximateBasePrice']))+(str_replace('GBP','',$data[2]['price']['Taxes'])),2,'.', '')}}" />
+                                            <!-- <a href="confirm-booking.php" class="btn btn-primary">Pay <i class="las la-pound-sign"></i>88.00</a> -->
+                                            @endif
+                                        <!-- <a href="confirm-booking.php" class="btn btn-primary">Pay <i class="las la-pound-sign"></i>88.00</a> -->
+                                        </form>
                                 </div>
                             </div>
                             <div class="card-body border rounded set mb-3">
@@ -179,7 +236,64 @@
                                             <span class="custom-control-label mr-2" for="paypal">Paypal</span>
                                             <img src="{{ asset('public/images/paypal.png') }}" alt="paypal" class="ml-auto" style="width:150px;"/>
                                         </div>
-                                        <a href="confirm-booking.php" class="btn btn-primary">Pay <i class="las la-pound-sign"></i>88.00</a>
+                                        <form name="credit_or_debit" method="POST" action="@if(isset($return_flights)){{route('roundpaymentcredit')}}@else{{route('paymentcredit')}}@endif">
+                                        @csrf
+                                            @for($i=1;$i<=$per_flight_details->adults; $i++)
+                                            <input type="hidden" name="title{{$i}}" id="title{{$i}}" value="<?php  $title='title'.$i; echo $per_flight_details->$title;?>" />
+                                            <input type="hidden" name="first_name{{$i}}" id="first_name{{$i}}" value="<?php  $first_name='first_name'.$i; echo $per_flight_details->$first_name;?>" />
+                                            <input type="hidden" name="last_name{{$i}}" id="last_name{{$i}}" value="<?php  $last_name='last_name'.$i; echo $per_flight_details->$last_name;?>" />
+                                            <input type="hidden" name="gender{{$i}}" id="gender{{$i}}" value="<?php  $gender='gender'.$i; echo $per_flight_details->$gender;?>" />
+                                            <input type="hidden" name="date_of_birth{{$i}}" id="date_of_birth{{$i}}" value="<?php  $date_of_birth='date_of_birth'.$i; echo $per_flight_details->$date_of_birth;?>" />
+                                            <input type="hidden" name="seating{{$i}}" id="seating{{$i}}" value="<?php  $seating='seating'.$i; echo $per_flight_details->$seating;?>" />
+                                            <input type="hidden" name="assistance{{$i}}" id="assistance{{$i}}" value="<?php  $assistance='assistance'.$i; echo $per_flight_details->$assistance;?>" />
+                                            <input type="hidden" name="meal{{$i}}" id="meal{{$i}}" value="<?php $meal='meal'.$i; echo $per_flight_details->$meal;?>" />
+                                            @endfor
+                                            @for($i=1;$i<=$per_flight_details->children; $i++)
+                                            <input type="hidden" name="children_title{{$i}}" id="children_title{{$i}}" value="<?php  $title='children_title'.$i; echo $per_flight_details->$title;?>" />
+                                            <input type="hidden" name="children_first_name{{$i}}" id="children_first_name{{$i}}" value="<?php  $first_name='children_first_name'.$i; echo $per_flight_details->$first_name;?>" />
+                                            <input type="hidden" name="children_last_name{{$i}}" id="children_last_name{{$i}}" value="<?php  $last_name='children_last_name'.$i; echo $per_flight_details->$last_name;?>" />
+                                            <input type="hidden" name="children_gender{{$i}}" id="children_gender{{$i}}" value="<?php  $gender='children_gender'.$i; echo $per_flight_details->$gender;?>" />
+                                            <input type="hidden" name="children_date_of_birth{{$i}}" id="children_date_of_birth{{$i}}" value="<?php  $date_of_birth='children_date_of_birth'.$i; echo $per_flight_details->$date_of_birth;?>" />
+                                            <input type="hidden" name="children_seating{{$i}}" id="children_seating{{$i}}" value="<?php  $seating='children_seating'.$i; echo $per_flight_details->$seating;?>" />
+                                            <input type="hidden" name="children_assistance{{$i}}" id="children_assistance{{$i}}" value="<?php  $assistance='children_assistance'.$i; echo $per_flight_details->$assistance;?>" />
+                                            <input type="hidden" name="children_meal{{$i}}" id="children_meal{{$i}}" value="<?php $meal='children_meal'.$i; echo $per_flight_details->$meal;?>" />
+                                            @endfor
+
+                                            @for($i=1;$i<=$per_flight_details->infant; $i++)
+                                            <input type="hidden" name="infant_title{{$i}}" id="infant_title{{$i}}" value="<?php  $title='infant_title'.$i; echo $per_flight_details->$title;?>" />
+                                            <input type="hidden" name="infant_first_name{{$i}}" id="infant_first_name{{$i}}" value="<?php  $first_name='infant_first_name'.$i; echo $per_flight_details->$first_name;?>" />
+                                            <input type="hidden" name="infant_last_name{{$i}}" id="infant_last_name{{$i}}" value="<?php  $last_name='infant_last_name'.$i; echo $per_flight_details->$last_name;?>" />
+                                            <input type="hidden" name="infant_gender{{$i}}" id="infant_gender{{$i}}" value="<?php  $gender='infant_gender'.$i; echo $per_flight_details->$gender;?>" />
+                                            <input type="hidden" name="infant_date_of_birth{{$i}}" id="infant_date_of_birth{{$i}}" value="<?php  $date_of_birth='infant_date_of_birth'.$i; echo $per_flight_details->$date_of_birth;?>" />
+                                            <input type="hidden" name="infant_seating{{$i}}" id="infant_seating{{$i}}" value="<?php  $seating='infant_seating'.$i; echo $per_flight_details->$seating;?>" />
+                                            <input type="hidden" name="infant_assistance{{$i}}" id="infant_assistance{{$i}}" value="<?php  $assistance='infant_assistance'.$i; echo $per_flight_details->$assistance;?>" />
+                                            <input type="hidden" name="infant_meal{{$i}}" id="infant_meal{{$i}}" value="<?php $meal='infant_meal'.$i; echo $per_flight_details->$meal;?>" />
+                                            @endfor
+
+                                            <input type="hidden" name="postcode" id="postcode" value="{{$per_flight_details->postcode}}" />
+                                            <input type="hidden" name="add_1" id="add_1" value="{{$per_flight_details->add_1}}" />
+                                            <input type="hidden" name="add_2" id="add_2" value="{{$per_flight_details->add_2}}" />
+                                            <input type="hidden" name="city" id="city" value="{{$per_flight_details->city}}" />
+                                            <input type="hidden" name="state_code" id="state_code" value="{{$per_flight_details->state_code}}" />
+                                            <input type="hidden" name="country" id="country" value="{{$per_flight_details->country}}" />
+
+                                            <input type="hidden" name="email" id="email" value="{{$per_flight_details->email}}" />
+                                            <input type="hidden" name="mob_no" id="mob_no" value="{{$per_flight_details->mob_no}}" />
+
+                                            <input type="hidden" name="adults" id="adults" value="{{$per_flight_details->adults}}" />
+                                            <input type="hidden" name="children" id="children" value="{{$per_flight_details->children}}" />
+                                            <input type="hidden" name="infant" id="infant" value="{{$per_flight_details->infant}}" />
+                                            <!-- <input type="text" name="passenger_details" id="passenger_details" value="" /> -->
+                                            @if(isset($return_flights))
+                                            <input type="hidden" name="return_flight" id="return_flight" value="{{json_encode($return_flights)}}" />
+                                            <input type="submit" name="" id="submit_credit" class="btn btn-primary" value="Pay £ {{number_format((float)(str_replace('GBP','',$return_flights[2]['price']['ApproximateBasePrice']))+(str_replace('GBP','',$return_flights[2]['price']['Taxes'])),2, '.', '')}}" />
+                                            @else
+                                            <input type="hidden" name="flight" id="flight" value="{{json_encode($data)}}" />
+                                            <input type="submit" name="" id="submit_credit" class="btn btn-primary" value="Pay £ {{number_format((float)(str_replace('GBP','',$data[2]['price']['ApproximateBasePrice']))+(str_replace('GBP','',$data[2]['price']['Taxes'])),2,'.', '')}}" />
+                                            <!-- <a href="confirm-booking.php" class="btn btn-primary">Pay <i class="las la-pound-sign"></i>88.00</a> -->
+                                            @endif
+                                        </form>
+                                        <!-- <a href="confirm-booking.php" class="btn btn-primary">Pay <i class="las la-pound-sign"></i>88.00</a> -->
                                     </div>
                                 </div>
                             </div>
