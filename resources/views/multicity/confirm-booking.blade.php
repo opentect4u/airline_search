@@ -23,7 +23,7 @@
                     <h1 class="font-weight-600 mt-4">Booking Failed</h1>
                     <h4>Booking Failed</h4>
                     @endif
-                    <section class="content">
+                    <section class="content" id="sectionDiv">
                         <div class="outer-div">
                             <div class="container outer-div-inner">
                                 <div class="row"
@@ -33,8 +33,8 @@
                             <table width="100%" border="0">
                                 <tbody>
                                 <tr>
-                            <th scope="col"><img src="https://www.cloudtravels.co.uk/software/public/images/logo.png" alt="logo" class="img-fluid img-responsive"></th>
-                            <th scope="col"><img src="https://www.cloudtravels.co.uk/software/public/images/atol_logo_final.png" alt="logo" class="img-fluid img-responsive" align="right">
+                            <th scope="col"><img src="{{ asset('public/images/logo.png') }}" alt="logo" class="img-fluid img-responsive"></th>
+                            <th scope="col"><img src="{{ asset('public/images/logo.png') }}" alt="logo" class="img-fluid img-responsive" align="right">
                             </th>
                         </tr>
                        </tbody>
@@ -58,7 +58,7 @@
                                         <table class="m-0" align="right">
                                             <tr>
                                                 <td><b>Invoice Date :</b> </td>
-                                                <td class="text-left"> &nbsp;6 April 2021</td>
+                                                <td class="text-left"> &nbsp;{{date('d M Y')}}</td>
                                             </tr>
                                             <tr>
                                                 <td><b>Invoice No &nbsp;&nbsp;&nbsp;: </b></td>
@@ -420,9 +420,12 @@ Timings are subject to change, please reconfirming with your airline operator be
     <img src="{{ asset('public/images/cards.png') }}" alt="" class="img-fluid"/><br>
     <span><span class="text-primary">Registered in England No.</span> 09677123</span>
                                             </div><br>
-                                            <p align="center"> <a href="javascript:void(0);"
+                                            <p align="center"> 
+                                                <!-- <a href="javascript:void(0);"
                                                     class="btn btn-success noprint" onclick="window.print()">Print
-                                                    Invoice</a> </p>
+                                                    Invoice</a>  -->
+                                                <a href="javascript:void(0);" class="btn btn-success noprint" onclick="printContent('sectionDiv');">Print Invoice</a>
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
@@ -447,5 +450,15 @@ Timings are subject to change, please reconfirming with your airline operator be
         $('#loading').hide();
         $('#loading_small').hide();
     });
+    function printContent(divName) {
+        var printContents = document.getElementById(divName).innerHTML;
+        var originalContents = document.body.innerHTML;
+
+        document.body.innerHTML = printContents;
+
+        window.print();
+
+        document.body.innerHTML = originalContents;
+    }
 </script>
 @endsection
