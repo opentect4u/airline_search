@@ -21,7 +21,7 @@
                     <h1 class="font-weight-600 mt-4">Thank You</h1>
                     <h4>You successfully created your booking</h4>
                     @else
-                    <img src="{{ asset('public/images/dne.gif') }}" alt="failed" style="width:120px;" class="img-fluid m-auto" />
+                    <img src="{{ asset('public/images/fail.png') }}" alt="failed" style="width:120px;" class="img-fluid m-auto" />
                     <h1 class="font-weight-600 mt-4">Booking Failed</h1>
                     <h4>Booking Failed</h4>
                     @endif
@@ -31,7 +31,7 @@
                     <h1 class="font-weight-600 mt-4">Thank You</h1>
                     <h4>You successfully created your booking</h4>
                     @else
-                    <img src="{{ asset('public/images/dne.gif') }}" alt="failed" style="width:120px;" class="img-fluid m-auto" />
+                    <img src="{{ asset('public/images/fail.png') }}" alt="failed" style="width:120px;" class="img-fluid m-auto" />
                     <h1 class="font-weight-600 mt-4">Booking Failed</h1>
                     <h4>Booking Failed</h4>
                     @endif
