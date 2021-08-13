@@ -66,7 +66,8 @@
                             <!-- @if(count($datas)==1)<h3 class="font-weight-bold"><i class="las la-pound-sign"></i>{{str_replace('GBP','',$data[2]['price']['TotalPrice'])}}</h3>@endif -->
                             </div>
                         </div>
-                        <p class="mt-3"><i class="las la-suitcase-rolling"></i> {{str_replace('K','',isset($data[1]['details']['baggageallowanceinfo'])?$data[1]['details']['baggageallowanceinfo']:'')}} Kgs Check-In, {{str_replace('K','', isset($data[1]['details']['carryonallowanceinfo'])?$data[1]['details']['carryonallowanceinfo']:'' )}} Kgs Cabin</p>
+                        <p class="mt-3"><i class="las la-suitcase-rolling"></i> {{isset($data[1]['details']['baggageallowanceinfo'])?$data[1]['details']['baggageallowanceinfo']:''}} Check-In, {{ isset($data[1]['details']['carryonallowanceinfo'])?$data[1]['details']['carryonallowanceinfo']:'' }} Cabin</p>
+                        <!-- <p class="mt-3"><i class="las la-suitcase-rolling"></i> {{str_replace('K','',isset($data[1]['details']['baggageallowanceinfo'])?$data[1]['details']['baggageallowanceinfo']:'')}} Check-In, {{str_replace('K','', isset($data[1]['details']['carryonallowanceinfo'])?$data[1]['details']['carryonallowanceinfo']:'' )}} Cabin</p> -->
                         @endfor
                         @endforeach
                         
@@ -137,7 +138,8 @@
                             @if(count($datas)==1)<h3 class="font-weight-bold"><i class="las la-pound-sign"></i>{{str_replace('GBP','',$return_data[2]['price']['TotalPrice'])}}</h3>@endif
                             </div>
                         </div>
-                        <p class="mt-3"><i class="las la-suitcase-rolling"></i> {{str_replace('K','', isset($return_data[1]['details']['baggageallowanceinfo'])?$return_data[1]['details']['baggageallowanceinfo']:'' )}} Kgs Check-In, {{str_replace('K','', isset($data[1]['details']['carryonallowanceinfo'])?$data[1]['details']['carryonallowanceinfo']:'' )}} Kgs Cabin</p>
+                        <!-- <p class="mt-3"><i class="las la-suitcase-rolling"></i> {{str_replace('K','', isset($return_data[1]['details']['baggageallowanceinfo'])?$return_data[1]['details']['baggageallowanceinfo']:'' )}} Check-In, {{str_replace('K','', isset($data[1]['details']['carryonallowanceinfo'])?$data[1]['details']['carryonallowanceinfo']:'' )}} Cabin</p> -->
+                        <p class="mt-3"><i class="las la-suitcase-rolling"></i> {{isset($return_data[1]['details']['baggageallowanceinfo'])?$return_data[1]['details']['baggageallowanceinfo']:''}} Check-In, {{ isset($return_data[1]['details']['carryonallowanceinfo'])?$return_data[1]['details']['carryonallowanceinfo']:'' }} Cabin</p>
                         <hr>
                         @if($datas[$i]['Destination']==str_replace(')','',explode('(',$per_flight_details->addTo)[1]))
                         <!-- <hr> -->
@@ -427,8 +429,10 @@
               </tr>
               <tr>
                 <td>Adult</td>
-                <td>{{str_replace('K','', isset($data[1]['details']['baggageallowanceinfo'])?$data[1]['details']['baggageallowanceinfo']:'' )}} Kgs</td>
-                <td>{{str_replace('K','', isset($data[1]['details']['carryonallowanceinfo'])?$data[1]['details']['carryonallowanceinfo']:'')}} Kgs</td>
+                <!-- <td>{{str_replace('K','', isset($data[1]['details']['baggageallowanceinfo'])?$data[1]['details']['baggageallowanceinfo']:'' )}} </td>
+                <td>{{str_replace('K','', isset($data[1]['details']['carryonallowanceinfo'])?$data[1]['details']['carryonallowanceinfo']:'')}} </td> -->
+                <td>{{ isset($data[1]['details']['baggageallowanceinfo'])?$data[1]['details']['baggageallowanceinfo']:'' }} </td>
+                <td>{{isset($data[1]['details']['carryonallowanceinfo'])?$data[1]['details']['carryonallowanceinfo']:''}} </td>
               </tr>
             </table>
             <small>The baggage information is just for reference. Please Check with airline before check-in. For more information, visit IndiGo Airlines Website.</small>
@@ -494,8 +498,10 @@
               </tr>
               <tr>
                 <td>Adult</td>
-                <td>{{str_replace('K','', isset($return_data[1]['details']['baggageallowanceinfo'])?$return_data[1]['details']['baggageallowanceinfo']:'' )}} Kgs</td>
-                <td>{{str_replace('K','', isset($dareturn_datata[1]['details']['carryonallowanceinfo'])?$return_data[1]['details']['carryonallowanceinfo']:'')}} Kgs</td>
+                <!-- <td>{{str_replace('K','', isset($return_data[1]['details']['baggageallowanceinfo'])?$return_data[1]['details']['baggageallowanceinfo']:'' )}} </td>
+                <td>{{str_replace('K','', isset($return_data[1]['details']['carryonallowanceinfo'])?$return_data[1]['details']['carryonallowanceinfo']:'')}} </td> -->
+                <td>{{ isset($return_data[1]['details']['baggageallowanceinfo'])?$data[1]['details']['baggageallowanceinfo']:'' }} </td>
+                <td>{{isset($return_data[1]['details']['carryonallowanceinfo'])?$data[1]['details']['carryonallowanceinfo']:''}} </td>
               </tr>
             </table>
             <small>The baggage information is just for reference. Please Check with airline before check-in. For more information, visit IndiGo Airlines Website.</small>
