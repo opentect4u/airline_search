@@ -13,7 +13,7 @@ class MasterController extends Controller
     //     return "hii";
     // }
     // get hotel details 
-    public function Index(){
+    public function Index7(){
         // return "hii";
         // <HotelId>1009075</HotelId>
 
@@ -90,7 +90,7 @@ class MasterController extends Controller
         return $return;
     }
     // get cities 
-    public function Index2(){
+    public function Index(){
         $Username='4e136e82c5b549a71dabbc9627cb4673';
         $Password='Y1qgGuaZiHN0';
         $url = "http://xmldemo.travellanda.com/xmlv1";
@@ -116,7 +116,7 @@ class MasterController extends Controller
         curl_close($ch);
         // return $return;
         $object =app('App\Http\Controllers\XMlToParseDataController')->XMlToJSON($return);
-        // return $object;
+        return $object;
 
         foreach($object as $json){
             if(array_key_exists('Error',$json['Body'])){
@@ -146,14 +146,14 @@ class MasterController extends Controller
                                 // echo "</br></br>";
                                 // $count++;
                                 // HotelCountries::
-                                if (count($Countryy['Cities']['City'])>18402) {
+                                // if (count($Countryy['Cities']['City'])>18402) {
                                     
                                 HotelCities::create(array(
                                     'country_code'=>isset($Countryy['CountryCode'])?$Countryy['CountryCode']:"mismatched",
                                     'city_id'=>isset($city['CityId'])?$city['CityId']:"mismatched",
                                     'city_name'=>isset($city['CityName'])?$city['CityName']:"mismatched",
                                 ));
-                                }
+                                // }
 
                             }
                         }

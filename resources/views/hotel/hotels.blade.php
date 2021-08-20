@@ -38,7 +38,8 @@
     <section id="search-container" class="bg-white collapse">
         <div class="container-fluid">
             <div class="cld__book__form search__modify pt-4">
-            <form method="post" class="">
+            <form method="post" class="" action="{{route('hotels')}}">
+                @csrf
                 <div class="row">
                     <div class="col-md-3">
                         <div class="form-group">
