@@ -179,19 +179,20 @@
                 </form>
             </div>
             <div id="hotel" class="tab-pane fade mt-3">
-                <form method="post" action="">
+                <form name="hotelform" id="hotelform" method="post" action="{{route('hotels')}}">
+                    @csrf
                     <div class="form-group">
                         <label>Destination</label>
-                        <input type="text" name="" placeholder="New Delhi" class="form-control">
+                        <input type="text" name="city_name" id="city_name" required placeholder="New Delhi" class="form-control search_hotel">
                     </div>
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
                                 <label>Check In</label>
-                                <div id="datetimepicker2" class="input-group">
-                                    <input type="text" name="date_of_birth" placeholder="dd/mm/yyyy" class="form-control border-right-0" data-format="dd-MM-yyyy">
-                                    <div class="input-group-append add-on">
-                                      <span class="input-group-text bg-white pl-0"><i class="lar la-calendar-alt"></i></span>
+                                <div id="check_in_datetimepicker" class="input-group check_in_datetimepickerclass">
+                                    <input type="text" name="check_in" required id="check_in" placeholder="dd/mm/yyyy" class="form-control border-right-0 check_in_datetimepickerclass" data-format="dd-MM-yyyy">
+                                    <div class="input-group-append add-on check_in_datetimepickerclass">
+                                      <span class="input-group-text bg-white pl-0 check_in_datetimepickerclass"><i class="lar la-calendar-alt check_in_datetimepickerclass"></i></span>
                                     </div>
                                 </div>
                             </div>
@@ -199,10 +200,10 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label>Check Out</label>
-                                <div id="datetimepicker3" class="input-group">
-                                    <input type="text" name="date_of_birth" placeholder="dd/mm/yyyy" class="form-control border-right-0" data-format="dd-MM-yyyy">
-                                    <div class="input-group-append add-on">
-                                      <span class="input-group-text bg-white pl-0"><i class="lar la-calendar-alt"></i></span>
+                                <div id="check_out_datetimepicker" class="input-group check_out_datetimepickerclass">
+                                    <input type="text" name="check_out" required id="check_out" placeholder="dd/mm/yyyy" class="form-control border-right-0 check_out_datetimepickerclass" data-format="dd-MM-yyyy">
+                                    <div class="input-group-append add-on check_out_datetimepickerclass">
+                                      <span class="input-group-text bg-white pl-0 check_out_datetimepickerclass"><i class="lar la-calendar-alt check_out_datetimepickerclass"></i></span>
                                     </div>
                                 </div>
                             </div>
@@ -210,14 +211,14 @@
                     </div>
                     <div class="form-group">
                         <label>Room & Guests</label>
-                        <input type="text" name="" placeholder="1 Room, 2 Adult, 1 Child" class="form-control" onclick="hotel_traveller_selection();">
+                        <input type="text" name="hotel_travel_details" id="hotel_travel_details" placeholder="1 Room, 1 Adult" class="form-control" onclick="hotel_traveller_selection();">
                     
                         <div id="hotel_traveller_selection" style="display:none;">
                             <div class="row m-0">
                                 <div class="col-6 px-2">
                                     <div class="form-group">
                                         <label>Room</label>
-                                        <select name="travel-class" class="custom-select">
+                                        <select name="hotel_room" id="hotel_room" class="custom-select">
                                             <option value="1" selected>1</option>
                                             <option value="2">2</option>
                                             <option value="3">3</option>
@@ -228,7 +229,7 @@
                                 <div class="col-6 px-2">
                                     <div class="form-group">
                                         <label>Adults <small>(18+ yrs)</small></label>
-                                        <select name="adults" class="custom-select">
+                                        <select name="hotel_adults" id="hotel_adults" class="custom-select">
                                             <option selected>1</option>
                                             <option value="2">2</option>
                                             <option value="3">3</option>
@@ -244,7 +245,7 @@
                                 <div class="col-6 px-2">
                                     <div class="form-group">
                                         <label>Child <small>(2-15 yrs)</small></label>
-                                        <select name="adults" class="custom-select">
+                                        <select name="hotel_child" id="hotel_child" class="custom-select">
                                             <option selected>0</option>
                                             <option value="1">1</option>
                                             <option value="2">2</option>
@@ -261,7 +262,7 @@
                                 <div class="col-6 px-2">
                                     <div class="form-group">
                                         <label>Infant <small>(0-23 mths)</small></label>
-                                        <select name="adults" class="custom-select">
+                                        <select name="hotel_infant" id="hotel_infant" class="custom-select">
                                             <option selected>0</option>
                                             <option value="1">1</option>
                                             <option value="2">2</option>
@@ -270,11 +271,16 @@
                                         </select>
                                     </div>
                                 </div>
+                                <div class="col-6 px-2">
+                                    <div class="form-group">
+                                        <input type="button" name="" id="hotel_buttonApply" class="btn btn-primary" onclick="hotel_traveller_selection();" value="Apply">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <!-- <button type="submit" class="btn btn-primary">Search Hotels</button> -->
-                    <a href="hotels.php" class="btn btn-primary">Search Hotels</a>
+                    <button type="submit" name="hotel_submit" id="hotel_submit" class="btn btn-primary">Search Hotels</button>
+                    <!-- <a href="hotels.php" class="btn btn-primary">Search Hotels</a> -->
                 </form>
             </div>
             <div id="fligh-and-hotel" class="tab-pane fade mt-3">
@@ -913,4 +919,189 @@
         // return false;
     }
 </script>
+
+        <!-- start hotel section -->
+<script>
+    $( document ).ready(function() {
+        // alert("hotel");
+        // hotel_submit
+        var path = "{{ route('searchhotel') }}";
+        // searchhotel
+        // searchairport
+        // Set the Options for "Bloodhound" suggestion engine
+        var engine = new Bloodhound({
+            remote: {
+                // url: '/find?q=%QUERY%',
+                url: path+'?q=%QUERY%',
+                wildcard: '%QUERY%'
+            },
+            datumTokenizer: Bloodhound.tokenizers.whitespace('q'),
+            queryTokenizer: Bloodhound.tokenizers.whitespace
+        });
+
+
+        $(".search_hotel").typeahead({
+                hint: true,
+                highlight: true,
+                minLength: 1
+            }, {
+                source: engine.ttAdapter(),
+                // This will be appended to "tt-dataset-" to form the class name of the suggestion menu.
+                name: 'hotelList',
+                // the key from the array we want to display (name,id,email,etc...)
+                templates: {
+                    empty: [
+                        '<div class="list-group search-results-dropdown"><div class="list-group-item">Nothing found.</div></div>'
+                    ],
+                    header: [
+                        '<div class="list-group search-results-dropdown">'
+                    ],
+                    suggestion: function (data) {
+                        return '<span class="list-group-item">' + data + '</span>'
+                    }
+                }
+        });
+
+        $('.check_in_datetimepickerclass').click(function(){
+            $('#check_out').val('');
+            $("#check_out_datetimepicker").datetimepicker("destroy");
+            $('#check_in_datetimepicker').datetimepicker({
+                pickTime: false,
+                autoclose: true, 
+                startDate: new Date(),
+                todayHighlight: true,
+                // minDate: new Date(),
+                // defaultDate: new Date(),
+            });
+            $('#check_in_datetimepicker').datetimepicker("show").on('changeDate', function(){
+                // $('#departure_date_datetimepicker').hide();
+                $('#check_in_datetimepicker').datetimepicker("hide")
+            });
+            // $('#returnDateDiv').attr('returnDateDiv-data','1'); 
+        
+        });
+
+        $('.check_out_datetimepickerclass').on('click',function(){
+            // alert("return hii")
+            // $("#returning_date_datetimepicker").datetimepicker("destroy");
+            // returning_date
+            var dep_val=$('#check_in').val();
+            $('#check_out').val('');
+            $('#check_out').val(dep_val);
+            
+            var newdate = dep_val.split("-").reverse().join("/");
+            var datePeriode= new Date(newdate);
+            var adddate=datePeriode.setDate(datePeriode.getDate() + 1);
+            // alert(adddate);
+            // alert(new Date(adddate))
+            $('#check_out_datetimepicker').datetimepicker({
+                pickTime: false,
+                startDate: new Date(adddate),
+                autoclose: true,
+                todayHighlight: true,
+            });
+
+            // $('#returning_date_datetimepicker').datetimepicker("show");
+            $('#check_out_datetimepicker').datetimepicker("show").on('changeDate', function(){
+                $('#check_out_datetimepicker').datetimepicker("hide")
+            });
+        });
+
+        $("#hotel_room").change(function(){
+            // alert("hii");
+            var hotel_room=$('#hotel_room').val();
+            var adults=$('#hotel_adults').val();
+            var children=$('#hotel_child').val();
+            var infant=$('#hotel_infant').val();
+            // alert(adults);
+            if(infant>0 && children>0){
+                var val=hotel_room+' Room, '+ adults+' Adults, '+children+' Child, '+infant+' Infant';
+            }else if(infant>0){
+                var val=hotel_room+' Room, '+adults+' Adults, '+infant+' Infant';
+            }else if(children>0){
+                var val=hotel_room+' Room, '+adults+' Adults, '+children+' Child';
+            }else{
+                var val=hotel_room+' Room, '+adults+' Adults';
+            }
+            $('#hotel_travel_details').removeAttr('placeholder');
+            $('#hotel_travel_details').attr('placeholder',val);
+            
+        });
+
+        $("#hotel_adults").change(function(){
+            // alert("hii");
+            var hotel_room=$('#hotel_room').val();
+            var adults=$('#hotel_adults').val();
+            var children=$('#hotel_child').val();
+            var infant=$('#hotel_infant').val();
+            // alert(adults);
+            if(infant>0 && children>0){
+                var val=hotel_room+' Room, '+ adults+' Adults, '+children+' Child, '+infant+' Infant';
+            }else if(infant>0){
+                var val=hotel_room+' Room, '+adults+' Adults, '+infant+' Infant';
+            }else if(children>0){
+                var val=hotel_room+' Room, '+adults+' Adults, '+children+' Child';
+            }else{
+                var val=hotel_room+' Room, '+adults+' Adults';
+            }
+            $('#hotel_travel_details').removeAttr('placeholder');
+            $('#hotel_travel_details').attr('placeholder',val);
+            
+        });
+
+        $("#hotel_child").change(function(){
+            // alert("hii");
+            var hotel_room=$('#hotel_room').val();
+            var adults=$('#hotel_adults').val();
+            var children=$('#hotel_child').val();
+            var infant=$('#hotel_infant').val();
+            // alert(adults);
+            if(infant>0 && children>0){
+                var val=hotel_room+' Room, '+adults+' Adults, '+children+' Child, '+infant+' Infant';
+            }else if(infant>0){
+                var val=hotel_room+' Room, '+adults+' Adults, '+infant+' Infant';
+            }else if(children>0){
+                var val=hotel_room+' Room, '+adults+' Adults, '+children+' Child';
+            }else{
+                var val=hotel_room+' Room, '+adults+' Adults';
+            }
+            $('#hotel_travel_details').removeAttr('placeholder');
+            $('#hotel_travel_details').attr('placeholder',val);
+            
+        });
+        $("#hotel_infant").change(function(){
+            // alert("hii");
+            var hotel_room=$('#hotel_room').val();
+            var adults=$('#hotel_adults').val();
+            var children=$('#hotel_child').val();
+            var infant=$('#hotel_infant').val();
+            // alert(adults);
+            if(infant>0 && children>0){
+                var val=hotel_room+' Room, '+adults+' Adults, '+children+' Child, '+infant+' Infant';
+            }else if(infant>0){
+                var val=hotel_room+' Room, '+adults+' Adults, '+infant+' Infant';
+            }else if(children>0){
+                var val=hotel_room+' Room, '+adults+' Adults, '+children+' Child';
+            }else{
+                var val=hotel_room+' Room, '+adults+' Adults';
+            }
+            $('#hotel_travel_details').removeAttr('placeholder');
+            $('#hotel_travel_details').attr('placeholder',val);
+            
+        });
+        
+
+        $('#hotel_submit').click(function(){
+            // alert("hotel_submit");
+            // return false;
+            var city_name=$('#city_name').val();
+            var check_in=$('#check_in').val();
+            var check_out=$('#check_out').val();
+            if(city_name!='' && check_in!='' && check_out!='' ){
+                $('#loading').show();
+            }
+        });
+    });
+</script>
+        <!-- end hotel section -->
 @endsection

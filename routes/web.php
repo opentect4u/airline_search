@@ -62,3 +62,14 @@ Route::post('/multicitypaymentcredit',[App\Http\Controllers\multicity\PaymentCon
 
 // 404 not found page
 Route::get('/errorPage',[App\Http\Controllers\HomeController::class,'Error'])->name('errorPage');
+
+
+
+            // Start Hotel Section
+
+Route::get('/searchhotel',[App\Http\Controllers\HomeController::class,'SearchHotel'])->name('searchhotel');
+
+Route::get('/hotels',[App\Http\Controllers\hotel\MasterController::class,'Index'])->name('hotels');
+Route::post('/hotels',[App\Http\Controllers\hotel\HotelController::class,'Search'])->name('hotels');
+
+            // End Hotel Section

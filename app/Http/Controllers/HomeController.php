@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\AirportCodes;
+use App\Models\HotelCities;
 
 class HomeController extends Controller
 {
@@ -29,5 +30,13 @@ class HomeController extends Controller
 
     public function Error(){
         return view('error');
+    }
+
+    public function SearchHotel(Request $request){
+        return HotelCities::search($request->get('q'))->select('city_name','country_code')->get()->map(function($airport){
+        // return HotelCities::search($request->get('q'))->select('city_name','city_id')->get()->map(function($airport){
+            // return $airport->city_name . ' ('. $airport->city_id.')';
+            return $airport->city_name . ' ('. $airport->country_code.')';
+        });
     }
 }
