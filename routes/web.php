@@ -70,6 +70,10 @@ Route::get('/errorPage',[App\Http\Controllers\HomeController::class,'Error'])->n
 Route::get('/searchhotel',[App\Http\Controllers\HomeController::class,'SearchHotel'])->name('searchhotel');
 
 Route::get('/hotels',[App\Http\Controllers\hotel\MasterController::class,'Index'])->name('hotels');
+Route::get('/hotelss',[App\Http\Controllers\hotel\MasterController::class,'Indexs'])->name('hotelss');
+
+
 Route::post('/hotels',[App\Http\Controllers\hotel\HotelController::class,'Search'])->name('hotels');
+Route::post('/hoteldetails',[App\Http\Controllers\hotel\HotelDetailsController::class,'Show'])->name('hoteldetails');
 
             // End Hotel Section

@@ -161,29 +161,37 @@
                         <h4 class="font-weight-600 m-0">Filter Result <span class="d-inline-block d-lg-none  filter-open float-right"><i class="las la-times"></i></span></h4>
                         <div class="filter-set">
                             <h6 class="font-weight-600">Hotel Name </h6>
-                            <input type="text" class="form-control" placeholder="Search by hotel name" name=""/>
+                            <select id="hotelNameFilter" class="form-control">
+                                <option value="">Recommended</option>
+                                @foreach($hotels[0] as $hotel)
+                                @for ($i=0; $i < count($hotel); $i++)
+                                <option value="{{$hotel[$i]['HotelName']}}">{{$hotel[$i]['HotelName']}}</option>
+                                @endfor
+                                @endforeach
+                            <!-- <input type="text" class="form-control" placeholder="Search by hotel name" name=""/> -->
+                            </select>
                         </div>
                         <div class="filter-set">
                             <h6 class="font-weight-600">Hotel Rating </h6>
                             <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
-                                <label class="custom-control-label" for="customCheck"><img src="{{ asset('public/images/5-star.png')}}" alt="5 star"/></label>
+                                <input type="checkbox" class="custom-control-input" id="Rating5" name="Rating" value="Rating5" onclick="filter()">
+                                <label class="custom-control-label" for="Rating5"><img src="{{ asset('public/images/5-star.png')}}" alt="5 star"/></label>
                             </div>
                             <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
-                                <label class="custom-control-label" for="customCheck"><img src="{{ asset('public/images/4-star.png')}}" alt="5 star"/></label>
+                                <input type="checkbox" class="custom-control-input" id="Rating4" name="Rating" value="Rating4" onclick="filter()">
+                                <label class="custom-control-label" for="Rating4"><img src="{{ asset('public/images/4-star.png')}}" alt="5 star"/></label>
                             </div>
                             <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
-                                <label class="custom-control-label" for="customCheck"><img src="{{ asset('public/images/3-star.png')}}" alt="5 star"/></label>
+                                <input type="checkbox" class="custom-control-input" id="Rating3" name="Rating" value="Rating3" onclick="filter()">
+                                <label class="custom-control-label" for="Rating3"><img src="{{ asset('public/images/3-star.png')}}" alt="5 star"/></label>
                             </div>
                             <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
-                                <label class="custom-control-label" for="customCheck"><img src="{{ asset('public/images/2-star.png')}}" alt="5 star"/></label>
+                                <input type="checkbox" class="custom-control-input" id="Rating2" name="Rating" value="Rating2" onclick="filter()">
+                                <label class="custom-control-label" for="Rating2"><img src="{{ asset('public/images/2-star.png')}}" alt="5 star"/></label>
                             </div>
                             <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
-                                <label class="custom-control-label" for="customCheck"><img src="{{ asset('public/images/1-star.png')}}" alt="5 star"/></label>
+                                <input type="checkbox" class="custom-control-input" id="Rating1" name="Rating" value="Rating1" onclick="filter()">
+                                <label class="custom-control-label" for="Rating1"><img src="{{ asset('public/images/1-star.png')}}" alt="5 star"/></label>
                             </div>
                         </div>
                         <div class="filter-set">
@@ -220,30 +228,13 @@
                         </div>
                         <div class="filter-set">
                             <h6 class="font-weight-600">Facilities </h6>
+                            @foreach($allfacilities as $allfacility)
                             <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
-                                <label class="custom-control-label" for="customCheck">24-hour reception</label>
+                                <input type="checkbox" class="custom-control-input" id="Facility{{$allfacility}}" name="Facility" value="Facility{{str_replace(' ','',str_replace('/','',$allfacility))}}" onclick="filter()">
+                                <label class="custom-control-label" for="Facility{{$allfacility}}">{{$allfacility}}</label>
                             </div>
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
-                                <label class="custom-control-label" for="customCheck">Air conditioning in public areas  – </label>
-                            </div>
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
-                                <label class="custom-control-label" for="customCheck">Car park</label>
-                            </div>
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
-                                <label class="custom-control-label" for="customCheck">Currency exchange facilities</label>
-                            </div>
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
-                                <label class="custom-control-label" for="customCheck">Garage</label>
-                            </div>
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
-                                <label class="custom-control-label" for="customCheck">Gym</label>
-                            </div>
+                            @endforeach
+                            
                         </div>
                     </div>
                 </div>
@@ -258,12 +249,33 @@
                                 <a href="#" class="btn btn-default filter-open border">Filters <i class="las la-filter"></i></a>
                             </div>
                         </div>
+                        <div class="package-devider">
+                            <div class="media">
+                                <b>Sort by : </b>&nbsp;&nbsp;
+                                <select id="sort_by" name="sort_by" class="form-control col-lg-4">
+                                    <option value="">Recommended</option>
+                                    <option value="0">Price Low to High</option>
+                                    <option value="1">Price High to Low</option>
+                                    <option value="2">Rating Low to High</option>
+                                    <option value="3">Rating High to Low</option>
+                                    <option value="4">Hotel Name A to Z</option>
+                                    <option value="5">Hotel Name Z to A</option>
+                                </select>
+                            </div>
+                        </div>
+                        </br>
                         @foreach($hotels[0] as $hotel)
                         @for ($i=0; $i < count($hotel); $i++)
                         <!-- {{$hotel[$i]['HotelId']}} -->
-                        <div class="package-devider">
+                        <!-- {{json_decode($hotel[$i]['StarRating'])}} -->
+                        <div class="package-devider GlobalDiv Rating{{json_decode($hotel[$i]['StarRating'])}} priceRange hotelName_{{$hotel[$i]['HotelName']}} @foreach($hotelDetails[$i]['Facilities']['Facility'] as $facility)
+                                                @if($facility['FacilityType'] =='Hotel Facilities')
+                                                    {{'Facility'.str_replace(' ','',str_replace('/','',$facility['FacilityName'])).' '}}
+                                                    
+                                                @endif
+                                                @endforeach" data-GlobalDiv="1">
                             <div class="media">
-                                <div class=" hotels-image-media mr-3" style="background:url('{{$hotelDetails[$i]['Images']['Image'][0]}}') no-repeat center center;background-size:cover;"></div>
+                                <div class="hotels-image-media mr-3" style="background:url('{{isset($hotelDetails[$i]['Images']['Image'][0])?$hotelDetails[$i]['Images']['Image'][0]:''}}') no-repeat center center;background-size:cover;"></div>
                                 <div class="media-body">
                                     <h2 class="font-weight-600">{{$hotel[$i]['HotelName']}}</h2>
                                     <address class="text-muted mb-0">{{$hotelDetails[$i]['Address']}}</address>
@@ -300,51 +312,66 @@
                                         <i class="las la-star active"></i> 5.0
                                         @endif
                                     </div>
-                                <div class="row d-none d-md-flex">
-                                    <div class="col-6">
-                                        <span class="text-muted mt-3 d-block">Facilities</span>
-                                        <ul class="d-block mt-1">
-                                            <?php $count=0?>
-                                            @foreach($hotelDetails[$i]['Facilities']['Facility'] as $facility)
-                                            <!-- {{print_r($facility)}} -->
-                                            @if($facility['FacilityType'] =='Hotel Facilities')
-                                                @if($count < 5 )
-                                                <li>{{$facility['FacilityName']}}</li>
-                                                @else
-                                                @break;
+                                    <div class="row d-none d-md-flex">
+                                        <div class="col-6">
+                                            <span class="text-muted mt-3 d-block">Facilities</span>
+                                            <ul class="d-block mt-1">
+                                                <?php $count=0?>
+                                                @foreach($hotelDetails[$i]['Facilities']['Facility'] as $facility)
+                                                <!-- {{print_r($facility)}} -->
+                                                @if($facility['FacilityType'] =='Hotel Facilities')
+                                                    @if($count < 5 )
+                                                    <li>{{$facility['FacilityName']}}</li>
+                                                    @else
+                                                    @break;
+                                                    @endif
+                                                    <?php $count++; ?>
                                                 @endif
-                                                <?php $count++; ?>
-                                            @endif
 
-                                            @endforeach
-                                            <li><a href="javascript:void(0)">More <i class="las la-angle-down"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-6">
-                                        <span class="text-muted mt-3 d-block">Description</span>
-                                        <!-- <p class="small text-dark d-block mt-1">{{$hotelDetails[$i]['Description']}} -->
-                                        <div class="small text-dark d-block mt-1" id="div_description_{{$hotel[$i]['HotelId']}}" >
-                                            <!-- {{htmlspecialchars_decode($hotelDetails[$i]['Description'],ENT_QUOTES)}} -->
-                                            <!-- substr($search_datas->sc_brief, 0, 120) -->
-                                            <?php echo htmlspecialchars_decode(substr($hotelDetails[$i]['Description'],0,150),ENT_QUOTES)."...";?>
-                                            <!-- onclick="myFunction({{$hotel[$i]['HotelId']}})"  -->
-                                            <a href="javascript:void(0)" class="d-block">More <i class="las la-angle-down"></i></a>
+                                                @endforeach
+                                                <li><a href="javascript:void(0)">More <i class="las la-angle-down"></i></a></li>
+                                            </ul>
                                         </div>
-                                        
-                                        <!-- </p> -->
+                                        <div class="col-6">
+                                            <span class="text-muted mt-3 d-block">Description</span>
+                                            <!-- <p class="small text-dark d-block mt-1">{{$hotelDetails[$i]['Description']}} -->
+                                            <div class="small text-dark d-block mt-1" id="div_description_{{$hotel[$i]['HotelId']}}" >
+                                                <!-- {{htmlspecialchars_decode($hotelDetails[$i]['Description'],ENT_QUOTES)}} -->
+                                                <!-- substr($search_datas->sc_brief, 0, 120) -->
+                                                <?php echo htmlspecialchars_decode(substr($hotelDetails[$i]['Description'],0,150),ENT_QUOTES)."...";?>
+                                                <!-- onclick="myFunction({{$hotel[$i]['HotelId']}})"  -->
+                                                <a href="javascript:void(0)" class="d-block">More <i class="las la-angle-down"></i></a>
+                                            </div>
+                                            
+                                            <!-- </p> -->
+                                        </div>
                                     </div>
                                 </div>
+                                <div class="border-left col-md-3 mt-3 mt-md-0 text-center text-md-left">
+                                    <!-- <del class="text-muted"><i class="las la-pound-sign"></i>32.00</del><br> -->
+                                    <!-- {{print_r($hotel[$i]['Options']['Option'])}} -->
+                                    <h4 class="mb-0 h3 font-weight-600"><span class="text-danger"><i class="las la-pound-sign"></i>{{isset($hotel[$i]['Options']['Option'][0]['TotalPrice'])?$hotel[$i]['Options']['Option'][0]['TotalPrice']:$hotel[$i]['Options']['Option']['TotalPrice']}}</span></h4>
+                                    <small>Per Room / Per Night</small><br>
+                                    
+                                    <!-- <a href="hotel-details.php" class="btn btn-primary mt-2">Book Now</a> -->
+                                    <form action="{{route('hoteldetails')}}" method="POST">
+                                        @csrf
+                                        <input type="text" name="hotel_id" value="{{$hotel[$i]['HotelId']}}" hidden>
+                                        <input type="text" name="Options" value="{{json_encode($hotel[$i]['Options']['Option'])}}" hidden>
+                                        <input type="text" name="check_in" value="{{$searched->check_in}}" hidden>
+                                        <input type="text" name="check_out" value="{{$searched->check_out}}" hidden>
+                                        <input type="text" name="city_name" value="{{$searched->city_name}}" hidden>
+                                        <input type="text" name="hotel_room" value="{{$searched->hotel_room}}" hidden>
+                                        <input type="text" name="hotel_adults" value="{{$searched->hotel_adults}}" hidden>
+                                        <input type="text" name="hotel_child" value="{{$searched->hotel_child}}" hidden>
+                                        <input type="text" name="hotel_infant" value="{{$searched->hotel_infant}}" hidden>
+                                        <button type="submit" class="btn btn-primary" onclick="showLoder();">Book Now</button>
+                                    </form>
+                                </div>
                             </div>
-                            <div class="border-left col-md-3 mt-3 mt-md-0 text-center text-md-left">
-                                <!-- <del class="text-muted"><i class="las la-pound-sign"></i>32.00</del><br> -->
-                                <!-- {{print_r($hotel[$i]['Options']['Option'])}} -->
-                                <h4 class="mb-0 h3 font-weight-600"><span class="text-danger"><i class="las la-pound-sign"></i>{{isset($hotel[$i]['Options']['Option'][0]['TotalPrice'])?$hotel[$i]['Options']['Option'][0]['TotalPrice']:$hotel[$i]['Options']['Option']['TotalPrice']}}</span></h4>
-                                <small>Per Room / Per Night</small><br>
-                                
-                                <a href="hotel-details.php" class="btn btn-primary mt-2">Book Now</a>
-                            </div>
+                            <hr>
                         </div>
-                        <hr>
+                        
                         @endfor
                         @endforeach
                         
@@ -682,6 +709,139 @@ function myFunction(id) {
                 $('#loading').show();
             }
         });
+
+        $('#hotelNameFilter').on('change',function(){
+            // alert("hii");
+            var val=$('#hotelNameFilter').val();
+            if(val!=''){
+            $(".GlobalDiv").attr("data-GlobalDiv", "0")
+            $(".GlobalDiv").hide();
+            $('.hotelName_'+val).show()
+            $('.hotelName_'+val).attr("data-GlobalDiv", "1")
+            }else{
+                $(".GlobalDiv").attr("data-GlobalDiv", "1")
+                $(".GlobalDiv").show();  
+            }
+        })
     });
+
+    function filter()
+    {
+        // if ($("."+this.value).attr("data-GlobalDiv")==1) 
+        // $(".GlobalDiv").attr("data-GlobalDiv", "0")
+        var SearchCount=0;
+        var count=0;
+     
+        $(".GlobalDiv").attr("data-GlobalDiv", "0")
+        $(".GlobalDiv").hide();
+       
+        var arr=[];
+        var Departure=0;
+        $('input[name="Departure"]:checked').each(function() {
+          Departure=1
+        });
+        if (Departure==1) {
+            arr.push("Departure");
+        }
+        var Facility=0;
+        $('input[name="Facility"]:checked').each(function() {
+            Facility=1
+        });
+        if (Facility==1) {
+            arr.push("Facility");
+        }
+        var Rating=0;
+        $('input[name="Rating"]:checked').each(function() {
+            Rating=1
+        });
+        if (Rating==1) {
+            arr.push("Rating");
+        }
+          
+        $.each(arr, function( index, d ) {
+            SearchCount=1;
+            count+=1;
+            
+            $('input[name="'+d+'"]:checked').each(function() {
+                if (SearchCount==count) {
+                    $("."+this.value).show(); 
+                    $("."+this.value).attr("data-GlobalDiv", "1") ; 
+                }
+                else if(count>SearchCount) 
+                {
+                    if ($("."+this.value).attr("data-GlobalDiv")=="1") 
+                    {
+                        $("."+this.value).show();     
+                    }  
+                }
+            });
+            $('input[name="'+d+'"]:not(:checked)').each(function() {
+            
+                $("."+this.value).attr("data-GlobalDiv", "0")
+                $("."+this.value).hide();
+
+                    
+            });
+          
+        });
+        //  if (Stops==1&&Airline==1) {
+        //     $('input[name="Stops"]:checked').each(function() {
+        //     count=1
+        //     GlobalSearchCount=1;
+
+        //     $("."+this.value).show();  
+        //             $("."+this.value).attr("data-GlobalDiv", "1")
+
+        //         if ($("."+this.value).attr("data-GlobalDiv")==1) 
+        //         {
+                    
+        //         }  
+        //     } else {
+        //         $("."+this.value).show(); 
+        //         $("."+this.value).attr("data-GlobalDiv", "1")
+        //     }
+        //   });
+         
+        //   if(GlobalSearchCount==1)
+        //   {
+        //     $('input[name="Stops"]:not(:checked)').each(function() {
+        //         $("."+this.value).hide();
+        //         $("."+this.value).attr("data-GlobalDiv", "0")
+        //       });  
+        //   } 
+        //  }
+       
+         
+         
+         
+        //   $('input[name="Airline"]:checked').each(function() {
+        //     count=1
+        //     GlobalSearchCount=1;
+        //     if ($("."+this.value).attr("data-GlobalDiv")==1) 
+        //     {
+        //         $("."+this.value).show();
+        //     }
+
+        //   });
+        //   if(GlobalSearchCount==1)
+        //   {
+        //     $('input[name="Airline"]:not(:checked)').each(function() {
+
+        //         $(".GlobalDiv").attr("data-GlobalDiv", "0")
+
+
+        //       });  
+        //   }
+
+          if(SearchCount==0)
+          {
+            $(".GlobalDiv").show();
+            $(".GlobalDiv").attr("data-GlobalDiv", "1")
+          }
+    }
+
+    // function hotelNameFilter(name){
+    //     alert(name);
+    // }
 </script>
 @endsection

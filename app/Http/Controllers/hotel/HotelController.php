@@ -122,6 +122,7 @@ class HotelController extends Controller
 
         // return $data1;
         $allhotelid=[];
+        $pricearr=[];
         // return count($data[0]);
         // if(count($data[0])==1){
         //     // return $data[0];
@@ -139,7 +140,9 @@ class HotelController extends Controller
                     // return $value2[$i]['Options']['Option'][0]['TotalPrice'];
                     // return $value2[$i]['HotelId'];
                     $hotel_id=$value2[$i]['HotelId'];
+                    $price=isset($value2[$i]['Options']['Option'][0]['TotalPrice'])?json_decode($value2[$i]['Options']['Option'][0]['TotalPrice']):json_decode($value2[$i]['Options']['Option']['TotalPrice']);
                     array_push($allhotelid,$hotel_id);
+                    array_push($pricearr,$price);
                     // return $value2[$i]['Options'];
                     // return $value2[$i]['Options']['Option'][0];
                     // print_r($value2[$i]);
@@ -149,6 +152,8 @@ class HotelController extends Controller
             }
         }
         // return $allhotelid;
+        // return $pricearr;
+        // return krsort($pricearr);
         $hotelDetails=[];
         if(count($allhotelid)>0){
             $HotelIds='';
@@ -209,19 +214,35 @@ class HotelController extends Controller
         // return $hotelDetails[0]['Images']['Image'][0];
 
         // return $hotelDetails[0]['HotelName'];
-        // foreach($hotelDetails[0] as $hotelDetailss){
-        //     // return $hotelDetailss;
-        //     echo $hotelDetailss['HotelName'];
-        //     echo $hotelDetailss['Description'];
-        //     echo $hotelDetailss['Facilities']['Facility'];
-        //     echo $hotelDetailss['Images']['Image'][0];
+        $allfacilities=[];
+        foreach($hotelDetails as $hotelDetailss){
+            // return $hotelDetailss;
+            // for ($i=0; $i < count($hotelDetailss); $i++) { 
+            //     return $hotelDetailss['Facilities']['Facility'];
+            // }
+            // echo $hotelDetailss['HotelName'];
+            // echo $hotelDetailss['Description'];
+            // return $hotelDetailss['Facilities']['Facility'];
+            // echo $hotelDetailss['Images']['Image'][0];
+            foreach($hotelDetailss['Facilities']['Facility'] as $facility){
+            if($facility['FacilityType'] =='Hotel Facilities'){
+                $Facility=$facility['FacilityName'];
+                array_push($allfacilities,$Facility);
+            }
+
+            }
+            // if($facility['FacilityType'] =='Hotel Facilities'){}
+
             
-        // }
-        // return $request;
+        }
+        $allfacilities=array_unique($allfacilities);
+        // return $data1;
+        // return $hotelDetails;
         return view('hotel.hotels',[
             'hotels'=>$data1,
             'hotelDetails'=>$hotelDetails,
-            'searched'=>$request
+            'searched'=>$request,
+            'allfacilities'=>$allfacilities
         ]);
     }
 }

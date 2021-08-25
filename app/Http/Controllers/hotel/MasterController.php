@@ -116,7 +116,7 @@ class MasterController extends Controller
         curl_close($ch);
         // return $return;
         $object =app('App\Http\Controllers\XMlToParseDataController')->XMlToJSON($return);
-        return $object;
+        // return $object;
 
         foreach($object as $json){
             if(array_key_exists('Error',$json['Body'])){
@@ -125,6 +125,8 @@ class MasterController extends Controller
             }else if(array_key_exists('Countries',$json['Body'])){
                 $Countries=$json['Body']['Countries'];
                 // return $Countries;
+                $a=[];
+                $b=collect();
                 foreach($Countries as $Country){
                     foreach($Country as $Countryy){
                         // return $Countryy;
@@ -132,6 +134,7 @@ class MasterController extends Controller
                         if(array_key_exists('Cities',$Countryy)){
                             // return $Countryy['Cities'];
                             // $count=1;
+                            
                             foreach($Countryy['Cities']['City'] as $city){
                                 // return $city;
                                 // echo $count;
@@ -147,12 +150,16 @@ class MasterController extends Controller
                                 // $count++;
                                 // HotelCountries::
                                 // if (count($Countryy['Cities']['City'])>18402) {
-                                    
-                                HotelCities::create(array(
-                                    'country_code'=>isset($Countryy['CountryCode'])?$Countryy['CountryCode']:"mismatched",
-                                    'city_id'=>isset($city['CityId'])?$city['CityId']:"mismatched",
-                                    'city_name'=>isset($city['CityName'])?$city['CityName']:"mismatched",
-                                ));
+                                $a['country_code']=isset($Countryy['CountryCode'])?$Countryy['CountryCode']:"mismatched";
+                                $a['city_id']=isset($city['CityId'])?$city['CityId']:"mismatched";
+                                $a['city_name']=isset($city['CityName'])?$city['CityName']:"mismatched";
+                                // array_push($b,$a);
+                                $b->push($a);
+                                // HotelCities::create(array(
+                                //     'country_code'=>isset($Countryy['CountryCode'])?$Countryy['CountryCode']:"mismatched",
+                                //     'city_id'=>isset($city['CityId'])?$city['CityId']:"mismatched",
+                                //     'city_name'=>isset($city['CityName'])?$city['CityName']:"mismatched",
+                                // ));
                                 // }
 
                             }
@@ -162,6 +169,109 @@ class MasterController extends Controller
                 }
                 
             }
+        }
+        return $b;
+        foreach($b as $c){
+        //    echo $c['country_code'];
+           HotelCities::create(array(
+                'country_code'=>$c['country_code'],
+                'city_id'=>$c['city_id'],
+                'city_name'=>$c['city_name'],
+            ));
+            
+        }
+
+    }
+    // Indexs
+    public function Indexs(){
+        $Username='4e136e82c5b549a71dabbc9627cb4673';
+        $Password='Y1qgGuaZiHN0';
+        $url = "http://xmldemo.travellanda.com/xmlv1";
+        $xml = '<?xml version="1.0" encoding="UTF-8"?>
+                <Request>
+                    <Head>
+                        <Username>'.$Username.'</Username>
+                        <Password>'.$Password.'</Password>
+                        <RequestType>GetCities</RequestType>
+                    </Head>
+                    <Body/>
+                </Request>';
+
+
+        $ch = curl_init($url);
+
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded'));
+        curl_setopt($ch, CURLOPT_POSTFIELDS, "xml=" . $xml);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+        $return = curl_exec($ch);
+        curl_close($ch);
+        // return $return;
+        $object =app('App\Http\Controllers\XMlToParseDataController')->XMlToJSON($return);
+        return $object;
+
+        foreach($object as $json){
+            if(array_key_exists('Error',$json['Body'])){
+                // return $json['Body']['Error'];
+                // return $data;
+            }else if(array_key_exists('Countries',$json['Body'])){
+                $Countries=$json['Body']['Countries'];
+                // return $Countries;
+                $a=[];
+                $b=collect();
+                foreach($Countries as $Country){
+                    foreach($Country as $Countryy){
+                        // return $Countryy;
+                        // return $Countryy['CountryCode'];
+                        if(array_key_exists('Cities',$Countryy)){
+                            // return $Countryy['Cities'];
+                            // $count=1;
+                            
+                            foreach($Countryy['Cities']['City'] as $city){
+                                // return $city;
+                                // echo $count;
+                                // echo $Countryy['CountryCode'];
+                                // echo $city['CityId'];
+                                // echo $city['CityName'];
+                                // echo $city[0];
+                                // echo "</br></br>";
+                                // echo $city[1];
+                                // echo "</br></br>";
+                                // print_r($city);
+                                // echo "</br></br>";
+                                // $count++;
+                                // HotelCountries::
+                                // if (count($Countryy['Cities']['City'])>18402) {
+                                $a['country_code']=isset($Countryy['CountryCode'])?$Countryy['CountryCode']:"mismatched";
+                                $a['city_id']=isset($city['CityId'])?$city['CityId']:"mismatched";
+                                $a['city_name']=isset($city['CityName'])?$city['CityName']:"mismatched";
+                                // array_push($b,$a);
+                                $b->push($a);
+                                // HotelCities::create(array(
+                                //     'country_code'=>isset($Countryy['CountryCode'])?$Countryy['CountryCode']:"mismatched",
+                                //     'city_id'=>isset($city['CityId'])?$city['CityId']:"mismatched",
+                                //     'city_name'=>isset($city['CityName'])?$city['CityName']:"mismatched",
+                                // ));
+                                // }
+
+                            }
+                        }
+
+                    }
+                }
+                
+            }
+        }
+        // return $b;
+        foreach($b as $c){
+        //    echo $c['country_code'];
+           HotelCities::create(array(
+                'country_code'=>$c['country_code'],
+                'city_id'=>$c['city_id'],
+                'city_name'=>$c['city_name'],
+            ));
+            
         }
 
     }
