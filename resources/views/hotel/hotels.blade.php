@@ -254,18 +254,26 @@
                                 <b>Sort by : </b>&nbsp;&nbsp;
                                 <select id="sort_by" name="sort_by" class="form-control col-lg-4">
                                     <option value="">Recommended</option>
-                                    <option value="0">Price Low to High</option>
-                                    <option value="1">Price High to Low</option>
-                                    <option value="2">Rating Low to High</option>
-                                    <option value="3">Rating High to Low</option>
-                                    <option value="4">Hotel Name A to Z</option>
-                                    <option value="5">Hotel Name Z to A</option>
+                                    <option value="Price_Low_to_High">Price Low to High</option>
+                                    <option value="Price_High_to_Low">Price High to Low</option>
+                                    <option value="Rating_Low_to_High">Rating Low to High</option>
+                                    <option value="Rating_High_to_Low">Rating High to Low</option>
+                                    <option value="Hotel_Name_A_to_Z">Hotel Name A to Z</option>
+                                    <option value="Hotel_Name_Z_to_A">Hotel Name Z to A</option>
                                 </select>
                             </div>
                         </div>
                         </br>
+
+                        <div class="MainDiv">
+                        <?php $count=1; $pricearray=[]; ?>
                         @foreach($hotels[0] as $hotel)
                         @for ($i=0; $i < count($hotel); $i++)
+                        <?php
+                            $price=isset($hotel[$i]['Options']['Option'][0]['TotalPrice'])?json_decode($hotel[$i]['Options']['Option'][0]['TotalPrice']):json_decode($hotel[$i]['Options']['Option']['TotalPrice']);
+                            array_push($pricearray,$price);
+
+                        ?>
                         <!-- {{$hotel[$i]['HotelId']}} -->
                         <!-- {{json_decode($hotel[$i]['StarRating'])}} -->
                         <div class="package-devider GlobalDiv Rating{{json_decode($hotel[$i]['StarRating'])}} priceRange hotelName_{{$hotel[$i]['HotelName']}} @foreach($hotelDetails[$i]['Facilities']['Facility'] as $facility)
@@ -273,7 +281,9 @@
                                                     {{'Facility'.str_replace(' ','',str_replace('/','',$facility['FacilityName'])).' '}}
                                                     
                                                 @endif
-                                                @endforeach" data-GlobalDiv="1">
+                                                @endforeach 
+                            SortPrice{{isset($hotel[$i]['Options']['Option'][0]['TotalPrice'])?json_decode($hotel[$i]['Options']['Option'][0]['TotalPrice']):json_decode($hotel[$i]['Options']['Option']['TotalPrice'])}}" 
+                            data-GlobalDiv="1" data-price-div="">
                             <div class="media">
                                 <div class="hotels-image-media mr-3" style="background:url('{{isset($hotelDetails[$i]['Images']['Image'][0])?$hotelDetails[$i]['Images']['Image'][0]:''}}') no-repeat center center;background-size:cover;"></div>
                                 <div class="media-body">
@@ -374,7 +384,7 @@
                         
                         @endfor
                         @endforeach
-                        
+                        </div>
 
                         <!-- <div class="package-devider">
                             <div class="media">
@@ -723,6 +733,17 @@ function myFunction(id) {
                 $(".GlobalDiv").show();  
             }
         })
+
+        // sort_by
+        $('#sort_by').on('change',function(){
+            var sort_by_val=$('#sort_by').val();
+            // alert(sort_by_val);
+            if(sort_by_val=='Price_Low_to_High'){
+                // alert(sort_by_val);
+                var var_pricearray=<?php echo json_encode($pricearray);?>;
+                alert(var_pricearray.sort());
+            }
+        });
     });
 
     function filter()
