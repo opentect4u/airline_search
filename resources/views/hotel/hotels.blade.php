@@ -742,8 +742,7 @@ function myFunction(id) {
             // alert(sort_by_val);
             if(sort_by_val=='Price_Low_to_High'){
                 // alert(sort_by_val);
-                var var_pricearray=<?php echo isset($pricearray)?json_encode($pricearray):[];?>;
-                alert(var_pricearray.sort());
+               
             }
         });
     });
