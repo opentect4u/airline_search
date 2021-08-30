@@ -5,17 +5,11 @@ namespace App\Http\Controllers\hotel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class HotelDetailsController extends Controller
+class GuestDetailsController extends Controller
 {
     public function Show(Request $request){
         // return $request;
-        $Options=json_decode($request->Options,true);
-        // return $Options;
-        // foreach($Options as $Option){
-        //     echo $Option['OptionId'];
-        //     echo "<br/>";
-        // }
-        // return "hii";
+        $option=json_decode($request->option,true);
         $hotelids=$request->hotel_id;
         $Username='4e136e82c5b549a71dabbc9627cb4673';
         $Password='Y1qgGuaZiHN0';
@@ -65,39 +59,18 @@ class HotelDetailsController extends Controller
             }
         }
         // return $hotelDetails;
-        
-        $xml1 = '<?xml version="1.0" encoding="UTF-8"?>
-                <Request>
-                    <Head>
-                        <Username>'.$Username.'</Username>
-                        <Password>'.$Password.'</Password>
-                        <RequestType>HotelPolicies</RequestType>
-                        
-                    </Head>
-                    <Body>
-                        <OptionId>'.$Options[0]['OptionId'].'</OptionId>
-                    </Body>
-                </Request>';
 
+        $GST =2.00;
+        $Convenience_Fees =1.50;
+        $Taxes_and_Fees  =1.50;
 
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded'));
-        curl_setopt($ch, CURLOPT_POSTFIELDS, "xml=" . $xml1);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        $return1 = curl_exec($ch);
-        curl_close($ch);
-        // return $return;
-        $object1 =app('App\Http\Controllers\XMlToParseDataController')->XMlToJSON($return1);
-        // return $object1;
-
-        // return $Options;
-        // return $request;
-        return view('hotel.hotel-details',[
+        return view('hotel.guest-details',[
             'hotelDetails'=>$hotelDetails,
-            'options'=>$Options,
+            'GST'=>$GST,
+            'Convenience_Fees'=>$Convenience_Fees,
+            'Taxes_and_Fees'=>$Taxes_and_Fees,
+            'options'=>$option,
             'searched'=>$request
         ]);
-        
     }
 }

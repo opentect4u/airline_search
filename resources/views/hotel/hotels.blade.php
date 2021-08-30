@@ -270,7 +270,7 @@
                         @foreach($hotels[0] as $hotel)
                         @for ($i=0; $i < count($hotel); $i++)
                         <?php
-                            $price=isset($hotel[$i]['Options']['Option'][0]['TotalPrice'])?json_decode($hotel[$i]['Options']['Option'][0]['TotalPrice']):json_decode($hotel[$i]['Options']['Option']['TotalPrice']);
+                            $price=isset($hotel[$i]['Options']['Option'][0]['TotalPrice'])?(json_decode($hotel[$i]['Options']['Option'][0]['TotalPrice']) *100):(json_decode($hotel[$i]['Options']['Option']['TotalPrice']) *100);
                             array_push($pricearray,$price);
 
                         ?>
@@ -282,8 +282,8 @@
                                                     
                                                 @endif
                                                 @endforeach 
-                            SortPrice{{isset($hotel[$i]['Options']['Option'][0]['TotalPrice'])?json_decode($hotel[$i]['Options']['Option'][0]['TotalPrice']):json_decode($hotel[$i]['Options']['Option']['TotalPrice'])}}" 
-                            data-GlobalDiv="1" data-price-div="">
+                            SortPrice{{($i+1)}}" 
+                            data-GlobalDiv="1" data-price-div="{{isset($hotel[$i]['Options']['Option'][0]['TotalPrice'])?(json_decode($hotel[$i]['Options']['Option'][0]['TotalPrice']) *100):(json_decode($hotel[$i]['Options']['Option']['TotalPrice']) *100)}}">
                             <div class="media">
                                 <div class="hotels-image-media mr-3" style="background:url('{{isset($hotelDetails[$i]['Images']['Image'][0])?$hotelDetails[$i]['Images']['Image'][0]:''}}') no-repeat center center;background-size:cover;"></div>
                                 <div class="media-body">
@@ -361,8 +361,8 @@
                                     <!-- <del class="text-muted"><i class="las la-pound-sign"></i>32.00</del><br> -->
                                     <!-- {{print_r($hotel[$i]['Options']['Option'])}} -->
                                     <h4 class="mb-0 h3 font-weight-600"><span class="text-danger"><i class="las la-pound-sign"></i>{{isset($hotel[$i]['Options']['Option'][0]['TotalPrice'])?$hotel[$i]['Options']['Option'][0]['TotalPrice']:$hotel[$i]['Options']['Option']['TotalPrice']}}</span></h4>
-                                    <small>Per Room / Per Night</small><br>
-                                    
+                                    <!-- <small>Per Room / Per Night</small> -->
+                                    <br>
                                     <!-- <a href="hotel-details.php" class="btn btn-primary mt-2">Book Now</a> -->
                                     <form action="{{route('hoteldetails')}}" method="POST">
                                         @csrf

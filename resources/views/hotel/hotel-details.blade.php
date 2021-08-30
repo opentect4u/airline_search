@@ -93,21 +93,42 @@
             </div>
             <div class="col-md-4">
                 <div class="card">
-                    <del class="text-muted"><i class="las la-pound-sign"></i>34.50/-</del>
-                    <h4 class="mb-0 h3 font-weight-600"><span class="text-danger"><i class="las la-pound-sign"></i>32.00</span></h4>
-                    <small>Per Room / Per Night</small>
-                    <h5 class="mb-0"><small class="text-muted"><i class="las la-bed"></i> Executive Room</small></h5>
+                    <!-- <del class="text-muted"><i class="las la-pound-sign"></i>34.50/-</del> -->
+                    <!-- @foreach($options[0] as $option)
+                    {{print_r($option)}}
+                    @endforeach -->
+                    <!-- {{$options[0]['BoardType']}} -->
+                    <h4 class="mb-0 h3 font-weight-600"><span class="text-danger"><i class="las la-pound-sign"></i>{{$options[0]['TotalPrice']}}</span></h4>
+                    <!-- <small>Per Room / Per Night</small> -->
+                    <h5 class="mb-0"><small class="text-muted"><i class="las la-bed"></i> {{$options[0]['BoardType']}}</small></h5>
+                    <!-- <h5 class="mb-0"><small class="text-muted"><i class="las la-bed"></i> Executive Room</small></h5> -->
                     <hr>
                     <div class="row align-items-center">
-                        <div class="col-6 border-right"><p class="m-0 text-dark">Check In <br><span class="font-weight-600">10/10/2019</span></p></div>
-                        <div class="col-6"><p class="m-0 text-dark">Check Out <br><span class="font-weight-600">12/10/2019</span></p></div>
+                        <div class="col-6 border-right"><p class="m-0 text-dark">Check In <br><span class="font-weight-600">{{ Carbon\Carbon::parse($searched->check_in)->format('d/m/Y')}}</span></p></div>
+                        <div class="col-6"><p class="m-0 text-dark">Check Out <br><span class="font-weight-600">{{ Carbon\Carbon::parse($searched->check_out)->format('d/m/Y')}}</span></p></div>
                     </div><hr>
-                    <p class="text-dark">Per Room / Per Night <span class="float-right font-weight-600"><i class="las la-pound-sign"></i>32.00</span></p>
-                    <p class="text-dark">1 Room x 2 Nights <span class="float-right font-weight-600"><i class="las la-pound-sign"></i>64.00</span></p><hr>
+                    <!-- <p class="text-dark">Per Room / Per Night <span class="float-right font-weight-600"><i class="las la-pound-sign"></i>{{$options[0]['TotalPrice']}}</span></p> -->
+                      <!-- {{ \Carbon\Carbon::parse($searched->check_in)->diff(\Carbon\Carbon::parse($searched->check_out))->format('%d') }} -->
+                    <p class="text-dark">{{$searched->hotel_room}} Room x {{ \Carbon\Carbon::parse($searched->check_in)->diff(\Carbon\Carbon::parse($searched->check_out))->format('%d') }} Nights <span class="float-right font-weight-600"><i class="las la-pound-sign"></i>{{$options[0]['TotalPrice']}}</span></p><hr>
                     <h4 class="mb-3 font-weight-600">Total
-                    <span class="text-danger float-right"><i class="las la-pound-sign"></i>64.00</span></span>
+                    <span class="text-danger float-right"><i class="las la-pound-sign"></i>{{$options[0]['TotalPrice']}}</span></span>
                     </h4>
-                    <a href="guest-details.php" class="btn btn-primary w-100">Book Now</a>
+                    <!-- <a href="guest-details.php" class="btn btn-primary w-100">Book Now</a> -->
+                    <form action="{{route('guestdetails')}}" method="POST">
+                        @csrf
+                        <input type="text" name="hotel_id" value="{{$hotelDetails[0]['HotelId']}}" hidden>
+                        <!-- <input type="text" name="currency" value="GBP" hidden> -->
+                        <input type="text" name="option" value="{{json_encode($options)}}" hidden>
+                        <input type="text" name="price" value="{{$options[0]['TotalPrice']}}" hidden>
+                        <input type="text" name="check_in" value="{{$searched->check_in}}" hidden>
+                        <input type="text" name="check_out" value="{{$searched->check_out}}" hidden>
+                        <input type="text" name="city_name" value="{{$searched->city_name}}" hidden>
+                        <input type="text" name="hotel_room" value="{{$searched->hotel_room}}" hidden>
+                        <input type="text" name="hotel_adults" value="{{$searched->hotel_adults}}" hidden>
+                        <input type="text" name="hotel_child" value="{{$searched->hotel_child}}" hidden>
+                        <input type="text" name="hotel_infant" value="{{$searched->hotel_infant}}" hidden>
+                        <button type="submit" class="btn btn-primary w-100" onclick="showLoder();">Book Now</button>
+                    </form>
                 </div>
             </div>
             @endif
@@ -117,11 +138,21 @@
             <div class="col-md-12">
                 <div class="card">
                     <ul class="hotel-amenities">
+                        @foreach($hotelDetails[0]['Facilities']['Facility'] as $facility)
+                        <!-- {{print_r($facility)}} -->
+                        @if($facility['FacilityName']=='Swimming pool')
+                        <!-- {{$facility['FacilityName']}} -->
                         <li><a href="javascript:void(0)" data-toggle="tooltip" title="Swimming Pool"><i class="las la-swimmer"></i></a></li>
+                        @endif
+                        @if($facility['FacilityName']=='Free WiFi')
+                        <!-- {{$facility['FacilityName']}} -->
                         <li><a href="javascript:void(0)" data-toggle="tooltip" title="Free Wifi"><i class="las la-wifi"></i></a></li>
+                        @endif
+                        @endforeach
                         <li><a href="javascript:void(0)" data-toggle="tooltip" title="Room Service"><i class="las la-hotel"></i></a></li>
-                        <li><a href="javascript:void(0)" data-toggle="tooltip" title="Gym/Spa"><i class="las la-dumbbell"></i></a></li>
-                        <li><a href="javascript:void(0)" data-toggle="tooltip" title="Beark Fast"><i class="las la-utensils"></i></a></li>
+                        <!-- <li><a href="javascript:void(0)" data-toggle="tooltip" title="Gym/Spa"><i class="las la-dumbbell"></i></a></li>
+                        <li><a href="javascript:void(0)" data-toggle="tooltip" title="Beark Fast"><i class="las la-utensils"></i></a></li> -->
+
                         <li><a href="javascript:void(0)" class="text-dark" data-toggle="collapse" data-target="#all-amenities"><small>+ View all Amenities and services</small></a></li>
                     </ul>
                     <div id="all-amenities" class="collapse"><hr>
@@ -229,7 +260,7 @@
                 </div><hr>
                 <div id="guest-review" class="my-5">
                     <h4>Ratings & Reviews</h4>
-                    <img src="assets/images/rating.jpg" alt="rating" class="img-fluid"/>
+                    <img src="{{ asset('public/images/rating.jpg')}}" alt="rating" class="img-fluid"/>
                 </div><hr>
                 <div id="hotel-policies" class="mt-5">
                     <h4 class="font-weight-bold">Hotel Policies</h4>

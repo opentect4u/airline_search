@@ -75,5 +75,12 @@ Route::get('/hotelss',[App\Http\Controllers\hotel\MasterController::class,'Index
 
 Route::post('/hotels',[App\Http\Controllers\hotel\HotelController::class,'Search'])->name('hotels');
 Route::post('/hoteldetails',[App\Http\Controllers\hotel\HotelDetailsController::class,'Show'])->name('hoteldetails');
+Route::post('/guestdetails',[App\Http\Controllers\hotel\GuestDetailsController::class,'Show'])->name('guestdetails');
+Route::post('/hotelpayment',[App\Http\Controllers\hotel\PaymentController::class,'Show'])->name('hotelpayment');
+Route::post('/hotelpaymentcredit',[App\Http\Controllers\hotel\PaymentController::class,'Confirm'])->name('hotelpaymentcredit');
+// Route::post('/confirmbooking',[App\Http\Controllers\hotel\PaymentController::class,'Confirm'])->name('hotelpaymentcredit');
+
+
+Route::get('/testhotel',[App\Http\Controllers\hotel\TestController::class,'Test'])->name('testhotel');
 
             // End Hotel Section
