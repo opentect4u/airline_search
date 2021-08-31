@@ -1010,7 +1010,7 @@ function myFunction(id) {
     function filter1(val){
         var checked_val=$("input[name='Facility']").val();
         // alert(checked_val);
-            alert(val);
+            // alert(val);
         // $('input[name="Facility"]:checked').each(function() {
         //     // alert('Facility');
         //     // var checked_val=$("input[name='Facility']").val();
