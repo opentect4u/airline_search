@@ -234,19 +234,14 @@
                                             <option value="2">2</option>
                                             <option value="3">3</option>
                                             <option value="4">4</option>
-                                            <option value="5">5</option>
-                                            <option value="6">6</option>
-                                            <option value="7">7</option>
-                                            <option value="8">8</option>
-                                            <option value="9">9</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-6 px-2">
                                     <div class="form-group">
-                                        <label>Child <small>(2-15 yrs)</small></label>
+                                        <label>Child Age -1<small></small></label>
                                         <select name="hotel_child" id="hotel_child" class="custom-select">
-                                            <option selected>0</option>
+                                            <option >0</option>
                                             <option value="1">1</option>
                                             <option value="2">2</option>
                                             <option value="3">3</option>
@@ -256,18 +251,39 @@
                                             <option value="7">7</option>
                                             <option value="8">8</option>
                                             <option value="9">9</option>
+                                            <option value="10">10</option>
+                                            <option value="11">11</option>
+                                            <option value="12">12</option>
+                                            <option value="13">13</option>
+                                            <option value="14">14</option>
+                                            <option value="15">15</option>
+                                            <option value="16">16</option>
+                                            <option value="16">17</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-6 px-2">
                                     <div class="form-group">
-                                        <label>Infant <small>(0-23 mths)</small></label>
+                                        <label>Child Age -2 <small></small></label>
                                         <select name="hotel_infant" id="hotel_infant" class="custom-select">
-                                            <option selected>0</option>
+                                            <option >0</option>
                                             <option value="1">1</option>
                                             <option value="2">2</option>
                                             <option value="3">3</option>
                                             <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                            <option value="11">11</option>
+                                            <option value="12">12</option>
+                                            <option value="13">13</option>
+                                            <option value="14">14</option>
+                                            <option value="15">15</option>
+                                            <option value="16">16</option>
+                                            <option value="16">17</option>
                                         </select>
                                     </div>
                                 </div>
@@ -1015,11 +1031,11 @@
             var infant=$('#hotel_infant').val();
             // alert(adults);
             if(infant>0 && children>0){
-                var val=hotel_room+' Room, '+ adults+' Adults, '+children+' Child, '+infant+' Infant';
+                var val=hotel_room+' Room, '+ adults+' Adults, '+children+' Yrs Child 1, '+infant+' Yrs Child 2';
             }else if(infant>0){
-                var val=hotel_room+' Room, '+adults+' Adults, '+infant+' Infant';
+                var val=hotel_room+' Room, '+adults+' Adults, '+infant+' Yrs Child 2';
             }else if(children>0){
-                var val=hotel_room+' Room, '+adults+' Adults, '+children+' Child';
+                var val=hotel_room+' Room, '+adults+' Adults, '+children+' Yrs Child 1';
             }else{
                 var val=hotel_room+' Room, '+adults+' Adults';
             }
@@ -1036,11 +1052,11 @@
             var infant=$('#hotel_infant').val();
             // alert(adults);
             if(infant>0 && children>0){
-                var val=hotel_room+' Room, '+ adults+' Adults, '+children+' Child, '+infant+' Infant';
+                var val=hotel_room+' Room, '+ adults+' Adults, '+children+' Yrs Child 1, '+infant+' Yrs Child 2';
             }else if(infant>0){
-                var val=hotel_room+' Room, '+adults+' Adults, '+infant+' Infant';
+                var val=hotel_room+' Room, '+adults+' Adults, '+infant+' Yrs Child 2';
             }else if(children>0){
-                var val=hotel_room+' Room, '+adults+' Adults, '+children+' Child';
+                var val=hotel_room+' Room, '+adults+' Adults, '+children+' Yrs Child 1';
             }else{
                 var val=hotel_room+' Room, '+adults+' Adults';
             }
@@ -1057,11 +1073,11 @@
             var infant=$('#hotel_infant').val();
             // alert(adults);
             if(infant>0 && children>0){
-                var val=hotel_room+' Room, '+adults+' Adults, '+children+' Child, '+infant+' Infant';
+                var val=hotel_room+' Room, '+adults+' Adults, '+children+' Yrs Child 1, '+infant+' Yrs Child 2';
             }else if(infant>0){
-                var val=hotel_room+' Room, '+adults+' Adults, '+infant+' Infant';
+                var val=hotel_room+' Room, '+adults+' Adults, '+infant+' Yrs Child 2';
             }else if(children>0){
-                var val=hotel_room+' Room, '+adults+' Adults, '+children+' Child';
+                var val=hotel_room+' Room, '+adults+' Adults, '+children+' Yrs Child 1';
             }else{
                 var val=hotel_room+' Room, '+adults+' Adults';
             }
@@ -1077,11 +1093,11 @@
             var infant=$('#hotel_infant').val();
             // alert(adults);
             if(infant>0 && children>0){
-                var val=hotel_room+' Room, '+adults+' Adults, '+children+' Child, '+infant+' Infant';
+                var val=hotel_room+' Room, '+adults+' Adults, '+children+' Yrs Child 1, '+infant+' Yrs Child 2';
             }else if(infant>0){
-                var val=hotel_room+' Room, '+adults+' Adults, '+infant+' Infant';
+                var val=hotel_room+' Room, '+adults+' Adults, '+infant+' Yrs Child 2';
             }else if(children>0){
-                var val=hotel_room+' Room, '+adults+' Adults, '+children+' Child';
+                var val=hotel_room+' Room, '+adults+' Adults, '+children+' Yrs Child 1';
             }else{
                 var val=hotel_room+' Room, '+adults+' Adults';
             }

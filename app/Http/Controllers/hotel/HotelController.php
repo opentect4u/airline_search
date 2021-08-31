@@ -141,6 +141,7 @@ class HotelController extends Controller
                     // return $value2[$i]['HotelId'];
                     $hotel_id=$value2[$i]['HotelId'];
                     $price=isset($value2[$i]['Options']['Option'][0]['TotalPrice'])?json_decode($value2[$i]['Options']['Option'][0]['TotalPrice']):json_decode($value2[$i]['Options']['Option']['TotalPrice']);
+                    // $price=isset($value2[$i]['Options']['Option'][0]['TotalPrice'])?(json_decode($value2[$i]['Options']['Option'][0]['TotalPrice'])*100):(json_decode($value2[$i]['Options']['Option']['TotalPrice'])*100);
                     array_push($allhotelid,$hotel_id);
                     array_push($pricearr,$price);
                     // return $value2[$i]['Options'];
@@ -152,7 +153,10 @@ class HotelController extends Controller
             }
         }
         // return $allhotelid;
+        sort($pricearr);
+        // $pricearr = collect($pricearr)->sortBy('price')->toArray();
         // return $pricearr;
+
         // return krsort($pricearr);
         $hotelDetails=[];
         if(count($allhotelid)>0){
@@ -237,12 +241,15 @@ class HotelController extends Controller
         }
         $allfacilities=array_unique($allfacilities);
         // return $data1;
+        // $vl="2.5";
+        // return json_decode($vl);
         // return $hotelDetails;
         return view('hotel.hotels',[
             'hotels'=>$data1,
             'hotelDetails'=>$hotelDetails,
             'searched'=>$request,
-            'allfacilities'=>$allfacilities
+            'allfacilities'=>$allfacilities,
+            'pricearr'=>$pricearr
         ]);
     }
 }

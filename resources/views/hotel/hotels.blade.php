@@ -27,7 +27,7 @@
                 </div>
                 <div class="col-md col-6">
                     <small class="text-muted d-block mb-1">Room and Guests</small>
-                    <h6 class="font-weight-600 mb-0"><?php echo $searched->hotel_adults." Adult"; if($searched->hotel_child>0){echo ", ".$searched->hotel_child." Child";} if($searched->hotel_infant>0){echo ", ".$searched->hotel_infant." Infant";} ?></h6>
+                    <h6 class="font-weight-600 mb-0">{{$searched->hotel_room}} Room, <?php echo $searched->hotel_adults." Adult"; if($searched->hotel_child>0){echo ", ".$searched->hotel_child." Yrs Child 1";} if($searched->hotel_infant>0){echo ", ".$searched->hotel_infant." Yrs Child 2";} ?></h6>
                 </div>
                 <div class="col-md mt-md-0 col-6">
                     <a href="#" class="btn btn-yellow btn-sm" data-toggle="collapse" data-target="#search-container">Modify Search</a>
@@ -38,8 +38,9 @@
     <section id="search-container" class="bg-white collapse">
         <div class="container-fluid">
             <div class="cld__book__form search__modify pt-4">
-            <form method="post" class="" action="{{route('hotels')}}">
+            <form method="post" class="" id="hotelForm" action="{{route('hotels')}}">
                 @csrf
+                <input type="hidden" name="slider_order" id="slider_order" value="{{isset($searched->slider_order)?$searched->slider_order:''}}">
                 <div class="row">
                     <div class="col-md-3">
                         <div class="form-group">
@@ -72,7 +73,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label>Room & Guests</label>
-                            <input type="text" name="hotel_travel_details" id="hotel_travel_details" placeholder="1 Room, 1 Adult" class="form-control" onclick="hotel_traveller_selection();">
+                            <input type="text" name="hotel_travel_details" id="hotel_travel_details" placeholder="{{$searched->hotel_room}} Room, <?php echo $searched->hotel_adults." Adult"; if($searched->hotel_child>0){echo ", ".$searched->hotel_child." Yrs Child 1";} if($searched->hotel_infant>0){echo ", ".$searched->hotel_infant." Yrs Child 2";} ?>" class="form-control" onclick="hotel_traveller_selection();">
                         
                             <div id="hotel_traveller_selection" style="display:none;">
                                 <div class="row m-0">
@@ -95,17 +96,12 @@
                                                 <option value="2" <?php if($searched->hotel_adults==2){echo "selected";}?>>2</option>
                                                 <option value="3" <?php if($searched->hotel_adults==3){echo "selected";}?>>3</option>
                                                 <option value="4" <?php if($searched->hotel_adults==4){echo "selected";}?>>4</option>
-                                                <option value="5" <?php if($searched->hotel_adults==5){echo "selected";}?>>5</option>
-                                                <option value="6" <?php if($searched->hotel_adults==6){echo "selected";}?>>6</option>
-                                                <option value="7" <?php if($searched->hotel_adults==7){echo "selected";}?>>7</option>
-                                                <option value="8" <?php if($searched->hotel_adults==8){echo "selected";}?>>8</option>
-                                                <option value="9" <?php if($searched->hotel_adults==9){echo "selected";}?>>9</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-6 px-2">
                                         <div class="form-group">
-                                            <label>Child <small>(2-15 yrs)</small></label>
+                                            <label>Child Age -1 <small></small></label>
                                             <select name="hotel_child" id="hotel_child" class="custom-select">
                                                 <option >0</option>
                                                 <option value="1" <?php if($searched->hotel_child==1){echo "selected";}?>>1</option>
@@ -117,18 +113,39 @@
                                                 <option value="7" <?php if($searched->hotel_child==7){echo "selected";}?>>7</option>
                                                 <option value="8" <?php if($searched->hotel_child==8){echo "selected";}?>>8</option>
                                                 <option value="9" <?php if($searched->hotel_child==9){echo "selected";}?>>9</option>
+                                                <option value="10" <?php if($searched->hotel_child==10){echo "selected";}?>>10</option>
+                                                <option value="11" <?php if($searched->hotel_child==11){echo "selected";}?>>11</option>
+                                                <option value="12" <?php if($searched->hotel_child==12){echo "selected";}?>>12</option>
+                                                <option value="13" <?php if($searched->hotel_child==13){echo "selected";}?>>13</option>
+                                                <option value="14" <?php if($searched->hotel_child==14){echo "selected";}?>>14</option>
+                                                <option value="15" <?php if($searched->hotel_child==15){echo "selected";}?>>15</option>
+                                                <option value="16" <?php if($searched->hotel_child==16){echo "selected";}?>>16</option>
+                                                <option value="16" <?php if($searched->hotel_child==17){echo "selected";}?>>17</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-6 px-2">
                                         <div class="form-group">
-                                            <label>Infant <small>(0-23 mths)</small></label>
+                                            <label>Child Age -2 <small></small></label>
                                             <select name="hotel_infant" id="hotel_infant" class="custom-select">
                                                 <option >0</option>
                                                 <option value="1" <?php if($searched->hotel_infant==1){echo "selected";}?>>1</option>
                                                 <option value="2" <?php if($searched->hotel_infant==2){echo "selected";}?>>2</option>
                                                 <option value="3" <?php if($searched->hotel_infant==3){echo "selected";}?>>3</option>
                                                 <option value="4" <?php if($searched->hotel_infant==4){echo "selected";}?>>4</option>
+                                                <option value="5" <?php if($searched->hotel_infant==5){echo "selected";}?>>5</option>
+                                                <option value="6" <?php if($searched->hotel_infant==6){echo "selected";}?>>6</option>
+                                                <option value="7" <?php if($searched->hotel_infant==7){echo "selected";}?>>7</option>
+                                                <option value="8" <?php if($searched->hotel_infant==8){echo "selected";}?>>8</option>
+                                                <option value="9" <?php if($searched->hotel_infant==9){echo "selected";}?>>9</option>
+                                                <option value="10" <?php if($searched->hotel_infant==10){echo "selected";}?>>10</option>
+                                                <option value="11" <?php if($searched->hotel_infant==11){echo "selected";}?>>11</option>
+                                                <option value="12" <?php if($searched->hotel_infant==12){echo "selected";}?>>12</option>
+                                                <option value="13" <?php if($searched->hotel_infant==13){echo "selected";}?>>13</option>
+                                                <option value="14" <?php if($searched->hotel_infant==14){echo "selected";}?>>14</option>
+                                                <option value="15" <?php if($searched->hotel_infant==15){echo "selected";}?>>15</option>
+                                                <option value="16" <?php if($searched->hotel_infant==16){echo "selected";}?>>16</option>
+                                                <option value="16" <?php if($searched->hotel_infant==17){echo "selected";}?>>17</option>
                                             </select>
                                         </div>
                                     </div>
@@ -165,7 +182,7 @@
                                 <option value="">Recommended</option>
                                 @foreach($hotels[0] as $hotel)
                                 @for ($i=0; $i < count($hotel); $i++)
-                                <option value="{{$hotel[$i]['HotelName']}}">{{$hotel[$i]['HotelName']}}</option>
+                                <option value="<?php echo str_replace("'","",str_replace(',','',str_replace(' ','',$hotel[$i]['HotelName'])));?>">{{$hotel[$i]['HotelName']}}</option>
                                 @endfor
                                 @endforeach
                             <!-- <input type="text" class="form-control" placeholder="Search by hotel name" name=""/> -->
@@ -196,10 +213,51 @@
                         </div>
                         <div class="filter-set">
                             <h6 class="font-weight-600">Price Range</h6>
-                            <label for="customRange"><i class="fas fa-rupee-sign"></i> 26,000/-</label>
-                            <input type="range" class="custom-range" id="customRange" name="points1">
+                            <!-- <label for="customRange"><i class="fas fa-rupee-sign"></i> 26,000/-</label>
+                            <input type="range" class="custom-range" id="customRange" name="points1"> -->
+                            <label for="onwwayRange" id="amount"><i class="las la-pound-sign"></i>
+                            <?php  
+                                // echo $pricearr[0];
+                                // echo $pricearr[count($pricearr)-1];
+                                echo number_format($pricearr[0],2,'.','');
+                                echo ' - <i class="las la-pound-sign"></i>';
+                                if(isset($searched->slider_order)){ 
+                                    echo number_format(($searched->slider_order/100),2,'.','') ;
+                                }else{ 
+                                    echo number_format($pricearr[count($pricearr)-1],2,'.','');
+                                }
+                            ?></label>
+                            <input type="range" class="custom-range" id="onwwayRange" name="onwwayRange" 
+                            min="<?php 
+                                // echo number_format($pricearr[0],2,'.','');
+                                echo ($pricearr[0] * 100);
+                            ?>" 
+                            max="<?php 
+                                // echo number_format($pricearr[count($pricearr)-1],2,'.','');  
+                                                            
+                                echo ($pricearr[count($pricearr)-1] * 100);      
+                            ?>" 
+                            value="<?php 
+                            // echo number_format($pricearr[count($pricearr)-1],2,'.','');
+                                if(isset($searched->slider_order)){
+                                    echo $searched->slider_order;
+                                }else{  
+                                    echo ($pricearr[count($pricearr)-1] * 100);
+                                }
+                            ?>">
+                            <input type="hidden" class="custom-range" id="onwwayRange_minprice" name="onwwayRange_minprice" value="<?php 
+                                echo ($pricearr[0] * 100);
+                            ?>">
+                            <input type="hidden" class="custom-range" id="onwwayRange_maxprice" name="onwwayRange_maxprice" value="<?php 
+                                if(isset($searched->slider_order)){
+                                    echo $searched->slider_order;
+                                }else{
+                                    echo ($pricearr[count($pricearr)-1] * 100); 
+                                }                               
+                            ?>">
+                            
                         </div>
-                        <div class="filter-set">
+                        <!-- <div class="filter-set">
                             <h6 class="font-weight-600">Hotel types </h6>
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
@@ -225,12 +283,12 @@
                                 <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
                                 <label class="custom-control-label" for="customCheck">Hostel</label>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="filter-set">
                             <h6 class="font-weight-600">Facilities </h6>
                             @foreach($allfacilities as $allfacility)
                             <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="Facility{{$allfacility}}" name="Facility" value="Facility{{str_replace(' ','',str_replace('/','',$allfacility))}}" onclick="filter()">
+                                <input type="checkbox" class="custom-control-input" id="Facility{{$allfacility}}" name="Facility" value="Facility{{str_replace(')','',str_replace('(','',str_replace(' ','',str_replace('/','',$allfacility))))}}" onclick="filter()">
                                 <label class="custom-control-label" for="Facility{{$allfacility}}">{{$allfacility}}</label>
                             </div>
                             @endforeach
@@ -270,15 +328,27 @@
                         @foreach($hotels[0] as $hotel)
                         @for ($i=0; $i < count($hotel); $i++)
                         <?php
-                            $price=isset($hotel[$i]['Options']['Option'][0]['TotalPrice'])?(json_decode($hotel[$i]['Options']['Option'][0]['TotalPrice']) *100):(json_decode($hotel[$i]['Options']['Option']['TotalPrice']) *100);
-                            array_push($pricearray,$price);
-
+                            $price=isset($hotel[$i]['Options']['Option'][0]['TotalPrice'])?json_decode($hotel[$i]['Options']['Option'][0]['TotalPrice']):json_decode($hotel[$i]['Options']['Option']['TotalPrice']);
+                            // array_push($pricearray,$price);
+                            $format_tot_price=($price*100);
+                            // echo $format_tot_price=$price;
+                            // echo "  ";
+                            // echo $searched->slider_order;
+                            // echo "--";
                         ?>
+                        @if(isset($searched->slider_order))
+                            @if($searched->slider_order==$format_tot_price)
+                            @else
+                            @if($format_tot_price >  $searched->slider_order)
+                                @continue
+                            @endif
+                            @endif
+                        @endif
                         <!-- {{$hotel[$i]['HotelId']}} -->
-                        <!-- {{json_decode($hotel[$i]['StarRating'])}} -->
-                        <div class="package-devider GlobalDiv Rating{{json_decode($hotel[$i]['StarRating'])}} priceRange hotelName_{{$hotel[$i]['HotelName']}} @foreach($hotelDetails[$i]['Facilities']['Facility'] as $facility)
+                        <!-- {{ is_array($hotel[$i]['StarRating'])?'':json_decode($hotel[$i]['StarRating'])}} -->
+                        <div class="package-devider GlobalDiv Rating{{ is_array($hotel[$i]['StarRating'])?'':json_decode($hotel[$i]['StarRating'])}} priceRange hotelName_<?php echo str_replace("'","",str_replace(',','',str_replace(' ','',$hotel[$i]['HotelName'])));?> @foreach($hotelDetails[$i]['Facilities']['Facility'] as $facility)
                                                 @if($facility['FacilityType'] =='Hotel Facilities')
-                                                    {{'Facility'.str_replace(' ','',str_replace('/','',$facility['FacilityName'])).' '}}
+                                                    {{'Facility'.str_replace(')','',str_replace('(','',str_replace(' ','',str_replace('/','',$facility['FacilityName'])))).' '}}
                                                     
                                                 @endif
                                                 @endforeach 
@@ -339,18 +409,47 @@
                                                 @endif
 
                                                 @endforeach
-                                                <li><a href="javascript:void(0)">More <i class="las la-angle-down"></i></a></li>
+                                                <div id="all-amenities-facility{{$hotel[$i]['HotelId']}}" class="collapse">
+                                                    <?php $count1=0?>
+                                                    @foreach($hotelDetails[$i]['Facilities']['Facility'] as $facility)
+                                                    @if($facility['FacilityType'] =='Hotel Facilities')
+                                                        @if($count1 > 5 )
+                                                        <li>{{$facility['FacilityName']}}</li>
+                                                        @endif
+                                                        <?php $count1++; ?>
+                                                    @endif
+                                                    @endforeach
+                                                </div>
+                                                <li><a href="javascript:void(0)" data-toggle="collapse" data-target="#all-amenities-facility{{$hotel[$i]['HotelId']}}">Expand/Collapse <i class="las la-angle-down"></i></a></li>
+
                                             </ul>
                                         </div>
                                         <div class="col-6">
                                             <span class="text-muted mt-3 d-block">Description</span>
                                             <!-- <p class="small text-dark d-block mt-1">{{$hotelDetails[$i]['Description']}} -->
-                                            <div class="small text-dark d-block mt-1" id="div_description_{{$hotel[$i]['HotelId']}}" >
+                                            <div class="small text-dark d-block mt-1" >
                                                 <!-- {{htmlspecialchars_decode($hotelDetails[$i]['Description'],ENT_QUOTES)}} -->
                                                 <!-- substr($search_datas->sc_brief, 0, 120) -->
-                                                <?php echo htmlspecialchars_decode(substr($hotelDetails[$i]['Description'],0,150),ENT_QUOTES)."...";?>
+                                                <?php echo htmlspecialchars_decode(substr($hotelDetails[$i]['Description'],0,150),ENT_QUOTES)."-";?>
+                                                <div id="all-amenities-description{{$hotel[$i]['HotelId']}}" class="collapse">
+                                                <?php $length=strlen($hotelDetails[$i]['Description']); echo htmlspecialchars_decode(substr($hotelDetails[$i]['Description'],150,$length),ENT_QUOTES);?>
+                                                </div>
                                                 <!-- onclick="myFunction({{$hotel[$i]['HotelId']}})"  -->
-                                                <a href="javascript:void(0)" class="d-block">More <i class="las la-angle-down"></i></a>
+                                                <a href="javascript:void(0)" class="d-block" onclick="MoreDetails({{$hotel[$i]['HotelId']}});">More Details <i class="las la-angle-down"></i></a>
+                                                <form id="moreDetails{{$hotel[$i]['HotelId']}}" action="{{route('hoteldetails')}}" method="POST">
+                                                    @csrf
+                                                    <input type="text" name="hotel_id" value="{{$hotel[$i]['HotelId']}}" hidden>
+                                                    <input type="text" name="Options" value="{{json_encode($hotel[$i]['Options']['Option'])}}" hidden>
+                                                    <input type="text" name="check_in" value="{{$searched->check_in}}" hidden>
+                                                    <input type="text" name="check_out" value="{{$searched->check_out}}" hidden>
+                                                    <input type="text" name="city_name" value="{{$searched->city_name}}" hidden>
+                                                    <input type="text" name="hotel_room" value="{{$searched->hotel_room}}" hidden>
+                                                    <input type="text" name="hotel_adults" value="{{$searched->hotel_adults}}" hidden>
+                                                    <input type="text" name="hotel_child" value="{{$searched->hotel_child}}" hidden>
+                                                    <input type="text" name="hotel_infant" value="{{$searched->hotel_infant}}" hidden>
+                                                    <button type="submit" hidden class="btn btn-primary" onclick="showLoder();">Book Now</button>
+                                                </form>
+                                                <!-- <a href="javascript:void(0)" class="d-block" data-toggle="collapse" data-target="#all-amenities-description{{$hotel[$i]['HotelId']}}">More Details <i class="las la-angle-down"></i></a> -->
                                             </div>
                                             
                                             <!-- </p> -->
@@ -635,11 +734,11 @@ function myFunction(id) {
             var infant=$('#hotel_infant').val();
             // alert(adults);
             if(infant>0 && children>0){
-                var val=hotel_room+' Room, '+ adults+' Adults, '+children+' Child, '+infant+' Infant';
+                var val=hotel_room+' Room, '+ adults+' Adults, '+children+' Yrs Child 1, '+infant+' Yrs Child 2';
             }else if(infant>0){
-                var val=hotel_room+' Room, '+adults+' Adults, '+infant+' Infant';
+                var val=hotel_room+' Room, '+adults+' Adults, '+infant+' Yrs Child 2';
             }else if(children>0){
-                var val=hotel_room+' Room, '+adults+' Adults, '+children+' Child';
+                var val=hotel_room+' Room, '+adults+' Adults, '+children+' Yrs Child 1';
             }else{
                 var val=hotel_room+' Room, '+adults+' Adults';
             }
@@ -656,11 +755,11 @@ function myFunction(id) {
             var infant=$('#hotel_infant').val();
             // alert(adults);
             if(infant>0 && children>0){
-                var val=hotel_room+' Room, '+ adults+' Adults, '+children+' Child, '+infant+' Infant';
+                var val=hotel_room+' Room, '+ adults+' Adults, '+children+' Yrs Child 1, '+infant+' Yrs Child 2';
             }else if(infant>0){
-                var val=hotel_room+' Room, '+adults+' Adults, '+infant+' Infant';
+                var val=hotel_room+' Room, '+adults+' Adults, '+infant+' Yrs Child 2';
             }else if(children>0){
-                var val=hotel_room+' Room, '+adults+' Adults, '+children+' Child';
+                var val=hotel_room+' Room, '+adults+' Adults, '+children+' Yrs Child 1';
             }else{
                 var val=hotel_room+' Room, '+adults+' Adults';
             }
@@ -677,11 +776,11 @@ function myFunction(id) {
             var infant=$('#hotel_infant').val();
             // alert(adults);
             if(infant>0 && children>0){
-                var val=hotel_room+' Room, '+adults+' Adults, '+children+' Child, '+infant+' Infant';
+                var val=hotel_room+' Room, '+adults+' Adults, '+children+' Yrs Child 1, '+infant+' Yrs Child 2';
             }else if(infant>0){
-                var val=hotel_room+' Room, '+adults+' Adults, '+infant+' Infant';
+                var val=hotel_room+' Room, '+adults+' Adults, '+infant+' Yrs Child 2';
             }else if(children>0){
-                var val=hotel_room+' Room, '+adults+' Adults, '+children+' Child';
+                var val=hotel_room+' Room, '+adults+' Adults, '+children+' Yrs Child 1';
             }else{
                 var val=hotel_room+' Room, '+adults+' Adults';
             }
@@ -697,11 +796,11 @@ function myFunction(id) {
             var infant=$('#hotel_infant').val();
             // alert(adults);
             if(infant>0 && children>0){
-                var val=hotel_room+' Room, '+adults+' Adults, '+children+' Child, '+infant+' Infant';
+                var val=hotel_room+' Room, '+adults+' Adults, '+children+' Yrs Child 1, '+infant+' Yrs Child 2';
             }else if(infant>0){
-                var val=hotel_room+' Room, '+adults+' Adults, '+infant+' Infant';
+                var val=hotel_room+' Room, '+adults+' Adults, '+infant+' Yrs Child 2';
             }else if(children>0){
-                var val=hotel_room+' Room, '+adults+' Adults, '+children+' Child';
+                var val=hotel_room+' Room, '+adults+' Adults, '+children+' Yrs Child 1';
             }else{
                 var val=hotel_room+' Room, '+adults+' Adults';
             }
@@ -709,7 +808,6 @@ function myFunction(id) {
             $('#hotel_travel_details').attr('placeholder',val);
             
         });
-        
 
         $('#hotel_submit').click(function(){
             // alert("hotel_submit");
@@ -725,6 +823,7 @@ function myFunction(id) {
         $('#hotelNameFilter').on('change',function(){
             // alert("hii");
             var val=$('#hotelNameFilter').val();
+            // alert(val);
             if(val!=''){
             $(".GlobalDiv").attr("data-GlobalDiv", "0")
             $(".GlobalDiv").hide();
@@ -865,5 +964,57 @@ function myFunction(id) {
     // function hotelNameFilter(name){
     //     alert(name);
     // }
+        
+
+    // price slider
+    var slider = document.getElementById("onwwayRange");
+    slider.oninput = function() {
+        // output.innerHTML = this.value;
+        // alert(this.value)
+        var range_val=this.value;
+        var min_val=$('#onwwayRange_minprice').val();
+        var mix_val=$('#onwwayRange_maxprice').val();
+        var cal_min_val=min_val/100;
+        // var cal_min_val=min_val;
+        var amount='<i class="las la-pound-sign"></i>'+parseFloat(cal_min_val).toFixed(2)+' - <i class="las la-pound-sign"></i>'+parseFloat(range_val/100).toFixed(2);
+        $('#amount').empty();
+        $('#amount').append(amount);
+        // $('#hotelForm').submit();
+    }
+
+    $(document).on('change', '#onwwayRange', function() {
+        // alert($(this).val());
+        var var_val=$(this).val();
+        // alert(var_val)
+        var loading ='<img id="loading-image-small" src="{{ asset('public/loder-small.gif') }}" alt="Loading..." style=" position: absolute;top: 100px;left: 431px;z-index: 100;" />';
+        // alert(loading)
+        $('#loading_small').append(loading);
+        $('#loading_small').show();
+        var url= window.location.href;
+        var slider_order='{{isset($searched->slider_order)?$searched->slider_order:''}}';
+        if(slider_order==""){
+            $('#slider_order').val('')
+            $('#slider_order').val(var_val)
+            // var newurl=url+'&slider_order='+var_val;
+        }else{
+            $('#slider_order').val('')
+            $('#slider_order').val(var_val)
+            // var newurl=url.split('&slider_order='+slider_order)[0];
+            // var newurl=newurl+'&slider_order='+var_val;
+        }
+
+        
+        // window.location.assign(newurl);
+        $('#hotelForm').submit();
+
+    });
+
+    function MoreDetails(id){
+        // alert(id);
+        // moreDetails
+        $('#loading').show();
+        $('#moreDetails'+id).submit();
+    }
+
 </script>
 @endsection
