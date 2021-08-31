@@ -288,8 +288,8 @@
                             <h6 class="font-weight-600">Facilities </h6>
                             @foreach($allfacilities as $allfacility)
                             <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="Facility{{$allfacility}}" name="Facility" value="Facility{{str_replace(')','',str_replace('(','',str_replace(' ','',str_replace('/','',$allfacility))))}}" onclick="filter()">
-                                <label class="custom-control-label" for="Facility{{$allfacility}}">{{$allfacility}}</label>
+                                <input type="checkbox" class="custom-control-input Facility" id="Facility<?php echo str_replace("'",'',str_replace(')','',str_replace('(','',str_replace(' ','',str_replace('/','',$allfacility))))); ?>" name="Facility" value="Facility<?php echo str_replace("'",'',str_replace(')','',str_replace('(','',str_replace(' ','',str_replace('/','',$allfacility))))); ?>" onclick="filter1('<?php echo str_replace("'",'',str_replace(')','',str_replace('(','',str_replace(' ','',str_replace('/','',$allfacility))))); ?>')">
+                                <label class="custom-control-label" for="Facility<?php echo str_replace("'",'',str_replace(')','',str_replace('(','',str_replace(' ','',str_replace('/','',$allfacility))))); ?>">{{$allfacility}}</label>
                             </div>
                             @endforeach
                             
@@ -324,17 +324,22 @@
                         </br>
 
                         <div class="MainDiv">
-                        <?php $count=1; $pricearray=[]; ?>
+                        <?php $count=1; $pricearray=[]; $datarating=[]; $datahotelname=[]; ?>
                         @foreach($hotels[0] as $hotel)
                         @for ($i=0; $i < count($hotel); $i++)
                         <?php
                             $price=isset($hotel[$i]['Options']['Option'][0]['TotalPrice'])?json_decode($hotel[$i]['Options']['Option'][0]['TotalPrice']):json_decode($hotel[$i]['Options']['Option']['TotalPrice']);
-                            // array_push($pricearray,$price);
+                            array_push($pricearray,$price);
                             $format_tot_price=($price*100);
                             // echo $format_tot_price=$price;
                             // echo "  ";
                             // echo $searched->slider_order;
                             // echo "--";
+                            $rating=is_array($hotel[$i]['StarRating'])?'':json_decode($hotel[$i]['StarRating']);
+                            array_push($datarating,$rating);
+
+                            $hotelname=substr($hotel[$i]['HotelName'],0,2);
+                            array_push($datahotelname,$hotelname);
                         ?>
                         @if(isset($searched->slider_order))
                             @if($searched->slider_order==$format_tot_price)
@@ -345,15 +350,19 @@
                             @endif
                         @endif
                         <!-- {{$hotel[$i]['HotelId']}} -->
-                        <!-- {{ is_array($hotel[$i]['StarRating'])?'':json_decode($hotel[$i]['StarRating'])}} -->
-                        <div class="package-devider GlobalDiv Rating{{ is_array($hotel[$i]['StarRating'])?'':json_decode($hotel[$i]['StarRating'])}} priceRange hotelName_<?php echo str_replace("'","",str_replace(',','',str_replace(' ','',$hotel[$i]['HotelName'])));?> @foreach($hotelDetails[$i]['Facilities']['Facility'] as $facility)
-                                                @if($facility['FacilityType'] =='Hotel Facilities')
-                                                    {{'Facility'.str_replace(')','',str_replace('(','',str_replace(' ','',str_replace('/','',$facility['FacilityName'])))).' '}}
-                                                    
-                                                @endif
-                                                @endforeach 
-                            SortPrice{{($i+1)}}" 
-                            data-GlobalDiv="1" data-price-div="{{isset($hotel[$i]['Options']['Option'][0]['TotalPrice'])?(json_decode($hotel[$i]['Options']['Option'][0]['TotalPrice']) *100):(json_decode($hotel[$i]['Options']['Option']['TotalPrice']) *100)}}">
+                        <div class="package-devider GlobalDiv Rating{{ is_array($hotel[$i]['StarRating'])?'':json_decode($hotel[$i]['StarRating'])}} hotelName_<?php echo str_replace("'","",str_replace(',','',str_replace(' ','',$hotel[$i]['HotelName'])));?> 
+                            <?php 
+                            foreach($hotelDetails[$i]['Facilities']['Facility'] as $facility){
+                                if($facility['FacilityType'] =='Hotel Facilities'){
+                                    echo 'Facility'.str_replace("'",'',str_replace(')','',str_replace('(','',str_replace(' ','',str_replace('/','',$facility['FacilityName'])))))." ";
+                                }
+                            }
+                            ?>
+                            
+                            SortPrice{{($i+1)}} SortRating{{($i+1)}} SortName{{($i+1)}}" 
+                            data-GlobalDiv="1" data-price-div="{{isset($hotel[$i]['Options']['Option'][0]['TotalPrice'])?json_decode($hotel[$i]['Options']['Option'][0]['TotalPrice']):json_decode($hotel[$i]['Options']['Option']['TotalPrice'])}}"
+                            data-rating-div="{{ is_array($hotel[$i]['StarRating'])?'':json_decode($hotel[$i]['StarRating'])}}"
+                            data-hotelname-div="{{substr($hotel[$i]['HotelName'],0,2)}}">
                             <div class="media">
                                 <div class="hotels-image-media mr-3" style="background:url('{{isset($hotelDetails[$i]['Images']['Image'][0])?$hotelDetails[$i]['Images']['Image'][0]:''}}') no-repeat center center;background-size:cover;"></div>
                                 <div class="media-body">
@@ -366,12 +375,24 @@
                                         <i class="las la-star"></i>
                                         <i class="las la-star"></i>
                                         <i class="las la-star"></i> 1.0
+                                        @elseif($hotel[$i]['StarRating']==1.5)
+                                        <i class="las la-star active"></i>
+                                        <i class="las la-star"></i>
+                                        <i class="las la-star"></i>
+                                        <i class="las la-star"></i>
+                                        <i class="las la-star"></i> 1.5
                                         @elseif($hotel[$i]['StarRating']==2)
                                         <i class="las la-star active"></i>
                                         <i class="las la-star active"></i>
                                         <i class="las la-star"></i>
                                         <i class="las la-star"></i>
                                         <i class="las la-star"></i> 2.0
+                                        @elseif($hotel[$i]['StarRating']==2.5)
+                                        <i class="las la-star active"></i>
+                                        <i class="las la-star active"></i>
+                                        <i class="las la-star"></i>
+                                        <i class="las la-star"></i>
+                                        <i class="las la-star"></i> 2.5
                                         @elseif($hotel[$i]['StarRating']==3)
                                         <i class="las la-star active"></i>
                                         <i class="las la-star active"></i>
@@ -841,11 +862,207 @@ function myFunction(id) {
             // alert(sort_by_val);
             if(sort_by_val=='Price_Low_to_High'){
                 // alert(sort_by_val);
-               
+                var pricearray=[];
+                var pricearray=<?php 
+                $aaa=[];
+                $pricearray=array_unique(isset($pricearray)?$pricearray:[]);
+                foreach($pricearray as $val1){
+                    array_push($aaa,$val1);
+                }
+                echo json_encode($aaa);
+                ?>;
+                pricearray.sort(function(a, b){return b-a});
+                pricearray.reverse();
+                // alert(pricearray);
+                // SortPrice1
+                for (let index = 0; index < pricearray.length; index++) {
+                    for (let Divindex = 1; Divindex <=$('.GlobalDiv').length; Divindex++) {
+                        var dataArrivaltime=$(".SortPrice"+Divindex).attr("data-price-div")
+                        if (dataArrivaltime==pricearray[index]) {
+                            $(".MainDiv").append($(".SortPrice"+Divindex));
+                        }
+                    }
+                }
+            }else if(sort_by_val=='Price_High_to_Low'){
+                // alert(sort_by_val);
+                var pricearray=[];
+                var pricearray=<?php 
+                $aaa=[];
+                $pricearray=array_unique(isset($pricearray)?$pricearray:[]);
+                foreach($pricearray as $val1){
+                    array_push($aaa,$val1);
+                }
+                echo json_encode($aaa);
+                ?>;
+                pricearray.sort(function(a, b){return b-a});
+                // pricearray.reverse();
+                // alert(pricearray);
+                // SortPrice1
+                for (let index = 0; index < pricearray.length; index++) {
+                    for (let Divindex = 1; Divindex <=$('.GlobalDiv').length; Divindex++) {
+                        var dataArrivaltime=$(".SortPrice"+Divindex).attr("data-price-div")
+                        if (dataArrivaltime==pricearray[index]) {
+                            $(".MainDiv").append($(".SortPrice"+Divindex));
+                        }
+                    }
+                }
+            }else if(sort_by_val=='Rating_Low_to_High'){
+                // alert(sort_by_val);
+                var datarating=[];
+                var datarating=<?php 
+                $aaa=[];
+                $datarating=array_unique(isset($datarating)?$datarating:[]);
+                foreach($datarating as $val1){
+                    array_push($aaa,$val1);
+                }
+                echo json_encode($aaa);
+                ?>;
+                datarating.sort(function(a, b){return b-a});
+                datarating.reverse();
+                // alert(datarating);
+                // SortPrice1
+                for (let index = 0; index < datarating.length; index++) {
+                    for (let Divindex = 1; Divindex <=$('.GlobalDiv').length; Divindex++) {
+                        var dataArrivaltime=$(".SortRating"+Divindex).attr("data-rating-div")
+                        if (dataArrivaltime==datarating[index]) {
+                            $(".MainDiv").append($(".SortRating"+Divindex));
+                        }
+                    }
+                }
+            }else if(sort_by_val=='Rating_High_to_Low'){
+                // alert(sort_by_val);
+                var datarating=[];
+                var datarating=<?php 
+                $aaa=[];
+                $datarating=array_unique(isset($datarating)?$datarating:[]);
+                foreach($datarating as $val1){
+                    array_push($aaa,$val1);
+                }
+                echo json_encode($aaa);
+                ?>;
+                datarating.sort(function(a, b){return b-a});
+                // datarating.reverse();
+                // alert(datarating);
+                // SortPrice1
+                for (let index = 0; index < datarating.length; index++) {
+                    for (let Divindex = 1; Divindex <=$('.GlobalDiv').length; Divindex++) {
+                        var dataArrivaltime=$(".SortRating"+Divindex).attr("data-rating-div")
+                        if (dataArrivaltime==datarating[index]) {
+                            $(".MainDiv").append($(".SortRating"+Divindex));
+                        }
+                    }
+                }
+            }else if(sort_by_val=='Hotel_Name_A_to_Z'){
+                // alert(sort_by_val);
+                var datahotelname=[];
+                var datahotelname=<?php 
+                $aaa=[];
+                $datahotelname=array_unique(isset($datahotelname)?$datahotelname:[]);
+                foreach($datahotelname as $val1){
+                    array_push($aaa,$val1);
+                }
+                echo json_encode($aaa);
+                ?>;
+                datahotelname.sort();
+                // datahotelname.sort(function(a, b){return b-a});
+                // datahotelname.reverse();
+                // alert(datahotelname);
+                // SortPrice1
+                for (let index = 0; index < datahotelname.length; index++) {
+                    for (let Divindex = 1; Divindex <=$('.GlobalDiv').length; Divindex++) {
+                        var dataArrivaltime=$(".SortName"+Divindex).attr("data-hotelname-div")
+                        if (dataArrivaltime==datahotelname[index]) {
+                            $(".MainDiv").append($(".SortName"+Divindex));
+                        }
+                    }
+                }
+            }else if(sort_by_val=='Hotel_Name_Z_to_A'){
+                // alert(sort_by_val);
+                var datahotelname=[];
+                var datahotelname=<?php 
+                $aaa=[];
+                $datahotelname=array_unique(isset($datahotelname)?$datahotelname:[]);
+                foreach($datahotelname as $val1){
+                    array_push($aaa,$val1);
+                }
+                echo json_encode($aaa);
+                ?>;
+                datahotelname.sort();
+                // datahotelname.sort(function(a, b){return b-a});
+                datahotelname.reverse();
+                // alert(datahotelname);
+                // SortPrice1
+                for (let index = 0; index < datahotelname.length; index++) {
+                    for (let Divindex = 1; Divindex <=$('.GlobalDiv').length; Divindex++) {
+                        var dataArrivaltime=$(".SortName"+Divindex).attr("data-hotelname-div")
+                        if (dataArrivaltime==datahotelname[index]) {
+                            $(".MainDiv").append($(".SortName"+Divindex));
+                        }
+                    }
+                }
+            }
+            
+        });
+
+
+        
+    });
+    function filter1(val){
+        var checked_val=$("input[name='Facility']").val();
+        // alert(checked_val);
+            alert(val);
+        // $('input[name="Facility"]:checked').each(function() {
+        //     // alert('Facility');
+        //     // var checked_val=$("input[name='Facility']").val();
+        //     // alert(checked_val);
+
+        //     // $(".GlobalDiv").attr("data-GlobalDiv", "0")
+        //     // $(".GlobalDiv").hide();
+        //     // $("."+checked_val).show(); 
+        //     // $("."+checked_val).attr("data-GlobalDiv", "1") ; 
+        //     if($(this).prop("checked") == true){
+        //         console.log("Checkbox is checked.");
+        //     }
+        //     else if($(this).prop("checked") == false){
+        //         console.log("Checkbox is unchecked.");
+        //     }
+        // });
+        // $('input[name="Facility"]:not(:checked)').each(function() {
+        //     alert('not')
+        //     // $("."+this.value).attr("data-GlobalDiv", "0")
+        //     // $("."+this.value).hide();
+
+                
+        // });
+        // alert('hii');
+        var SearchCount=0;
+        var count=0;
+     
+        $(".GlobalDiv").attr("data-GlobalDiv", "0")
+        $(".GlobalDiv").hide();
+       
+        var arr=[];
+
+        var Facility=0;
+        $('input[name="Facility"]:checked').each(function() {
+            Facility+=1
+            if(Facility==1){
+                $(".Facility"+val).show();
+                $(".Facility"+val).attr("data-GlobalDiv", "1")
             }
         });
-    });
+        // if (Facility==1) {
+        //     arr.push("Facility");
+        // }
+        // alert(arr);
+       
 
+        if(Facility==0)
+        {
+          $(".GlobalDiv").show();
+          $(".GlobalDiv").attr("data-GlobalDiv", "1")
+        }
+    }
     function filter()
     {
         // if ($("."+this.value).attr("data-GlobalDiv")==1) 
@@ -857,20 +1074,22 @@ function myFunction(id) {
         $(".GlobalDiv").hide();
        
         var arr=[];
-        var Departure=0;
-        $('input[name="Departure"]:checked').each(function() {
-          Departure=1
-        });
-        if (Departure==1) {
-            arr.push("Departure");
-        }
-        var Facility=0;
-        $('input[name="Facility"]:checked').each(function() {
-            Facility=1
-        });
-        if (Facility==1) {
-            arr.push("Facility");
-        }
+        // var Departure=0;
+        // $('input[name="Departure"]:checked').each(function() {
+        //   Departure=1
+        // });
+        // if (Departure==1) {
+        //     arr.push("Departure");
+        // }
+
+        // var Facility=0;
+        // $('input[name="Facility"]:checked').each(function() {
+        //     Facility=1
+        // });
+        // if (Facility==1) {
+        //     arr.push("Facility");
+        // }
+
         var Rating=0;
         $('input[name="Rating"]:checked').each(function() {
             Rating=1
@@ -884,6 +1103,7 @@ function myFunction(id) {
             count+=1;
             
             $('input[name="'+d+'"]:checked').each(function() {
+                // alert(this.value);
                 if (SearchCount==count) {
                     $("."+this.value).show(); 
                     $("."+this.value).attr("data-GlobalDiv", "1") ; 
