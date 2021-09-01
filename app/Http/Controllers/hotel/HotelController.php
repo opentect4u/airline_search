@@ -37,13 +37,23 @@ class HotelController extends Controller
         // $adults=1;
         // $children=5;
 
-        if($children>0){
+        if($children>0 && $infant>0){
             $children_xml='<Children>
                 <ChildAge>'.$children.'</ChildAge>
+                <ChildAge>'.$infant.'</ChildAge>
+            </Children>';
+        }else if($children>0){
+            $children_xml='<Children>
+                <ChildAge>'.$children.'</ChildAge>
+            </Children>';
+        }else if($infant>0){
+            $children_xml='<Children>
+                <ChildAge>'.$infant.'</ChildAge>
             </Children>';
         }else{
             $children_xml='';  
         }
+        // return $children_xml;
 
         $Username='4e136e82c5b549a71dabbc9627cb4673';
         $Password='Y1qgGuaZiHN0';
@@ -235,18 +245,29 @@ class HotelController extends Controller
             // echo $hotelDetailss['Description'];
             // return $hotelDetailss['Facilities']['Facility'];
             // echo $hotelDetailss['Images']['Image'][0];
-            foreach($hotelDetailss['Facilities']['Facility'] as $facility){
-            if($facility['FacilityType'] =='Hotel Facilities'){
-                $Facility=$facility['FacilityName'];
-                array_push($allfacilities,$Facility);
+            foreach($hotelDetailss['Facilities']['Facility'] as $key => $facility){
+                // print_r($facility);
+                // echo "<br/>";
+                if(is_array($facility)){
+                    if($facility['FacilityType'] =='Hotel Facilities'){
+                        $Facility=$facility['FacilityName'];
+                        array_push($allfacilities,$Facility);
+                    }
+                }else{
+                    $cateory=$hotelDetailss['Facilities']['Facility']['FacilityName'];
+                    array_push($allfacilities,$cateory);
+                    // print_r( $key." -- ".$facility);
+                    // echo $hotelDetailss['Facilities']['Facility']['FacilityName'];
+                    // echo "<br/>"; 
+                }
             }
 
-            }
             // if($facility['FacilityType'] =='Hotel Facilities'){}
 
             
         }
         $allfacilities=array_unique($allfacilities);
+        // return "hii";
         // return $data1;
         // $vl="2.5";
         // return json_decode($vl);

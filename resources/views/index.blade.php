@@ -287,7 +287,70 @@
                                         </select>
                                     </div>
                                 </div>
+                                <!-- <hr> -->
+                                <!-- <div class="col-6 px-2">
+                                    <div class="form-group">
+                                        <label>Adults <small>(18+ yrs)</small></label>
+                                        <select name="hotel_adults" id="hotel_adults" class="custom-select">
+                                            <option selected>1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                        </select>
+                                    </div>
+                                </div>
                                 <div class="col-6 px-2">
+                                    <div class="form-group">
+                                        <label>Child Age -1<small></small></label>
+                                        <select name="hotel_child" id="hotel_child" class="custom-select">
+                                            <option >0</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                            <option value="11">11</option>
+                                            <option value="12">12</option>
+                                            <option value="13">13</option>
+                                            <option value="14">14</option>
+                                            <option value="15">15</option>
+                                            <option value="16">16</option>
+                                            <option value="16">17</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6 px-2">
+                                    <div class="form-group">
+                                        <label>Child Age -2 <small></small></label>
+                                        <select name="hotel_infant" id="hotel_infant" class="custom-select">
+                                            <option >0</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                            <option value="11">11</option>
+                                            <option value="12">12</option>
+                                            <option value="13">13</option>
+                                            <option value="14">14</option>
+                                            <option value="15">15</option>
+                                            <option value="16">16</option>
+                                            <option value="16">17</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <br> -->
+                                <div class="col-12 px-2">
                                     <div class="form-group">
                                         <input type="button" name="" id="hotel_buttonApply" class="btn btn-primary" onclick="hotel_traveller_selection();" value="Apply">
                                     </div>

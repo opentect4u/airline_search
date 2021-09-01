@@ -353,8 +353,13 @@
                         <div class="package-devider GlobalDiv Rating{{ is_array($hotel[$i]['StarRating'])?'':json_decode($hotel[$i]['StarRating'])}} hotelName_<?php echo str_replace("'","",str_replace(',','',str_replace(' ','',$hotel[$i]['HotelName'])));?> 
                             <?php 
                             foreach($hotelDetails[$i]['Facilities']['Facility'] as $facility){
-                                if($facility['FacilityType'] =='Hotel Facilities'){
-                                    echo 'Facility'.str_replace("'",'',str_replace(')','',str_replace('(','',str_replace(' ','',str_replace('/','',$facility['FacilityName'])))))." ";
+                                if(is_array($facility)){
+                                    if($facility['FacilityType'] =='Hotel Facilities'){
+                                        echo 'Facility'.str_replace("'",'',str_replace(')','',str_replace('(','',str_replace(' ','',str_replace('/','',$facility['FacilityName'])))))." ";
+                                    }
+                                }else{
+                                    $cateory=$hotelDetails[$i]['Facilities']['Facility']['FacilityName'];
+                                    echo 'Facility'.str_replace("'",'',str_replace(')','',str_replace('(','',str_replace(' ','',str_replace('/','',$cateory)))))." ";                                   
                                 }
                             }
                             ?>
@@ -420,24 +425,29 @@
                                                 <?php $count=0?>
                                                 @foreach($hotelDetails[$i]['Facilities']['Facility'] as $facility)
                                                 <!-- {{print_r($facility)}} -->
-                                                @if($facility['FacilityType'] =='Hotel Facilities')
-                                                    @if($count < 5 )
-                                                    <li>{{$facility['FacilityName']}}</li>
-                                                    @else
-                                                    @break;
+                                                @if(is_array($facility))
+                                                    @if($facility['FacilityType'] =='Hotel Facilities')
+                                                        @if($count < 5 )
+                                                        <li>{{$facility['FacilityName']}}</li>
+                                                        @else
+                                                        @break;
+                                                        @endif
+                                                        <?php $count++; ?>
                                                     @endif
-                                                    <?php $count++; ?>
+                                                
                                                 @endif
 
                                                 @endforeach
                                                 <div id="all-amenities-facility{{$hotel[$i]['HotelId']}}" class="collapse">
                                                     <?php $count1=0?>
                                                     @foreach($hotelDetails[$i]['Facilities']['Facility'] as $facility)
-                                                    @if($facility['FacilityType'] =='Hotel Facilities')
-                                                        @if($count1 > 5 )
-                                                        <li>{{$facility['FacilityName']}}</li>
+                                                    @if(is_array($facility))
+                                                        @if($facility['FacilityType'] =='Hotel Facilities')
+                                                            @if($count1 > 5 )
+                                                            <li>{{$facility['FacilityName']}}</li>
+                                                            @endif
+                                                            <?php $count1++; ?>
                                                         @endif
-                                                        <?php $count1++; ?>
                                                     @endif
                                                     @endforeach
                                                 </div>
