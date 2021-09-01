@@ -61,6 +61,14 @@
                                         <input type="hidden" name="first_name{{$i}}" id="first_name{{$i}}" value="<?php  $first_name='first_name'.$i; echo $searched->$first_name;?>" />
                                         <input type="hidden" name="last_name{{$i}}" id="last_name{{$i}}" value="<?php  $last_name='last_name'.$i; echo $searched->$last_name;?>" />
                                         @endfor
+                                        @if($searched->hotel_child > 0 )
+                                        <input type="hidden" name="child1_first_name" id="child1_first_name" value="<?php   echo $searched->child1_first_name;?>" />
+                                        <input type="hidden" name="child1_last_name" id="child1_last_name" value="<?php   echo $searched->child1_last_name;?>" />
+                                        @endif
+                                        @if($searched->hotel_infant > 0 )
+                                        <input type="hidden" name="child2_first_name" id="child2_first_name" value="<?php  echo $searched->child2_first_name;?>" />
+                                        <input type="hidden" name="child2_last_name" id="child2_last_name" value="<?php   echo $searched->child2_last_name;?>" />
+                                        @endif
 
                                         <input type="text" name="post_code" value="{{$searched->post_code}}" hidden>
                                         <input type="text" name="add_1" value="{{$searched->add_1}}" hidden>

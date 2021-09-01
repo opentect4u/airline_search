@@ -11,11 +11,7 @@ class HotelDetailsController extends Controller
         // return $request;
         $Options=json_decode($request->Options,true);
         // return $Options;
-        // foreach($Options as $Option){
-        //     echo $Option['OptionId'];
-        //     echo "<br/>";
-        // }
-        // return "hii";
+
         $hotelids=$request->hotel_id;
         $Username='4e136e82c5b549a71dabbc9627cb4673';
         $Password='Y1qgGuaZiHN0';
@@ -65,6 +61,13 @@ class HotelDetailsController extends Controller
             }
         }
         // return $hotelDetails;
+        $xmloptions='';
+        foreach($Options as $Option){
+            $xmloptions.='<OptionId>'.$Option['OptionId'].'</OptionId>';
+            // echo $Option['OptionId'];
+            // echo "<br/>";
+        }
+        // return $xmloptions;
         
         $xml1 = '<?xml version="1.0" encoding="UTF-8"?>
                 <Request>
@@ -90,12 +93,33 @@ class HotelDetailsController extends Controller
         // return $return;
         $object1 =app('App\Http\Controllers\XMlToParseDataController')->XMlToJSON($return1);
         // return $object1;
+        $Policies=[];
+        foreach($object1 as $json){
+            if(array_key_exists('Error',$json['Body'])){
+                // return $json['Body']['Error'];
+                // return $data;
+            }else if(array_key_exists('Policies',$json['Body'])){
+                $Policies= $json['Body']['Policies'];
+                // $hotel= $json['Body']['Hotels'];
+                // if(array_key_exists('HotelId',$hotel['Hotel'])){
+                //     // return $hotel['Hotel']['HotelId'];
+                //     array_push($hotelDetails,$hotel['Hotel']);
+                // }else{
+                //     $hotelDetails= $json['Body']['Hotels']['Hotel'];
+                //     // array_push($hotelDetails,$hotels);
+                // }
+                
+            }
+        }
 
+
+        // return $Policies;
         // return $Options;
         // return $request;
         return view('hotel.hotel-details',[
             'hotelDetails'=>$hotelDetails,
             'options'=>$Options,
+            'policies'=>$Policies,
             'searched'=>$request
         ]);
         

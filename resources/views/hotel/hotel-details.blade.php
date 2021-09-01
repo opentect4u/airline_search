@@ -118,7 +118,7 @@
                         @csrf
                         <input type="text" name="hotel_id" value="{{$hotelDetails[0]['HotelId']}}" hidden>
                         <!-- <input type="text" name="currency" value="GBP" hidden> -->
-                        <input type="text" name="option" value="{{json_encode($options)}}" hidden>
+                        <input type="text" name="option" value="{{json_encode($options[0])}}" hidden>
                         <input type="text" name="price" value="{{$options[0]['TotalPrice']}}" hidden>
                         <input type="text" name="check_in" value="{{$searched->check_in}}" hidden>
                         <input type="text" name="check_out" value="{{$searched->check_out}}" hidden>
@@ -159,35 +159,43 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <ul class="amenities-ul">
-                                    <li>Lawn</li>
-                                    <li>Free parking area</li>
-                                    <li>Doctor on Call</li>
-                                    <li>Iron and ironing board</li>
-                                    <li>Wake-up call</li>
-                                    <li>Reception</li>
-                                    <li>Conference Room</li>
+                                    <?php $count1=0; ?>
+                                    @foreach($hotelDetails[0]['Facilities']['Facility'] as $facility)
+                                    @if($facility['FacilityType'] =='Hotel Facilities')
+                                        @if($count1 < 8 )
+                                        <li>{{$facility['FacilityName']}}</li>
+                                        @else
+                                        @break;
+                                        @endif
+                                        <?php $count1++; ?>
+                                    @endif
+                                    @endforeach
                                 </ul>
                             </div>
                             <div class="col-md-4">
                                 <ul class="amenities-ul">
-                                    <li>Room Service</li>
-                                    <li>Elevators</li>
-                                    <li>Safe</li>
-                                    <li>Air Conditioned</li>
-                                    <li>Dry Cleaning</li>
-                                    <li>Daily newspaper</li>
-                                    <li>Security</li>
+                                    <?php $count2=0; ?>
+                                    @foreach($hotelDetails[0]['Facilities']['Facility'] as $facility)
+                                    @if($facility['FacilityType'] =='Hotel Facilities')
+                                        @if($count2 >= 8 && $count2 < 16)
+                                        <li>{{$facility['FacilityName']}}</li>
+                                        @endif
+                                        <?php $count2++; ?>
+                                    @endif
+                                    @endforeach
                                 </ul>
                             </div>
                             <div class="col-md-4">
                                 <ul class="amenities-ul">
-                                    <li>Laundry service</li>
-                                    <li>CCTV</li>
-                                    <li>Restaurant</li>
-                                    <li>Free Wifi</li>
-                                    <li>Bellboy service</li>
-                                    <li>Daily housekeeping</li>
-                                    <li>Power backup</li>
+                                <?php $count3=0; ?>
+                                    @foreach($hotelDetails[0]['Facilities']['Facility'] as $facility)
+                                    @if($facility['FacilityType'] =='Hotel Facilities')
+                                        @if($count3 >= 16 && $count3 < 24)
+                                        <li>{{$facility['FacilityName']}}</li>
+                                        @endif
+                                        <?php $count3++; ?>
+                                    @endif
+                                    @endforeach
                                 </ul>
                             </div>
                         </div>
@@ -206,18 +214,54 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#location">Location</a>
                         </li>
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a class="nav-link" href="#guest-review">Guest Reviews</a>
-                        </li>
+                        </li> -->
                         <li class="nav-item">
                             <a class="nav-link" href="#hotel-policies">Hotel Policies</a>
                         </li>
                     </ul>
                 </div>
                 <div id="rooms-rates" class="mb-5">
+                    @foreach($options as $option)
                     <div class="card card-body">
                         <div class="row">
+                            <!-- {{json_encode($option)}} -->
                             <div class="col-md-8">
+                                <h4>{{$option['BoardType']}}</h4>
+                                <span class="badge badge-warning">Partially Cancellable</span>
+                                
+                                <ul class="amenities-ul">
+                                    <!-- <li>After 03/09/2021 17:59, Cancellation charge of GBP 40.14 will be applied.</li> -->
+                                    <!-- <li>Unlimited usage of internet <a href="#">+ 7 More</a></li> -->
+                                </ul>
+                                <!-- <ul class="amenities-ul">
+                                    <li>Accommodation only</li>
+                                    <li>Unlimited usage of internet <a href="#">+ 7 More</a></li>
+                                </ul> -->
+                            </div>
+                            <div class="col-md-4 border-left">
+                                <!-- <del class="text-muted"><i class="las la-pound-sign"></i>30.00/night</del><br> -->
+                                <h4 class="mb-0 h3 font-weight-600"><span class="text-danger"><i class="las la-pound-sign"></i>{{$option['TotalPrice']}}</span></h4>
+                                <!-- <small>Per Room / Per Night</small><br> -->
+                                <!-- <a href="guest-details.php" class="btn btn-primary mt-2">Book Now</a> -->
+                                <form action="{{route('guestdetails')}}" method="POST">
+                                    @csrf
+                                    <input type="text" name="hotel_id" value="{{$hotelDetails[0]['HotelId']}}" hidden>
+                                    <!-- <input type="text" name="currency" value="GBP" hidden> -->
+                                    <input type="text" name="option" value="{{json_encode($option)}}" hidden>
+                                    <input type="text" name="price" value="{{$option['TotalPrice']}}" hidden>
+                                    <input type="text" name="check_in" value="{{$searched->check_in}}" hidden>
+                                    <input type="text" name="check_out" value="{{$searched->check_out}}" hidden>
+                                    <input type="text" name="city_name" value="{{$searched->city_name}}" hidden>
+                                    <input type="text" name="hotel_room" value="{{$searched->hotel_room}}" hidden>
+                                    <input type="text" name="hotel_adults" value="{{$searched->hotel_adults}}" hidden>
+                                    <input type="text" name="hotel_child" value="{{$searched->hotel_child}}" hidden>
+                                    <input type="text" name="hotel_infant" value="{{$searched->hotel_infant}}" hidden>
+                                    <button type="submit" class="btn btn-primary mt-2" onclick="showLoder();">Book Now</button>
+                                </form>
+                            </div>
+                            <!-- <div class="col-md-8">
                                 <h4>Executive Room</h4>
                                 <span class="badge badge-warning">Partially Cancellable</span>
                                 <ul class="amenities-ul">
@@ -230,10 +274,14 @@
                                 <h4 class="mb-0 h3 font-weight-600"><span class="text-danger"><i class="las la-pound-sign"></i>29.20/-</span></h4>
                                 <small>Per Room / Per Night</small><br>
                                 <a href="guest-details.php" class="btn btn-primary mt-2">Book Now</a>
-                            </div>
+                            </div> -->
+
+
                         </div>
                     </div>
-                    <div class="card card-body">
+                    @endforeach
+
+                    <!-- <div class="card card-body">
                         <div class="row">
                             <div class="col-md-8">
                                 <h4>Executive Room with Breakfast</h4>
@@ -250,27 +298,34 @@
                                 <a href="guest-details.php" class="btn btn-primary mt-2">Book Now</a>
                             </div>
                         </div>
-                    </div>
-                </div><hr>
+                    </div> -->
+                </div
+                ><hr>
                 <div id="location" class="my-5">
                     <h4>Location</h4>
                     <div class="embed-responsive embed-responsive-21by9">
                         <iframe class="emned-responsive-item" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2425.234470969165!2d76.76294025494819!3d30.72403706951365!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390fedb15f8fff8d%3A0xf6f229c172d97116!2sHotel%20Sun%20View!5e0!3m2!1sen!2sin!4v1575718860175!5m2!1sen!2sin" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
                     </div>
                 </div><hr>
-                <div id="guest-review" class="my-5">
+                <!-- <div id="guest-review" class="my-5">
                     <h4>Ratings & Reviews</h4>
                     <img src="{{ asset('public/images/rating.jpg')}}" alt="rating" class="img-fluid"/>
-                </div><hr>
+                </div> -->
+                <hr>
                 <div id="hotel-policies" class="mt-5">
                     <h4 class="font-weight-bold">Hotel Policies</h4>
                     <ul>
                         <li>The standard check-in time is 02:00 PM and the standard check-out time is 12:00 PM.Early check-in or late check-out is strictly subjected to availability and may be chargeable by the hotel.Any early check-in or late check-out request must be directed and reconfirmed with hotel and may be chargeable by the hotel directly.</li>
-                        <li>Payment of Room prior room check in.</li>
+                        
+                        @foreach($policies as $policy)
+
+                        @endforeach
+                        
+                        <!-- <li>Payment of Room prior room check in.</li>
                         <li>Valid ID for all adults is mandatory at the time of check in.</li>
                         <li>Final rights of admission/check-in remain reserved with the hotel management & refund can be denied in-case any misconduct is observed by the hotel management.</li>
                         <li>All Couple Friendly hotels allow Local IDs.</li>
-                        <li>Valid Local Id Accepted - Government ids with address will be accepted: Driving Licence, Aadhar card, Voter ID, Passport. Age Must be greater than 18.</li>
+                        <li>Valid Local Id Accepted - Government ids with address will be accepted: Driving Licence, Aadhar card, Voter ID, Passport. Age Must be greater than 18.</li> -->
                     </ul>
                 </div>
                 </div>

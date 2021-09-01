@@ -9,9 +9,9 @@ class PaymentController extends Controller
 {
     public function Show(Request $request){
         // return $request;
-        $option=json_decode($request->option,true);
+        $options=json_decode($request->option,true);
         // return $option[0];
-        $options=$option[0];
+        // $options=$option[0];
         // return $options;
         return view('hotel.payment',[
             'options'=>$options,
@@ -27,7 +27,13 @@ class PaymentController extends Controller
         // return $options['Rooms']['Room']['RoomId'];
         $first_name1=$request->first_name1;
         $last_name1=$request->last_name1;
-// return $first_name1;
+        // return $first_name1;
+
+        $xmldata='';
+            // <ChildName>
+            // <FirstName>First Name 5</FirstName>
+            // <LastName>Last Name 5</LastName>
+            // </ChildName>
 
         $Username='4e136e82c5b549a71dabbc9627cb4673';
         $Password='Y1qgGuaZiHN0';
@@ -45,14 +51,14 @@ class PaymentController extends Controller
                         <YourReference>XMLTEST</YourReference>
                         <Rooms>
                             <Room>
-                            <RoomId>'.$options['Rooms']['Room']['RoomId'].'</RoomId>
-                            <PaxNames>
-                                <AdultName>
-                                    <Title>Mr.</Title>
-                                    <FirstName>'.$first_name1.'</FirstName>
-                                    <LastName>'.$last_name1.'</LastName>
-                                </AdultName>
-                            </PaxNames>
+                                <RoomId>'.$options['Rooms']['Room']['RoomId'].'</RoomId>
+                                <PaxNames>
+                                    <AdultName>
+                                        <Title>Mr.</Title>
+                                        <FirstName>'.$first_name1.'</FirstName>
+                                        <LastName>'.$last_name1.'</LastName>
+                                    </AdultName>
+                                </PaxNames>
                             </Room>
                         </Rooms>
                     </Body>

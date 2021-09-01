@@ -14,8 +14,14 @@ class HotelController extends Controller
     public function Search(Request $request){
         // return "hii";
         // return $request;
-        $city_name =  str_replace(')','',explode('(',$request->city_name)[0]);
-        $country_code =  str_replace(')','',explode('(',$request->city_name)[1]);
+        if(isset(explode('(',$request->city_name)[0]) && isset(explode('(',$request->city_name)[1])){
+            $city_name =  str_replace(')','',explode('(',$request->city_name)[0]);
+            $country_code =  str_replace(')','',explode('(',$request->city_name)[1]);
+        }else{
+            // return "addFrom";
+            return redirect()->route('errorPage')->with('searcherror','searcherror');
+        }
+        
         // return $city_name;
         $cityId=DB::table('hotel_cities')->where('country_code',$country_code)->where('city_name',$city_name)->value('city_id');
         // return $cityId;
@@ -213,6 +219,7 @@ class HotelController extends Controller
             }
             // return $hotelDetails;
         }
+        // return $hotelDetails;
         // return $hotelDetails[0];
         // return $hotelDetails[0]['Facilities']['Facility'];
         // return $hotelDetails[0]['Images']['Image'][0];

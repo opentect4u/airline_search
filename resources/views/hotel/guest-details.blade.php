@@ -94,6 +94,36 @@
                                     </div>
                                 </div>
                                @endfor
+                               @if($searched->hotel_child > 0 )
+                               <!-- {{"hii"}} -->
+                               <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Child (1)- first name</label>
+                                        <input type="text" required name="child1_first_name" class="form-control" placeholder="Enter first name">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Last Name</label>
+                                        <input type="text" required name="child1_last_name" class="form-control" placeholder="Enter last name">
+                                    </div>
+                                </div>
+                               @endif
+                               @if($searched->hotel_infant > 0 )
+                               <!-- {{"hii"}} -->
+                               <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Child (2)- first name</label>
+                                        <input type="text" required name="child2_first_name" class="form-control" placeholder="Enter first name">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Last Name</label>
+                                        <input type="text" required name="child2_first_name" class="form-control" placeholder="Enter last name">
+                                    </div>
+                                </div>
+                               @endif
                             </div>
 
                             
