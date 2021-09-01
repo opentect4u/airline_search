@@ -398,7 +398,9 @@ class FlightController extends Controller
         }
     }
 
-    public function parseOutputReturn($content){	//parse the Search response to get values to use in detail request
+    public function parseOutputReturn($content){
+        $data = collect();
+        	//parse the Search response to get values to use in detail request
         $LowFareSearchRsp = $content; //use this if response is not saved anywhere else use above variable
         //echo $LowFareSearchRsp;
         $xml = simplexml_load_String("$LowFareSearchRsp", null, null, 'SOAP', true);	
@@ -410,7 +412,8 @@ class FlightController extends Controller
         $Results = $xml->children('SOAP',true);
         foreach($Results->children('SOAP',true) as $fault){
             if(strcmp($fault->getName(),'Fault') == 0){
-                trigger_error("Error occurred request/response processing!", E_USER_ERROR);
+                // trigger_error("Error occurred request/response processing!", E_USER_ERROR);
+                return $data;
             }
         }
         
@@ -421,7 +424,7 @@ class FlightController extends Controller
             file_put_contents($fileName, "");
         }
     
-        $data = collect();
+        // $data = collect();
         
         foreach($Results->children('air',true) as $lowFare){		
             foreach($lowFare->children('air',true) as $airPriceSol){	
