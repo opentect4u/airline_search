@@ -21,8 +21,17 @@ class FlightController extends Controller
         $stops=[];
         $airlines=[];
         $multicityCount=3;
-        $var_from1 =  str_replace(')','',explode('(',$request->from1)[1]);
-        $var_to1 =  str_replace(')','',explode('(',$request->to1)[1]);
+        if(isset(explode('(',$request->from1)[1])){
+            $var_from1 =  str_replace(')','',explode('(',$request->from1)[1]);
+        }else{
+            return redirect()->route('errorPage')->with('searcherror','searcherror');
+        }
+
+        if(isset(explode('(',$request->to1)[1])){
+            $var_to1 =  str_replace(')','',explode('(',$request->to1)[1]);
+        }else{
+            return redirect()->route('errorPage')->with('searcherror','searcherror');
+        }
 
         // $var_from2 =  str_replace(')','',explode('(',$request->from2)[1]);
         // $var_to2 =  str_replace(')','',explode('(',$request->to2)[1]);
@@ -66,8 +75,16 @@ class FlightController extends Controller
      </air:SearchAirLeg>';
         // return $datasegment;
         if($request->from2!='' && $request->to2!='' && $request->flight1_date!=''){
-            $var_from2 =  str_replace(')','',explode('(',$request->from2)[1]);
-            $var_to2 =  str_replace(')','',explode('(',$request->to2)[1]);
+            if(isset(explode('(',$request->from2)[1])){
+                $var_from2 =  str_replace(')','',explode('(',$request->from2)[1]);
+            }else{
+                return redirect()->route('errorPage')->with('searcherror','searcherror');
+            }
+            if(isset(explode('(',$request->to2)[1])){
+                $var_to2 =  str_replace(')','',explode('(',$request->to2)[1]);
+            }else{
+                return redirect()->route('errorPage')->with('searcherror','searcherror');
+            }
             $var_flight1_date = Carbon::parse($request->flight1_date)->format('Y-m-d');
             $datasegment.=' <air:SearchAirLeg>
             <air:SearchOrigin>
@@ -82,8 +99,16 @@ class FlightController extends Controller
          </air:SearchAirLeg>';
         }
         if($request->from3!='' && $request->to3!='' && $request->flight2_date!=''){
-            $var_from3 =  str_replace(')','',explode('(',$request->from3)[1]);
-            $var_to3 =  str_replace(')','',explode('(',$request->to3)[1]);
+            if(isset(explode('(',$request->from3)[1])){
+                $var_from3 =  str_replace(')','',explode('(',$request->from3)[1]);
+            }else{
+                return redirect()->route('errorPage')->with('searcherror','searcherror');
+            }
+            if (isset(explode('(',$request->to3)[1])) {
+                $var_to3 =  str_replace(')','',explode('(',$request->to3)[1]);
+            }else{
+                return redirect()->route('errorPage')->with('searcherror','searcherror');
+            }
             $var_flight2_date = Carbon::parse($request->flight2_date)->format('Y-m-d');
             $datasegment.=' <air:SearchAirLeg>
             <air:SearchOrigin>

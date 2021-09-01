@@ -18,8 +18,22 @@ class FlightController extends Controller
         $flights=[];
         $stops=[];
         $airlines=[];
-        $var_flightFrom =  str_replace(')','',explode('(',$request->addFrom)[1]);
-        $var_flightTo =  str_replace(')','',explode('(',$request->addTo)[1]);
+        if(isset(explode('(',$request->addFrom)[1])){
+            $var_flightFrom =  str_replace(')','',explode('(',$request->addFrom)[1]);
+        }else{
+            // return "addFrom";
+            return redirect()->route('errorPage')->with('searcherror','searcherror');
+        }
+        if(isset(explode('(',$request->addTo)[1])){
+            $var_flightTo =  str_replace(')','',explode('(',$request->addTo)[1]);
+        }else{
+            return redirect()->route('errorPage')->with('searcherror','searcherror');
+            // return "addTo";
+        }
+        // $var_flightFrom =  str_replace(')','',explode('(',$request->addFrom)[1]);
+        // $var_flightTo =  str_replace(')','',explode('(',$request->addTo)[1]);
+
+
         $var_PreferredDate = Carbon::parse($request->departure_date)->format('Y-m-d');
         $var_direct_flight=$request->direct_flight;
         $var_flexi=$request->flexi;

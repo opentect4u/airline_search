@@ -21,12 +21,18 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="error-template">
-                        <h1>
-                            Oops!</h1>
-                        <h2>
-                            404 Not Found</h2>
+                        <h1> Oops!</h1>
+                        @if(Session::has('searcherror'))
+                        <h2> Something error on search</h2>
+                        @else
+                        <h2> 404 Not Found</h2>
+                        @endif
                         <div class="error-details">
+                        @if(Session::has('searcherror'))
+                        Sorry, an error has occured!
+                        @else
                             Sorry, an error has occured, Requested page not found!
+                        @endif
                         </div>
                         <div class="error-actions">
                             <a href="{{route('index')}}" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-home"></span>
