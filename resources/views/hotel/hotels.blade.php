@@ -81,79 +81,286 @@
                                         <div class="form-group">
                                             <label>Room</label>
                                             <select name="hotel_room" id="hotel_room" class="custom-select">
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
+                                                <option value="1" <?php if($searched->hotel_room==1){echo "selected";}?>>1</option>
+                                                <option value="2" <?php if($searched->hotel_room==2){echo "selected";}?>>2</option>
+                                                <option value="3" <?php if($searched->hotel_room==3){echo "selected";}?>>3</option>
+                                                <option value="4" <?php if($searched->hotel_room==4){echo "selected";}?>>4</option>
                                             </select>
                                         </div>
                                     </div>
+                                    
                                     <div class="col-6 px-2">
                                         <div class="form-group">
                                             <label>Adults <small>(18+ yrs)</small></label>
-                                            <select name="hotel_adults" id="hotel_adults" class="custom-select">
-                                            <option value="1" <?php if($searched->hotel_adults==1){echo "selected";}?>>1</option>
-                                                <option value="2" <?php if($searched->hotel_adults==2){echo "selected";}?>>2</option>
-                                                <option value="3" <?php if($searched->hotel_adults==3){echo "selected";}?>>3</option>
-                                                <option value="4" <?php if($searched->hotel_adults==4){echo "selected";}?>>4</option>
+                                            <select name="room1_hotel_adults" id="room1_hotel_adults" class="custom-select">
+                                                <option value="1" <?php if($searched->room1_hotel_adults==1){echo "selected";}?>>1</option>
+                                                <option value="2" <?php if($searched->room1_hotel_adults==2){echo "selected";}?>>2</option>
+                                                <option value="3" <?php if($searched->room1_hotel_adults==3){echo "selected";}?>>3</option>
+                                                <option value="4" <?php if($searched->room1_hotel_adults==4){echo "selected";}?>>4</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-6 px-2">
                                         <div class="form-group">
-                                            <label>Child Age -1 <small></small></label>
-                                            <select name="hotel_child" id="hotel_child" class="custom-select">
-                                                <option >0</option>
-                                                <option value="1" <?php if($searched->hotel_child==1){echo "selected";}?>>1</option>
-                                                <option value="2" <?php if($searched->hotel_child==2){echo "selected";}?>>2</option>
-                                                <option value="3" <?php if($searched->hotel_child==3){echo "selected";}?>>3</option>
-                                                <option value="4" <?php if($searched->hotel_child==4){echo "selected";}?>>4</option>
-                                                <option value="5" <?php if($searched->hotel_child==5){echo "selected";}?>>5</option>
-                                                <option value="6" <?php if($searched->hotel_child==6){echo "selected";}?>>6</option>
-                                                <option value="7" <?php if($searched->hotel_child==7){echo "selected";}?>>7</option>
-                                                <option value="8" <?php if($searched->hotel_child==8){echo "selected";}?>>8</option>
-                                                <option value="9" <?php if($searched->hotel_child==9){echo "selected";}?>>9</option>
-                                                <option value="10" <?php if($searched->hotel_child==10){echo "selected";}?>>10</option>
-                                                <option value="11" <?php if($searched->hotel_child==11){echo "selected";}?>>11</option>
-                                                <option value="12" <?php if($searched->hotel_child==12){echo "selected";}?>>12</option>
-                                                <option value="13" <?php if($searched->hotel_child==13){echo "selected";}?>>13</option>
-                                                <option value="14" <?php if($searched->hotel_child==14){echo "selected";}?>>14</option>
-                                                <option value="15" <?php if($searched->hotel_child==15){echo "selected";}?>>15</option>
-                                                <option value="16" <?php if($searched->hotel_child==16){echo "selected";}?>>16</option>
-                                                <option value="16" <?php if($searched->hotel_child==17){echo "selected";}?>>17</option>
+                                            <label>Child Age -1<small></small></label>
+                                            <select name="room1_hotel_child" id="room1_hotel_child" class="custom-select">
+                                                <option value="0">0</option>
+                                                <option value="1" <?php if($searched->room1_hotel_child==1){echo "selected";}?>>1</option>
+                                                <option value="2" <?php if($searched->room1_hotel_child==2){echo "selected";}?>>2</option>
+                                                <option value="3" <?php if($searched->room1_hotel_child==3){echo "selected";}?>>3</option>
+                                                <option value="4" <?php if($searched->room1_hotel_child==4){echo "selected";}?>>4</option>
+                                                <option value="5" <?php if($searched->room1_hotel_child==5){echo "selected";}?>>5</option>
+                                                <option value="6" <?php if($searched->room1_hotel_child==6){echo "selected";}?>>6</option>
+                                                <option value="7" <?php if($searched->room1_hotel_child==7){echo "selected";}?>>7</option>
+                                                <option value="8" <?php if($searched->room1_hotel_child==8){echo "selected";}?>>8</option>
+                                                <option value="9" <?php if($searched->room1_hotel_child==9){echo "selected";}?>>9</option>
+                                                <option value="10" <?php if($searched->room1_hotel_child==10){echo "selected";}?>>10</option>
+                                                <option value="11" <?php if($searched->room1_hotel_child==11){echo "selected";}?>>11</option>
+                                                <option value="12" <?php if($searched->room1_hotel_child==12){echo "selected";}?>>12</option>
+                                                <option value="13" <?php if($searched->room1_hotel_child==13){echo "selected";}?>>13</option>
+                                                <option value="14" <?php if($searched->room1_hotel_child==14){echo "selected";}?>>14</option>
+                                                <option value="15" <?php if($searched->room1_hotel_child==15){echo "selected";}?>>15</option>
+                                                <option value="16" <?php if($searched->room1_hotel_child==16){echo "selected";}?>>16</option>
+                                                <option value="16" <?php if($searched->room1_hotel_child==17){echo "selected";}?>>17</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-6 px-2">
                                         <div class="form-group">
                                             <label>Child Age -2 <small></small></label>
-                                            <select name="hotel_infant" id="hotel_infant" class="custom-select">
-                                                <option >0</option>
-                                                <option value="1" <?php if($searched->hotel_infant==1){echo "selected";}?>>1</option>
-                                                <option value="2" <?php if($searched->hotel_infant==2){echo "selected";}?>>2</option>
-                                                <option value="3" <?php if($searched->hotel_infant==3){echo "selected";}?>>3</option>
-                                                <option value="4" <?php if($searched->hotel_infant==4){echo "selected";}?>>4</option>
-                                                <option value="5" <?php if($searched->hotel_infant==5){echo "selected";}?>>5</option>
-                                                <option value="6" <?php if($searched->hotel_infant==6){echo "selected";}?>>6</option>
-                                                <option value="7" <?php if($searched->hotel_infant==7){echo "selected";}?>>7</option>
-                                                <option value="8" <?php if($searched->hotel_infant==8){echo "selected";}?>>8</option>
-                                                <option value="9" <?php if($searched->hotel_infant==9){echo "selected";}?>>9</option>
-                                                <option value="10" <?php if($searched->hotel_infant==10){echo "selected";}?>>10</option>
-                                                <option value="11" <?php if($searched->hotel_infant==11){echo "selected";}?>>11</option>
-                                                <option value="12" <?php if($searched->hotel_infant==12){echo "selected";}?>>12</option>
-                                                <option value="13" <?php if($searched->hotel_infant==13){echo "selected";}?>>13</option>
-                                                <option value="14" <?php if($searched->hotel_infant==14){echo "selected";}?>>14</option>
-                                                <option value="15" <?php if($searched->hotel_infant==15){echo "selected";}?>>15</option>
-                                                <option value="16" <?php if($searched->hotel_infant==16){echo "selected";}?>>16</option>
-                                                <option value="16" <?php if($searched->hotel_infant==17){echo "selected";}?>>17</option>
+                                            <select name="room1_hotel_infant" id="room1_hotel_infant" class="custom-select">
+                                                <option value="0">0</option>
+                                                <option value="1" <?php if($searched->room1_hotel_infant==1){echo "selected";}?>>1</option>
+                                                <option value="2" <?php if($searched->room1_hotel_infant==2){echo "selected";}?>>2</option>
+                                                <option value="3" <?php if($searched->room1_hotel_infant==3){echo "selected";}?>>3</option>
+                                                <option value="4" <?php if($searched->room1_hotel_infant==4){echo "selected";}?>>4</option>
+                                                <option value="5" <?php if($searched->room1_hotel_infant==5){echo "selected";}?>>5</option>
+                                                <option value="6" <?php if($searched->room1_hotel_infant==6){echo "selected";}?>>6</option>
+                                                <option value="7" <?php if($searched->room1_hotel_infant==7){echo "selected";}?>>7</option>
+                                                <option value="8" <?php if($searched->room1_hotel_infant==8){echo "selected";}?>>8</option>
+                                                <option value="9" <?php if($searched->room1_hotel_infant==9){echo "selected";}?>>9</option>
+                                                <option value="10" <?php if($searched->room1_hotel_infant==10){echo "selected";}?>>10</option>
+                                                <option value="11" <?php if($searched->room1_hotel_infant==11){echo "selected";}?>>11</option>
+                                                <option value="12" <?php if($searched->room1_hotel_infant==12){echo "selected";}?>>12</option>
+                                                <option value="13" <?php if($searched->room1_hotel_infant==13){echo "selected";}?>>13</option>
+                                                <option value="14" <?php if($searched->room1_hotel_infant==14){echo "selected";}?>>14</option>
+                                                <option value="15" <?php if($searched->room1_hotel_infant==15){echo "selected";}?>>15</option>
+                                                <option value="16" <?php if($searched->room1_hotel_infant==16){echo "selected";}?>>16</option>
+                                                <option value="16" <?php if($searched->room1_hotel_infant==17){echo "selected";}?>>17</option>
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-6 px-2">
-                                    <div class="form-group">
-                                        <input type="button" name="" id="hotel_buttonApply" class="btn btn-primary" onclick="hotel_traveller_selection();" value="Apply">
+                                    <!-- <hr> -->
+                                    <div class="col-12 px-2" id="room2HeadingDiv">
+                                        <div class="form-group">
+                                            Room 2 Details
+                                        </div>
                                     </div>
-                                </div>
+                                    <div class="col-6 px-2" id="room2AdultDiv" data-room2-div="0">
+                                            <div class="form-group">
+                                                <label>Adults <small>(18+ yrs)</small></label>
+                                                <select name="room2_hotel_adults" id="room2_hotel_adults" class="custom-select">
+                                                    <option value="0">Adults</option>
+                                                    <option value="1" <?php if($searched->room2_hotel_adults==1){echo "selected";}?>>1</option>
+                                                    <option value="2" <?php if($searched->room2_hotel_adults==2){echo "selected";}?>>2</option>
+                                                    <option value="3" <?php if($searched->room2_hotel_adults==3){echo "selected";}?>>3</option>
+                                                    <option value="4" <?php if($searched->room2_hotel_adults==4){echo "selected";}?>>4</option>
+                                                </select>
+                                            </div>
+                                    </div>
+                                    <div class="col-6 px-2" id="room2ChildDiv">
+                                            <div class="form-group">
+                                                <label>Child Age -1<small></small></label>
+                                                <select name="room2_hotel_child" id="room2_hotel_child" class="custom-select">
+                                                    <option value="0">0</option>
+                                                    <option value="1" <?php if($searched->room2_hotel_child==1){echo "selected";}?>>1</option>
+                                                    <option value="2" <?php if($searched->room2_hotel_child==2){echo "selected";}?>>2</option>
+                                                    <option value="3" <?php if($searched->room2_hotel_child==3){echo "selected";}?>>3</option>
+                                                    <option value="4" <?php if($searched->room2_hotel_child==4){echo "selected";}?>>4</option>
+                                                    <option value="5" <?php if($searched->room2_hotel_child==5){echo "selected";}?>>5</option>
+                                                    <option value="6" <?php if($searched->room2_hotel_child==6){echo "selected";}?>>6</option>
+                                                    <option value="7" <?php if($searched->room2_hotel_child==7){echo "selected";}?>>7</option>
+                                                    <option value="8" <?php if($searched->room2_hotel_child==8){echo "selected";}?>>8</option>
+                                                    <option value="9" <?php if($searched->room2_hotel_child==9){echo "selected";}?>>9</option>
+                                                    <option value="10" <?php if($searched->room2_hotel_child==10){echo "selected";}?>>10</option>
+                                                    <option value="11" <?php if($searched->room2_hotel_child==11){echo "selected";}?>>11</option>
+                                                    <option value="12" <?php if($searched->room2_hotel_child==12){echo "selected";}?>>12</option>
+                                                    <option value="13" <?php if($searched->room2_hotel_child==13){echo "selected";}?>>13</option>
+                                                    <option value="14" <?php if($searched->room2_hotel_child==14){echo "selected";}?>>14</option>
+                                                    <option value="15" <?php if($searched->room2_hotel_child==15){echo "selected";}?>>15</option>
+                                                    <option value="16" <?php if($searched->room2_hotel_child==16){echo "selected";}?>>16</option>
+                                                    <option value="16" <?php if($searched->room2_hotel_child==17){echo "selected";}?>>17</option>
+                                                </select>
+                                            </div>
+                                    </div>
+                                    <div class="col-6 px-2" id="room2InfantDiv">
+                                            <div class="form-group">
+                                                <label>Child Age -2 <small></small></label>
+                                                <select name="room2_hotel_infant" id="room2_hotel_infant" class="custom-select">
+                                                    <option value="0">0</option>
+                                                    <option value="1" <?php if($searched->room2_hotel_infant==1){echo "selected";}?>>1</option>
+                                                    <option value="2" <?php if($searched->room2_hotel_infant==2){echo "selected";}?>>2</option>
+                                                    <option value="3" <?php if($searched->room2_hotel_infant==3){echo "selected";}?>>3</option>
+                                                    <option value="4" <?php if($searched->room2_hotel_infant==4){echo "selected";}?>>4</option>
+                                                    <option value="5" <?php if($searched->room2_hotel_infant==5){echo "selected";}?>>5</option>
+                                                    <option value="6" <?php if($searched->room2_hotel_infant==6){echo "selected";}?>>6</option>
+                                                    <option value="7" <?php if($searched->room2_hotel_infant==7){echo "selected";}?>>7</option>
+                                                    <option value="8" <?php if($searched->room2_hotel_infant==8){echo "selected";}?>>8</option>
+                                                    <option value="9" <?php if($searched->room2_hotel_infant==9){echo "selected";}?>>9</option>
+                                                    <option value="10" <?php if($searched->room2_hotel_infant==10){echo "selected";}?>>10</option>
+                                                    <option value="11" <?php if($searched->room2_hotel_infant==11){echo "selected";}?>>11</option>
+                                                    <option value="12" <?php if($searched->room2_hotel_infant==12){echo "selected";}?>>12</option>
+                                                    <option value="13" <?php if($searched->room2_hotel_infant==13){echo "selected";}?>>13</option>
+                                                    <option value="14" <?php if($searched->room2_hotel_infant==14){echo "selected";}?>>14</option>
+                                                    <option value="15" <?php if($searched->room2_hotel_infant==15){echo "selected";}?>>15</option>
+                                                    <option value="16" <?php if($searched->room2_hotel_infant==16){echo "selected";}?>>16</option>
+                                                    <option value="16" <?php if($searched->room2_hotel_infant==17){echo "selected";}?>>17</option>
+                                                </select>
+                                            </div>
+                                    </div>
+                                    <!-- <br> -->
+                                    <div class="col-12 px-2" id="room3HeadingDiv">
+                                        <div class="form-group">
+                                            Room 3 Details
+                                        </div>
+                                    </div>
+                                    <div class="col-6 px-2" id="room3AdultDiv" data-room3-div="0">
+                                            <div class="form-group">
+                                                <label>Adults <small>(18+ yrs)</small></label>
+                                                <select name="room3_hotel_adults" id="room3_hotel_adults" class="custom-select">
+                                                    <option value="0">Adults</option>
+                                                    <option value="1" <?php if($searched->room3_hotel_adults==1){echo "selected";}?>>1</option>
+                                                    <option value="2" <?php if($searched->room3_hotel_adults==2){echo "selected";}?>>2</option>
+                                                    <option value="3" <?php if($searched->room3_hotel_adults==3){echo "selected";}?>>3</option>
+                                                    <option value="4" <?php if($searched->room3_hotel_adults==4){echo "selected";}?>>4</option>
+                                                </select>
+                                            </div>
+                                    </div>
+                                    <div class="col-6 px-2" id="room3ChildDiv">
+                                            <div class="form-group">
+                                                <label>Child Age -1<small></small></label>
+                                                <select name="room3_hotel_child" id="room3_hotel_child" class="custom-select">
+                                                    <option value="0">0</option>
+                                                    <option value="1" <?php if($searched->room3_hotel_child==1){echo "selected";}?>>1</option>
+                                                    <option value="2" <?php if($searched->room3_hotel_child==2){echo "selected";}?>>2</option>
+                                                    <option value="3" <?php if($searched->room3_hotel_child==3){echo "selected";}?>>3</option>
+                                                    <option value="4" <?php if($searched->room3_hotel_child==4){echo "selected";}?>>4</option>
+                                                    <option value="5" <?php if($searched->room3_hotel_child==5){echo "selected";}?>>5</option>
+                                                    <option value="6" <?php if($searched->room3_hotel_child==6){echo "selected";}?>>6</option>
+                                                    <option value="7" <?php if($searched->room3_hotel_child==7){echo "selected";}?>>7</option>
+                                                    <option value="8" <?php if($searched->room3_hotel_child==8){echo "selected";}?>>8</option>
+                                                    <option value="9" <?php if($searched->room3_hotel_child==9){echo "selected";}?>>9</option>
+                                                    <option value="10" <?php if($searched->room3_hotel_child==10){echo "selected";}?>>10</option>
+                                                    <option value="11" <?php if($searched->room3_hotel_child==11){echo "selected";}?>>11</option>
+                                                    <option value="12" <?php if($searched->room3_hotel_child==12){echo "selected";}?>>12</option>
+                                                    <option value="13" <?php if($searched->room3_hotel_child==13){echo "selected";}?>>13</option>
+                                                    <option value="14" <?php if($searched->room3_hotel_child==14){echo "selected";}?>>14</option>
+                                                    <option value="15" <?php if($searched->room3_hotel_child==15){echo "selected";}?>>15</option>
+                                                    <option value="16" <?php if($searched->room3_hotel_child==16){echo "selected";}?>>16</option>
+                                                    <option value="16" <?php if($searched->room3_hotel_child==17){echo "selected";}?>>17</option>
+                                                </select>
+                                            </div>
+                                    </div>
+                                    <div class="col-6 px-2" id="room3InfantDiv">
+                                            <div class="form-group">
+                                                <label>Child Age -2 <small></small></label>
+                                                <select name="room3_hotel_infant" id="room3_hotel_infant" class="custom-select">
+                                                    <option value="0">0</option>
+                                                    <option value="1" <?php if($searched->room3_hotel_infant==1){echo "selected";}?>>1</option>
+                                                    <option value="2" <?php if($searched->room3_hotel_infant==2){echo "selected";}?>>2</option>
+                                                    <option value="3" <?php if($searched->room3_hotel_infant==3){echo "selected";}?>>3</option>
+                                                    <option value="4" <?php if($searched->room3_hotel_infant==4){echo "selected";}?>>4</option>
+                                                    <option value="5" <?php if($searched->room3_hotel_infant==5){echo "selected";}?>>5</option>
+                                                    <option value="6" <?php if($searched->room3_hotel_infant==6){echo "selected";}?>>6</option>
+                                                    <option value="7" <?php if($searched->room3_hotel_infant==7){echo "selected";}?>>7</option>
+                                                    <option value="8" <?php if($searched->room3_hotel_infant==8){echo "selected";}?>>8</option>
+                                                    <option value="9" <?php if($searched->room3_hotel_infant==9){echo "selected";}?>>9</option>
+                                                    <option value="10" <?php if($searched->room3_hotel_infant==10){echo "selected";}?>>10</option>
+                                                    <option value="11" <?php if($searched->room3_hotel_infant==11){echo "selected";}?>>11</option>
+                                                    <option value="12" <?php if($searched->room3_hotel_infant==12){echo "selected";}?>>12</option>
+                                                    <option value="13" <?php if($searched->room3_hotel_infant==13){echo "selected";}?>>13</option>
+                                                    <option value="14" <?php if($searched->room3_hotel_infant==14){echo "selected";}?>>14</option>
+                                                    <option value="15" <?php if($searched->room3_hotel_infant==15){echo "selected";}?>>15</option>
+                                                    <option value="16" <?php if($searched->room3_hotel_infant==16){echo "selected";}?>>16</option>
+                                                    <option value="16" <?php if($searched->room3_hotel_infant==17){echo "selected";}?>>17</option>
+                                                </select>
+                                            </div>
+                                    </div>
+                                    <!-- <br> -->
+                                    <div class="col-12 px-2" id="room4HeadingDiv">
+                                        <div class="form-group">
+                                            Room 4 Details
+                                        </div>
+                                    </div>
+                                    <div class="col-6 px-2" id="room4AdultDiv" data-room4-div="0">
+                                            <div class="form-group">
+                                                <label>Adults <small>(18+ yrs)</small></label>
+                                                <select name="room4_hotel_adults" id="room4_hotel_adults" class="custom-select">
+                                                    <option value="0">Adults</option>
+                                                    <option value="1" <?php if($searched->room4_hotel_adults==1){echo "selected";}?>>1</option>
+                                                    <option value="2" <?php if($searched->room4_hotel_adults==2){echo "selected";}?>>2</option>
+                                                    <option value="3" <?php if($searched->room4_hotel_adults==3){echo "selected";}?>>3</option>
+                                                    <option value="4" <?php if($searched->room4_hotel_adults==4){echo "selected";}?>>4</option>
+                                                </select>
+                                            </div>
+                                    </div>
+                                    <div class="col-6 px-2" id="room4ChildDiv">
+                                            <div class="form-group">
+                                                <label>Child Age -1<small></small></label>
+                                                <select name="room4_hotel_child" id="room4_hotel_child" class="custom-select">
+                                                    <option value="0">0</option>
+                                                    <option value="1" <?php if($searched->room4_hotel_child==1){echo "selected";}?>>1</option>
+                                                    <option value="2" <?php if($searched->room4_hotel_child==2){echo "selected";}?>>2</option>
+                                                    <option value="3" <?php if($searched->room4_hotel_child==3){echo "selected";}?>>3</option>
+                                                    <option value="4" <?php if($searched->room4_hotel_child==4){echo "selected";}?>>4</option>
+                                                    <option value="5" <?php if($searched->room4_hotel_child==5){echo "selected";}?>>5</option>
+                                                    <option value="6" <?php if($searched->room4_hotel_child==6){echo "selected";}?>>6</option>
+                                                    <option value="7" <?php if($searched->room4_hotel_child==7){echo "selected";}?>>7</option>
+                                                    <option value="8" <?php if($searched->room4_hotel_child==8){echo "selected";}?>>8</option>
+                                                    <option value="9" <?php if($searched->room4_hotel_child==9){echo "selected";}?>>9</option>
+                                                    <option value="10" <?php if($searched->room4_hotel_child==10){echo "selected";}?>>10</option>
+                                                    <option value="11" <?php if($searched->room4_hotel_child==11){echo "selected";}?>>11</option>
+                                                    <option value="12" <?php if($searched->room4_hotel_child==12){echo "selected";}?>>12</option>
+                                                    <option value="13" <?php if($searched->room4_hotel_child==13){echo "selected";}?>>13</option>
+                                                    <option value="14" <?php if($searched->room4_hotel_child==14){echo "selected";}?>>14</option>
+                                                    <option value="15" <?php if($searched->room4_hotel_child==15){echo "selected";}?>>15</option>
+                                                    <option value="16" <?php if($searched->room4_hotel_child==16){echo "selected";}?>>16</option>
+                                                    <option value="16" <?php if($searched->room4_hotel_child==17){echo "selected";}?>>17</option>
+                                                </select>
+                                            </div>
+                                    </div>
+                                    <div class="col-6 px-2" id="room4InfantDiv">
+                                            <div class="form-group">
+                                                <label>Child Age -2 <small></small></label>
+                                                <select name="room4_hotel_infant" id="room4_hotel_infant" class="custom-select">
+                                                    <option value="0">0</option>
+                                                    <option value="1" <?php if($searched->room4_hotel_infant==1){echo "selected";}?>>1</option>
+                                                    <option value="2" <?php if($searched->room4_hotel_infant==2){echo "selected";}?>>2</option>
+                                                    <option value="3" <?php if($searched->room4_hotel_infant==3){echo "selected";}?>>3</option>
+                                                    <option value="4" <?php if($searched->room4_hotel_infant==4){echo "selected";}?>>4</option>
+                                                    <option value="5" <?php if($searched->room4_hotel_infant==5){echo "selected";}?>>5</option>
+                                                    <option value="6" <?php if($searched->room4_hotel_infant==6){echo "selected";}?>>6</option>
+                                                    <option value="7" <?php if($searched->room4_hotel_infant==7){echo "selected";}?>>7</option>
+                                                    <option value="8" <?php if($searched->room4_hotel_infant==8){echo "selected";}?>>8</option>
+                                                    <option value="9" <?php if($searched->room4_hotel_infant==9){echo "selected";}?>>9</option>
+                                                    <option value="10" <?php if($searched->room4_hotel_infant==10){echo "selected";}?>>10</option>
+                                                    <option value="11" <?php if($searched->room4_hotel_infant==11){echo "selected";}?>>11</option>
+                                                    <option value="12" <?php if($searched->room4_hotel_infant==12){echo "selected";}?>>12</option>
+                                                    <option value="13" <?php if($searched->room4_hotel_infant==13){echo "selected";}?>>13</option>
+                                                    <option value="14" <?php if($searched->room4_hotel_infant==14){echo "selected";}?>>14</option>
+                                                    <option value="15" <?php if($searched->room4_hotel_infant==15){echo "selected";}?>>15</option>
+                                                    <option value="16" <?php if($searched->room4_hotel_infant==16){echo "selected";}?>>16</option>
+                                                    <option value="16" <?php if($searched->room4_hotel_infant==17){echo "selected";}?>>17</option>
+                                                </select>
+                                            </div>
+                                    </div>
+                                    <!-- <br> -->
+
+                                    <div class="col-12 px-2">
+                                        <div class="form-group">
+                                            <input type="button" name="" id="hotel_buttonApply" class="btn btn-primary" onclick="hotel_traveller_selection();" value="Apply">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -680,22 +887,21 @@
 
 @section('script')
 <script>
-function myFunction(id) {
-    var divId="#div_description_"+id;
-    if ($(divId).height() == 20) {
-           $(divId).animate(
-               {height: "20px"});
-           }
-        else {
-           $(divId).animate({height: "100px"});
-           }
-  //var x = document.getElementById(divId);
-  //if (x.style.display === "none") {
-  //  x.style.display = "block";
-  //} else {
-  //  x.style.display = "none";
-  //}
-}
+    var hotelRoom=<?php echo $searched->hotel_room; ?>;
+    // alert(hotelRoom)
+    for (let index = hotelRoom; index < 4; index++) {
+        // alert(index);
+        var room2HeadingDiv ='room'+(index + 1)+'HeadingDiv';
+        // alert(room2HeadingDiv)
+        var room2AdultDiv='room'+(index + 1)+'AdultDiv';
+        var room2ChildDiv='room'+(index + 1)+'ChildDiv';
+        var room2InfantDiv='room'+(index + 1)+'InfantDiv';
+        $('#'+room2HeadingDiv).hide();
+        $('#'+room2AdultDiv).hide();
+        $('#'+room2ChildDiv).hide();
+        $('#'+room2InfantDiv).hide();
+        
+    }
 </script>
 <script>
     $( document ).ready(function() {
@@ -783,12 +989,147 @@ function myFunction(id) {
             });
         });
 
-        $("#hotel_room").change(function(){
+        $("#hotel_room").on('change',function(){
             // alert("hii");
             var hotel_room=$('#hotel_room').val();
-            var adults=$('#hotel_adults').val();
-            var children=$('#hotel_child').val();
-            var infant=$('#hotel_infant').val();
+            var adults=$('#room1_hotel_adults').val();
+            var children=$('#room1_hotel_child').val();
+            var infant=$('#room1_hotel_infant').val();
+            // alert(adults);
+            if(infant>0 && children>0){
+                var val=hotel_room+' Room, '+ adults+' Adults, '+children+' Yrs Child 1, '+infant+' Yrs Child 2';
+            }else if(infant>0){
+                var val=hotel_room+' Room, '+adults+' Adults, '+infant+' Yrs Child 2';
+            }else if(children>0){
+                var val=hotel_room+' Room, '+adults+' Adults, '+children+' Yrs Child 1';
+            }else{
+                var val=hotel_room+' Room, '+adults+' Adults';
+            }
+            $('#hotel_travel_details').removeAttr('placeholder');
+            $('#hotel_travel_details').attr('placeholder',val);
+
+
+            // div show hide function
+            if (hotel_room==1) {
+                //    alert(hotel_room) 
+                
+                // room2_hotel_adults
+                // room2_hotel_child
+                // room2_hotel_infant
+                $('#room2_hotel_adults').val('0');
+                $('#room2_hotel_child').val('0');
+                $('#room2_hotel_infant').val('0');
+                $('#room2AdultDiv').attr('data-room2-div','0');
+                $('#room2HeadingDiv').hide();
+                $('#room2AdultDiv').hide();
+                $('#room2ChildDiv').hide();
+                $('#room2InfantDiv').hide();
+
+                $('#room3_hotel_adults').val('0');
+                $('#room3_hotel_child').val('0');
+                $('#room3_hotel_infant').val('0');
+                $('#room3AdultDiv').attr('data-room3-div','0');
+                $('#room3HeadingDiv').hide();
+                $('#room3AdultDiv').hide();
+                $('#room3ChildDiv').hide();
+                $('#room3InfantDiv').hide();
+
+                $('#room4_hotel_adults').val('0');
+                $('#room4_hotel_child').val('0');
+                $('#room4_hotel_infant').val('0');
+                $('#room4AdultDiv').attr('data-room4-div','0');
+                $('#room4HeadingDiv').hide();
+                $('#room4AdultDiv').hide();
+                $('#room4ChildDiv').hide();
+                $('#room4InfantDiv').hide();
+            }
+            if (hotel_room==2) {
+                //    alert(hotel_room) 
+                
+
+                $('#room2_hotel_adults').val('1');
+                $('#room2AdultDiv').attr('data-room2-div','1');
+                $('#room2HeadingDiv').show();
+                $('#room2AdultDiv').show();
+                $('#room2ChildDiv').show();
+                $('#room2InfantDiv').show();
+
+                $('#room3_hotel_adults').val('0');
+                $('#room3_hotel_child').val('0');
+                $('#room3_hotel_infant').val('0');
+                $('#room3AdultDiv').attr('data-room3-div','0');
+                $('#room3HeadingDiv').hide();
+                $('#room3AdultDiv').hide();
+                $('#room3ChildDiv').hide();
+                $('#room3InfantDiv').hide();
+
+                $('#room4_hotel_adults').val('0');
+                $('#room4_hotel_child').val('0');
+                $('#room4_hotel_infant').val('0');
+                $('#room4AdultDiv').attr('data-room4-div','0');
+                $('#room4HeadingDiv').hide();
+                $('#room4AdultDiv').hide();
+                $('#room4ChildDiv').hide();
+                $('#room4InfantDiv').hide();
+            }
+            if (hotel_room==3) {
+                //    alert(hotel_room) 
+                $('#room2_hotel_adults').val('1');
+                $('#room2AdultDiv').attr('data-room2-div','1');
+                $('#room2HeadingDiv').show();
+                $('#room2AdultDiv').show();
+                $('#room2ChildDiv').show();
+                $('#room2InfantDiv').show();
+
+                $('#room4_hotel_adults').val('1');
+                $('#room3AdultDiv').attr('data-room3-div','1');
+                $('#room3HeadingDiv').show();
+                $('#room3AdultDiv').show();
+                $('#room3ChildDiv').show();
+                $('#room3InfantDiv').show();
+
+                $('#room4_hotel_adults').val('0');
+                $('#room4_hotel_child').val('0');
+                $('#room4_hotel_infant').val('0');
+                $('#room4AdultDiv').attr('data-room4-div','0');
+                $('#room4HeadingDiv').hide();
+                $('#room4AdultDiv').hide();
+                $('#room4ChildDiv').hide();
+                $('#room4InfantDiv').hide();
+            }
+            if (hotel_room==4) {
+                //    alert(hotel_room) 
+                $('#room2_hotel_adults').val('1');
+                $('#room2AdultDiv').attr('data-room2-div','1');
+                $('#room2HeadingDiv').show();
+                $('#room2AdultDiv').show();
+                $('#room2ChildDiv').show();
+                $('#room2InfantDiv').show();
+                
+                $('#room3_hotel_adults').val('1');
+                $('#room3AdultDiv').attr('data-room3-div','1');
+                $('#room3HeadingDiv').show();
+                $('#room3AdultDiv').show();
+                $('#room3ChildDiv').show();
+                $('#room3InfantDiv').show();
+
+                $('#room4_hotel_adults').val('1');
+                $('#room4AdultDiv').attr('data-room4-div','1');
+                $('#room4HeadingDiv').show();
+                $('#room4AdultDiv').show();
+                $('#room4ChildDiv').show();
+                $('#room4InfantDiv').show();
+            }
+
+            
+        });
+
+        $("#room1_hotel_adults").change(function(){
+            // alert("hii");
+            var hotel_room=$('#hotel_room').val();
+            var adults=$('#room1_hotel_adults').val();
+            var children=$('#room1_hotel_child').val();
+            var infant=$('#room1_hotel_infant').val();
             // alert(adults);
             if(infant>0 && children>0){
                 var val=hotel_room+' Room, '+ adults+' Adults, '+children+' Yrs Child 1, '+infant+' Yrs Child 2';
@@ -804,33 +1145,12 @@ function myFunction(id) {
             
         });
 
-        $("#hotel_adults").change(function(){
+        $("#room1_hotel_child").change(function(){
             // alert("hii");
             var hotel_room=$('#hotel_room').val();
-            var adults=$('#hotel_adults').val();
-            var children=$('#hotel_child').val();
-            var infant=$('#hotel_infant').val();
-            // alert(adults);
-            if(infant>0 && children>0){
-                var val=hotel_room+' Room, '+ adults+' Adults, '+children+' Yrs Child 1, '+infant+' Yrs Child 2';
-            }else if(infant>0){
-                var val=hotel_room+' Room, '+adults+' Adults, '+infant+' Yrs Child 2';
-            }else if(children>0){
-                var val=hotel_room+' Room, '+adults+' Adults, '+children+' Yrs Child 1';
-            }else{
-                var val=hotel_room+' Room, '+adults+' Adults';
-            }
-            $('#hotel_travel_details').removeAttr('placeholder');
-            $('#hotel_travel_details').attr('placeholder',val);
-            
-        });
-
-        $("#hotel_child").change(function(){
-            // alert("hii");
-            var hotel_room=$('#hotel_room').val();
-            var adults=$('#hotel_adults').val();
-            var children=$('#hotel_child').val();
-            var infant=$('#hotel_infant').val();
+            var adults=$('#room1_hotel_adults').val();
+            var children=$('#room1_hotel_child').val();
+            var infant=$('#room1_hotel_infant').val();
             // alert(adults);
             if(infant>0 && children>0){
                 var val=hotel_room+' Room, '+adults+' Adults, '+children+' Yrs Child 1, '+infant+' Yrs Child 2';
@@ -845,12 +1165,12 @@ function myFunction(id) {
             $('#hotel_travel_details').attr('placeholder',val);
             
         });
-        $("#hotel_infant").change(function(){
+        $("#room1_hotel_infant").change(function(){
             // alert("hii");
             var hotel_room=$('#hotel_room').val();
-            var adults=$('#hotel_adults').val();
-            var children=$('#hotel_child').val();
-            var infant=$('#hotel_infant').val();
+            var adults=$('#room1_hotel_adults').val();
+            var children=$('#room1_hotel_child').val();
+            var infant=$('#room1_hotel_infant').val();
             // alert(adults);
             if(infant>0 && children>0){
                 var val=hotel_room+' Room, '+adults+' Adults, '+children+' Yrs Child 1, '+infant+' Yrs Child 2';
@@ -865,6 +1185,7 @@ function myFunction(id) {
             $('#hotel_travel_details').attr('placeholder',val);
             
         });
+        
 
         $('#hotel_submit').click(function(){
             // alert("hotel_submit");
@@ -872,10 +1193,40 @@ function myFunction(id) {
             var city_name=$('#city_name').val();
             var check_in=$('#check_in').val();
             var check_out=$('#check_out').val();
+            var room2_adult=$('#room2AdultDiv').attr('data-room2-div');
+            var room3_adult=$('#room3AdultDiv').attr('data-room3-div');
+            var room4_adult=$('#room4AdultDiv').attr('data-room4-div');
+            // alert(room2_adult);
+            if (room2_adult==1) {
+                var room2_hotel_adults=$('#room2_hotel_adults').val();
+                // alert(room2_hotel_adults)
+                if(room2_hotel_adults==0){
+                    alert("Please select at least 1 adult in room 2");
+                    return false;
+                }
+            }
+            if (room3_adult==1) {
+                var room3_hotel_adults=$('#room3_hotel_adults').val();
+                // alert(room2_hotel_adults)
+                if(room3_hotel_adults==0){
+                    alert("Please select at least 1 adult in room 3");
+                    return false;
+                }
+            }
+            if (room4_adult==1) {
+                var room4_hotel_adults=$('#room4_hotel_adults').val();
+                // alert(room2_hotel_adults)
+                if(room4_hotel_adults==0){
+                    alert("Please select at least 1 adult in room 4");
+                    return false;
+                }
+            }
             if(city_name!='' && check_in!='' && check_out!='' ){
                 $('#loading').show();
             }
         });
+
+
 
         $('#hotelNameFilter').on('change',function(){
             // alert("hii");

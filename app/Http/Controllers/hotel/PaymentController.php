@@ -212,8 +212,7 @@ class PaymentController extends Controller
                     </Head>
                     <Body>
                         <CheckInDates>
-                            <CheckInDateStart>2021-09-02</CheckInDateStart>
-                            <CheckInDateEnd>2021-09-04</CheckInDateEnd>
+                            
                         </CheckInDates>
                     </Body>
                 </Request>';

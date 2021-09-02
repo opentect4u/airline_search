@@ -28,10 +28,7 @@ class TestController extends Controller
                         <RequestType>HotelBookingDetails</RequestType>
                     </Head>
                     <Body>
-                        <CheckInDates>
-                            <CheckInDateStart>2021-09-02</CheckInDateStart>
-                            <CheckInDateEnd>2021-09-04</CheckInDateEnd>
-                        </CheckInDates>
+                        
                     </Body>
                 </Request>';
 
