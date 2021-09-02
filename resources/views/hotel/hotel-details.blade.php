@@ -94,32 +94,29 @@
             <div class="col-md-4">
                 <div class="card">
                     <!-- <del class="text-muted"><i class="las la-pound-sign"></i>34.50/-</del> -->
-                    <!-- @foreach($options[0] as $option)
-                    {{print_r($option)}}
-                    @endforeach -->
-                    <!-- {{$options[0]['BoardType']}} -->
-                    <h4 class="mb-0 h3 font-weight-600"><span class="text-danger"><i class="las la-pound-sign"></i>{{$options[0]['TotalPrice']}}</span></h4>
+                    
+                    <h4 class="mb-0 h3 font-weight-600"><span class="text-danger"><i class="las la-pound-sign"></i>{{ isset($options[0]['TotalPrice'])?$options[0]['TotalPrice']:$options['TotalPrice']}}</span></h4>
                     <!-- <small>Per Room / Per Night</small> -->
-                    <h5 class="mb-0"><small class="text-muted"><i class="las la-bed"></i> {{$options[0]['BoardType']}}</small></h5>
+                    <h5 class="mb-0"><small class="text-muted"><i class="las la-bed"></i> {{ isset($options[0]['BoardType'])?$options[0]['BoardType']:$options['BoardType']}}</small></h5>
                     <!-- <h5 class="mb-0"><small class="text-muted"><i class="las la-bed"></i> Executive Room</small></h5> -->
                     <hr>
                     <div class="row align-items-center">
                         <div class="col-6 border-right"><p class="m-0 text-dark">Check In <br><span class="font-weight-600">{{ Carbon\Carbon::parse($searched->check_in)->format('d/m/Y')}}</span></p></div>
                         <div class="col-6"><p class="m-0 text-dark">Check Out <br><span class="font-weight-600">{{ Carbon\Carbon::parse($searched->check_out)->format('d/m/Y')}}</span></p></div>
                     </div><hr>
-                    <!-- <p class="text-dark">Per Room / Per Night <span class="float-right font-weight-600"><i class="las la-pound-sign"></i>{{$options[0]['TotalPrice']}}</span></p> -->
+                    <!-- <p class="text-dark">Per Room / Per Night <span class="float-right font-weight-600"><i class="las la-pound-sign"></i></span></p> -->
                       <!-- {{ \Carbon\Carbon::parse($searched->check_in)->diff(\Carbon\Carbon::parse($searched->check_out))->format('%d') }} -->
-                    <p class="text-dark">{{$searched->hotel_room}} Room x {{ \Carbon\Carbon::parse($searched->check_in)->diff(\Carbon\Carbon::parse($searched->check_out))->format('%d') }} Nights <span class="float-right font-weight-600"><i class="las la-pound-sign"></i>{{$options[0]['TotalPrice']}}</span></p><hr>
+                    <p class="text-dark">{{$searched->hotel_room}} Room x {{ \Carbon\Carbon::parse($searched->check_in)->diff(\Carbon\Carbon::parse($searched->check_out))->format('%d') }} Nights <span class="float-right font-weight-600"><i class="las la-pound-sign"></i>{{ isset($options[0]['TotalPrice'])?$options[0]['TotalPrice']:$options['TotalPrice']}}</span></p><hr>
                     <h4 class="mb-3 font-weight-600">Total
-                    <span class="text-danger float-right"><i class="las la-pound-sign"></i>{{$options[0]['TotalPrice']}}</span></span>
+                    <span class="text-danger float-right"><i class="las la-pound-sign"></i>{{isset($options[0]['TotalPrice'])?$options[0]['TotalPrice']:$options['TotalPrice']}}</span></span>
                     </h4>
                     <!-- <a href="guest-details.php" class="btn btn-primary w-100">Book Now</a> -->
                     <form action="{{route('guestdetails')}}" method="POST">
                         @csrf
                         <input type="text" name="hotel_id" value="{{$hotelDetails[0]['HotelId']}}" hidden>
                         <!-- <input type="text" name="currency" value="GBP" hidden> -->
-                        <input type="text" name="option" value="{{json_encode($options[0])}}" hidden>
-                        <input type="text" name="price" value="{{$options[0]['TotalPrice']}}" hidden>
+                        <input type="text" name="option" value="{{json_encode(isset($options[0])?$options[0]:$options)}}" hidden>
+                        <input type="text" name="price" value="{{isset($options[0]['TotalPrice'])?$options[0]['TotalPrice']:$options['TotalPrice']}}" hidden>
                         <input type="text" name="check_in" value="{{$searched->check_in}}" hidden>
                         <input type="text" name="check_out" value="{{$searched->check_out}}" hidden>
                         <input type="text" name="city_name" value="{{$searched->city_name}}" hidden>
@@ -237,6 +234,62 @@
                     </ul>
                 </div>
                 <div id="rooms-rates" class="mb-5">
+                    @if(isset($options['BoardType']))
+                    <div class="card card-body">
+                        <div class="row">
+                            <!-- {{json_encode($options)}} -->
+                            <div class="col-md-8">
+                                <h4>{{$options['BoardType']}}</h4>
+                                <span class="badge badge-warning">Partially Cancellable</span>
+                                
+                                <ul class="amenities-ul">
+                                    <!-- <li>After 03/09/2021 17:59, Cancellation charge of GBP 40.14 will be applied.</li> -->
+                                    <!-- <li>Unlimited usage of internet <a href="#">+ 7 More</a></li> -->
+                                </ul>
+                                <!-- <ul class="amenities-ul">
+                                    <li>Accommodation only</li>
+                                    <li>Unlimited usage of internet <a href="#">+ 7 More</a></li>
+                                </ul> -->
+                            </div>
+                            <div class="col-md-4 border-left">
+                                <!-- <del class="text-muted"><i class="las la-pound-sign"></i>30.00/night</del><br> -->
+                                <h4 class="mb-0 h3 font-weight-600"><span class="text-danger"><i class="las la-pound-sign"></i>{{$options['TotalPrice']}}</span></h4>
+                                <!-- <small>Per Room / Per Night</small><br> -->
+                                <!-- <a href="guest-details.php" class="btn btn-primary mt-2">Book Now</a> -->
+                                <form action="{{route('guestdetails')}}" method="POST">
+                                    @csrf
+                                    <input type="text" name="hotel_id" value="{{$hotelDetails[0]['HotelId']}}" hidden>
+                                    <!-- <input type="text" name="currency" value="GBP" hidden> -->
+                                    <input type="text" name="option" value="{{json_encode($options)}}" hidden>
+                                    <input type="text" name="price" value="{{$options['TotalPrice']}}" hidden>
+                                    <input type="text" name="check_in" value="{{$searched->check_in}}" hidden>
+                                    <input type="text" name="check_out" value="{{$searched->check_out}}" hidden>
+                                    <input type="text" name="city_name" value="{{$searched->city_name}}" hidden>
+                                    <input type="text" name="hotel_room" value="{{$searched->hotel_room}}" hidden>
+
+                                    <input type="text" name="room1_hotel_adults" value="{{$searched->room1_hotel_adults}}" hidden>
+                                    <input type="text" name="room1_hotel_child" value="{{$searched->room1_hotel_child}}" hidden>
+                                    <input type="text" name="room1_hotel_infant" value="{{$searched->room1_hotel_infant}}" hidden>
+
+                                    <input type="text" name="room2_hotel_adults" value="{{$searched->room2_hotel_adults}}" hidden>
+                                    <input type="text" name="room2_hotel_child" value="{{$searched->room2_hotel_child}}" hidden>
+                                    <input type="text" name="room2_hotel_infant" value="{{$searched->room2_hotel_infant}}" hidden>
+
+                                    <input type="text" name="room3_hotel_adults" value="{{$searched->room3_hotel_adults}}" hidden>
+                                    <input type="text" name="room3_hotel_child" value="{{$searched->room3_hotel_child}}" hidden>
+                                    <input type="text" name="room3_hotel_infant" value="{{$searched->room3_hotel_infant}}" hidden>
+
+                                    <input type="text" name="room4_hotel_adults" value="{{$searched->room4_hotel_adults}}" hidden>
+                                    <input type="text" name="room4_hotel_child" value="{{$searched->room4_hotel_child}}" hidden>
+                                    <input type="text" name="room4_hotel_infant" value="{{$searched->room4_hotel_infant}}" hidden>
+                                        
+                                    <button type="submit" class="btn btn-primary mt-2" onclick="showLoder();">Book Now</button>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                    @else
                     @foreach($options as $option)
                     <div class="card card-body">
                         <div class="row">
@@ -308,6 +361,7 @@
                         </div>
                     </div>
                     @endforeach
+                    @endif
 
                     <!-- <div class="card card-body">
                         <div class="row">

@@ -62,11 +62,18 @@ class HotelDetailsController extends Controller
         }
         // return $hotelDetails;
         $xmloptions='';
-        foreach($Options as $Option){
-            $xmloptions.='<OptionId>'.$Option['OptionId'].'</OptionId>';
-            // echo $Option['OptionId'];
-            // echo "<br/>";
+        if(isset($Options['OptionId'])){
+            // $xmloptions='<OptionId>'.$Options['OptionId'].'</OptionId>';
+            $Optionsss=$Options['OptionId'];
+            // return $Options['OptionId'];
+        }else{
+            $Optionsss=$Options[0]['OptionId'];
         }
+        // foreach($Options as $Option){
+        //     $xmloptions.='<OptionId>'.$Option['OptionId'].'</OptionId>';
+        //     // echo $Option['OptionId'];
+        //     // echo "<br/>";
+        // }
         // return $xmloptions;
         
         $xml1 = '<?xml version="1.0" encoding="UTF-8"?>
@@ -78,7 +85,7 @@ class HotelDetailsController extends Controller
                         
                     </Head>
                     <Body>
-                        <OptionId>'.$Options[0]['OptionId'].'</OptionId>
+                        <OptionId>'.$Optionsss.'</OptionId>
                     </Body>
                 </Request>';
 
