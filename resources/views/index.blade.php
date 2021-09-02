@@ -229,7 +229,7 @@
                                 <div class="col-6 px-2">
                                     <div class="form-group">
                                         <label>Adults <small>(18+ yrs)</small></label>
-                                        <select name="hotel_adults" id="hotel_adults" class="custom-select">
+                                        <select name="room1_hotel_adults" id="room1_hotel_adults" class="custom-select">
                                             <option selected>1</option>
                                             <option value="2">2</option>
                                             <option value="3">3</option>
@@ -240,7 +240,7 @@
                                 <div class="col-6 px-2">
                                     <div class="form-group">
                                         <label>Child Age -1<small></small></label>
-                                        <select name="hotel_child" id="hotel_child" class="custom-select">
+                                        <select name="room1_hotel_child" id="room1_hotel_child" class="custom-select">
                                             <option >0</option>
                                             <option value="1">1</option>
                                             <option value="2">2</option>
@@ -265,7 +265,7 @@
                                 <div class="col-6 px-2">
                                     <div class="form-group">
                                         <label>Child Age -2 <small></small></label>
-                                        <select name="hotel_infant" id="hotel_infant" class="custom-select">
+                                        <select name="room1_hotel_infant" id="room1_hotel_infant" class="custom-select">
                                             <option >0</option>
                                             <option value="1">1</option>
                                             <option value="2">2</option>
@@ -288,68 +288,210 @@
                                     </div>
                                 </div>
                                 <!-- <hr> -->
-                                <!-- <div class="col-6 px-2">
+                                <div class="col-12 px-2" id="room2HeadingDiv">
                                     <div class="form-group">
-                                        <label>Adults <small>(18+ yrs)</small></label>
-                                        <select name="hotel_adults" id="hotel_adults" class="custom-select">
-                                            <option selected>1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                        </select>
+                                        Room 2 Details
                                     </div>
                                 </div>
-                                <div class="col-6 px-2">
+                                <div class="col-6 px-2" id="room2AdultDiv" data-room2-div="0">
+                                        <div class="form-group">
+                                            <label>Adults <small>(18+ yrs)</small></label>
+                                            <select name="room2_hotel_adults" id="room2_hotel_adults" class="custom-select">
+                                                <option value="0">Adults</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                            </select>
+                                        </div>
+                                </div>
+                                <div class="col-6 px-2" id="room2ChildDiv">
+                                        <div class="form-group">
+                                            <label>Child Age -1<small></small></label>
+                                            <select name="room2_hotel_child" id="room2_hotel_child" class="custom-select">
+                                                <option >0</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                                <option value="9">9</option>
+                                                <option value="10">10</option>
+                                                <option value="11">11</option>
+                                                <option value="12">12</option>
+                                                <option value="13">13</option>
+                                                <option value="14">14</option>
+                                                <option value="15">15</option>
+                                                <option value="16">16</option>
+                                                <option value="16">17</option>
+                                            </select>
+                                        </div>
+                                </div>
+                                <div class="col-6 px-2" id="room2InfantDiv">
+                                        <div class="form-group">
+                                            <label>Child Age -2 <small></small></label>
+                                            <select name="room2_hotel_infant" id="room2_hotel_infant" class="custom-select">
+                                                <option >0</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                                <option value="9">9</option>
+                                                <option value="10">10</option>
+                                                <option value="11">11</option>
+                                                <option value="12">12</option>
+                                                <option value="13">13</option>
+                                                <option value="14">14</option>
+                                                <option value="15">15</option>
+                                                <option value="16">16</option>
+                                                <option value="16">17</option>
+                                            </select>
+                                        </div>
+                                </div>
+                                <!-- <br> -->
+                                <div class="col-12 px-2" id="room3HeadingDiv">
                                     <div class="form-group">
-                                        <label>Child Age -1<small></small></label>
-                                        <select name="hotel_child" id="hotel_child" class="custom-select">
-                                            <option >0</option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
-                                            <option value="6">6</option>
-                                            <option value="7">7</option>
-                                            <option value="8">8</option>
-                                            <option value="9">9</option>
-                                            <option value="10">10</option>
-                                            <option value="11">11</option>
-                                            <option value="12">12</option>
-                                            <option value="13">13</option>
-                                            <option value="14">14</option>
-                                            <option value="15">15</option>
-                                            <option value="16">16</option>
-                                            <option value="16">17</option>
-                                        </select>
+                                        Room 3 Details
                                     </div>
                                 </div>
-                                <div class="col-6 px-2">
+                                <div class="col-6 px-2" id="room3AdultDiv" data-room3-div="0">
+                                        <div class="form-group">
+                                            <label>Adults <small>(18+ yrs)</small></label>
+                                            <select name="room3_hotel_adults" id="room3_hotel_adults" class="custom-select">
+                                                <option value="0">Adults</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                            </select>
+                                        </div>
+                                </div>
+                                <div class="col-6 px-2" id="room3ChildDiv">
+                                        <div class="form-group">
+                                            <label>Child Age -1<small></small></label>
+                                            <select name="room3_hotel_child" id="room3_hotel_child" class="custom-select">
+                                                <option >0</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                                <option value="9">9</option>
+                                                <option value="10">10</option>
+                                                <option value="11">11</option>
+                                                <option value="12">12</option>
+                                                <option value="13">13</option>
+                                                <option value="14">14</option>
+                                                <option value="15">15</option>
+                                                <option value="16">16</option>
+                                                <option value="16">17</option>
+                                            </select>
+                                        </div>
+                                </div>
+                                <div class="col-6 px-2" id="room3InfantDiv">
+                                        <div class="form-group">
+                                            <label>Child Age -2 <small></small></label>
+                                            <select name="room3_hotel_infant" id="room3_hotel_infant" class="custom-select">
+                                                <option >0</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                                <option value="9">9</option>
+                                                <option value="10">10</option>
+                                                <option value="11">11</option>
+                                                <option value="12">12</option>
+                                                <option value="13">13</option>
+                                                <option value="14">14</option>
+                                                <option value="15">15</option>
+                                                <option value="16">16</option>
+                                                <option value="16">17</option>
+                                            </select>
+                                        </div>
+                                </div>
+                                <!-- <br> -->
+                                <div class="col-12 px-2" id="room4HeadingDiv">
                                     <div class="form-group">
-                                        <label>Child Age -2 <small></small></label>
-                                        <select name="hotel_infant" id="hotel_infant" class="custom-select">
-                                            <option >0</option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
-                                            <option value="6">6</option>
-                                            <option value="7">7</option>
-                                            <option value="8">8</option>
-                                            <option value="9">9</option>
-                                            <option value="10">10</option>
-                                            <option value="11">11</option>
-                                            <option value="12">12</option>
-                                            <option value="13">13</option>
-                                            <option value="14">14</option>
-                                            <option value="15">15</option>
-                                            <option value="16">16</option>
-                                            <option value="16">17</option>
-                                        </select>
+                                        Room 4 Details
                                     </div>
                                 </div>
-                                <br> -->
+                                <div class="col-6 px-2" id="room4AdultDiv" data-room4-div="0">
+                                        <div class="form-group">
+                                            <label>Adults <small>(18+ yrs)</small></label>
+                                            <select name="room4_hotel_adults" id="room4_hotel_adults" class="custom-select">
+                                                <option value="0">Adults</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                            </select>
+                                        </div>
+                                </div>
+                                <div class="col-6 px-2" id="room4ChildDiv">
+                                        <div class="form-group">
+                                            <label>Child Age -1<small></small></label>
+                                            <select name="room4_hotel_child" id="room4_hotel_child" class="custom-select">
+                                                <option >0</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                                <option value="9">9</option>
+                                                <option value="10">10</option>
+                                                <option value="11">11</option>
+                                                <option value="12">12</option>
+                                                <option value="13">13</option>
+                                                <option value="14">14</option>
+                                                <option value="15">15</option>
+                                                <option value="16">16</option>
+                                                <option value="16">17</option>
+                                            </select>
+                                        </div>
+                                </div>
+                                <div class="col-6 px-2" id="room4InfantDiv">
+                                        <div class="form-group">
+                                            <label>Child Age -2 <small></small></label>
+                                            <select name="room4_hotel_infant" id="room4_hotel_infant" class="custom-select">
+                                                <option >0</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                                <option value="9">9</option>
+                                                <option value="10">10</option>
+                                                <option value="11">11</option>
+                                                <option value="12">12</option>
+                                                <option value="13">13</option>
+                                                <option value="14">14</option>
+                                                <option value="15">15</option>
+                                                <option value="16">16</option>
+                                                <option value="16">17</option>
+                                            </select>
+                                        </div>
+                                </div>
+                                <!-- <br> -->
                                 <div class="col-12 px-2">
                                     <div class="form-group">
                                         <input type="button" name="" id="hotel_buttonApply" class="btn btn-primary" onclick="hotel_traveller_selection();" value="Apply">
@@ -1086,12 +1228,165 @@
             });
         });
 
-        $("#hotel_room").change(function(){
+        // room4HeadingDiv
+        // room2AdultDiv
+        // room2ChildDiv
+        // room2InfantDiv
+        $('#room2HeadingDiv').hide();
+        $('#room2AdultDiv').hide();
+        $('#room2ChildDiv').hide();
+        $('#room2InfantDiv').hide();
+
+        $('#room3HeadingDiv').hide();
+        $('#room3AdultDiv').hide();
+        $('#room3ChildDiv').hide();
+        $('#room3InfantDiv').hide();
+
+        $('#room4HeadingDiv').hide();
+        $('#room4AdultDiv').hide();
+        $('#room4ChildDiv').hide();
+        $('#room4InfantDiv').hide();
+        $("#hotel_room").on('change',function(){
             // alert("hii");
             var hotel_room=$('#hotel_room').val();
-            var adults=$('#hotel_adults').val();
-            var children=$('#hotel_child').val();
-            var infant=$('#hotel_infant').val();
+            var adults=$('#room1_hotel_adults').val();
+            var children=$('#room1_hotel_child').val();
+            var infant=$('#room1_hotel_infant').val();
+            // alert(adults);
+            if(infant>0 && children>0){
+                var val=hotel_room+' Room, '+ adults+' Adults, '+children+' Yrs Child 1, '+infant+' Yrs Child 2';
+            }else if(infant>0){
+                var val=hotel_room+' Room, '+adults+' Adults, '+infant+' Yrs Child 2';
+            }else if(children>0){
+                var val=hotel_room+' Room, '+adults+' Adults, '+children+' Yrs Child 1';
+            }else{
+                var val=hotel_room+' Room, '+adults+' Adults';
+            }
+            $('#hotel_travel_details').removeAttr('placeholder');
+            $('#hotel_travel_details').attr('placeholder',val);
+
+
+            // div show hide function
+            if (hotel_room==1) {
+                //    alert(hotel_room) 
+                
+                // room2_hotel_adults
+                // room2_hotel_child
+                // room2_hotel_infant
+                $('#room2_hotel_adults').val('0');
+                $('#room2_hotel_child').val('0');
+                $('#room2_hotel_infant').val('0');
+                $('#room2AdultDiv').attr('data-room2-div','0');
+                $('#room2HeadingDiv').hide();
+                $('#room2AdultDiv').hide();
+                $('#room2ChildDiv').hide();
+                $('#room2InfantDiv').hide();
+
+                $('#room3_hotel_adults').val('0');
+                $('#room3_hotel_child').val('0');
+                $('#room3_hotel_infant').val('0');
+                $('#room3AdultDiv').attr('data-room3-div','0');
+                $('#room3HeadingDiv').hide();
+                $('#room3AdultDiv').hide();
+                $('#room3ChildDiv').hide();
+                $('#room3InfantDiv').hide();
+
+                $('#room4_hotel_adults').val('0');
+                $('#room4_hotel_child').val('0');
+                $('#room4_hotel_infant').val('0');
+                $('#room4AdultDiv').attr('data-room4-div','0');
+                $('#room4HeadingDiv').hide();
+                $('#room4AdultDiv').hide();
+                $('#room4ChildDiv').hide();
+                $('#room4InfantDiv').hide();
+            }
+            if (hotel_room==2) {
+                //    alert(hotel_room) 
+                
+
+                $('#room2_hotel_adults').val('1');
+                $('#room2AdultDiv').attr('data-room2-div','1');
+                $('#room2HeadingDiv').show();
+                $('#room2AdultDiv').show();
+                $('#room2ChildDiv').show();
+                $('#room2InfantDiv').show();
+
+                $('#room3_hotel_adults').val('0');
+                $('#room3_hotel_child').val('0');
+                $('#room3_hotel_infant').val('0');
+                $('#room3AdultDiv').attr('data-room3-div','0');
+                $('#room3HeadingDiv').hide();
+                $('#room3AdultDiv').hide();
+                $('#room3ChildDiv').hide();
+                $('#room3InfantDiv').hide();
+
+                $('#room4_hotel_adults').val('0');
+                $('#room4_hotel_child').val('0');
+                $('#room4_hotel_infant').val('0');
+                $('#room4AdultDiv').attr('data-room4-div','0');
+                $('#room4HeadingDiv').hide();
+                $('#room4AdultDiv').hide();
+                $('#room4ChildDiv').hide();
+                $('#room4InfantDiv').hide();
+            }
+            if (hotel_room==3) {
+                //    alert(hotel_room) 
+                $('#room2_hotel_adults').val('1');
+                $('#room2AdultDiv').attr('data-room2-div','1');
+                $('#room2HeadingDiv').show();
+                $('#room2AdultDiv').show();
+                $('#room2ChildDiv').show();
+                $('#room2InfantDiv').show();
+
+                $('#room4_hotel_adults').val('1');
+                $('#room3AdultDiv').attr('data-room3-div','1');
+                $('#room3HeadingDiv').show();
+                $('#room3AdultDiv').show();
+                $('#room3ChildDiv').show();
+                $('#room3InfantDiv').show();
+
+                $('#room4_hotel_adults').val('0');
+                $('#room4_hotel_child').val('0');
+                $('#room4_hotel_infant').val('0');
+                $('#room4AdultDiv').attr('data-room4-div','0');
+                $('#room4HeadingDiv').hide();
+                $('#room4AdultDiv').hide();
+                $('#room4ChildDiv').hide();
+                $('#room4InfantDiv').hide();
+            }
+            if (hotel_room==4) {
+                //    alert(hotel_room) 
+                $('#room2_hotel_adults').val('1');
+                $('#room2AdultDiv').attr('data-room2-div','1');
+                $('#room2HeadingDiv').show();
+                $('#room2AdultDiv').show();
+                $('#room2ChildDiv').show();
+                $('#room2InfantDiv').show();
+                
+                $('#room3_hotel_adults').val('1');
+                $('#room3AdultDiv').attr('data-room3-div','1');
+                $('#room3HeadingDiv').show();
+                $('#room3AdultDiv').show();
+                $('#room3ChildDiv').show();
+                $('#room3InfantDiv').show();
+
+                $('#room4_hotel_adults').val('1');
+                $('#room4AdultDiv').attr('data-room4-div','1');
+                $('#room4HeadingDiv').show();
+                $('#room4AdultDiv').show();
+                $('#room4ChildDiv').show();
+                $('#room4InfantDiv').show();
+            }
+
+            
+        });
+
+        $("#room1_hotel_adults").change(function(){
+            // alert("hii");
+            var hotel_room=$('#hotel_room').val();
+            var adults=$('#room1_hotel_adults').val();
+            var children=$('#room1_hotel_child').val();
+            var infant=$('#room1_hotel_infant').val();
             // alert(adults);
             if(infant>0 && children>0){
                 var val=hotel_room+' Room, '+ adults+' Adults, '+children+' Yrs Child 1, '+infant+' Yrs Child 2';
@@ -1107,33 +1402,12 @@
             
         });
 
-        $("#hotel_adults").change(function(){
+        $("#room1_hotel_child").change(function(){
             // alert("hii");
             var hotel_room=$('#hotel_room').val();
-            var adults=$('#hotel_adults').val();
-            var children=$('#hotel_child').val();
-            var infant=$('#hotel_infant').val();
-            // alert(adults);
-            if(infant>0 && children>0){
-                var val=hotel_room+' Room, '+ adults+' Adults, '+children+' Yrs Child 1, '+infant+' Yrs Child 2';
-            }else if(infant>0){
-                var val=hotel_room+' Room, '+adults+' Adults, '+infant+' Yrs Child 2';
-            }else if(children>0){
-                var val=hotel_room+' Room, '+adults+' Adults, '+children+' Yrs Child 1';
-            }else{
-                var val=hotel_room+' Room, '+adults+' Adults';
-            }
-            $('#hotel_travel_details').removeAttr('placeholder');
-            $('#hotel_travel_details').attr('placeholder',val);
-            
-        });
-
-        $("#hotel_child").change(function(){
-            // alert("hii");
-            var hotel_room=$('#hotel_room').val();
-            var adults=$('#hotel_adults').val();
-            var children=$('#hotel_child').val();
-            var infant=$('#hotel_infant').val();
+            var adults=$('#room1_hotel_adults').val();
+            var children=$('#room1_hotel_child').val();
+            var infant=$('#room1_hotel_infant').val();
             // alert(adults);
             if(infant>0 && children>0){
                 var val=hotel_room+' Room, '+adults+' Adults, '+children+' Yrs Child 1, '+infant+' Yrs Child 2';
@@ -1148,12 +1422,12 @@
             $('#hotel_travel_details').attr('placeholder',val);
             
         });
-        $("#hotel_infant").change(function(){
+        $("#room1_hotel_infant").change(function(){
             // alert("hii");
             var hotel_room=$('#hotel_room').val();
-            var adults=$('#hotel_adults').val();
-            var children=$('#hotel_child').val();
-            var infant=$('#hotel_infant').val();
+            var adults=$('#room1_hotel_adults').val();
+            var children=$('#room1_hotel_child').val();
+            var infant=$('#room1_hotel_infant').val();
             // alert(adults);
             if(infant>0 && children>0){
                 var val=hotel_room+' Room, '+adults+' Adults, '+children+' Yrs Child 1, '+infant+' Yrs Child 2';
@@ -1176,6 +1450,34 @@
             var city_name=$('#city_name').val();
             var check_in=$('#check_in').val();
             var check_out=$('#check_out').val();
+            var room2_adult=$('#room2AdultDiv').attr('data-room2-div');
+            var room3_adult=$('#room3AdultDiv').attr('data-room3-div');
+            var room4_adult=$('#room4AdultDiv').attr('data-room4-div');
+            // alert(room2_adult);
+            if (room2_adult==1) {
+                var room2_hotel_adults=$('#room2_hotel_adults').val();
+                // alert(room2_hotel_adults)
+                if(room2_hotel_adults==0){
+                    alert("Please select at least 1 adult in room 2");
+                    return false;
+                }
+            }
+            if (room3_adult==1) {
+                var room3_hotel_adults=$('#room3_hotel_adults').val();
+                // alert(room2_hotel_adults)
+                if(room3_hotel_adults==0){
+                    alert("Please select at least 1 adult in room 3");
+                    return false;
+                }
+            }
+            if (room4_adult==1) {
+                var room4_hotel_adults=$('#room4_hotel_adults').val();
+                // alert(room2_hotel_adults)
+                if(room4_hotel_adults==0){
+                    alert("Please select at least 1 adult in room 4");
+                    return false;
+                }
+            }
             if(city_name!='' && check_in!='' && check_out!='' ){
                 $('#loading').show();
             }

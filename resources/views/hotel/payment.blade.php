@@ -57,18 +57,27 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        @for($i=1; $i <=$searched->hotel_adults; $i++ )
-                                        <input type="hidden" name="first_name{{$i}}" id="first_name{{$i}}" value="<?php  $first_name='first_name'.$i; echo $searched->$first_name;?>" />
-                                        <input type="hidden" name="last_name{{$i}}" id="last_name{{$i}}" value="<?php  $last_name='last_name'.$i; echo $searched->$last_name;?>" />
+                                        @for($j=1; $j <=$searched->hotel_room; $j++)
+                                            <?php 
+                                                $var_adult='room'.$j.'_hotel_adults';
+                                                $var_child='room'.$j.'_hotel_child';
+                                                $var_infant='room'.$j.'_hotel_infant';
+                                                // room1_first_name1
+                                            ?>
+                                            <!-- {{$searched->$var_adult}} -->
+                                            @for($i=1; $i <=$searched->$var_adult; $i++ )
+                                            <input type="hidden" name="room{{$j}}_first_name{{$i}}" id="room{{$j}}_first_name{{$i}}" value="<?php  $first_name='room'.$j.'_first_name'.$i; echo $searched->$first_name;?>" />
+                                            <input type="hidden" name="room{{$j}}_last_name{{$i}}" id="room{{$j}}_last_name{{$i}}" value="<?php  $last_name='room'.$j.'_last_name'.$i; echo $searched->$last_name;?>" />
+                                            @endfor
+                                            @if($searched->$var_child > 0 )
+                                            <input type="hidden" name="room{{$j}}_child1_first_name" id="room{{$j}}_child1_first_name" value="<?php $child_first='room'.$j.'_child1_first_name';  echo $searched->$child_first;?>" />
+                                            <input type="hidden" name="room{{$j}}_child1_last_name" id="room{{$j}}_child1_last_name" value="<?php $child_last='room'.$j.'_child1_last_name';  echo $searched->$child_last;?>" />
+                                            @endif
+                                            @if($searched->$var_infant > 0 )
+                                            <input type="hidden" name="room{{$j}}_child2_first_name" id="room{{$j}}_child2_first_name" value="<?php $child2_first='room'.$j.'_child2_first_name'; echo $searched->$child2_first;?>" />
+                                            <input type="hidden" name="room{{$j}}_child2_last_name" id="room{{$j}}_child2_last_name" value="<?php $child2_last='room'.$j.'_child2_last_name';  echo $searched->$child2_last;?>" />
+                                            @endif
                                         @endfor
-                                        @if($searched->hotel_child > 0 )
-                                        <input type="hidden" name="child1_first_name" id="child1_first_name" value="<?php   echo $searched->child1_first_name;?>" />
-                                        <input type="hidden" name="child1_last_name" id="child1_last_name" value="<?php   echo $searched->child1_last_name;?>" />
-                                        @endif
-                                        @if($searched->hotel_infant > 0 )
-                                        <input type="hidden" name="child2_first_name" id="child2_first_name" value="<?php  echo $searched->child2_first_name;?>" />
-                                        <input type="hidden" name="child2_last_name" id="child2_last_name" value="<?php   echo $searched->child2_last_name;?>" />
-                                        @endif
 
                                         <input type="text" name="post_code" value="{{$searched->post_code}}" hidden>
                                         <input type="text" name="add_1" value="{{$searched->add_1}}" hidden>
@@ -88,9 +97,22 @@
                                         <input type="text" name="check_out" value="{{$searched->check_out}}" hidden>
                                         <input type="text" name="city_name" value="{{$searched->city_name}}" hidden>
                                         <input type="text" name="hotel_room" value="{{$searched->hotel_room}}" hidden>
-                                        <input type="text" name="hotel_adults" value="{{$searched->hotel_adults}}" hidden>
-                                        <input type="text" name="hotel_child" value="{{$searched->hotel_child}}" hidden>
-                                        <input type="text" name="hotel_infant" value="{{$searched->hotel_infant}}" hidden>
+
+                                        <input type="text" name="room1_hotel_adults" value="{{$searched->room1_hotel_adults}}" hidden>
+                                        <input type="text" name="room1_hotel_child" value="{{$searched->room1_hotel_child}}" hidden>
+                                        <input type="text" name="room1_hotel_infant" value="{{$searched->room1_hotel_infant}}" hidden>
+
+                                        <input type="text" name="room2_hotel_adults" value="{{$searched->room2_hotel_adults}}" hidden>
+                                        <input type="text" name="room2_hotel_child" value="{{$searched->room2_hotel_child}}" hidden>
+                                        <input type="text" name="room2_hotel_infant" value="{{$searched->room2_hotel_infant}}" hidden>
+
+                                        <input type="text" name="room3_hotel_adults" value="{{$searched->room3_hotel_adults}}" hidden>
+                                        <input type="text" name="room3_hotel_child" value="{{$searched->room3_hotel_child}}" hidden>
+                                        <input type="text" name="room3_hotel_infant" value="{{$searched->room3_hotel_infant}}" hidden>
+
+                                        <input type="text" name="room4_hotel_adults" value="{{$searched->room4_hotel_adults}}" hidden>
+                                        <input type="text" name="room4_hotel_child" value="{{$searched->room4_hotel_child}}" hidden>
+                                        <input type="text" name="room4_hotel_infant" value="{{$searched->room4_hotel_infant}}" hidden>
                                         <button type="submit" class="btn btn-primary" onclick="showLoder();">Pay <i class="las la-pound-sign"></i> {{ number_format(( $searched->price +$searched->GST+$searched->Convenience_Fees+$searched->Taxes_and_Fees),2) }}</button>
                                         <!-- <a href="confirm-booking.php" class="btn btn-primary">Pay <i class="las la-pound-sign"></i>88.00</a> -->
                                 </div>

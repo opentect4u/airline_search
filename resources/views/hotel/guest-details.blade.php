@@ -77,50 +77,57 @@
 
                     <form class="passanger-details" method="post" action="{{route('hotelpayment')}}">
                         @csrf
+                        @for($j=1; $j <=$searched->hotel_room; $j++)
                         <div class="card-body border rounded set mb-3">
-                            <h6 class="font-weight-500 mb-3 bg-primary-light p-2"> Room 1</h6>
+                            <h6 class="font-weight-500 mb-3 bg-primary-light p-2"> Room {{$j}}</h6>
                             <div class="row">
-                                @for($i=1; $i <=$searched->hotel_adults; $i++ )
+                                <!-- {{'room'.$j.'_hotel_adults'}} -->
+                                <?php 
+                                    $var_adult='room'.$j.'_hotel_adults';
+                                    $var_child='room'.$j.'_hotel_child';
+                                    $var_infant='room'.$j.'_hotel_infant';
+                                ?>
+                                @for($i=1; $i <=$searched->$var_adult; $i++ )
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Adult ({{$i}})- first name</label>
-                                        <input type="text" required name="first_name{{$i}}" class="form-control" placeholder="Enter first name">
+                                        <input type="text" required name="room{{$j}}_first_name{{$i}}" class="form-control" placeholder="Enter first name">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Last Name</label>
-                                        <input type="text" required name="last_name{{$i}}" class="form-control" placeholder="Enter last name">
+                                        <input type="text" required name="room{{$j}}_last_name{{$i}}" class="form-control" placeholder="Enter last name">
                                     </div>
                                 </div>
                                @endfor
-                               @if($searched->hotel_child > 0 )
+                               @if($searched->$var_child > 0 )
                                <!-- {{"hii"}} -->
                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Child (1)- first name</label>
-                                        <input type="text" required name="child1_first_name" class="form-control" placeholder="Enter first name">
+                                        <input type="text" required name="room{{$j}}_child1_first_name" class="form-control" placeholder="Enter first name">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Last Name</label>
-                                        <input type="text" required name="child1_last_name" class="form-control" placeholder="Enter last name">
+                                        <input type="text" required name="room{{$j}}_child1_last_name" class="form-control" placeholder="Enter last name">
                                     </div>
                                 </div>
                                @endif
-                               @if($searched->hotel_infant > 0 )
+                               @if($searched->$var_infant > 0 )
                                <!-- {{"hii"}} -->
                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Child (2)- first name</label>
-                                        <input type="text" required name="child2_first_name" class="form-control" placeholder="Enter first name">
+                                        <input type="text" required name="room{{$j}}_child2_first_name" class="form-control" placeholder="Enter first name">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Last Name</label>
-                                        <input type="text" required name="child2_first_name" class="form-control" placeholder="Enter last name">
+                                        <input type="text" required name="room{{$j}}_child2_last_name" class="form-control" placeholder="Enter last name">
                                     </div>
                                 </div>
                                @endif
@@ -128,6 +135,7 @@
 
                             
                         </div>
+                        @endfor
 
                         <div class="card-body border rounded set mb-3">
                             <h6 class="font-weight-500 mb-3 bg-primary-light p-2"> Billing Details</h6>
@@ -186,9 +194,22 @@
                         <input type="text" name="check_out" value="{{$searched->check_out}}" hidden>
                         <input type="text" name="city_name" value="{{$searched->city_name}}" hidden>
                         <input type="text" name="hotel_room" value="{{$searched->hotel_room}}" hidden>
-                        <input type="text" name="hotel_adults" value="{{$searched->hotel_adults}}" hidden>
-                        <input type="text" name="hotel_child" value="{{$searched->hotel_child}}" hidden>
-                        <input type="text" name="hotel_infant" value="{{$searched->hotel_infant}}" hidden>
+
+                        <input type="text" name="room1_hotel_adults" value="{{$searched->room1_hotel_adults}}" hidden>
+                        <input type="text" name="room1_hotel_child" value="{{$searched->room1_hotel_child}}" hidden>
+                        <input type="text" name="room1_hotel_infant" value="{{$searched->room1_hotel_infant}}" hidden>
+
+                        <input type="text" name="room2_hotel_adults" value="{{$searched->room2_hotel_adults}}" hidden>
+                        <input type="text" name="room2_hotel_child" value="{{$searched->room2_hotel_child}}" hidden>
+                        <input type="text" name="room2_hotel_infant" value="{{$searched->room2_hotel_infant}}" hidden>
+
+                        <input type="text" name="room3_hotel_adults" value="{{$searched->room3_hotel_adults}}" hidden>
+                        <input type="text" name="room3_hotel_child" value="{{$searched->room3_hotel_child}}" hidden>
+                        <input type="text" name="room3_hotel_infant" value="{{$searched->room3_hotel_infant}}" hidden>
+
+                        <input type="text" name="room4_hotel_adults" value="{{$searched->room4_hotel_adults}}" hidden>
+                        <input type="text" name="room4_hotel_child" value="{{$searched->room4_hotel_child}}" hidden>
+                        <input type="text" name="room4_hotel_infant" value="{{$searched->room4_hotel_infant}}" hidden>
                         <button type="submit" class="btn btn-primary" onclick="showLoder();">Confirm Booking</button>
                         <!-- <a href="payment.php" class="btn btn-primary">Confirm Booking</a> -->
                     </form>

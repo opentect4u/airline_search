@@ -29,6 +29,37 @@ class HotelController extends Controller
         $checkoutDate = Carbon::parse($request->check_out)->format('Y-m-d');
 
         $room=$request->hotel_room;
+        // return $room;
+        $xmldata='';
+        for ($i=1; $i <= $room; $i++) { 
+            // echo $i;
+            // echo "</br>";
+            // room1_hotel_adults
+            // room1_hotel_child
+            // room1_hotel_infant
+            $room_adult="room".$i."_hotel_adults";
+            $room_child="room".$i."_hotel_child";
+            $room_infant="room".$i."_hotel_infant";
+            // return $room_child;
+            $xmldata1='';
+            if($request->$room_child>0){
+                $xmldata1='<ChildAge>'.$request->$room_child.'</ChildAge>';
+            }
+            $xmldata2='';
+            if($request->$room_infant>0){
+                $xmldata2='<ChildAge>'.$request->$room_infant.'</ChildAge>';
+            }
+            
+            $xmldata0='<Room>
+                <NumAdults>'.$request->$room_adult.'</NumAdults>
+                <Children>';
+
+                $xmldata3='</Children>
+            </Room>';
+            $xmldata.=$xmldata0.$xmldata1.$xmldata2.$xmldata3;
+        }
+        // return $xmldata;
+
         $adults=$request->hotel_adults;
         $children=$request->hotel_child;
         $infant=$request->hotel_infant;
@@ -37,22 +68,22 @@ class HotelController extends Controller
         // $adults=1;
         // $children=5;
 
-        if($children>0 && $infant>0){
-            $children_xml='<Children>
-                <ChildAge>'.$children.'</ChildAge>
-                <ChildAge>'.$infant.'</ChildAge>
-            </Children>';
-        }else if($children>0){
-            $children_xml='<Children>
-                <ChildAge>'.$children.'</ChildAge>
-            </Children>';
-        }else if($infant>0){
-            $children_xml='<Children>
-                <ChildAge>'.$infant.'</ChildAge>
-            </Children>';
-        }else{
-            $children_xml='';  
-        }
+        // if($children>0 && $infant>0){
+        //     $children_xml='<Children>
+        //         <ChildAge>'.$children.'</ChildAge>
+        //         <ChildAge>'.$infant.'</ChildAge>
+        //     </Children>';
+        // }else if($children>0){
+        //     $children_xml='<Children>
+        //         <ChildAge>'.$children.'</ChildAge>
+        //     </Children>';
+        // }else if($infant>0){
+        //     $children_xml='<Children>
+        //         <ChildAge>'.$infant.'</ChildAge>
+        //     </Children>';
+        // }else{
+        //     $children_xml='';  
+        // }
         // return $children_xml;
 
         $Username='4e136e82c5b549a71dabbc9627cb4673';
@@ -73,11 +104,7 @@ class HotelController extends Controller
                         <CheckInDate>'.$checkinDate.'</CheckInDate>
                         <CheckOutDate>'.$checkoutDate.'</CheckOutDate>
                         <Rooms>
-                            <Room>
-                                <NumAdults>'.$adults.'</NumAdults>
-                                '.$children_xml.'
-                                
-                            </Room>
+                            '.$xmldata.'
                         </Rooms>
                         <Nationality>'.$country_code.'</Nationality>
                         <Currency>GBP</Currency>

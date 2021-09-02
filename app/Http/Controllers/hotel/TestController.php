@@ -47,7 +47,8 @@ class TestController extends Controller
         // return $object1;
         foreach($object1 as $json){
             $bookdetails=$json['Body']['Bookings']['HotelBooking'];
-            return $bookdetails[0];
+            return $bookdetails;
+            // return $bookdetails[0];
             return view('hotel.confirm-booking',[
                 'bookdetails'=>$bookdetails,
                 'searched'=>[]

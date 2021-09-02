@@ -146,9 +146,6 @@
                                                         <th>Room Name</th>
                                                         <th>Check In</th>
                                                         <th>Check Out</th>
-                                                        <th>Room No</th>
-                                                        <th>Number Adults</th>
-                                                        <th>Number Children</th>
 
                                                         <!-- <th>Class</th>
                                                         <th>Baggage</th>
@@ -158,7 +155,6 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @if(isset($bookdetails[0]['Rooms']['Room']['RoomName']))
                                                     <tr>
                                                         <td>{{$bookdetails[0]['HotelName']}} 
                                                             <br>
@@ -171,32 +167,7 @@
                                                         </td>
                                                         <td>{{$bookdetails[0]['CheckOutDate']}}<br>
                                                         </td>
-                                                        <td>Room 1</td>
-                                                        <td>{{$bookdetails[0]['Rooms']['Room']['NumAdults']}}</td>
-                                                        <td>{{$bookdetails[0]['Rooms']['Room']['NumChildren']}}</td>
                                                     </tr>
-                                                    @else
-                                                        <?php $namecount=1; ?>
-                                                        @foreach($bookdetails[0]['Rooms']['Room'] as $rooms)
-                                                        <tr>
-                                                            <td>{{$bookdetails[0]['HotelName']}} 
-                                                                <br>
-                                                                City :- {{$bookdetails[0]['City']}}
-                                                                <br>
-                                                                HOTEL ID :- {{$bookdetails[0]['HotelId']}}
-                                                            </td>
-                                                            <td>{{$rooms['RoomName']}}</td>
-                                                            <td>{{$bookdetails[0]['CheckInDate']}}<br>
-                                                            </td>
-                                                            <td>{{$bookdetails[0]['CheckOutDate']}}<br>
-                                                            </td>
-                                                            <td>Room {{$namecount}}</td>
-                                                            <td>{{$rooms['NumAdults']}}</td>
-                                                            <td>{{$rooms['NumChildren']}}</td>
-                                                        </tr>  
-                                                        <?php $namecount++; ?>
-                                                        @endforeach
-                                                    @endif
                                                 </tbody>
                                             </table>
                                         </div>
@@ -205,7 +176,7 @@
 
                                     <div class="col-md-12">
                                         <h4 class="mt-3"> <b class="float-right"><b>Total: </b><span
-                                                    class="text-light-blue">£{{ number_format(($bookdetails[0]['TotalPrice'] + $searched->GST + $searched->Convenience_Fees + $searched->Taxes_and_Fees),2) }}</span></b></h4>
+                                                    class="text-light-blue">£{{$bookdetails[0]['TotalPrice']}}</span></b></h4>
                                     </div>
                                 </div>
 
@@ -223,7 +194,7 @@
                                             <div class="" style="display:inline-block;">
                                                 <p class="mb-1"> £
 
-                                                {{number_format(($bookdetails[0]['TotalPrice'] + $searched->GST + $searched->Convenience_Fees + $searched->Taxes_and_Fees),2)}}
+                                                {{$bookdetails[0]['TotalPrice']}}
                                                 </p>
                                             </div>
 
@@ -233,7 +204,7 @@
                                                 <p class="mb-1"><b>Balance Due:</b></p>
                                             </div>
                                             <div class="" style="display:inline-block;">
-                                                £ {{number_format(($bookdetails[0]['TotalPrice'] + $searched->GST + $searched->Convenience_Fees + $searched->Taxes_and_Fees),2)}} </div>
+                                                £ {{$bookdetails[0]['TotalPrice']}} </div>
                                         </div>
 
 

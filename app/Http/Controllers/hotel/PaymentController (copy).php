@@ -20,132 +20,33 @@ class PaymentController extends Controller
     }
 
     public function Confirm(Request $request){
-        // return $request;
+        return $request;
         $options=json_decode($request->options,true);
         // return $options;
         // return $options['OptionId'];
         // return $options['Rooms']['Room']['RoomId'];
         $allxmldata='';
         if($request->hotel_room > 1){
-            // return "hh";
-            for ($i=1; $i <= $request->hotel_room; $i++) { 
-                // echo $i;
-                $adult = 'room'.$i.'_hotel_adults';
-                // echo "</br>";
-                $child ='room'.$i.'_hotel_child';
-                // echo "</br>";
-                $infant ='room'.$i.'_hotel_infant';
-                // echo "</br>";
-                $allxmldata0='<Room>
-                     <RoomId>'.$options['Rooms']['Room'][($i-1)]['RoomId'].'</RoomId>
-                     <PaxNames>';
-                $allxmldata1='';
-                for ($j=1; $j <= $request->$adult; $j++) { 
-                    $firstname= 'room'.$i.'_first_name'.$j;
-                    $lastname= 'room'.$i.'_last_name'.$j;
-                    // echo "</br>";
-                    $allxmldata1.='<AdultName>
-                         <Title>Mr.</Title>
-                         <FirstName>'.$request->$firstname.'</FirstName>
-                         <LastName>'.$request->$lastname.'</LastName>
-                     </AdultName>';
-                }
-                $allxmldata2='';
-                if($request->$child>0){
-                    $child1_first= 'room'.$i.'_child1_first_name';
-                    $child1_last= 'room'.$i.'_child1_last_name';
-                    $allxmldata2='<ChildName>
-                        <FirstName>'.$request->$child1_first.'</FirstName>
-                        <LastName>'.$request->$child1_last.'</LastName>
-                    </ChildName>';
-                }
-                $allxmldata3='';
-                if($request->$infant>0){
-                    $child2_first= 'room'.$i.'_child2_first_name';
-                    $child2_last= 'room'.$i.'_child2_last_name';
-                    $allxmldata3='<ChildName>
-                        <FirstName>'.$request->$child2_first.'</FirstName>
-                        <LastName>'.$request->$child2_last.'</LastName>
-                    </ChildName>';
-                }
-                $allxmldata4='</PaxNames>
-                </Room>';
-                $allxmldata.=$allxmldata0.$allxmldata1.$allxmldata2.$allxmldata3.$allxmldata4;
-                $allxmldata0='';
-                $allxmldata1='';
-                $allxmldata2='';
-                $allxmldata3='';
-                $allxmldata4='';
-            }
-            // room1_hotel_adults": "2",
-            // "room1_hotel_child": "11",
-            // "room1_hotel_infant": "7",
             // return $options['Rooms']['Room'][0]['RoomId'];
-            // $allxmldata0='<Room>
-            //     <RoomId>'.$options['Rooms']['Room']['RoomId'].'</RoomId>
-            //     <PaxNames>';
-            // $allxmldata1='';
-            
-
-            
-
+            return "hh";
         }else{
             // room1_hotel_adults
             // room1_hotel_child
             // room1_hotel_infant
-            // return $options['Rooms']['Room']['RoomId'];
+            return $options['Rooms']['Room']['RoomId'];
             // $allxmldata
-            
-            $allxmldata0='<Room>
-                <RoomId>'.$options['Rooms']['Room']['RoomId'].'</RoomId>
-                <PaxNames>';
-                $allxmldata1='';
-                for ($j=1; $j <= $request->$adult; $j++) { 
-                    $firstname= 'room'.$i.'_first_name'.$j;
-                    $lastname= 'room'.$i.'_last_name'.$j;
-                    // echo "</br>";
-                    $allxmldata1.='<AdultName>
-                         <Title>Mr.</Title>
-                         <FirstName>'.$request->$firstname.'</FirstName>
-                         <LastName>'.$request->$lastname.'</LastName>
-                     </AdultName>';
-                }
-                $allxmldata2='';
-                if($request->$child>0){
-                    $child1_first= 'room'.$i.'_child1_first_name';
-                    $child1_last= 'room'.$i.'_child1_last_name';
-                    $allxmldata2='<ChildName>
-                        <FirstName>'.$request->$child1_first.'</FirstName>
-                        <LastName>'.$request->$child1_last.'</LastName>
-                    </ChildName>';
-                }
-                $allxmldata3='';
-                if($request->$infant>0){
-                    $child2_first= 'room'.$i.'_child2_first_name';
-                    $child2_last= 'room'.$i.'_child2_last_name';
-                    $allxmldata3='<ChildName>
-                        <FirstName>'.$request->$child2_first.'</FirstName>
-                        <LastName>'.$request->$child2_last.'</LastName>
-                    </ChildName>';
-                }
-                $allxmldata4='</PaxNames>
-                </Room>';
-                $allxmldata.=$allxmldata0.$allxmldata1.$allxmldata2.$allxmldata3.$allxmldata4;
-            
-
 
         }
-        // return $allxmldata;
         // if(isset($options['Rooms']['Room']['RoomId'])){
         //     return $options['Rooms']['Room']['RoomId'];
         // }else{
         //     return $options['Rooms']['Room'];
         // }
-        // $first_name1=$request->first_name1;
-        // $last_name1=$request->last_name1;
+        $first_name1=$request->first_name1;
+        $last_name1=$request->last_name1;
         // return $first_name1;
 
-        // $xmldata='';
+        $xmldata='';
             // <ChildName>
             // <FirstName>First Name 5</FirstName>
             // <LastName>Last Name 5</LastName>
@@ -166,7 +67,16 @@ class PaymentController extends Controller
                         <OptionId>'.$options['OptionId'].'</OptionId>
                         <YourReference>XMLTEST</YourReference>
                         <Rooms>
-                            '.$allxmldata.'  
+                            <Room>
+                                <RoomId>'.$options['Rooms']['Room']['RoomId'].'</RoomId>
+                                <PaxNames>
+                                    <AdultName>
+                                        <Title>Mr.</Title>
+                                        <FirstName>'.$first_name1.'</FirstName>
+                                        <LastName>'.$last_name1.'</LastName>
+                                    </AdultName>
+                                </PaxNames>
+                            </Room>
                         </Rooms>
                     </Body>
                 </Request>';

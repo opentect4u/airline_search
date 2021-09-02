@@ -124,9 +124,23 @@
                         <input type="text" name="check_out" value="{{$searched->check_out}}" hidden>
                         <input type="text" name="city_name" value="{{$searched->city_name}}" hidden>
                         <input type="text" name="hotel_room" value="{{$searched->hotel_room}}" hidden>
-                        <input type="text" name="hotel_adults" value="{{$searched->hotel_adults}}" hidden>
-                        <input type="text" name="hotel_child" value="{{$searched->hotel_child}}" hidden>
-                        <input type="text" name="hotel_infant" value="{{$searched->hotel_infant}}" hidden>
+
+                        <input type="text" name="room1_hotel_adults" value="{{$searched->room1_hotel_adults}}" hidden>
+                        <input type="text" name="room1_hotel_child" value="{{$searched->room1_hotel_child}}" hidden>
+                        <input type="text" name="room1_hotel_infant" value="{{$searched->room1_hotel_infant}}" hidden>
+
+                        <input type="text" name="room2_hotel_adults" value="{{$searched->room2_hotel_adults}}" hidden>
+                        <input type="text" name="room2_hotel_child" value="{{$searched->room2_hotel_child}}" hidden>
+                        <input type="text" name="room2_hotel_infant" value="{{$searched->room2_hotel_infant}}" hidden>
+
+                        <input type="text" name="room3_hotel_adults" value="{{$searched->room3_hotel_adults}}" hidden>
+                        <input type="text" name="room3_hotel_child" value="{{$searched->room3_hotel_child}}" hidden>
+                        <input type="text" name="room3_hotel_infant" value="{{$searched->room3_hotel_infant}}" hidden>
+
+                        <input type="text" name="room4_hotel_adults" value="{{$searched->room4_hotel_adults}}" hidden>
+                        <input type="text" name="room4_hotel_child" value="{{$searched->room4_hotel_child}}" hidden>
+                        <input type="text" name="room4_hotel_infant" value="{{$searched->room4_hotel_infant}}" hidden>
+                                     
                         <button type="submit" class="btn btn-primary w-100" onclick="showLoder();">Book Now</button>
                     </form>
                 </div>
@@ -255,9 +269,23 @@
                                     <input type="text" name="check_out" value="{{$searched->check_out}}" hidden>
                                     <input type="text" name="city_name" value="{{$searched->city_name}}" hidden>
                                     <input type="text" name="hotel_room" value="{{$searched->hotel_room}}" hidden>
-                                    <input type="text" name="hotel_adults" value="{{$searched->hotel_adults}}" hidden>
-                                    <input type="text" name="hotel_child" value="{{$searched->hotel_child}}" hidden>
-                                    <input type="text" name="hotel_infant" value="{{$searched->hotel_infant}}" hidden>
+
+                                    <input type="text" name="room1_hotel_adults" value="{{$searched->room1_hotel_adults}}" hidden>
+                                    <input type="text" name="room1_hotel_child" value="{{$searched->room1_hotel_child}}" hidden>
+                                    <input type="text" name="room1_hotel_infant" value="{{$searched->room1_hotel_infant}}" hidden>
+
+                                    <input type="text" name="room2_hotel_adults" value="{{$searched->room2_hotel_adults}}" hidden>
+                                    <input type="text" name="room2_hotel_child" value="{{$searched->room2_hotel_child}}" hidden>
+                                    <input type="text" name="room2_hotel_infant" value="{{$searched->room2_hotel_infant}}" hidden>
+
+                                    <input type="text" name="room3_hotel_adults" value="{{$searched->room3_hotel_adults}}" hidden>
+                                    <input type="text" name="room3_hotel_child" value="{{$searched->room3_hotel_child}}" hidden>
+                                    <input type="text" name="room3_hotel_infant" value="{{$searched->room3_hotel_infant}}" hidden>
+
+                                    <input type="text" name="room4_hotel_adults" value="{{$searched->room4_hotel_adults}}" hidden>
+                                    <input type="text" name="room4_hotel_child" value="{{$searched->room4_hotel_child}}" hidden>
+                                    <input type="text" name="room4_hotel_infant" value="{{$searched->room4_hotel_infant}}" hidden>
+                                        
                                     <button type="submit" class="btn btn-primary mt-2" onclick="showLoder();">Book Now</button>
                                 </form>
                             </div>
