@@ -21,6 +21,9 @@ class PaymentController extends Controller
 
     public function Confirm(Request $request){
         // return $request;
+        $check_in=\Carbon\Carbon::parse($request->check_in)->format('Y-m-d');
+        $check_out=\Carbon\Carbon::parse($request->check_out)->format('Y-m-d');
+        // return $check_in;
         $options=json_decode($request->options,true);
         // return $options;
         // return $options['OptionId'];
@@ -212,7 +215,8 @@ class PaymentController extends Controller
                     </Head>
                     <Body>
                         <CheckInDates>
-                            
+                            <CheckInDateStart>'.$check_in.'</CheckInDateStart>
+                            <CheckInDateEnd>'.$check_out.'</CheckInDateEnd>
                         </CheckInDates>
                     </Body>
                 </Request>';
