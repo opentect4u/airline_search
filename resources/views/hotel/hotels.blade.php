@@ -73,7 +73,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label>Room & Guests</label>
-                            <input type="text" name="hotel_travel_details" id="hotel_travel_details" placeholder="{{$searched->hotel_room}} Room, <?php echo $searched->hotel_adults." Adult"; if($searched->hotel_child>0){echo ", ".$searched->hotel_child." Yrs Child 1";} if($searched->hotel_infant>0){echo ", ".$searched->hotel_infant." Yrs Child 2";} ?>" class="form-control" onclick="hotel_traveller_selection();">
+                            <input type="text" name="hotel_travel_details" id="hotel_travel_details" placeholder="{{$searched->hotel_room}} Room, <?php echo $searched->room1_hotel_adults." Adult"; if($searched->room1_hotel_child>0){echo ", ".$searched->room1_hotel_child." Yrs Child 1";} if($searched->room1_hotel_infant>0){echo ", ".$searched->room1_hotel_infant." Yrs Child 2";} ?>" class="form-control" onclick="hotel_traveller_selection();">
                         
                             <div id="hotel_traveller_selection" style="display:none;">
                                 <div class="row m-0">
