@@ -905,8 +905,6 @@
 </script>
 <script>
     $( document ).ready(function() {
-        // $('#loading').hide();
-        // $('#loading_small').hide();
         // alert("hotel");
         // hotel_submit
         var path = "{{ route('searchhotel') }}";
@@ -996,8 +994,8 @@
             $('#check_out_datetimepicker').datetimepicker({
                 pickTime: false,
                 startDate: new Date(datePeriode),
-                // autoclose: true,
-                // todayHighlight: true,
+                autoclose: true,
+                todayHighlight: true,
             });
 
             // $('#returning_date_datetimepicker').datetimepicker("show");
