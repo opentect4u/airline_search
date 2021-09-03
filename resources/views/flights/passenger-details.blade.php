@@ -60,13 +60,37 @@
                                 </div>
                                 <div class="col-md-4 col-6">
                                     <label>Date of birth</label>
-                                    <div id="datetimepicker" class="input-group">
+                                    <div id="date_of_birth_datetimepicker{{$i}}" class="input-group dateofbirthclass{{$i}}">
                                         <input type="text" name="date_of_birth{{$i}}" id="date_of_birth{{$i}}" required placeholder="dd/mm/yyyy" class="form-control border-right-0" data-format="dd-MM-yyyy">
                                         <div class="input-group-append add-on">
                                         <span class="input-group-text bg-white pl-0"><i class="lar la-calendar-alt"></i></span>
                                         </div>
                                     </div>
                                 </div>
+                                <script>
+                                   $( document ).ready(function() {
+
+                                        $('.dateofbirthclass'+<?php echo $i; ?>).click(function(){
+                                            // $('#returning_date').val('');
+                                            // $("#returning_date_datetimepicker").datetimepicker("destroy");
+                                            var datePeriode= new Date();
+                                            var adddate=datePeriode.setDate(datePeriode.getDate() - 1);
+                                            $('#date_of_birth_datetimepicker'+<?php echo $i; ?>).datetimepicker({
+                                                pickTime: false,
+                                                autoclose: true, 
+                                                endDate: new Date(),
+                                                todayHighlight: true,
+                                                // minDate: new Date(),
+                                                // defaultDate: new Date(),
+                                            });
+                                            $('#date_of_birth_datetimepicker'+<?php echo $i; ?>).datetimepicker("show").on('changeDate', function(){
+                                                // $('#departure_date_datetimepicker').hide();
+                                                $('#date_of_birth_datetimepicker'+<?php echo $i; ?>).datetimepicker("hide")
+                                            });
+                                        
+                                        });
+                                    }); 
+                                </script>
                                 <div class="col-md-4 col-6">
                                     <div class="form-group">
                                         <label>Seating</label>
@@ -222,13 +246,37 @@
                                 </div>
                                 <div class="col-md-4 col-6">
                                     <label>Date of birth</label>
-                                    <div id="datetimepicker" class="input-group">
-                                        <input type="text" name="children_date_of_birth{{$i}}" id="children_date_of_birth{{$i}}" required placeholder="dd/mm/yyyy" class="form-control border-right-0" data-format="dd-MM-yyyy">
-                                        <div class="input-group-append add-on">
-                                        <span class="input-group-text bg-white pl-0"><i class="lar la-calendar-alt"></i></span>
+                                    <div id="date_of_birth_child_datetimepicker{{$i}}" class="input-group dateofbirthchildclass{{$i}}">
+                                        <input type="text" name="children_date_of_birth{{$i}}" id="children_date_of_birth{{$i}}" required placeholder="dd/mm/yyyy" class="form-control border-right-0 dateofbirthchildclass{{$i}}" data-format="dd-MM-yyyy">
+                                        <div class="input-group-append add-on dateofbirthchildclass{{$i}} ">
+                                        <span class="input-group-text bg-white pl-0 dateofbirthchildclass{{$i}}"><i class="lar la-calendar-alt dateofbirthchildclass{{$i}}"></i></span>
                                         </div>
                                     </div>
                                 </div>
+                                <script>
+                                   $( document ).ready(function() {
+
+                                        $('.dateofbirthchildclass'+<?php echo $i; ?>).click(function(){
+                                            // $('#returning_date').val('');
+                                            // $("#returning_date_datetimepicker").datetimepicker("destroy");
+                                            var datePeriode= new Date();
+                                            var adddate=datePeriode.setDate(datePeriode.getDate() - 1);
+                                            $('#date_of_birth_child_datetimepicker'+<?php echo $i; ?>).datetimepicker({
+                                                pickTime: false,
+                                                autoclose: true, 
+                                                endDate: new Date(),
+                                                todayHighlight: true,
+                                                // minDate: new Date(),
+                                                // defaultDate: new Date(),
+                                            });
+                                            $('#date_of_birth_child_datetimepicker'+<?php echo $i; ?>).datetimepicker("show").on('changeDate', function(){
+                                                // $('#departure_date_datetimepicker').hide();
+                                                $('#date_of_birth_child_datetimepicker'+<?php echo $i; ?>).datetimepicker("hide")
+                                            });
+                                        
+                                        });
+                                    }); 
+                                </script>
                                 <div class="col-md-4 col-6">
                                     <div class="form-group">
                                         <label>Seating</label>
@@ -377,13 +425,37 @@
                                 </div>
                                 <div class="col-md-4 col-6">
                                     <label>Date of birth</label>
-                                    <div id="datetimepicker" class="input-group">
-                                        <input type="text" name="infant_date_of_birth{{$i}}" id="infant_date_of_birth{{$i}}" required placeholder="dd/mm/yyyy" class="form-control border-right-0" data-format="dd-MM-yyyy">
-                                        <div class="input-group-append add-on">
-                                        <span class="input-group-text bg-white pl-0"><i class="lar la-calendar-alt"></i></span>
+                                    <div id="date_of_birth_infant_datetimepicker{{$i}}" class="input-group dateofbirthinfantclass{{$i}}">
+                                        <input type="text" name="infant_date_of_birth{{$i}}" id="infant_date_of_birth{{$i}}" required placeholder="dd/mm/yyyy" class="form-control border-right-0 dateofbirthinfantclass{{$i}}" data-format="dd-MM-yyyy">
+                                        <div class="input-group-append add-on dateofbirthinfantclass{{$i}}">
+                                        <span class="input-group-text bg-white pl-0 dateofbirthinfantclass{{$i}}"><i class="lar la-calendar-alt dateofbirthinfantclass{{$i}}"></i></span>
                                         </div>
                                     </div>
                                 </div>
+                                <script>
+                                   $( document ).ready(function() {
+
+                                        $('.dateofbirthinfantclass'+<?php echo $i; ?>).click(function(){
+                                            // $('#returning_date').val('');
+                                            // $("#returning_date_datetimepicker").datetimepicker("destroy");
+                                            var datePeriode= new Date();
+                                            var adddate=datePeriode.setDate(datePeriode.getDate() - 1);
+                                            $('#date_of_birth_infant_datetimepicker'+<?php echo $i; ?>).datetimepicker({
+                                                pickTime: false,
+                                                autoclose: true, 
+                                                endDate: new Date(),
+                                                todayHighlight: true,
+                                                // minDate: new Date(),
+                                                // defaultDate: new Date(),
+                                            });
+                                            $('#date_of_birth_infant_datetimepicker'+<?php echo $i; ?>).datetimepicker("show").on('changeDate', function(){
+                                                // $('#departure_date_datetimepicker').hide();
+                                                $('#date_of_birth_infant_datetimepicker'+<?php echo $i; ?>).datetimepicker("hide")
+                                            });
+                                        
+                                        });
+                                    }); 
+                                </script>
                                 <!-- <div class="col-md-4 col-6">
                                     <div class="form-group">
                                         <label>Seating</label>
@@ -687,6 +759,24 @@
     $( document ).ready(function() {
         $('#loading').hide();
         $('#loading_small').hide();
+
+        $('.dateofbirthclass').click(function(){
+            // $('#returning_date').val('');
+            // $("#returning_date_datetimepicker").datetimepicker("destroy");
+            $('#departure_date_datetimepicker').datetimepicker({
+                pickTime: false,
+                autoclose: true, 
+                startDate: new Date(),
+                todayHighlight: true,
+                // minDate: new Date(),
+                // defaultDate: new Date(),
+            });
+            $('#departure_date_datetimepicker').datetimepicker("show").on('changeDate', function(){
+                // $('#departure_date_datetimepicker').hide();
+                $('#departure_date_datetimepicker').datetimepicker("hide")
+            });
+        
+        });
     });
 </script>
 @endsection
