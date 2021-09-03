@@ -995,12 +995,12 @@
                 pickTime: false,
                 startDate: new Date(datePeriode),
                 autoclose: true,
-                todayHighlight: true,
+                todayHighlight: true
             });
 
             // $('#returning_date_datetimepicker').datetimepicker("show");
             $('#check_out_datetimepicker').datetimepicker("show").on('changeDate', function(){
-                $('#check_out_datetimepicker').datetimepicker("hide")
+                $('#check_out_datetimepicker').datetimepicker("hide");
             });
         });
 
