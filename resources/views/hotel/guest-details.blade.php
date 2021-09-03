@@ -57,21 +57,33 @@
                             </div>
                             <!-- <h5 class="mb-0"><small class="text-muted"><i class="las la-bed"></i> Executive Room</small></h5> -->
                             <span class="text-muted mt-3 d-block">Facilities</span>
-                                <ul class="d-block mt-1 pl-3">
-                                    <?php $count=0?>
+                            <ul class="d-block mt-1 pl-3">
+                                <?php $count=0?>
+                                @foreach($hotelDetails[0]['Facilities']['Facility'] as $facility)
+                                @if($facility['FacilityType'] =='Hotel Facilities')
+                                    @if($count < 4 )
+                                    <li>{{$facility['FacilityName']}}</li>
+                                    @else
+                                    @break;
+                                    @endif
+                                    <?php $count++; ?>
+                                @endif
+                                @endforeach
+                                <div id="all-amenities-facility" class="collapse">
+                                    <?php $count1=0?>
                                     @foreach($hotelDetails[0]['Facilities']['Facility'] as $facility)
-                                    <!-- {{print_r($facility)}} -->
-                                    @if($facility['FacilityType'] =='Hotel Facilities')
-                                        @if($count < 4 )
-                                        <li>{{$facility['FacilityName']}}</li>
-                                        @else
-                                        @break;
+                                    @if(is_array($facility))
+                                        @if($facility['FacilityType'] =='Hotel Facilities')
+                                            @if($count1 > 4 )
+                                            <li>{{$facility['FacilityName']}}</li>
+                                            @endif
+                                            <?php $count1++; ?>
                                         @endif
-                                        <?php $count++; ?>
                                     @endif
                                     @endforeach
-                                    <li><a href="#">More <i class="las la-angle-down"></i></a></li>
-                                </ul>
+                                </div>
+                                <li><a href="javascript:void(0)" data-toggle="collapse" data-target="#all-amenities-facility">Expand/Collapse <i class="las la-angle-down"></i></a></li>
+                            </ul>
                         </div>
                     </div>
 
@@ -166,14 +178,20 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>State</label>
-                                        <input type="text" required name="state" class="form-control" placeholder="Enter your state code">
+                                        <label>country</label>
+                                        <select required name="state" class="form-control">
+                                            <option value="">--select--</option>
+                                            @foreach($country as $countries)
+                                            <option value="{{$countries->name}}">{{$countries->name}}</option>
+                                            @endforeach
+                                        </select>
+                                        <!-- <input type="text" required name="state" class="form-control" placeholder="Enter your state code"> -->
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Contact No</label>
-                                        <input type="text" required name="contact_no" class="form-control" placeholder="Enter your contact no">
+                                        <input type="number" required name="contact_no" class="form-control" placeholder="Enter your contact no">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -225,7 +243,38 @@
                         <div class="col-6 border-right"><p class="m-0 text-dark">Check In <br><span class="font-weight-600">{{ Carbon\Carbon::parse($searched->check_in)->format('d/m/Y')}}</span></p></div>
                         <div class="col-6"><p class="m-0 text-dark">Check Out <br><span class="font-weight-600">{{ Carbon\Carbon::parse($searched->check_out)->format('d/m/Y')}}</span></p></div>
                     </div><hr>
-                    <p>{{$searched->hotel_adults}} Adults <?php if($searched->hotel_child !=0){ echo "and ".$searched->hotel_child."Child"; } if($searched->hotel_infant !=0){ echo "and ".$searched->hotel_infant."Infant"; } ?> <br>in {{$searched->hotel_room}} Room for {{ \Carbon\Carbon::parse($searched->check_in)->diff(\Carbon\Carbon::parse($searched->check_out))->format('%d')  }} Night</p><hr>
+                    <p>{{($searched->room1_hotel_adults+$searched->room2_hotel_adults+$searched->room3_hotel_adults+$searched->room4_hotel_adults)}} Adults 
+                        <?php 
+                            $child=0;
+                            if($searched->room1_hotel_child>0){
+                                $child+=1;
+                            }
+                            if($searched->room2_hotel_child>0){
+                                $child+=1;
+                            }
+                            if($searched->room3_hotel_child>0){
+                                $child+=1;
+                            }
+                            if($searched->room4_hotel_child>0){
+                                $child+=1;
+                            }
+                            if($searched->room1_hotel_infant>0){
+                                $child+=1;
+                            }
+                            if($searched->room2_hotel_infant>0){
+                                $child+=1;
+                            }
+                            if($searched->room3_hotel_infant>0){
+                                $child+=1;
+                            }
+                            if($searched->room4_hotel_infant>0){
+                                $child+=1;
+                            }
+                            if($child>0){
+                                echo ", ".$child." Child ";
+                            }
+                        ?> 
+                        <br>in {{$searched->hotel_room}} Room for {{ \Carbon\Carbon::parse($searched->check_in)->diff(\Carbon\Carbon::parse($searched->check_out))->format('%d')  }} Night</p><hr>
                     <p class="text-dark">Room Charges (GST Extra)
                     <span class="float-right h6 font-weight-600"><i class="las la-pound-sign"></i>{{  $searched->price }}</span>
                     </p>

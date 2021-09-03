@@ -4,6 +4,8 @@ namespace App\Http\Controllers\hotel;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use DB;
+use App\Models\Countries;
 
 class GuestDetailsController extends Controller
 {
@@ -60,6 +62,8 @@ class GuestDetailsController extends Controller
         }
         // return $hotelDetails;
 
+        $country=Countries::get();
+
         $GST =2.00;
         $Convenience_Fees =1.50;
         $Taxes_and_Fees  =1.50;
@@ -70,6 +74,7 @@ class GuestDetailsController extends Controller
             'Convenience_Fees'=>$Convenience_Fees,
             'Taxes_and_Fees'=>$Taxes_and_Fees,
             'options'=>$option,
+            'country'=>$country,
             'searched'=>$request
         ]);
     }
