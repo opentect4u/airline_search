@@ -223,7 +223,38 @@
                         <div class="col-6 border-right"><p class="m-0 text-dark">Check In <br><span class="font-weight-600">{{ Carbon\Carbon::parse($searched->check_in)->format('d/m/Y')}}</span></p></div>
                         <div class="col-6"><p class="m-0 text-dark">Check Out <br><span class="font-weight-600">{{ Carbon\Carbon::parse($searched->check_out)->format('d/m/Y')}}</span></p></div>
                     </div><hr>
-                    <p>{{$searched->hotel_adults}} Adults <?php if($searched->hotel_child !=0){ echo "and ".$searched->hotel_child."Child"; } if($searched->hotel_infant !=0){ echo "and ".$searched->hotel_infant."Infant"; } ?> <br>in {{$searched->hotel_room}} Room for {{ \Carbon\Carbon::parse($searched->check_in)->diff(\Carbon\Carbon::parse($searched->check_out))->format('%d')  }} Night</p><hr>
+                    <p>{{($searched->room1_hotel_adults+$searched->room2_hotel_adults+$searched->room3_hotel_adults+$searched->room4_hotel_adults)}} Adults 
+                    <?php 
+                            $child=0;
+                            if($searched->room1_hotel_child>0){
+                                $child+=1;
+                            }
+                            if($searched->room2_hotel_child>0){
+                                $child+=1;
+                            }
+                            if($searched->room3_hotel_child>0){
+                                $child+=1;
+                            }
+                            if($searched->room4_hotel_child>0){
+                                $child+=1;
+                            }
+                            if($searched->room1_hotel_infant>0){
+                                $child+=1;
+                            }
+                            if($searched->room2_hotel_infant>0){
+                                $child+=1;
+                            }
+                            if($searched->room3_hotel_infant>0){
+                                $child+=1;
+                            }
+                            if($searched->room4_hotel_infant>0){
+                                $child+=1;
+                            }
+                            if($child>0){
+                                echo ", ".$child." Child ";
+                            }
+                        ?>  
+                    <br>in {{$searched->hotel_room}} Room for {{ \Carbon\Carbon::parse($searched->check_in)->diff(\Carbon\Carbon::parse($searched->check_out))->format('%d')  }} Night</p><hr>
                     <p class="text-dark">Room Charges (GST Extra)
                     <span class="float-right h6 font-weight-600"><i class="las la-pound-sign"></i>{{ $searched->price }}</span>
                     </p>
