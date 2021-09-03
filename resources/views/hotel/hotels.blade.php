@@ -630,6 +630,7 @@
                                             <span class="text-muted mt-3 d-block">Facilities</span>
                                             <ul class="d-block mt-1">
                                                 <?php $count=0?>
+                                                @if(isset($hotelDetails[$i]['Facilities']['Facility']))
                                                 @foreach($hotelDetails[$i]['Facilities']['Facility'] as $facility)
                                                 <!-- {{print_r($facility)}} -->
                                                 @if(is_array($facility))
@@ -643,10 +644,11 @@
                                                     @endif
                                                 
                                                 @endif
-
                                                 @endforeach
+                                                @endif
                                                 <div id="all-amenities-facility{{$hotel[$i]['HotelId']}}" class="collapse">
                                                     <?php $count1=0?>
+                                                    @if(isset($hotelDetails[$i]['Facilities']['Facility']))
                                                     @foreach($hotelDetails[$i]['Facilities']['Facility'] as $facility)
                                                     @if(is_array($facility))
                                                         @if($facility['FacilityType'] =='Hotel Facilities')
@@ -657,6 +659,7 @@
                                                         @endif
                                                     @endif
                                                     @endforeach
+                                                    @endif
                                                 </div>
                                                 <li><a href="javascript:void(0)" data-toggle="collapse" data-target="#all-amenities-facility{{$hotel[$i]['HotelId']}}">Expand/Collapse <i class="las la-angle-down"></i></a></li>
 
