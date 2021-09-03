@@ -887,6 +887,8 @@
 
 @section('script')
 <script>
+    $('#loading').hide();
+    $('#loading_small').hide();
     var hotelRoom=<?php echo $searched->hotel_room; ?>;
     // alert(hotelRoom)
     for (let index = hotelRoom; index < 4; index++) {
@@ -1251,12 +1253,12 @@
             var val=$('#hotelNameFilter').val();
             // alert(val);
             if(val!=''){
-            $(".GlobalDiv").attr("data-GlobalDiv", "0")
+            $(".GlobalDiv").attr("data-GlobalDiv", "0");
             $(".GlobalDiv").hide();
-            $('.hotelName_'+val).show()
-            $('.hotelName_'+val).attr("data-GlobalDiv", "1")
+            $('.hotelName_'+val).show();
+            $('.hotelName_'+val).attr("data-GlobalDiv", "1");
             }else{
-                $(".GlobalDiv").attr("data-GlobalDiv", "1")
+                $(".GlobalDiv").attr("data-GlobalDiv", "1");
                 $(".GlobalDiv").show();  
             }
         })
@@ -1450,7 +1452,7 @@
 
         var Facility=0;
         $('input[name="Facility"]:checked').each(function() {
-            Facility+=1
+            Facility+=1;
             if(Facility==1){
                 $(".Facility"+val).show();
                 $(".Facility"+val).attr("data-GlobalDiv", "1");
@@ -1497,7 +1499,7 @@
 
         var Rating=0;
         $('input[name="Rating"]:checked').each(function() {
-            Rating=1
+            Rating=1;
         });
         if (Rating==1) {
             arr.push("Rating");
@@ -1571,12 +1573,12 @@
         var url= window.location.href;
         var slider_order='{{isset($searched->slider_order)?$searched->slider_order:''}}';
         if(slider_order==""){
-            $('#slider_order').val('')
-            $('#slider_order').val(var_val)
+            $('#slider_order').val('');
+            $('#slider_order').val(var_val);
             // var newurl=url+'&slider_order='+var_val;
         }else{
-            $('#slider_order').val('')
-            $('#slider_order').val(var_val)
+            $('#slider_order').val('');
+            $('#slider_order').val(var_val);
             // var newurl=url.split('&slider_order='+slider_order)[0];
             // var newurl=newurl+'&slider_order='+var_val;
         }
