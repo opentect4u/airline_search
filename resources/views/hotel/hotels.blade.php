@@ -1264,7 +1264,7 @@
                 // SortPrice1
                 for (let index = 0; index < pricearray.length; index++) {
                     for (let Divindex = 1; Divindex <=$('.GlobalDiv').length; Divindex++) {
-                        var dataArrivaltime=$(".SortPrice"+Divindex).attr("data-price-div")
+                        var dataArrivaltime=$(".SortPrice"+Divindex).attr("data-price-div");
                         if (dataArrivaltime==pricearray[index]) {
                             $(".MainDiv").append($(".SortPrice"+Divindex));
                         }
@@ -1287,7 +1287,7 @@
                 // SortPrice1
                 for (let index = 0; index < pricearray.length; index++) {
                     for (let Divindex = 1; Divindex <=$('.GlobalDiv').length; Divindex++) {
-                        var dataArrivaltime=$(".SortPrice"+Divindex).attr("data-price-div")
+                        var dataArrivaltime=$(".SortPrice"+Divindex).attr("data-price-div");
                         if (dataArrivaltime==pricearray[index]) {
                             $(".MainDiv").append($(".SortPrice"+Divindex));
                         }
@@ -1310,7 +1310,7 @@
                 // SortPrice1
                 for (let index = 0; index < datarating.length; index++) {
                     for (let Divindex = 1; Divindex <=$('.GlobalDiv').length; Divindex++) {
-                        var dataArrivaltime=$(".SortRating"+Divindex).attr("data-rating-div")
+                        var dataArrivaltime=$(".SortRating"+Divindex).attr("data-rating-div");
                         if (dataArrivaltime==datarating[index]) {
                             $(".MainDiv").append($(".SortRating"+Divindex));
                         }
@@ -1333,7 +1333,7 @@
                 // SortPrice1
                 for (let index = 0; index < datarating.length; index++) {
                     for (let Divindex = 1; Divindex <=$('.GlobalDiv').length; Divindex++) {
-                        var dataArrivaltime=$(".SortRating"+Divindex).attr("data-rating-div")
+                        var dataArrivaltime=$(".SortRating"+Divindex).attr("data-rating-div");
                         if (dataArrivaltime==datarating[index]) {
                             $(".MainDiv").append($(".SortRating"+Divindex));
                         }
@@ -1357,7 +1357,7 @@
                 // SortPrice1
                 for (let index = 0; index < datahotelname.length; index++) {
                     for (let Divindex = 1; Divindex <=$('.GlobalDiv').length; Divindex++) {
-                        var dataArrivaltime=$(".SortName"+Divindex).attr("data-hotelname-div")
+                        var dataArrivaltime=$(".SortName"+Divindex).attr("data-hotelname-div");
                         if (dataArrivaltime==datahotelname[index]) {
                             $(".MainDiv").append($(".SortName"+Divindex));
                         }
@@ -1381,7 +1381,7 @@
                 // SortPrice1
                 for (let index = 0; index < datahotelname.length; index++) {
                     for (let Divindex = 1; Divindex <=$('.GlobalDiv').length; Divindex++) {
-                        var dataArrivaltime=$(".SortName"+Divindex).attr("data-hotelname-div")
+                        var dataArrivaltime=$(".SortName"+Divindex).attr("data-hotelname-div");
                         if (dataArrivaltime==datahotelname[index]) {
                             $(".MainDiv").append($(".SortName"+Divindex));
                         }
@@ -1425,7 +1425,7 @@
         var SearchCount=0;
         var count=0;
      
-        $(".GlobalDiv").attr("data-GlobalDiv", "0")
+        $(".GlobalDiv").attr("data-GlobalDiv", "0");
         $(".GlobalDiv").hide();
        
         var arr=[];
@@ -1435,7 +1435,7 @@
             Facility+=1
             if(Facility==1){
                 $(".Facility"+val).show();
-                $(".Facility"+val).attr("data-GlobalDiv", "1")
+                $(".Facility"+val).attr("data-GlobalDiv", "1");
             }
         });
         // if (Facility==1) {
@@ -1512,54 +1512,7 @@
             });
           
         });
-        //  if (Stops==1&&Airline==1) {
-        //     $('input[name="Stops"]:checked').each(function() {
-        //     count=1
-        //     GlobalSearchCount=1;
-
-        //     $("."+this.value).show();  
-        //             $("."+this.value).attr("data-GlobalDiv", "1")
-
-        //         if ($("."+this.value).attr("data-GlobalDiv")==1) 
-        //         {
-                    
-        //         }  
-        //     } else {
-        //         $("."+this.value).show(); 
-        //         $("."+this.value).attr("data-GlobalDiv", "1")
-        //     }
-        //   });
-         
-        //   if(GlobalSearchCount==1)
-        //   {
-        //     $('input[name="Stops"]:not(:checked)').each(function() {
-        //         $("."+this.value).hide();
-        //         $("."+this.value).attr("data-GlobalDiv", "0")
-        //       });  
-        //   } 
-        //  }
-       
-         
-         
-         
-        //   $('input[name="Airline"]:checked').each(function() {
-        //     count=1
-        //     GlobalSearchCount=1;
-        //     if ($("."+this.value).attr("data-GlobalDiv")==1) 
-        //     {
-        //         $("."+this.value).show();
-        //     }
-
-        //   });
-        //   if(GlobalSearchCount==1)
-        //   {
-        //     $('input[name="Airline"]:not(:checked)').each(function() {
-
-        //         $(".GlobalDiv").attr("data-GlobalDiv", "0")
-
-
-        //       });  
-        //   }
+        
 
           if(SearchCount==0)
           {

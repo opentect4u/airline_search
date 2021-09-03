@@ -1204,20 +1204,32 @@
 
         $('.check_out_datetimepickerclass').on('click',function(){
             // alert("return hii")
-            // $("#returning_date_datetimepicker").datetimepicker("destroy");
+            $("#check_out_datetimepickerclass").datetimepicker("destroy");
             // returning_date
             var dep_val=$('#check_in').val();
+            var dep_val1 = dep_val.split("-").reverse().join("-");
+
+            // alert(dep_val1)
+            var someDate = new Date(dep_val1);
+            someDate.setDate(someDate.getDate() + 1); //number  of days to add, e.x. 15 days
+            var dateFormated = someDate.toISOString().substr(0,10);
+            // console.log(dateFormated);
+            // alert(dateFormated)
+            var dateFormated1 = dateFormated.split("-").reverse().join("-");
             $('#check_out').val('');
-            $('#check_out').val(dep_val);
+            $('#check_out').val(dateFormated1);
             
-            var newdate = dep_val.split("-").reverse().join("/");
+            var newdate = dateFormated1.split("-").reverse().join("/");
+            // alert(newdate);
             var datePeriode= new Date(newdate);
-            var adddate=datePeriode.setDate(datePeriode.getDate() + 1);
-            // alert(adddate);
+            // var adddate=datePeriode.setDate(datePeriode.getDate() + 1);
+            // alert(datePeriode);
             // alert(new Date(adddate))
+            // $('#check_out').val('');
+            // $('#check_out').val(new Date(adddate));
             $('#check_out_datetimepicker').datetimepicker({
                 pickTime: false,
-                startDate: new Date(adddate),
+                startDate: new Date(newdate),
                 autoclose: true,
                 todayHighlight: true,
             });

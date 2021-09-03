@@ -61,6 +61,7 @@ class HotelDetailsController extends Controller
             }
         }
         // return $hotelDetails;
+
         $xmloptions='';
         if(isset($Options['OptionId'])){
             // $xmloptions='<OptionId>'.$Options['OptionId'].'</OptionId>';
@@ -106,7 +107,7 @@ class HotelDetailsController extends Controller
                 // return $json['Body']['Error'];
                 // return $data;
             }else if(array_key_exists('Policies',$json['Body'])){
-                $Policies= $json['Body']['Policies'];
+                $Policies= $json['Body'];
                 // $hotel= $json['Body']['Hotels'];
                 // if(array_key_exists('HotelId',$hotel['Hotel'])){
                 //     // return $hotel['Hotel']['HotelId'];

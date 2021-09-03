@@ -54,9 +54,9 @@
                     <div class="share mt-2">
                         share:  
                         <ul>
-                            <li><a href="#"><img src="{{ asset('public/images/facebook.jpg')}}" alt="facebook"/></a></li>
-                            <li><a href="#"><img src="{{ asset('public/images/twitter.jpg')}}" alt="facebook"/></a></li>
-                            <li><a href="#"><img src="{{ asset('public/images/mail.png')}}" alt="facebook"/></a></li>
+                            <li><a href="https://www.facebook.com/" target="_blank"><img src="{{ asset('public/images/facebook.jpg')}}" alt="facebook"/></a></li>
+                            <li><a href="https://twitter.com/" target="_blank"><img src="{{ asset('public/images/twitter.jpg')}}" alt="facebook"/></a></li>
+                            <li><a href="mailto:info@cloudtravels.co.uk"><img src="{{ asset('public/images/mail.png')}}" alt="facebook"/></a></li>
                         </ul>
                     </div>
                     <!-- {{print_r($hotelDetails[0]['Images'])}} -->
@@ -97,14 +97,57 @@
                     
                     <h4 class="mb-0 h3 font-weight-600"><span class="text-danger"><i class="las la-pound-sign"></i>{{ isset($options[0]['TotalPrice'])?$options[0]['TotalPrice']:$options['TotalPrice']}}</span></h4>
                     <!-- <small>Per Room / Per Night</small> -->
-                    <h5 class="mb-0"><small class="text-muted"><i class="las la-bed"></i> {{ isset($options[0]['BoardType'])?$options[0]['BoardType']:$options['BoardType']}}</small></h5>
+                    <h5 class="mb-0"><small class="text-muted"><i class="las la-bed"></i> 
+                    <?php 
+                        if(isset($options[0]['Rooms']['Room']['RoomName'])){
+                          echo $options[0]['Rooms']['Room']['RoomName'];  
+                        }else if(isset($options['Rooms']['Room']['RoomName'])){
+                            echo $options['Rooms']['Room']['RoomName'];
+                        }else{
+                           echo $options[0]['Rooms']['Room'][0]['RoomName']; 
+                        }
+                    ?>
+                    </small></h5>
                     <!-- <h5 class="mb-0"><small class="text-muted"><i class="las la-bed"></i> Executive Room</small></h5> -->
                     <hr>
                     <div class="row align-items-center">
                         <div class="col-6 border-right"><p class="m-0 text-dark">Check In <br><span class="font-weight-600">{{ Carbon\Carbon::parse($searched->check_in)->format('d/m/Y')}}</span></p></div>
                         <div class="col-6"><p class="m-0 text-dark">Check Out <br><span class="font-weight-600">{{ Carbon\Carbon::parse($searched->check_out)->format('d/m/Y')}}</span></p></div>
                     </div><hr>
-                    <!-- <p class="text-dark">Per Room / Per Night <span class="float-right font-weight-600"><i class="las la-pound-sign"></i></span></p> -->
+
+                    <p class="text-dark">{{($searched->room1_hotel_adults+$searched->room2_hotel_adults+$searched->room3_hotel_adults+$searched->room4_hotel_adults)}} Adults 
+                        <?php 
+                            $child=0;
+                            if($searched->room1_hotel_child>0){
+                                $child+=1;
+                            }
+                            if($searched->room2_hotel_child>0){
+                                $child+=1;
+                            }
+                            if($searched->room3_hotel_child>0){
+                                $child+=1;
+                            }
+                            if($searched->room4_hotel_child>0){
+                                $child+=1;
+                            }
+                            if($searched->room1_hotel_infant>0){
+                                $child+=1;
+                            }
+                            if($searched->room2_hotel_infant>0){
+                                $child+=1;
+                            }
+                            if($searched->room3_hotel_infant>0){
+                                $child+=1;
+                            }
+                            if($searched->room4_hotel_infant>0){
+                                $child+=1;
+                            }
+                            if($child>0){
+                                echo ", ".$child." Child ";
+                            }
+                        ?>
+                    </p>
+                    
                       <!-- {{ \Carbon\Carbon::parse($searched->check_in)->diff(\Carbon\Carbon::parse($searched->check_out))->format('%d') }} -->
                     <p class="text-dark">{{$searched->hotel_room}} Room x {{ \Carbon\Carbon::parse($searched->check_in)->diff(\Carbon\Carbon::parse($searched->check_out))->format('%d') }} Nights <span class="float-right font-weight-600"><i class="las la-pound-sign"></i>{{ isset($options[0]['TotalPrice'])?$options[0]['TotalPrice']:$options['TotalPrice']}}</span></p><hr>
                     <h4 class="mb-3 font-weight-600">Total
@@ -229,17 +272,73 @@
                             <a class="nav-link" href="#guest-review">Guest Reviews</a>
                         </li> -->
                         <li class="nav-item">
-                            <a class="nav-link" href="#hotel-policies">Hotel Policies</a>
+                            <a class="nav-link" href="#hotel-policies">Description</a>
                         </li>
                     </ul>
                 </div>
                 <div id="rooms-rates" class="mb-5">
-                    @if(isset($options['BoardType']))
+                    @if(isset($options['Rooms']['Room']['RoomName']))
+                    <!-- {{isset($options[0]['Rooms']['Room']['RoomName'])?$options[0]['Rooms']['Room']['RoomName']: isset($options['Rooms']['Room']['RoomName'])?$options['Rooms']['Room']['RoomName']:$options[0]['Rooms']['Room'][0]['RoomName']}} -->
                     <div class="card card-body">
                         <div class="row">
                             <!-- {{json_encode($options)}} -->
                             <div class="col-md-8">
-                                <h4>{{$options['BoardType']}}</h4>
+                                <h4>{{$options['Rooms']['Room']['RoomName']}}</h4>
+                                <span class="badge badge-warning">Partially Cancellable</span>
+                                
+                                <ul class="amenities-ul">
+                                    <!-- <li>After 03/09/2021 17:59, Cancellation charge of GBP 40.14 will be applied.</li> -->
+                                    <!-- <li>Unlimited usage of internet <a href="#">+ 7 More</a></li> -->
+                                </ul>
+                                <!-- <ul class="amenities-ul">
+                                    <li>Accommodation only</li>
+                                    <li>Unlimited usage of internet <a href="#">+ 7 More</a></li>
+                                </ul> -->
+                            </div>
+                            <div class="col-md-4 border-left">
+                                <!-- <del class="text-muted"><i class="las la-pound-sign"></i>30.00/night</del><br> -->
+                                <h4 class="mb-0 h3 font-weight-600"><span class="text-danger"><i class="las la-pound-sign"></i>{{$options['TotalPrice']}}</span></h4>
+                                <!-- <small>Per Room / Per Night</small><br> -->
+                                <!-- <a href="guest-details.php" class="btn btn-primary mt-2">Book Now</a> -->
+                                <form action="{{route('guestdetails')}}" method="POST">
+                                    @csrf
+                                    <input type="text" name="hotel_id" value="{{$hotelDetails[0]['HotelId']}}" hidden>
+                                    <!-- <input type="text" name="currency" value="GBP" hidden> -->
+                                    <input type="text" name="option" value="{{json_encode($options)}}" hidden>
+                                    <input type="text" name="price" value="{{$options['TotalPrice']}}" hidden>
+                                    <input type="text" name="check_in" value="{{$searched->check_in}}" hidden>
+                                    <input type="text" name="check_out" value="{{$searched->check_out}}" hidden>
+                                    <input type="text" name="city_name" value="{{$searched->city_name}}" hidden>
+                                    <input type="text" name="hotel_room" value="{{$searched->hotel_room}}" hidden>
+
+                                    <input type="text" name="room1_hotel_adults" value="{{$searched->room1_hotel_adults}}" hidden>
+                                    <input type="text" name="room1_hotel_child" value="{{$searched->room1_hotel_child}}" hidden>
+                                    <input type="text" name="room1_hotel_infant" value="{{$searched->room1_hotel_infant}}" hidden>
+
+                                    <input type="text" name="room2_hotel_adults" value="{{$searched->room2_hotel_adults}}" hidden>
+                                    <input type="text" name="room2_hotel_child" value="{{$searched->room2_hotel_child}}" hidden>
+                                    <input type="text" name="room2_hotel_infant" value="{{$searched->room2_hotel_infant}}" hidden>
+
+                                    <input type="text" name="room3_hotel_adults" value="{{$searched->room3_hotel_adults}}" hidden>
+                                    <input type="text" name="room3_hotel_child" value="{{$searched->room3_hotel_child}}" hidden>
+                                    <input type="text" name="room3_hotel_infant" value="{{$searched->room3_hotel_infant}}" hidden>
+
+                                    <input type="text" name="room4_hotel_adults" value="{{$searched->room4_hotel_adults}}" hidden>
+                                    <input type="text" name="room4_hotel_child" value="{{$searched->room4_hotel_child}}" hidden>
+                                    <input type="text" name="room4_hotel_infant" value="{{$searched->room4_hotel_infant}}" hidden>
+                                        
+                                    <button type="submit" class="btn btn-primary mt-2" onclick="showLoder();">Book Now</button>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                    @elseif(isset($options['Rooms']['Room'][0]['RoomName']))
+                    <div class="card card-body">
+                        <div class="row">
+                            <!-- {{json_encode($options)}} -->
+                            <div class="col-md-8">
+                                <h4>{{$options['Rooms']['Room'][0]['RoomName']}}</h4>
                                 <span class="badge badge-warning">Partially Cancellable</span>
                                 
                                 <ul class="amenities-ul">
@@ -295,11 +394,11 @@
                         <div class="row">
                             <!-- {{json_encode($option)}} -->
                             <div class="col-md-8">
-                                <h4>{{$option['BoardType']}}</h4>
+                                <h4>{{isset($option['Rooms']['Room']['RoomName'])? $option['Rooms']['Room']['RoomName']: $option['Rooms']['Room'][0]['RoomName']}}</h4>
                                 <span class="badge badge-warning">Partially Cancellable</span>
                                 
                                 <ul class="amenities-ul">
-                                    <!-- <li>After 03/09/2021 17:59, Cancellation charge of GBP 40.14 will be applied.</li> -->
+                                    <li>After {{date('d-m-Y')}} 23:59, Cancellation charge of GBP {{$option['TotalPrice']}} will be applied.</li>
                                     <!-- <li>Unlimited usage of internet <a href="#">+ 7 More</a></li> -->
                                 </ul>
                                 <!-- <ul class="amenities-ul">
@@ -395,20 +494,26 @@
                 </div> -->
                 <hr>
                 <div id="hotel-policies" class="mt-5">
-                    <h4 class="font-weight-bold">Hotel Policies</h4>
+                    <h4 class="font-weight-bold">Description</h4>
+                        <!-- {{json_encode($policies)}} -->
+                    @if(isset($policies['Alerts']['Alert']))
                     <ul>
-                        <li>The standard check-in time is 02:00 PM and the standard check-out time is 12:00 PM.Early check-in or late check-out is strictly subjected to availability and may be chargeable by the hotel.Any early check-in or late check-out request must be directed and reconfirmed with hotel and may be chargeable by the hotel directly.</li>
-                        
-                        @foreach($policies as $policy)
-
+                        <!-- <li>The standard check-in time is 02:00 PM and the standard check-out time is 12:00 PM.Early check-in or late check-out is strictly subjected to availability and may be chargeable by the hotel.Any early check-in or late check-out request must be directed and reconfirmed with hotel and may be chargeable by the hotel directly.</li> -->
+                        @if(is_array($policies['Alerts']['Alert']))
+                        @foreach($policies['Alerts']['Alert'] as $policy)
+                            <li>{{$policy}}</li>
                         @endforeach
-                        
-                        <!-- <li>Payment of Room prior room check in.</li>
-                        <li>Valid ID for all adults is mandatory at the time of check in.</li>
-                        <li>Final rights of admission/check-in remain reserved with the hotel management & refund can be denied in-case any misconduct is observed by the hotel management.</li>
-                        <li>All Couple Friendly hotels allow Local IDs.</li>
-                        <li>Valid Local Id Accepted - Government ids with address will be accepted: Driving Licence, Aadhar card, Voter ID, Passport. Age Must be greater than 18.</li> -->
+                        @else
+                        <li>{{$policies['Alerts']['Alert']}}</li>
+                        @endif
+                       
                     </ul>
+                    @else
+                    <ul>
+                        <li></li>
+                        
+                    </ul>
+                    @endif
                 </div>
                 </div>
             </div>
