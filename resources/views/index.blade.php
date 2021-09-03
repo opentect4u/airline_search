@@ -1494,7 +1494,11 @@
                     return false;
                 }
             }
-            if(city_name!='' && check_in!='' && check_out!='' ){
+            // alert(check_in+" - "+check_out)
+            if (check_in==check_out) {
+                alert("Check in date and check out date can not be same");
+                return false;
+            }else if(city_name!='' && check_in!='' && check_out!=''){
                 $('#loading').show();
             }
         });

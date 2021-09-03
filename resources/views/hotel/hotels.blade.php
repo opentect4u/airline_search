@@ -968,19 +968,34 @@
             // $("#returning_date_datetimepicker").datetimepicker("destroy");
             // returning_date
             var dep_val=$('#check_in').val();
+            var dep_val1 = dep_val.split("-").reverse().join("-");
+
+            // alert(dep_val1)
+            var someDate = new Date(dep_val1);
+            someDate.setDate(someDate.getDate() + 1); //number  of days to add, e.x. 15 days
+            var dateFormated = someDate.toISOString().substr(0,10);
+            // console.log(dateFormated);
+            // alert(dateFormated)
+            var dateFormated1 = dateFormated.split("-").reverse().join("-");
             $('#check_out').val('');
-            $('#check_out').val(dep_val);
+            $('#check_out').val(dateFormated1);
             
-            var newdate = dep_val.split("-").reverse().join("/");
+            var newdate = dateFormated1.split("-").reverse().join("/");
+            // alert(newdate);
             var datePeriode= new Date(newdate);
-            var adddate=datePeriode.setDate(datePeriode.getDate() + 1);
+            // var adddate=datePeriode.setDate(datePeriode.getDate() + 1);
+            // alert(datePeriode);
+            // alert(new Date(adddate))
+            // $('#check_out').val('');
+            // $('#check_out').val(new Date(adddate));
+            // $('#check_out_datetimepicker').datetimepicker('setStartDate', '2020-09-10');
             // alert(adddate);
             // alert(new Date(adddate))
             $('#check_out_datetimepicker').datetimepicker({
                 pickTime: false,
-                startDate: new Date(adddate),
-                autoclose: true,
-                todayHighlight: true,
+                startDate: new Date(datePeriode),
+                // autoclose: true,
+                // todayHighlight: true,
             });
 
             // $('#returning_date_datetimepicker').datetimepicker("show");
@@ -1221,7 +1236,10 @@
                     return false;
                 }
             }
-            if(city_name!='' && check_in!='' && check_out!='' ){
+            if (check_in==check_out) {
+                alert("Check in date and check out date can not be same");
+                return false;
+            }else if(city_name!='' && check_in!='' && check_out!='' ){
                 $('#loading').show();
             }
         });
