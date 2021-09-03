@@ -905,8 +905,8 @@
 </script>
 <script>
     $( document ).ready(function() {
-        $('#loading').hide();
-        $('#loading_small').hide();
+        // $('#loading').hide();
+        // $('#loading_small').hide();
         // alert("hotel");
         // hotel_submit
         var path = "{{ route('searchhotel') }}";
