@@ -1191,7 +1191,7 @@
                 autoclose: true, 
                 startDate: new Date(),
                 todayHighlight: true,
-                // minDate: new Date(),
+                // minDate: new Date('2021/09/10'),
                 // defaultDate: new Date(),
             });
             $('#check_in_datetimepicker').datetimepicker("show").on('changeDate', function(){
@@ -1204,7 +1204,7 @@
 
         $('.check_out_datetimepickerclass').on('click',function(){
             // alert("return hii")
-            $("#check_out_datetimepickerclass").datetimepicker("destroy");
+            // $("#check_out_datetimepicker").datetimepicker("destroy");
             // returning_date
             var dep_val=$('#check_in').val();
             var dep_val1 = dep_val.split("-").reverse().join("-");
@@ -1227,11 +1227,15 @@
             // alert(new Date(adddate))
             // $('#check_out').val('');
             // $('#check_out').val(new Date(adddate));
+            // $('#check_out_datetimepicker').datetimepicker('setStartDate', '2020-09-10');
+
             $('#check_out_datetimepicker').datetimepicker({
                 pickTime: false,
                 startDate: new Date(newdate),
-                autoclose: true,
-                todayHighlight: true,
+                // setStartDate: new Date(newdate),
+                // minDate:new Date(newdate),
+                // autoclose: true,
+                // todayHighlight: true,
             });
 
             // $('#returning_date_datetimepicker').datetimepicker("show");

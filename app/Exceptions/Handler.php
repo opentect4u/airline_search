@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -34,6 +35,10 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
+
+        $this->renderable(function (MethodNotAllowedHttpException $e, $request) {
+            return redirect()->route('errorPage')->with('searcherror','searcherror');
+        });
         $this->reportable(function (Throwable $e) {
             //
         });

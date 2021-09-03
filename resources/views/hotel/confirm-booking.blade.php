@@ -204,8 +204,36 @@
 
 
                                     <div class="col-md-12">
-                                        <h4 class="mt-3"> <b class="float-right"><b>Total: </b><span
-                                                    class="text-light-blue">£{{ number_format(($bookdetails[0]['TotalPrice'] + $searched->GST + $searched->Convenience_Fees + $searched->Taxes_and_Fees),2) }}</span></b></h4>
+                                        <h4 class="mt-3"> 
+                                            <b class="float-right">
+                                                <b>Room Charges (GST Extra): </b>
+                                                <span class="text-light-blue">£{{ number_format($bookdetails[0]['TotalPrice'] ,2) }}</span>
+                                            </b>
+                                        </h4>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <h4 class="mt-3"> 
+                                            <b class="float-right">
+                                                <b>GST on Room Charges: </b>
+                                                <span class="text-light-blue">£{{ number_format($searched->GST ,2) }}</span>
+                                            </b>
+                                        </h4>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <h4 class="mt-3"> 
+                                            <b class="float-right">
+                                                <b>Convenience Fees: </b>
+                                                <span class="text-light-blue">£{{ number_format($searched->Convenience_Fees ,2) }}</span>
+                                            </b>
+                                        </h4>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <h4 class="mt-3"> 
+                                            <b class="float-right">
+                                                <b>Taxes & Fees: </b>
+                                                <span class="text-light-blue">£{{ number_format($searched->Taxes_and_Fees,2) }}</span>
+                                            </b>
+                                        </h4>
                                     </div>
                                 </div>
 
