@@ -15,7 +15,7 @@
             </div>
             <div class="col-lg-12">
                 <div class="card align-items-center">
-                    @if(count($bookdetails)>0)
+                    @if(isset($bookdetails[0]['BookingReference']))
                     <img src="{{ asset('public/images/done.gif')}}" alt="done" style="width:120px;" class="img-fluid m-auto" />
                     <h1 class="font-weight-600 mt-4">Thank You</h1>
                     <h4>You successfully created your booking</h4>
