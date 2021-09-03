@@ -167,9 +167,9 @@
                                                             HOTEL ID :- {{$bookdetails[0]['HotelId']}}
                                                         </td>
                                                         <td>{{$bookdetails[0]['Rooms']['Room']['RoomName']}}</td>
-                                                        <td>{{$bookdetails[0]['CheckInDate']}}<br>
+                                                        <td>{{ \Carbon\Carbon::parse($bookdetails[0]['CheckInDate'])->format('d-m-Y')}}<br>
                                                         </td>
-                                                        <td>{{$bookdetails[0]['CheckOutDate']}}<br>
+                                                        <td>{{ \Carbon\Carbon::parse($bookdetails[0]['CheckOutDate'])->format('d-m-Y')}}<br>
                                                         </td>
                                                         <td>Room 1</td>
                                                         <td>{{$bookdetails[0]['Rooms']['Room']['NumAdults']}}</td>
@@ -186,9 +186,9 @@
                                                                 HOTEL ID :- {{$bookdetails[0]['HotelId']}}
                                                             </td>
                                                             <td>{{$rooms['RoomName']}}</td>
-                                                            <td>{{$bookdetails[0]['CheckInDate']}}<br>
+                                                            <td>{{ \Carbon\Carbon::parse($bookdetails[0]['CheckInDate'])->format('d-m-Y')}}<br>
                                                             </td>
-                                                            <td>{{$bookdetails[0]['CheckOutDate']}}<br>
+                                                            <td>{{ \Carbon\Carbon::parse($bookdetails[0]['CheckOutDate'])->format('d-m-Y')}}<br>
                                                             </td>
                                                             <td>Room {{$namecount}}</td>
                                                             <td>{{$rooms['NumAdults']}}</td>
@@ -252,10 +252,18 @@
                                             <p>Terms and Conditions<br />
                                                 <span class="style1"><strong>Notes:</strong></span>
                                             </p>
+                                            @if(is_array($bookdetails[0]['Alerts']['Alert']))
                                             <ul type="disc">
-                                                <li class="style1"><strong>Cancellation Deadline: {{$bookdetails[0]['CancellationDeadline']}}</strong>&nbsp;&nbsp; </li>
+                                                <!-- <li class="style1"><strong>Cancellation Deadline: {{$bookdetails[0]['CancellationDeadline']}}</strong>&nbsp;&nbsp; </li> -->
+                                                @foreach($bookdetails[0]['Alerts']['Alert'] as $alert)
+                                                <li class="style1">{{$alert}}</li>
+                                                @endforeach
                                             </ul>
-                                            
+                                            @else
+                                            <ul type="disc">
+                                                <li class="style1">{{$bookdetails[0]['Alerts']['Alert']}}</li>
+                                            </ul>
+                                            @endif
                                            
                                             <p>
                                                 <?php //echo $bookdetails[0]['Alerts']['Alert'];?>

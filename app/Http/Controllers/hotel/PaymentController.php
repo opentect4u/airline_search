@@ -98,6 +98,12 @@ class PaymentController extends Controller
             // room1_hotel_infant
             // return $options['Rooms']['Room']['RoomId'];
             // $allxmldata
+            $i=1;
+            $adult = 'room'.$i.'_hotel_adults';
+            // echo "</br>";
+            $child ='room'.$i.'_hotel_child';
+            // echo "</br>";
+            $infant ='room'.$i.'_hotel_infant';
             
             $allxmldata0='<Room>
                 <RoomId>'.$options['Rooms']['Room']['RoomId'].'</RoomId>
