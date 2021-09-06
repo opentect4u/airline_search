@@ -8,6 +8,7 @@ use App\Models\HotelCurrency;
 use App\Models\HotelGuestDetails;
 use App\Models\HotelGuestRoom;
 use App\Models\HotelPaymentDetails;
+use App\Models\HotelGuestRoomDetails;
 
 class PaymentController extends Controller
 {
@@ -277,31 +278,91 @@ class PaymentController extends Controller
             if(isset($bookdetails[0]['Rooms']['Room']['RoomName'])){
                 // return $bookdetails[0]['Rooms']['Room']['RoomName'];
                 HotelGuestRoom::create(array(
-                    'booking_reference'=>$bookdetails[5]['BookingReference'],
+                    'booking_reference'=>$bookdetails[0]['BookingReference'],
                     'room_name'=>$bookdetails[0]['Rooms']['Room']['RoomName'],
                     'num_adults'=>$bookdetails[0]['Rooms']['Room']['NumAdults'],
                     'num_children'=>$bookdetails[0]['Rooms']['Room']['NumChildren'],
                 ));
-    
+                for ($i=1; $i <=$bookdetails[0]['Rooms']['Room']['NumAdults']; $i++) { 
+                    $first_name='room1_first_name'.$i;
+                    $last_name='room1_last_name'.$i;
+                    HotelGuestRoomDetails::create(array(
+                        'booking_reference'=>$bookdetails[0]['BookingReference'],
+                        'pax_type' => 'ADULT',
+                        'room_no' => 1,
+                        'first_name' => $first_name,
+                        'last_name' => $last_name,
+                    ));
+                }
+                for ($j=1; $j <=$bookdetails[0]['Rooms']['Room']['NumChildren']; $j++) { 
+                    // room1_child1_first_name
+                    $first_name='room'.$count.'_child'.$j.'_first_name';
+                    $last_name='room'.$count.'_child'.$j.'_last_name';
+                    HotelGuestRoomDetails::create(array(
+                        'booking_reference'=>$bookdetails[0]['BookingReference'],
+                        'pax_type' => 'CHILD',
+                        'room_no' => 1,
+                        'first_name' => $request->$first_name,
+                        'last_name' => $request->$last_name,
+                    ));
+                }
+                
             }else{
                 // return $bookdetails[0]['Rooms']['Room'];
                 $rooms = $bookdetails[0]['Rooms']['Room'];
                 $count=1;
+                $room_no=0;
+                $num_adults=0;
+                $num_children=0;
                 foreach($rooms as $room){
-                    HotelGuestRoom::create(array(
-                        'booking_reference'=>$bookdetails[0]['BookingReference'],
-                        'room_name'=>$room['RoomName'],
-                        'room_no'=>$count,
-                        'num_adults'=>$room['NumAdults'],
-                        'num_children'=>$room['NumChildren'],
-                    ));
+                    // HotelGuestRoom::create(array(
+                    //     'booking_reference'=>$bookdetails[0]['BookingReference'],
+                    //     'room_name'=>$room['RoomName'],
+                    //     'room_no'=>$count,
+                    //     'num_adults'=>$room['NumAdults'],
+                    //     'num_children'=>$room['NumChildren'],
+                    // ));
+                    $room_no=$room_no+1;
+                    $num_adults=$num_adults + $room['NumAdults'];
+                    $num_children=$num_children + $room['NumChildren'];
+                    for ($i=1; $i <=$room['NumAdults']; $i++) { 
+                        $first_name='room'.$count.'_first_name'.$i;
+                        $last_name='room'.$count.'_last_name'.$i;
+                        HotelGuestRoomDetails::create(array(
+                            'booking_reference'=>$bookdetails[0]['BookingReference'],
+                            'pax_type' => 'ADULT',
+                            'room_no' => $count,
+                            'first_name' => $request->$first_name,
+                            'last_name' => $request->$last_name,
+                        ));
+                    }
+                    for ($j=1; $j <=$room['NumChildren']; $j++) { 
+                        // room1_child1_first_name
+                        $first_name='room'.$count.'_child'.$j.'_first_name';
+                        $last_name='room'.$count.'_child'.$j.'_last_name';
+                        HotelGuestRoomDetails::create(array(
+                            'booking_reference'=>$bookdetails[0]['BookingReference'],
+                            'pax_type' => 'CHILD',
+                            'room_no' => $count,
+                            'first_name' => $request->$first_name,
+                            'last_name' => $request->$last_name,
+                        ));
+                    }
                     $count++;
                 }
+                HotelGuestRoom::create(array(
+                    'booking_reference'=>$bookdetails[0]['BookingReference'],
+                    'room_name'=>$room['RoomName'],
+                    'room_no'=>$room_no,
+                    'num_adults'=>$num_adults,
+                    'num_children'=>$num_children,
+                ));
             }
             // end add details database
-
+            $guestdetails=HotelGuestRoomDetails::where('booking_reference',$bookdetails[0]['BookingReference'])->get();
             return view('hotel.confirm-booking',[
                 'bookdetails'=>$bookdetails,
+                'guestdetails'=>$guestdetails,
                 'searched'=>$request
             ]);
 

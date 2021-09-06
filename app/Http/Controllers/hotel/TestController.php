@@ -8,6 +8,7 @@ use App\Models\HotelCurrency;
 use App\Models\HotelGuestDetails;
 use App\Models\HotelGuestRoom;
 use App\Models\HotelPaymentDetails;
+use App\Models\HotelGuestRoomDetails;
 
 class TestController extends Controller
 {
@@ -87,11 +88,42 @@ class TestController extends Controller
         if(isset($bookdetails[0]['Rooms']['Room']['RoomName'])){
             // return $bookdetails[0]['Rooms']['Room']['RoomName'];
             HotelGuestRoom::create(array(
-                'booking_reference'=>$bookdetails[5]['BookingReference'],
+                'booking_reference'=>$bookdetails[0]['BookingReference'],
                 'room_name'=>$bookdetails[0]['Rooms']['Room']['RoomName'],
                 'num_adults'=>$bookdetails[0]['Rooms']['Room']['NumAdults'],
                 'num_children'=>$bookdetails[0]['Rooms']['Room']['NumChildren'],
             ));
+            // room1_first_name2": "cccc",
+            // "room1_last_name2": "ddddd",
+            // "room1_child1_first_name": "eeee",
+            // "room1_child1_last_name": "ffffff",
+            // for ($i=1; $i <=$bookdetails[0]['Rooms']['Room']['NumAdults']; $i++) { 
+            //     $first_name='room1_first_name'.$i;
+            //     $last_name='room1_last_name'.$i;
+            //     HotelGuestRoomDetails::create(array(
+            //         'booking_reference'=>$bookdetails[0]['BookingReference'],
+            //         'pax_type' => 'ADULT',
+            //         'room_no' => 1,
+            //         'first_name' => $first_name,
+            //         'last_name' => $last_name,
+            //     ));
+            // }
+            // HotelGuestRoomDetails::create(array(
+            //     'booking_reference'=>$bookdetails[0]['BookingReference'],
+            //     'pax_type' => 'ADULT',
+            //     'room_no' => 1,
+            //     'first_name' => $room1_child1_first_name,
+            //     'last_name' => $room1_child1_last_name,
+            // ));
+            // HotelGuestRoomDetails::create(array(
+            //     'booking_reference'=>$bookdetails[0]['BookingReference'],
+            //     'pax_type' => 'ADULT',
+            //     'room_no' => 1,
+            //     'first_name' => $room1_child2_first_name,
+            //     'last_name' => $room1_child2_last_name,
+            // ));
+            
+
 
         }else{
             // return $bookdetails[0]['Rooms']['Room'];
@@ -105,6 +137,29 @@ class TestController extends Controller
                     'num_adults'=>$room['NumAdults'],
                     'num_children'=>$room['NumChildren'],
                 ));
+                // for ($i=1; $i <=$room['NumAdults']; $i++) { 
+                //     $first_name='room'.$count.'_first_name'.$i;
+                //     $last_name='room'.$count.'_last_name'.$i;
+                //     HotelGuestRoomDetails::create(array(
+                //         'booking_reference'=>$bookdetails[0]['BookingReference'],
+                //         'pax_type' => 'ADULT',
+                //         'room_no' => $count,
+                //         'first_name' => $request->$first_name,
+                //         'last_name' => $request->$last_name,
+                //     ));
+                // }
+                // for ($j=1; $j <=$room['NumChildren']; $j++) { 
+                //     // room1_child1_first_name
+                //     $first_name='room'.$count.'_child'.$j.'_first_name';
+                //     $last_name='room'.$count.'_child'.$j.'_last_name';
+                //     HotelGuestRoomDetails::create(array(
+                //         'booking_reference'=>$bookdetails[0]['BookingReference'],
+                //         'pax_type' => 'CHILD',
+                //         'room_no' => $count,
+                //         'first_name' => $request->$first_name,
+                //         'last_name' => $request->$last_name,
+                //     ));
+                // }
                 $count++;
             }
         }

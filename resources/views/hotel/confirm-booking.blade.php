@@ -100,6 +100,7 @@
                                                     <tr class="invoice-table">
                                                         <th>S#</th>
                                                         <th>Pax Type</th>
+                                                        <!-- <th>Room No</th> -->
                                                         <th>First Name / Title</th>
                                                         <th>Last Name</th>
                                                     </tr>
@@ -107,13 +108,17 @@
                                                 <tbody>
                                                     <?php $p=explode(" ",$bookdetails[0]['LeaderName']);
                                                         // print_r($p);
+                                                        $count=1;
                                                     ?>
+                                                    @foreach($guestdetails as $guest)
                                                     <tr>
-                                                        <td>1</td>
-                                                        <td>ADULT</td>
-                                                        <td>{{$p[0]}}</td>
-                                                        <td>{{$p[1]}}</td>
+                                                        <td>{{$count++}}</td>
+                                                        <td>{{$guest->pax_type}}</td>
+                                                        <!-- <td>{{"Room ".$guest->room_no}}</td> -->
+                                                        <td>{{$guest->first_name}}</td>
+                                                        <td>{{$guest->last_name}}</td>
                                                     </tr>
+                                                    @endforeach
                                                 </tbody>
                                             </table>
                                         </div>
@@ -146,7 +151,7 @@
                                                         <th>Room Name</th>
                                                         <th>Check In</th>
                                                         <th>Check Out</th>
-                                                        <th>Room No</th>
+                                                        <th>No of Rooms</th>
                                                         <th>Number Adults</th>
                                                         <th>Number Children</th>
 
@@ -171,13 +176,24 @@
                                                         </td>
                                                         <td>{{ \Carbon\Carbon::parse($bookdetails[0]['CheckOutDate'])->format('d-m-Y')}}<br>
                                                         </td>
-                                                        <td>Room 1</td>
+                                                        <td> 1</td>
                                                         <td>{{$bookdetails[0]['Rooms']['Room']['NumAdults']}}</td>
                                                         <td>{{$bookdetails[0]['Rooms']['Room']['NumChildren']}}</td>
                                                     </tr>
                                                     @else
-                                                        <?php $namecount=1; ?>
+                                                        <?php 
+                                                            $namecount=0;
+                                                            $num_adults=0;
+                                                            $num_children=0;
+                                                         ?>
                                                         @foreach($bookdetails[0]['Rooms']['Room'] as $rooms)
+                                                        <?php 
+                                                            $namecount++; 
+                                                            $num_adults=$num_adults + $rooms['NumAdults'];
+                                                            $num_children=$num_children + $rooms['NumChildren'];
+
+                                                        ?>
+                                                        @endforeach
                                                         <tr>
                                                             <td>{{$bookdetails[0]['HotelName']}} 
                                                                 <br>
@@ -190,12 +206,11 @@
                                                             </td>
                                                             <td>{{ \Carbon\Carbon::parse($bookdetails[0]['CheckOutDate'])->format('d-m-Y')}}<br>
                                                             </td>
-                                                            <td>Room {{$namecount}}</td>
-                                                            <td>{{$rooms['NumAdults']}}</td>
-                                                            <td>{{$rooms['NumChildren']}}</td>
+                                                            <td>{{$namecount}}</td>
+                                                            <td>{{$num_adults}}</td>
+                                                            <td>{{$num_children}}</td>
                                                         </tr>  
-                                                        <?php $namecount++; ?>
-                                                        @endforeach
+                                                        
                                                     @endif
                                                 </tbody>
                                             </table>
