@@ -97,6 +97,7 @@
                                         <input type="text" name="check_out" value="{{$searched->check_out}}" hidden>
                                         <input type="text" name="city_name" value="{{$searched->city_name}}" hidden>
                                         <input type="text" name="hotel_room" value="{{$searched->hotel_room}}" hidden>
+                                        <input type="text" name="currency" value="{{$searched->currency}}" hidden>
 
                                         <input type="text" name="room1_hotel_adults" value="{{$searched->room1_hotel_adults}}" hidden>
                                         <input type="text" name="room1_hotel_child" value="{{$searched->room1_hotel_child}}" hidden>
@@ -113,7 +114,13 @@
                                         <input type="text" name="room4_hotel_adults" value="{{$searched->room4_hotel_adults}}" hidden>
                                         <input type="text" name="room4_hotel_child" value="{{$searched->room4_hotel_child}}" hidden>
                                         <input type="text" name="room4_hotel_infant" value="{{$searched->room4_hotel_infant}}" hidden>
-                                        <button type="submit" class="btn btn-primary" onclick="showLoder();">Pay <i class="las la-pound-sign"></i> {{ number_format(( $searched->price +$searched->GST+$searched->Convenience_Fees+$searched->Taxes_and_Fees),2) }}</button>
+                                        <button type="submit" class="btn btn-primary" onclick="showLoder();">Pay 
+                                        <!-- <i class="las la-pound-sign"></i>  -->
+                                        <?php 
+                                            echo $val=DB::table('hotel_currency')->where('currency',$searched->currency)->value('icon');
+                                            echo " ";
+                                        ?>
+                                        {{ number_format(( $searched->price +$searched->GST+$searched->Convenience_Fees+$searched->Taxes_and_Fees),2) }}</button>
                                         <!-- <a href="confirm-booking.php" class="btn btn-primary">Pay <i class="las la-pound-sign"></i>88.00</a> -->
                                 </div>
                                 </form>
@@ -256,18 +263,48 @@
                         ?>  
                     <br>in {{$searched->hotel_room}} Room for {{ \Carbon\Carbon::parse($searched->check_in)->diff(\Carbon\Carbon::parse($searched->check_out))->format('%d')  }} Night</p><hr>
                     <p class="text-dark">Room Charges (GST Extra)
-                    <span class="float-right h6 font-weight-600"><i class="las la-pound-sign"></i>{{ $searched->price }}</span>
+                    <span class="float-right h6 font-weight-600">
+                        <!-- <i class="las la-pound-sign"></i> -->
+                        <?php 
+                            echo $val=DB::table('hotel_currency')->where('currency',$searched->currency)->value('icon');
+                            echo " ";
+                        ?>
+                        {{ $searched->price }}</span>
                     </p>
                     <p class="text-dark">GST on Room Charges
-                    <span class="float-right h6 font-weight-600"><i class="las la-pound-sign"></i>{{number_format($searched->GST,2)}}</span>
+                    <span class="float-right h6 font-weight-600">
+                        <!-- <i class="las la-pound-sign"></i> -->
+                        <?php 
+                            echo $val=DB::table('hotel_currency')->where('currency',$searched->currency)->value('icon');
+                            echo " ";
+                        ?>
+                        {{number_format($searched->GST,2)}}</span>
                     </p>
                     <p class="text-dark">Convenience Fees
-                    <span class="float-right h6 font-weight-600"><i class="las la-pound-sign"></i>{{number_format($searched->Convenience_Fees,2)}}</span>
+                    <span class="float-right h6 font-weight-600">
+                        <!-- <i class="las la-pound-sign"></i> -->
+                        <?php 
+                            echo $val=DB::table('hotel_currency')->where('currency',$searched->currency)->value('icon');
+                            echo " ";
+                        ?>
+                        {{number_format($searched->Convenience_Fees,2)}}</span>
                     </p>
                     <p class="text-dark">Taxes & Fees
-                    <span class="float-right h6 font-weight-600"><i class="las la-pound-sign"></i>{{number_format($searched->Taxes_and_Fees,2)}}</span>
+                    <span class="float-right h6 font-weight-600">
+                        <!-- <i class="las la-pound-sign"></i> -->
+                        <?php 
+                            echo $val=DB::table('hotel_currency')->where('currency',$searched->currency)->value('icon');
+                            echo " ";
+                        ?>
+                        {{number_format($searched->Taxes_and_Fees,2)}}</span>
                     </p><hr>
-                    <p class="mb-4 font-weight-600">Total<span class="text-danger float-right"><i class="las la-pound-sign"></i>{{ number_format(( $searched->price +$searched->GST+$searched->Convenience_Fees+$searched->Taxes_and_Fees),2) }}</span></p>
+                    <p class="mb-4 font-weight-600">Total<span class="text-danger float-right">
+                        <!-- <i class="las la-pound-sign"></i> -->
+                        <?php 
+                            echo $val=DB::table('hotel_currency')->where('currency',$searched->currency)->value('icon');
+                            echo " ";
+                        ?>
+                        {{ number_format(( $searched->price +$searched->GST+$searched->Convenience_Fees+$searched->Taxes_and_Fees),2) }}</span></p>
                 </div>
             </div>
         </div>

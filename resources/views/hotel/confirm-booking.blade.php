@@ -207,7 +207,10 @@
                                         <h4 class="mt-3"> 
                                             <b class="float-right">
                                                 <b>Room Charges (GST Extra): </b>
-                                                <span class="text-light-blue">£{{ number_format($bookdetails[0]['TotalPrice'] ,2) }}</span>
+                                                <span class="text-light-blue"><?php 
+                                                    echo $val=DB::table('hotel_currency')->where('currency',$searched->currency)->value('icon');
+                                                    echo " ";
+                                                ?>{{ number_format($bookdetails[0]['TotalPrice'] ,2) }}</span>
                                             </b>
                                         </h4>
                                     </div>
@@ -215,7 +218,10 @@
                                         <h4 class="mt-3"> 
                                             <b class="float-right">
                                                 <b>GST on Room Charges: </b>
-                                                <span class="text-light-blue">£{{ number_format($searched->GST ,2) }}</span>
+                                                <span class="text-light-blue"><?php 
+                                                    echo $val=DB::table('hotel_currency')->where('currency',$searched->currency)->value('icon');
+                                                    echo " ";
+                                                ?>{{ number_format($searched->GST ,2) }}</span>
                                             </b>
                                         </h4>
                                     </div>
@@ -223,7 +229,10 @@
                                         <h4 class="mt-3"> 
                                             <b class="float-right">
                                                 <b>Convenience Fees: </b>
-                                                <span class="text-light-blue">£{{ number_format($searched->Convenience_Fees ,2) }}</span>
+                                                <span class="text-light-blue"><?php 
+                                                    echo $val=DB::table('hotel_currency')->where('currency',$searched->currency)->value('icon');
+                                                    echo " ";
+                                                ?>{{ number_format($searched->Convenience_Fees ,2) }}</span>
                                             </b>
                                         </h4>
                                     </div>
@@ -231,7 +240,10 @@
                                         <h4 class="mt-3"> 
                                             <b class="float-right">
                                                 <b>Taxes & Fees: </b>
-                                                <span class="text-light-blue">£{{ number_format($searched->Taxes_and_Fees,2) }}</span>
+                                                <span class="text-light-blue"><?php 
+                                                    echo $val=DB::table('hotel_currency')->where('currency',$searched->currency)->value('icon');
+                                                    echo " ";
+                                                ?>{{ number_format($searched->Taxes_and_Fees,2) }}</span>
                                             </b>
                                         </h4>
                                     </div>
@@ -249,7 +261,10 @@
                                                 <p class="mb-1"><b>Total Amount:</b></p>
                                             </div>
                                             <div class="" style="display:inline-block;">
-                                                <p class="mb-1"> £
+                                                <p class="mb-1"> <?php 
+                                                    echo $val=DB::table('hotel_currency')->where('currency',$searched->currency)->value('icon');
+                                                    echo " ";
+                                                ?>
 
                                                 {{number_format(($bookdetails[0]['TotalPrice'] + $searched->GST + $searched->Convenience_Fees + $searched->Taxes_and_Fees),2)}}
                                                 </p>
@@ -261,7 +276,10 @@
                                                 <p class="mb-1"><b>Balance Due:</b></p>
                                             </div>
                                             <div class="" style="display:inline-block;">
-                                                £ {{number_format(($bookdetails[0]['TotalPrice'] + $searched->GST + $searched->Convenience_Fees + $searched->Taxes_and_Fees),2)}} </div>
+                                            <?php 
+                                                echo $val=DB::table('hotel_currency')->where('currency',$searched->currency)->value('icon');
+                                                echo " ";
+                                            ?> {{number_format(($bookdetails[0]['TotalPrice'] + $searched->GST + $searched->Convenience_Fees + $searched->Taxes_and_Fees),2)}} </div>
                                         </div>
 
 

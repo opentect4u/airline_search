@@ -500,6 +500,14 @@
                             </div>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label>Currency</label>
+                        <select name="currency" id="currency" class="form-control">
+                            @foreach($hotel_currency as $hotel_currencies)
+                            <option value="{{$hotel_currencies->currency}}">{{$hotel_currencies->currency}}</option>
+                            @endforeach
+                        </select>
+                    </div>
                     <button type="submit" name="hotel_submit" id="hotel_submit" class="btn btn-primary">Search Hotels</button>
                     <!-- <a href="hotels.php" class="btn btn-primary">Search Hotels</a> -->
                 </form>

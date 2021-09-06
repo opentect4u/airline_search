@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\HotelCities;
 use App\Models\HotelCountries;
+use App\Models\HotelCurrency;
 
 class MasterController extends Controller
 {

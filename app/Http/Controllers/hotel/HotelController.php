@@ -8,12 +8,15 @@ use Carbon\Carbon;
 use App\Models\HotelCities;
 use App\Models\HotelCountries;
 use DB;
+use App\Models\HotelCurrency;
 
 class HotelController extends Controller
 {
     public function Search(Request $request){
         // return "hii";
         // return $request;
+        $currency=$request->currency;
+        // return $currency;
         if(isset(explode('(',$request->city_name)[0]) && isset(explode('(',$request->city_name)[1])){
             $city_name =  str_replace(')','',explode('(',$request->city_name)[0]);
             $country_code =  str_replace(')','',explode('(',$request->city_name)[1]);
@@ -107,7 +110,7 @@ class HotelController extends Controller
                             '.$xmldata.'
                         </Rooms>
                         <Nationality>'.$country_code.'</Nationality>
-                        <Currency>GBP</Currency>
+                        <Currency>'.$currency.'</Currency>
                         <AvailableOnly>0</AvailableOnly>
                     </Body>
                 </Request>';
@@ -301,12 +304,14 @@ class HotelController extends Controller
         // $vl="2.5";
         // return json_decode($vl);
         // return $hotelDetails;
+        $hotel_currency=HotelCurrency::get();
         return view('hotel.hotels',[
             'hotels'=>$data1,
             'hotelDetails'=>$hotelDetails,
             'searched'=>$request,
             'allfacilities'=>$allfacilities,
-            'pricearr'=>$pricearr
+            'pricearr'=>$pricearr,
+            'hotel_currency'=>$hotel_currency
         ]);
     }
 }

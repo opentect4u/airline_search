@@ -365,16 +365,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label>Currency</label>
-                            <select name="currency" id="currency" class="form-control">
-                                @foreach($hotel_currency as $hotel_currencies)
-                                <option value="{{$hotel_currencies->currency}}">{{$hotel_currencies->currency}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
                     <div class="col-md-2">
                         <button type="submit" id="hotel_submit" name="hotel_submit" class="btn btn-primary">Search</button>
                     </div>
@@ -699,7 +689,6 @@
                                                     <input type="text" name="check_out" value="{{$searched->check_out}}" hidden>
                                                     <input type="text" name="city_name" value="{{$searched->city_name}}" hidden>
                                                     <input type="text" name="hotel_room" value="{{$searched->hotel_room}}" hidden>
-                                                    <input type="text" name="currency" value="{{$searched->currency}}" hidden>
 
                                                     <input type="text" name="room1_hotel_adults" value="{{$searched->room1_hotel_adults}}" hidden>
                                                     <input type="text" name="room1_hotel_child" value="{{$searched->room1_hotel_child}}" hidden>
@@ -728,17 +717,7 @@
                                 <div class="border-left col-md-3 mt-3 mt-md-0 text-center text-md-left">
                                     <!-- <del class="text-muted"><i class="las la-pound-sign"></i>32.00</del><br> -->
                                     <!-- {{print_r($hotel[$i]['Options']['Option'])}} -->
-                                    <h4 class="mb-0 h3 font-weight-600">
-                                        <span class="text-danger">
-                                            <!-- <i class="las la-pound-sign"></i> -->
-                                            <?php 
-                                               echo $val=DB::table('hotel_currency')->where('currency',$searched->currency)->value('icon');
-                                               echo " ";
-                                            //    echo "<b>".$val."</b> ";
-                                            ?>
-                                        {{isset($hotel[$i]['Options']['Option'][0]['TotalPrice'])?$hotel[$i]['Options']['Option'][0]['TotalPrice']:$hotel[$i]['Options']['Option']['TotalPrice']}}
-                                        </span>
-                                    </h4>
+                                    <h4 class="mb-0 h3 font-weight-600"><span class="text-danger"><i class="las la-pound-sign"></i>{{isset($hotel[$i]['Options']['Option'][0]['TotalPrice'])?$hotel[$i]['Options']['Option'][0]['TotalPrice']:$hotel[$i]['Options']['Option']['TotalPrice']}}</span></h4>
                                     <!-- <small>Per Room / Per Night</small> -->
                                     <br>
                                     <!-- <a href="hotel-details.php" class="btn btn-primary mt-2">Book Now</a> -->
@@ -750,8 +729,7 @@
                                         <input type="text" name="check_out" value="{{$searched->check_out}}" hidden>
                                         <input type="text" name="city_name" value="{{$searched->city_name}}" hidden>
                                         <input type="text" name="hotel_room" value="{{$searched->hotel_room}}" hidden>
-                                        <input type="text" name="currency" value="{{$searched->currency}}" hidden>
-                                        
+
                                         <input type="text" name="room1_hotel_adults" value="{{$searched->room1_hotel_adults}}" hidden>
                                         <input type="text" name="room1_hotel_child" value="{{$searched->room1_hotel_child}}" hidden>
                                         <input type="text" name="room1_hotel_infant" value="{{$searched->room1_hotel_infant}}" hidden>
@@ -1388,18 +1366,17 @@
                         }
                     }
                 }
-            }
-            else if(sort_by_val=='Hotel_Name_A_to_Z'){
+            }else if(sort_by_val=='Hotel_Name_A_to_Z'){
                 // alert(sort_by_val);
                 var datahotelname=[];
-                var datahotelname='<?php 
+                var datahotelname=<?php 
                 $aaa=[];
                 $datahotelname=array_unique(isset($datahotelname)?$datahotelname:[]);
                 foreach($datahotelname as $val1){
                     array_push($aaa,$val1);
                 }
                 echo json_encode($aaa);
-                ?>';
+                ?>;
                 datahotelname.sort();
                 // datahotelname.sort(function(a, b){return b-a});
                 // datahotelname.reverse();
@@ -1413,18 +1390,17 @@
                         }
                     }
                 }
-            }
-            else if(sort_by_val=='Hotel_Name_Z_to_A'){
+            }else if(sort_by_val=='Hotel_Name_Z_to_A'){
                 // alert(sort_by_val);
                 var datahotelname=[];
-                var datahotelname='<?php 
+                var datahotelname=<?php 
                 $aaa=[];
                 $datahotelname=array_unique(isset($datahotelname)?$datahotelname:[]);
                 foreach($datahotelname as $val1){
                     array_push($aaa,$val1);
                 }
                 echo json_encode($aaa);
-                ?>';
+                ?>;
                 datahotelname.sort();
                 // datahotelname.sort(function(a, b){return b-a});
                 datahotelname.reverse();
@@ -1625,10 +1601,6 @@
         // moreDetails
         $('#loading').show();
         $('#moreDetails'+id).submit();
-    }
-
-    function showLoder(){
-        $('#loading').show();
     }
 
 </script>

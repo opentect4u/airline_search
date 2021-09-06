@@ -4,6 +4,7 @@ namespace App\Http\Controllers\hotel;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\HotelCurrency;
 
 class HotelDetailsController extends Controller
 {
@@ -124,10 +125,12 @@ class HotelDetailsController extends Controller
         // return $Policies;
         // return $Options;
         // return $request;
+        $hotel_currency=HotelCurrency::get();
         return view('hotel.hotel-details',[
             'hotelDetails'=>$hotelDetails,
             'options'=>$Options,
             'policies'=>$Policies,
+            'hotel_currency'=>$hotel_currency,
             'searched'=>$request
         ]);
         

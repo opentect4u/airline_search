@@ -95,7 +95,16 @@
                 <div class="card">
                     <!-- <del class="text-muted"><i class="las la-pound-sign"></i>34.50/-</del> -->
                     
-                    <h4 class="mb-0 h3 font-weight-600"><span class="text-danger"><i class="las la-pound-sign"></i>{{ isset($options[0]['TotalPrice'])?$options[0]['TotalPrice']:$options['TotalPrice']}}</span></h4>
+                    <h4 class="mb-0 h3 font-weight-600">
+                        <span class="text-danger">
+                            <!-- <i class="las la-pound-sign"></i> -->
+                            <?php 
+                                echo $val=DB::table('hotel_currency')->where('currency',$searched->currency)->value('icon');
+                                echo " ";
+                            ?>
+                        {{ isset($options[0]['TotalPrice'])?$options[0]['TotalPrice']:$options['TotalPrice']}}
+                        </span>
+                    </h4>
                     <!-- <small>Per Room / Per Night</small> -->
                     <h5 class="mb-0"><small class="text-muted"><i class="las la-bed"></i> 
                     <?php 
@@ -149,9 +158,21 @@
                     </p>
                     
                       <!-- {{ \Carbon\Carbon::parse($searched->check_in)->diff(\Carbon\Carbon::parse($searched->check_out))->format('%d') }} -->
-                    <p class="text-dark">{{$searched->hotel_room}} Room x {{ \Carbon\Carbon::parse($searched->check_in)->diff(\Carbon\Carbon::parse($searched->check_out))->format('%d') }} Nights <span class="float-right font-weight-600"><i class="las la-pound-sign"></i>{{ isset($options[0]['TotalPrice'])?$options[0]['TotalPrice']:$options['TotalPrice']}}</span></p><hr>
+                    <p class="text-dark">{{$searched->hotel_room}} Room x {{ \Carbon\Carbon::parse($searched->check_in)->diff(\Carbon\Carbon::parse($searched->check_out))->format('%d') }} Nights <span class="float-right font-weight-600">
+                        <!-- <i class="las la-pound-sign"></i> -->
+                        <?php 
+                                echo $val=DB::table('hotel_currency')->where('currency',$searched->currency)->value('icon');
+                                echo " ";
+                            ?>
+                        {{ isset($options[0]['TotalPrice'])?$options[0]['TotalPrice']:$options['TotalPrice']}}</span></p><hr>
                     <h4 class="mb-3 font-weight-600">Total
-                    <span class="text-danger float-right"><i class="las la-pound-sign"></i>{{isset($options[0]['TotalPrice'])?$options[0]['TotalPrice']:$options['TotalPrice']}}</span></span>
+                    <span class="text-danger float-right">
+                        <!-- <i class="las la-pound-sign"></i> -->
+                        <?php 
+                                echo $val=DB::table('hotel_currency')->where('currency',$searched->currency)->value('icon');
+                                echo " ";
+                            ?>
+                        {{isset($options[0]['TotalPrice'])?$options[0]['TotalPrice']:$options['TotalPrice']}}</span></span>
                     </h4>
                     <!-- <a href="guest-details.php" class="btn btn-primary w-100">Book Now</a> -->
                     <form action="{{route('guestdetails')}}" method="POST">
@@ -164,6 +185,7 @@
                         <input type="text" name="check_out" value="{{$searched->check_out}}" hidden>
                         <input type="text" name="city_name" value="{{$searched->city_name}}" hidden>
                         <input type="text" name="hotel_room" value="{{$searched->hotel_room}}" hidden>
+                        <input type="text" name="currency" value="{{$searched->currency}}" hidden>
 
                         <input type="text" name="room1_hotel_adults" value="{{$searched->room1_hotel_adults}}" hidden>
                         <input type="text" name="room1_hotel_child" value="{{$searched->room1_hotel_child}}" hidden>
@@ -297,7 +319,13 @@
                             </div>
                             <div class="col-md-4 border-left">
                                 <!-- <del class="text-muted"><i class="las la-pound-sign"></i>30.00/night</del><br> -->
-                                <h4 class="mb-0 h3 font-weight-600"><span class="text-danger"><i class="las la-pound-sign"></i>{{$options['TotalPrice']}}</span></h4>
+                                <h4 class="mb-0 h3 font-weight-600"><span class="text-danger">
+                                    <!-- <i class="las la-pound-sign"></i> -->
+                                    <?php 
+                                        echo $val=DB::table('hotel_currency')->where('currency',$searched->currency)->value('icon');
+                                        echo " ";
+                                    ?>
+                                    {{$options['TotalPrice']}}</span></h4>
                                 <!-- <small>Per Room / Per Night</small><br> -->
                                 <!-- <a href="guest-details.php" class="btn btn-primary mt-2">Book Now</a> -->
                                 <form action="{{route('guestdetails')}}" method="POST">
@@ -310,6 +338,7 @@
                                     <input type="text" name="check_out" value="{{$searched->check_out}}" hidden>
                                     <input type="text" name="city_name" value="{{$searched->city_name}}" hidden>
                                     <input type="text" name="hotel_room" value="{{$searched->hotel_room}}" hidden>
+                                    <input type="text" name="currency" value="{{$searched->currency}}" hidden>
 
                                     <input type="text" name="room1_hotel_adults" value="{{$searched->room1_hotel_adults}}" hidden>
                                     <input type="text" name="room1_hotel_child" value="{{$searched->room1_hotel_child}}" hidden>
@@ -352,7 +381,13 @@
                             </div>
                             <div class="col-md-4 border-left">
                                 <!-- <del class="text-muted"><i class="las la-pound-sign"></i>30.00/night</del><br> -->
-                                <h4 class="mb-0 h3 font-weight-600"><span class="text-danger"><i class="las la-pound-sign"></i>{{$options['TotalPrice']}}</span></h4>
+                                <h4 class="mb-0 h3 font-weight-600"><span class="text-danger">
+                                    <!-- <i class="las la-pound-sign"></i> -->
+                                    <?php 
+                                        echo $val=DB::table('hotel_currency')->where('currency',$searched->currency)->value('icon');
+                                        echo " ";
+                                    ?>
+                                    {{$options['TotalPrice']}}</span></h4>
                                 <!-- <small>Per Room / Per Night</small><br> -->
                                 <!-- <a href="guest-details.php" class="btn btn-primary mt-2">Book Now</a> -->
                                 <form action="{{route('guestdetails')}}" method="POST">
@@ -398,6 +433,7 @@
                                 <span class="badge badge-warning">Partially Cancellable</span>
                                 
                                 <ul class="amenities-ul">
+                                    <li>{{isset($option['BoardType'])? $option['BoardType']:'' }}</li>
                                     <li>After {{date('d-m-Y')}} 23:59, Cancellation charge of GBP {{$option['TotalPrice']}} will be applied.</li>
                                     <!-- <li>Unlimited usage of internet <a href="#">+ 7 More</a></li> -->
                                 </ul>
@@ -408,7 +444,13 @@
                             </div>
                             <div class="col-md-4 border-left">
                                 <!-- <del class="text-muted"><i class="las la-pound-sign"></i>30.00/night</del><br> -->
-                                <h4 class="mb-0 h3 font-weight-600"><span class="text-danger"><i class="las la-pound-sign"></i>{{$option['TotalPrice']}}</span></h4>
+                                <h4 class="mb-0 h3 font-weight-600"><span class="text-danger">
+                                    <!-- <i class="las la-pound-sign"></i> -->
+                                    <?php 
+                                        echo $val=DB::table('hotel_currency')->where('currency',$searched->currency)->value('icon');
+                                        echo " ";
+                                    ?>
+                                    {{$option['TotalPrice']}}</span></h4>
                                 <!-- <small>Per Room / Per Night</small><br> -->
                                 <!-- <a href="guest-details.php" class="btn btn-primary mt-2">Book Now</a> -->
                                 <form action="{{route('guestdetails')}}" method="POST">
@@ -421,6 +463,7 @@
                                     <input type="text" name="check_out" value="{{$searched->check_out}}" hidden>
                                     <input type="text" name="city_name" value="{{$searched->city_name}}" hidden>
                                     <input type="text" name="hotel_room" value="{{$searched->hotel_room}}" hidden>
+                                    <input type="text" name="currency" value="{{$searched->currency}}" hidden>
 
                                     <input type="text" name="room1_hotel_adults" value="{{$searched->room1_hotel_adults}}" hidden>
                                     <input type="text" name="room1_hotel_child" value="{{$searched->room1_hotel_child}}" hidden>
@@ -487,12 +530,13 @@
                     <div class="embed-responsive embed-responsive-21by9">
                         <iframe class="emned-responsive-item" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2425.234470969165!2d76.76294025494819!3d30.72403706951365!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390fedb15f8fff8d%3A0xf6f229c172d97116!2sHotel%20Sun%20View!5e0!3m2!1sen!2sin!4v1575718860175!5m2!1sen!2sin" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
                     </div>
-                </div><hr>
+                </div>
+                <hr>
                 <!-- <div id="guest-review" class="my-5">
                     <h4>Ratings & Reviews</h4>
                     <img src="{{ asset('public/images/rating.jpg')}}" alt="rating" class="img-fluid"/>
                 </div> -->
-                <hr>
+                <!-- <hr> -->
                 <div id="hotel-policies" class="mt-5">
                     <h4 class="font-weight-bold">Description</h4>
                         <!-- {{json_encode($policies)}} -->

@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\AirportCodes;
 use App\Models\HotelCities;
+use App\Models\HotelCurrency;
 
 class HomeController extends Controller
 {
     public function ShowIndex(){
-        return view('index');
+        $hotel_currency=HotelCurrency::get();
+        return view('index',['hotel_currency'=>$hotel_currency]);
     }
 
     public function SearchAirport1(Request $request){
