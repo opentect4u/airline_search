@@ -174,7 +174,7 @@
                                             <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
                                             <label class="custom-control-label" for="customCheck">By clicking on Pay , I agree to accept the <a href="#">Booking Terms</a> & Cloud Travels General <a href="#">Terms of use and services</a></label>
                                           </div>
-                                        <a href="confirm-booking.php" class="btn btn-primary">Pay <i class="las la-pound-sign"></i>88.00</a>
+                                        <a href="#" class="btn btn-primary">Pay <i class="las la-pound-sign"></i>88.00</a>
                                     </div>
                             </div>
                             <div class="card-body border rounded set mb-3">
@@ -190,7 +190,7 @@
                                             <span class="custom-control-label mr-2" for="paypal">Paypal</span>
                                             <img src="{{ asset('public/images/paypal.png')}}" alt="paypal" class="ml-auto" style="width:150px;"/>
                                         </div>
-                                        <a href="confirm-booking.php" class="btn btn-primary">Pay <i class="las la-pound-sign"></i>88.00</a>
+                                        <a href="#" class="btn btn-primary">Pay <i class="las la-pound-sign"></i>88.00</a>
                                     </div>
                                 </div>
                             </div>
