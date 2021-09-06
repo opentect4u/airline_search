@@ -667,14 +667,15 @@
                                         </div>
                                         <div class="col-6">
                                             <span class="text-muted mt-3 d-block">Description</span>
-                                            <!-- <p class="small text-dark d-block mt-1">{{$hotelDetails[$i]['Description']}} -->
+                                            <!-- <p class="small text-dark d-block mt-1"> -->
                                             <div class="small text-dark d-block mt-1" >
-                                                <!-- {{htmlspecialchars_decode($hotelDetails[$i]['Description'],ENT_QUOTES)}} -->
-                                                <!-- substr($search_datas->sc_brief, 0, 120) -->
+                                                
+                                                @if(isset($hotelDetails[$i]['Description']))
                                                 <?php echo htmlspecialchars_decode(substr($hotelDetails[$i]['Description'],0,150),ENT_QUOTES)."-";?>
                                                 <div id="all-amenities-description{{$hotel[$i]['HotelId']}}" class="collapse">
                                                 <?php $length=strlen($hotelDetails[$i]['Description']); echo htmlspecialchars_decode(substr($hotelDetails[$i]['Description'],150,$length),ENT_QUOTES);?>
                                                 </div>
+                                                @endif
                                                 <!-- onclick="myFunction({{$hotel[$i]['HotelId']}})"  -->
                                                 <a href="javascript:void(0)" class="d-block" onclick="MoreDetails({{$hotel[$i]['HotelId']}});">More Details <i class="las la-angle-down"></i></a>
                                                 <form id="moreDetails{{$hotel[$i]['HotelId']}}" action="{{route('hoteldetails')}}" method="POST">
