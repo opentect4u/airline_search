@@ -272,7 +272,8 @@ class HotelController extends Controller
             // echo $hotelDetailss['Description'];
             // return $hotelDetailss['Facilities']['Facility'];
             // echo $hotelDetailss['Images']['Image'][0];
-            foreach($hotelDetailss['Facilities']['Facility'] as $key => $facility){
+            if(isset($hotelDetailss['Facilities']['Facility'])){
+            foreach($hotelDetailss['Facilities']['Facility'] as $facility){
                 // print_r($facility);
                 // echo "<br/>";
                 if(is_array($facility)){
@@ -287,6 +288,7 @@ class HotelController extends Controller
                     // echo $hotelDetailss['Facilities']['Facility']['FacilityName'];
                     // echo "<br/>"; 
                 }
+            }
             }
 
             // if($facility['FacilityType'] =='Hotel Facilities'){}

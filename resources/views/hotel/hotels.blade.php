@@ -559,6 +559,7 @@
                         <!-- {{$hotel[$i]['HotelId']}} -->
                         <div class="package-devider GlobalDiv Rating{{ is_array($hotel[$i]['StarRating'])?'':json_decode($hotel[$i]['StarRating'])}} hotelName_<?php echo str_replace("'","",str_replace(',','',str_replace(' ','',$hotel[$i]['HotelName'])));?> 
                             <?php 
+                            if(isset($hotelDetails[$i]['Facilities']['Facility'])){
                             foreach($hotelDetails[$i]['Facilities']['Facility'] as $facility){
                                 if(is_array($facility)){
                                     if($facility['FacilityType'] =='Hotel Facilities'){
@@ -568,6 +569,7 @@
                                     $cateory=$hotelDetails[$i]['Facilities']['Facility']['FacilityName'];
                                     echo 'Facility'.str_replace("'",'',str_replace(')','',str_replace('(','',str_replace(' ','',str_replace('/','',$cateory)))))." ";                                   
                                 }
+                            }
                             }
                             ?>
                             
@@ -669,11 +671,12 @@
                                             <span class="text-muted mt-3 d-block">Description</span>
                                             <!-- <p class="small text-dark d-block mt-1"> -->
                                             <div class="small text-dark d-block mt-1" >
-                                                
+
                                                 @if(isset($hotelDetails[$i]['Description']))
-                                                <?php echo htmlspecialchars_decode(substr($hotelDetails[$i]['Description'],0,150),ENT_QUOTES)."-";?>
+                                                <!-- {{print_r($hotelDetails[$i]['Description'])}} -->
+                                                <?php  if($hotelDetails[$i]['Description']!=null){echo htmlspecialchars_decode(substr($hotelDetails[$i]['Description'],0,150),ENT_QUOTES)."-";}?>
                                                 <div id="all-amenities-description{{$hotel[$i]['HotelId']}}" class="collapse">
-                                                <?php $length=strlen($hotelDetails[$i]['Description']); echo htmlspecialchars_decode(substr($hotelDetails[$i]['Description'],150,$length),ENT_QUOTES);?>
+                                                <?php if($hotelDetails[$i]['Description']!=null){ $length=strlen($hotelDetails[$i]['Description']); echo htmlspecialchars_decode(substr($hotelDetails[$i]['Description'],150,$length),ENT_QUOTES); } ?>
                                                 </div>
                                                 @endif
                                                 <!-- onclick="myFunction({{$hotel[$i]['HotelId']}})"  -->
