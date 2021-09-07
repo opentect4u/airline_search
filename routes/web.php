@@ -89,9 +89,15 @@ Route::get('/testhotel',[App\Http\Controllers\hotel\TestController::class,'Test'
     Route::get('/contactus',[App\Http\Controllers\HomeController::class,'ContactUs'])->name('contactus');
 
     Route::get('/login',[App\Http\Controllers\user\LoginController::class,'ShowLogin'])->name('login');
+    Route::post('/login',[App\Http\Controllers\user\LoginController::class,'Login'])->name('login');
     Route::get('/logout',[App\Http\Controllers\user\LoginController::class,'Logout'])->name('logout');
     Route::get('/register',[App\Http\Controllers\user\RegisterController::class,'ShowRegister'])->name('register');
     Route::get('/dashboard',[App\Http\Controllers\user\HomeController::class,'Show'])->name('dashboard');
     Route::get('/bookinghotels',[App\Http\Controllers\user\HomeController::class,'BookingHotels'])->name('bookinghotels');
     Route::get('/generateinvoicehotel',[App\Http\Controllers\user\HomeController::class,'HotelInvoice'])->name('generateinvoicehotel');
+    
+    Route::get('/forgotpassword',[App\Http\Controllers\user\LoginController::class,'ShowForget'])->name('forgotpassword');
+    Route::post('/forgotpassword',[App\Http\Controllers\user\LoginController::class,'Forget'])->name('forgotpassword');
+    Route::get('/resetpassword/{emailid?}',[App\Http\Controllers\user\LoginController::class,'ShowReset'])->name('resetpassword');
+    Route::post('/resetpassword',[App\Http\Controllers\user\LoginController::class,'Reset'])->name('resetpassword');
     

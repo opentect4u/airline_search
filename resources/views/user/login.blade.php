@@ -7,14 +7,15 @@
             <div class="col-md-5 mt-4 mt-md-5">
                 <div class="card">
                     <h1>Login</h1><br>
-                    <form method="" action="">
+                    <form method="post" action="{{route('login')}}">
+                        @csrf
                         <div class="form-group">
                             <label>Email id</label>
-                            <input type="email" class="form-control" placeholder="Enter email id"/>
+                            <input type="email" name="email" class="form-control" placeholder="Enter email id"/>
                         </div>
                         <div class="form-group">
                             <label>Password</label>
-                            <input type="password" class="form-control" placeholder="Enter password"/>
+                            <input type="password" name="password" class="form-control" placeholder="Enter password"/>
                         </div>
                         <div class="form-group">
                             <div class="row">
@@ -25,7 +26,7 @@
                                     </div>
                                 </div>
                                 <div class="col-6 text-right">
-                                    <a href="forgot-password.php" class="font-weight-600">Forgot Password?</a>
+                                    <a href="{{route('forgotpassword')}}" class="font-weight-600">Forgot Password?</a>
                                 </div>
                             </div>
                         </div>

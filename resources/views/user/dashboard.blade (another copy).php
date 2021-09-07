@@ -8,8 +8,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
-                        <h1>User Dashboard</h1>
-                        <!-- <table id="table_id" class="display">
+                        <table id="table_id" class="display">
                             <thead>
                                 <tr>
                                     <th>Sl No</th>
@@ -31,7 +30,7 @@
                                 </tr>
                                
                             </tbody>
-                        </table> -->
+                        </table>
                     </div>
                    
                 </div>
