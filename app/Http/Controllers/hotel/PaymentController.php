@@ -264,23 +264,28 @@ class PaymentController extends Controller
                 session()->flush();
                 Session::put('user_details', $user_details); 
             }else{
-                UserLogin::create(array(
-                    'user_id'=>$email,
-                    'user_pass'=>Hash::make(uniqid('pass_')),
-                    'first_name'=>$f_name,
-                    'last_name'=>$l_name,
-                    'mobile'=>$contact_no,
-                    'user_type'=>'U',
-                    'created_by'=>$f_name,
-                ));
-                $user_details1=UserLogin::where('user_id',$email)->get();
-                // $user_id=1;
-                foreach($user_details1 as $user){
-                    $user_id=$user->id;
+                if(isset(Session::get('user_details')[0]['id'])){
+                    // $user_details1=UserLogin::where('id',Session::get('user_details')[0]['id'])->get();
+                    $user_id=Session::get('user_details')[0]['id'];
+                }else{
+                    UserLogin::create(array(
+                        'user_id'=>$email,
+                        'user_pass'=>Hash::make(uniqid('pass_')),
+                        'first_name'=>$f_name,
+                        'last_name'=>$l_name,
+                        'mobile'=>$contact_no,
+                        'user_type'=>'U',
+                        'created_by'=>$f_name,
+                    ));
+                    $user_details1=UserLogin::where('user_id',$email)->get();
+                    // $user_id=1;
+                    foreach($user_details1 as $user){
+                        $user_id=$user->id;
+                    }
+                    session()->flush();
+                    Session::put('user_details', $user_details1); 
+                    // $user_id=DB::table('user_login')->where('user_id',$email)->value('id');
                 }
-                session()->flush();
-                Session::put('user_details', $user_details1); 
-                // $user_id=DB::table('user_login')->where('user_id',$email)->value('id');
             }
 
             HotelPaymentDetails::create(array(

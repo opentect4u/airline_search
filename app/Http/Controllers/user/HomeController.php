@@ -25,7 +25,7 @@ class HomeController extends Controller
 
     public function BookingHotels(){
         $id=Session::get('user_details')[0]['id'];
-        // return $id;
+        // return Session::get('user_details')[0]['user_id'];
         $details=HotelGuestDetails::where('user_id',$id)->orderBy('created_at', 'desc')->get();
         // return $details;
         return view('user.hotels',['details'=>$details]);

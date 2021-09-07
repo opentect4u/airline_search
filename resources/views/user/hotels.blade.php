@@ -57,7 +57,7 @@
 <script>
     $(document).ready( function () {
         $('#loading').hide();
-        $('#loading-small').hide();
+        $('#loading_small').hide();
         $('#table_id').DataTable();
     } );
 </script>

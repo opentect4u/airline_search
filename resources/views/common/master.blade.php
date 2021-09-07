@@ -17,7 +17,7 @@
         <link href="{{ asset('public/css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet" type="text/css"/>
         <link href="{{ asset('public/css/owl.carousel.min.css') }}" rel="stylesheet" type="text/css"/>
         <!-- <link href="{{ asset('public/css/bootstrap-datepicker.css') }}" rel="stylesheet" type="text/css"/> -->
-        @if(isset(Session::get('user_details')[0]['user_type']))
+        @if(Route::currentRouteName()=='bookinghotels')
         @else
         <link href="{{ asset('public/css/light-carousel.css') }}" rel="stylesheet" type="text/css">
         @endif
