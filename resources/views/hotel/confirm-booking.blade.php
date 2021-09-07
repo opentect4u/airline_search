@@ -313,6 +313,7 @@
                                             <p>Terms and Conditions<br />
                                                 <span class="style1"><strong>Notes:</strong></span>
                                             </p>
+                                            @if(isset($bookdetails[0]['Alerts']['Alert']))
                                             @if(is_array($bookdetails[0]['Alerts']['Alert']))
                                             <ul type="disc">
                                                 <!-- <li class="style1"><strong>Cancellation Deadline: {{$bookdetails[0]['CancellationDeadline']}}</strong>&nbsp;&nbsp; </li> -->
@@ -324,6 +325,7 @@
                                             <ul type="disc">
                                                 <li class="style1">{{$bookdetails[0]['Alerts']['Alert']}}</li>
                                             </ul>
+                                            @endif
                                             @endif
                                            
                                             <p>
