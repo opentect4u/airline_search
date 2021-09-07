@@ -11,6 +11,7 @@ class HotelGuestDetails extends Model
     use HasFactory,Notifiable;
     protected $table='hotel_guest_details';
     protected $fillable = [
+        'user_id',
         'booking_reference',
         'booking_status',
         'payment_status',
@@ -27,6 +28,13 @@ class HotelGuestDetails extends Model
         'nationality',
         'board_type',
         'cancellation_deadline',
+        'post_code',
+        'add_1',
+        'add_2',
+        'guest_city',
+        'country',
+        'mobile',
+        'email',
         'created_by',
         'updated_by',
     ]; 

@@ -41,4 +41,9 @@ class HomeController extends Controller
             return $airport->city_name . ' ('. $airport->country_code.')';
         });
     }
+
+
+    public function ContactUs(){
+        return view('contact-us');
+    }
 }

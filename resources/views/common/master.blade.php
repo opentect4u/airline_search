@@ -17,7 +17,10 @@
         <link href="{{ asset('public/css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet" type="text/css"/>
         <link href="{{ asset('public/css/owl.carousel.min.css') }}" rel="stylesheet" type="text/css"/>
         <!-- <link href="{{ asset('public/css/bootstrap-datepicker.css') }}" rel="stylesheet" type="text/css"/> -->
+        @if(isset(Session::get('user_details')[0]['user_type']))
+        @else
         <link href="{{ asset('public/css/light-carousel.css') }}" rel="stylesheet" type="text/css">
+        @endif
         <link rel="shortcut icon" type="image/png" href="{{ asset('public/favicon.png') }}"/>
         <!-- font awsome -->
         <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">

@@ -9,6 +9,10 @@ use App\Models\HotelGuestDetails;
 use App\Models\HotelGuestRoom;
 use App\Models\HotelPaymentDetails;
 use App\Models\HotelGuestRoomDetails;
+use App\Models\UserLogin;
+use Illuminate\Support\Facades\Hash;
+use DB;
+use Session;
 
 class PaymentController extends Controller
 {
@@ -248,16 +252,48 @@ class PaymentController extends Controller
             }
 
             // start add details database
+            $contact_no=$request->contact_no;
+            $email=$request->email;
+            $f_name=$request->room1_first_name1;
+            $l_name=$request->room1_last_name1;
+            $user_details=UserLogin::where('user_id',$email)->get();
+            if(count($user_details)>0){
+                foreach($user_details as $user){
+                    $user_id=$user->id;
+                }
+                session()->flush();
+                Session::put('user_details', $user_details); 
+            }else{
+                UserLogin::create(array(
+                    'user_id'=>$email,
+                    'user_pass'=>Hash::make(uniqid('pass_')),
+                    'first_name'=>$f_name,
+                    'last_name'=>$l_name,
+                    'mobile'=>$contact_no,
+                    'user_type'=>'U',
+                    'created_by'=>$f_name,
+                ));
+                $user_details1=UserLogin::where('user_id',$email)->get();
+                // $user_id=1;
+                foreach($user_details1 as $user){
+                    $user_id=$user->id;
+                }
+                session()->flush();
+                Session::put('user_details', $user_details1); 
+                // $user_id=DB::table('user_login')->where('user_id',$email)->value('id');
+            }
+
             HotelPaymentDetails::create(array(
                 'booking_reference' => $bookdetails[0]['BookingReference'],
-                'payment_id' => 'TEST12',
+                'payment_id' => 'XMLTEST',
                 'room_charges'=> $bookdetails[0]['TotalPrice'],
                 'gst' => $request->GST,
                 'convenience_fees' => $request->Convenience_Fees,
                 'taxes_and_fees' => $request->Taxes_and_Fees,
             ));
-
+            
             HotelGuestDetails::create(array(
+                'user_id'=>$user_id,
                 'booking_reference'=>$bookdetails[0]['BookingReference'],
                 'booking_status'=>$bookdetails[0]['BookingStatus'],
                 'payment_status'=>$bookdetails[0]['PaymentStatus'],
@@ -274,12 +310,20 @@ class PaymentController extends Controller
                 'nationality'=>$bookdetails[0]['Nationality'],
                 'board_type'=>$bookdetails[0]['BoardType'],
                 'cancellation_deadline'=>$bookdetails[0]['CancellationDeadline'],
+                'post_code'=>$request->post_code,
+                'add_1'=>$request->add_1,
+                'add_2'=>$request->add_2,
+                'guest_city'=>$request->city,
+                'country'=>$request->state,
+                'mobile'=>$request->contact_no,
+                'email'=>$request->email,
             ));
             if(isset($bookdetails[0]['Rooms']['Room']['RoomName'])){
                 // return $bookdetails[0]['Rooms']['Room']['RoomName'];
                 HotelGuestRoom::create(array(
                     'booking_reference'=>$bookdetails[0]['BookingReference'],
                     'room_name'=>$bookdetails[0]['Rooms']['Room']['RoomName'],
+                    'room_no'=>1,
                     'num_adults'=>$bookdetails[0]['Rooms']['Room']['NumAdults'],
                     'num_children'=>$bookdetails[0]['Rooms']['Room']['NumChildren'],
                 ));
@@ -290,8 +334,8 @@ class PaymentController extends Controller
                         'booking_reference'=>$bookdetails[0]['BookingReference'],
                         'pax_type' => 'ADULT',
                         'room_no' => 1,
-                        'first_name' => $first_name,
-                        'last_name' => $last_name,
+                        'first_name' => $request->$first_name,
+                        'last_name' => $request->$last_name,
                     ));
                 }
                 for ($j=1; $j <=$bookdetails[0]['Rooms']['Room']['NumChildren']; $j++) { 

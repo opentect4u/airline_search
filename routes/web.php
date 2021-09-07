@@ -84,3 +84,14 @@ Route::post('/hotelpaymentcredit',[App\Http\Controllers\hotel\PaymentController:
 Route::get('/testhotel',[App\Http\Controllers\hotel\TestController::class,'Test'])->name('testhotel');
 
             // End Hotel Section
+
+            // =================================================
+    Route::get('/contactus',[App\Http\Controllers\HomeController::class,'ContactUs'])->name('contactus');
+
+    Route::get('/login',[App\Http\Controllers\user\LoginController::class,'ShowLogin'])->name('login');
+    Route::get('/logout',[App\Http\Controllers\user\LoginController::class,'Logout'])->name('logout');
+    Route::get('/register',[App\Http\Controllers\user\RegisterController::class,'ShowRegister'])->name('register');
+    Route::get('/dashboard',[App\Http\Controllers\user\HomeController::class,'Show'])->name('dashboard');
+    Route::get('/bookinghotels',[App\Http\Controllers\user\HomeController::class,'BookingHotels'])->name('bookinghotels');
+    Route::get('/generateinvoicehotel',[App\Http\Controllers\user\HomeController::class,'HotelInvoice'])->name('generateinvoicehotel');
+    
