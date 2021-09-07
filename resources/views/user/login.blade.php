@@ -7,6 +7,9 @@
             <div class="col-md-5 mt-4 mt-md-5">
                 <div class="card">
                     <h1>Login</h1><br>
+                    @if(Session::has('error'))
+                    <label style="color:red;">Email id or password did`t match</label>
+                    @endif
                     <form method="post" action="{{route('login')}}">
                         @csrf
                         <div class="form-group">

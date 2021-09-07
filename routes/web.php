@@ -92,6 +92,7 @@ Route::get('/testhotel',[App\Http\Controllers\hotel\TestController::class,'Test'
     Route::post('/login',[App\Http\Controllers\user\LoginController::class,'Login'])->name('login');
     Route::get('/logout',[App\Http\Controllers\user\LoginController::class,'Logout'])->name('logout');
     Route::get('/register',[App\Http\Controllers\user\RegisterController::class,'ShowRegister'])->name('register');
+    Route::post('/register',[App\Http\Controllers\user\RegisterController::class,'Register'])->name('register');
     Route::get('/dashboard',[App\Http\Controllers\user\HomeController::class,'Show'])->name('dashboard');
     Route::get('/bookinghotels',[App\Http\Controllers\user\HomeController::class,'BookingHotels'])->name('bookinghotels');
     Route::get('/generateinvoicehotel',[App\Http\Controllers\user\HomeController::class,'HotelInvoice'])->name('generateinvoicehotel');
