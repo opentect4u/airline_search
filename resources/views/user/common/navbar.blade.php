@@ -41,23 +41,21 @@
     
     <!-- Notifications Dropdown Menu -->
     <li class="nav-item dropdown">
+      <a class="nav-link" href="{{route('logout')}}">
+        <i class="fas fa-sign-out-alt mr-2"></i> Sign out
+      </a>
+    </li>
+    <!-- <li class="nav-item dropdown">
       <a class="nav-link" data-toggle="dropdown" href="#">
-        <!-- <i class="far fa-bell"></i> -->
         <i class="fa fa-user" aria-hidden="true"></i>
-        <!-- <span class="badge badge-warning navbar-badge">15</span> -->
       </a>
       <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="min-width:180px;">
-        <!-- <span class="dropdown-item dropdown-header">15 Notifications</span> -->
         <div class="dropdown-divider"></div>
         <a href="{{route('logout')}}" class="dropdown-item">
-          <!-- <i class="fas fa-sign-out mr-2"></i> 4 new messages -->
-          <!-- <i class="fas fa-sign-out-alt"></i> -->
           <i class="fas fa-sign-out-alt mr-2"></i> Sign out
-          <!-- <span class="float-right text-muted text-sm">3 mins</span> -->
         </a>
-       
       </div>
-    </li>
+    </li> -->
     
   </ul>
 </nav>
