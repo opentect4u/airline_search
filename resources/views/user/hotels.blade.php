@@ -41,7 +41,8 @@
                                     <th>Check In Date</th>
                                     <th>Check Out Date</th>
                                     <th>Booking Date</th>
-                                    <th>Action</th>
+                                    <th>Booking Status</th>
+                                    <th>Print</th>
                                 </tr>
                             </thead>
                   <tbody>
@@ -53,6 +54,7 @@
                                     <td>{{Carbon\Carbon::parse($detail->check_in_date)->format('d M Y')}}</td>
                                     <td>{{Carbon\Carbon::parse($detail->check_out_date)->format('d M Y')}}</td>
                                     <td>{{Carbon\Carbon::parse($detail->booking_time)->format('d M Y H:i:s')}}</td>
+                                    <td>{{$detail->booking_status}}</td>
                                     <td><a href="{{route('generateinvoicehotel')}}?booking_reference={{$detail->booking_reference}}"><i class="fa fa-print" aria-hidden="true"></i></a></td>
                                 </tr>
                                 @endforeach

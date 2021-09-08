@@ -1194,10 +1194,19 @@
         $('.check_in_datetimepickerclass').click(function(){
             $('#check_out').val('');
             $("#check_out_datetimepicker").datetimepicker("destroy");
+            var someDate = new Date();
+            someDate.setDate(someDate.getDate() + 1); //number  of days to add, e.x. 15 days
+            var dateFormated = someDate.toISOString().substr(0,10);
+            // alert(dateFormated)
+            var dateFormated1 = dateFormated.split("-").reverse().join("-");
+            $('#check_in').val('');
+            $('#check_in').val(dateFormated1);
+            var newdate = dateFormated1.split("-").reverse().join("/");
+            $("#check_in_datetimepicker").datetimepicker("destroy");
             $('#check_in_datetimepicker').datetimepicker({
                 pickTime: false,
                 autoclose: true, 
-                startDate: new Date(),
+                startDate: new Date(newdate),
                 todayHighlight: true,
                 // minDate: new Date('2021/09/10'),
                 // defaultDate: new Date(),
