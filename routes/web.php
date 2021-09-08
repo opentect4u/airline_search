@@ -94,6 +94,8 @@ Route::get('/testhotel',[App\Http\Controllers\hotel\TestController::class,'Test'
     Route::get('/register',[App\Http\Controllers\user\RegisterController::class,'ShowRegister'])->name('register');
     Route::post('/register',[App\Http\Controllers\user\RegisterController::class,'Register'])->name('register');
     Route::get('/dashboard',[App\Http\Controllers\user\HomeController::class,'Show'])->name('dashboard');
+    Route::post('/editprofile',[App\Http\Controllers\user\HomeController::class,'EditProfile'])->name('editprofile');
+    Route::post('/passwordChange',[App\Http\Controllers\user\HomeController::class,'ChangePassword'])->name('passwordChange');
     Route::get('/bookinghotels',[App\Http\Controllers\user\HomeController::class,'BookingHotels'])->name('bookinghotels');
     Route::get('/generateinvoicehotel',[App\Http\Controllers\user\HomeController::class,'HotelInvoice'])->name('generateinvoicehotel');
     

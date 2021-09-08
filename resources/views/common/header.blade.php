@@ -15,10 +15,10 @@
                         <div class="collapse navbar-collapse" id="navbarNav">
                             <ul class="navbar-nav  nav-pills" >
                                 <li class="nav-item active">
-                                    <a class="nav-link" href="#">Flights</a>
+                                    <a class="nav-link" href="{{route('index')}}#flight">Flights</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{route('bookinghotels')}}">Hotels</a>
+                                    <a class="nav-link" href="{{route('index')}}#hotel">Hotels</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="#">Flights & Hotels</a>
@@ -40,7 +40,9 @@
                             </div>
                             <div class="d-none d-md-block">
                                 <a href="{{route('contactus')}}" class="btn btn-sm btn-default"><i class="las la-headset"></i> Support</a>
-                                <a href="{{route('logout')}}" class="btn btn-sm btn-primary">Sign Out</a>
+                                <!-- <a class="">{{isset(Session::get('user_details')[0]['first_name'])?Session::get('user_details')[0]['first_name']:''}}</a> -->
+                                <a href="{{route('dashboard')}}"  class="btn btn-sm btn-primary"><i class="las la-user" style="font-size:16px;"></i>Hi {{isset(Session::get('user_details')[0]['first_name'])? ucfirst(substr(Session::get('user_details')[0]['first_name'],0,12)):''}}</a>
+                                <!-- <i class="las la-user" style="font-size:24px;"></i><a href="" class="btn btn-sm btn-primary">Sign Out</a> -->
                             </div>
                         </div>
                     </nav>

@@ -12,6 +12,7 @@ use App\Models\HotelGuestRoom;
 use App\Models\HotelPaymentDetails;
 use App\Models\HotelGuestRoomDetails;
 use App\Models\UserLogin;
+use Illuminate\Support\Facades\Hash;
 
 class HomeController extends Controller
 {
@@ -20,7 +21,52 @@ class HomeController extends Controller
     }
 
     public function Show(){
-        return view('user.dashboard');
+        $id=Session::get('user_details')[0]['id'];
+        $details=UserLogin::where('id',$id)->get();
+        return view('user.dashboard',['details'=>$details]);
+    }
+
+    public function EditProfile(Request $request){
+        // return $request;
+        $id=$request->id;
+        $data=UserLogin::find($id);
+        $profile_img='';
+        if ($request->hasFile('file')) {
+            $profile_pic_path = $request->file('file');
+            $profile_img=date('YmdHis') .'_'.$id.$profile_pic_path->getClientOriginalExtension();
+            // $image_resize=$this->resizeSCImageLarge($profile_pic_path);
+            // $image_resize->save(public_path('gurudwara-image/' . $profilepicname));
+
+            $destinationPath = public_path('user-image/');
+            $profile_pic_path->move($destinationPath,$profile_img);
+
+            if($data->profile_img!=null){
+                $filesc = public_path('user-image/') . $data->profile_img;
+                if (file_exists($filesc) != null) {
+                    unlink($filesc);
+                }
+            } 
+
+        }else{
+            $profile_img= $data->profile_img;
+        }
+        $data->first_name=$request->first_name;
+        $data->last_name=$request->last_name;
+        $data->mobile=$request->mobile;
+        $data->profile_img=$profile_img;
+        $data->save();
+
+        return redirect()->back()->with('success','success');
+    }
+
+    public function ChangePassword(Request $request){
+        // return $request;
+        $id=$request->id;
+        $data=UserLogin::find($id);
+        $data->user_pass= Hash::make($request->new_password);
+        $data->save();
+
+        return redirect()->back()->with('success','success');
     }
 
     public function BookingHotels(){

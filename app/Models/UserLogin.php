@@ -17,6 +17,7 @@ class UserLogin extends Model
         'last_name',
         'mobile',
         'user_type',
+        'profile_img',
         'created_by',
         'updated_by',
     ]; 

@@ -27,7 +27,10 @@ class LoginController extends Controller
             if(Hash::check($request->password, $user_pass)){
                 session()->flush();
                 Session::put('user_details', $user_details); 
-                return redirect()->route('dashboard');
+                return redirect()->route('index');
+                // return redirect()->route('dashboard');
+            }else{
+            return redirect()->back()->with('error','error');
             }
         }else{
             return redirect()->back()->with('error','error');
