@@ -33,7 +33,7 @@ class HomeController extends Controller
         $profile_img='';
         if ($request->hasFile('file')) {
             $profile_pic_path = $request->file('file');
-            $profile_img=date('YmdHis') .'_'.$id.$profile_pic_path->getClientOriginalExtension();
+            $profile_img=date('YmdHis') .'_'.$id.'.'.$profile_pic_path->getClientOriginalExtension();
             // $image_resize=$this->resizeSCImageLarge($profile_pic_path);
             // $image_resize->save(public_path('gurudwara-image/' . $profilepicname));
 
