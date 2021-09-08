@@ -373,9 +373,15 @@
 
                     </section>
                     @else
-                    <img src="{{ asset('public/images/fail.png') }}" alt="failed" style="width:120px;" class="img-fluid m-auto" />
-                    <h1 class="font-weight-600 mt-4">Booking Failed</h1>
-                    <h4>Booking Failed</h4>
+                        @if(isset($errorText))
+                        <img src="{{ asset('public/images/fail.png') }}" alt="failed" style="width:120px;" class="img-fluid m-auto" />
+                        <h1 class="font-weight-600 mt-4">Booking Failed</h1>
+                        <h4>{{$errorText}}</h4>
+                        @else
+                        <img src="{{ asset('public/images/fail.png') }}" alt="failed" style="width:120px;" class="img-fluid m-auto" />
+                        <h1 class="font-weight-600 mt-4">Booking Failed</h1>
+                        <h4>Booking Failed</h4>
+                        @endif
                     @endif
                     <!-- <small class="text-muted">Booking Ref id: 0CPNd09876fff</small><br>
                     <a href="index.php" class="btn btn-primary mt-4">Home</a> -->

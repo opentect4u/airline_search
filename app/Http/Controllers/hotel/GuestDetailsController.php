@@ -63,6 +63,50 @@ class GuestDetailsController extends Controller
         }
         // return $hotelDetails;
 
+        // return $option;
+        $xml1 = '<?xml version="1.0" encoding="UTF-8"?>
+                <Request>
+                    <Head>
+                        <Username>'.$Username.'</Username>
+                        <Password>'.$Password.'</Password>
+                        <RequestType>HotelPolicies</RequestType>
+                        
+                    </Head>
+                    <Body>
+                        <OptionId>'.$option['OptionId'].'</OptionId>
+                    </Body>
+                </Request>';
+
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded'));
+        curl_setopt($ch, CURLOPT_POSTFIELDS, "xml=" . $xml1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $return1 = curl_exec($ch);
+        curl_close($ch);
+        // return $return;
+        $object1 =app('App\Http\Controllers\XMlToParseDataController')->XMlToJSON($return1);
+        // return $object1;
+        $Policies=[];
+        foreach($object1 as $json){
+            if(array_key_exists('Error',$json['Body'])){
+                // return $json['Body']['Error'];
+                // return $data;
+            }else if(array_key_exists('Policies',$json['Body'])){
+                $Policies= $json['Body'];
+                // $hotel= $json['Body']['Hotels'];
+                // if(array_key_exists('HotelId',$hotel['Hotel'])){
+                //     // return $hotel['Hotel']['HotelId'];
+                //     array_push($hotelDetails,$hotel['Hotel']);
+                // }else{
+                //     $hotelDetails= $json['Body']['Hotels']['Hotel'];
+                //     // array_push($hotelDetails,$hotels);
+                // }
+                
+            }
+        }
+
         $country=Countries::get();
 
         $GST =2.00;

@@ -204,11 +204,19 @@ class PaymentController extends Controller
         foreach($object as $json){
             if(array_key_exists('Error',$json['Body'])){
                 // return $json['Body']['Error'];
+                $errorText= $json['Body']['Error']['ErrorText'];
+                // return $json['Body']['Error']['ErrorText'];
+                return view('hotel.confirm-booking',[
+                    'bookdetails'=>[],
+                    'errorText'=>$errorText,
+                    'searched'=>$request
+                ]);
                 // return [];
                 // return $data->push($json['Body']['Error']);
             }else if(array_key_exists('HotelBooking',$json['Body'])){
                 // return $json['Body']['HotelBooking'];
-                // $hotel= $json['Body']['HotelBooking'];
+                $hotel= $json['Body']['HotelBooking'];
+                // return $hotel['BookingReference'];
                 // if(array_key_exists('HotelId',$hotel['Hotel'])){
                 //     // return $hotel['Hotel']['HotelId'];
                 //     array_push($hotelDetails,$hotel['Hotel']);
@@ -220,7 +228,7 @@ class PaymentController extends Controller
             }
         }
         $bookdetails=[];
-        if(isset($json['Body']['HotelBooking']['BookingReference'])){
+        if(isset($hotel['BookingReference'])){
             $xml1 = '<?xml version="1.0" encoding="UTF-8"?>
                 <Request>
                     <Head>
