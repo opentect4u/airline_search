@@ -124,6 +124,7 @@ class HotelDetailsController extends Controller
 
         // return $Policies;
         // return $Options;
+        // return $Options;
         // return $request;
         $hotel_currency=HotelCurrency::get();
         return view('hotel.hotel-details',[

@@ -112,8 +112,10 @@
                           echo $options[0]['Rooms']['Room']['RoomName'];  
                         }else if(isset($options['Rooms']['Room']['RoomName'])){
                             echo $options['Rooms']['Room']['RoomName'];
-                        }else{
+                        }else if(isset($options[0]['Rooms']['Room'][0]['RoomName'])){
                            echo $options[0]['Rooms']['Room'][0]['RoomName']; 
+                        }else{
+                            echo $options['Rooms']['Room'][0]['RoomName']; 
                         }
                     ?>
                     </small></h5>
@@ -309,6 +311,9 @@
                                 <span class="badge badge-warning">Partially Cancellable</span>
                                 
                                 <ul class="amenities-ul">
+                                    <li>{{isset($options['BoardType'])? $options['BoardType']:'' }}</li>
+                                    <li>After {{date('d-m-Y')}} 23:59, Cancellation charge of GBP {{$options['TotalPrice']}} will be applied.</li>
+                                    
                                     <!-- <li>After 03/09/2021 17:59, Cancellation charge of GBP 40.14 will be applied.</li> -->
                                     <!-- <li>Unlimited usage of internet <a href="#">+ 7 More</a></li> -->
                                 </ul>
@@ -371,6 +376,9 @@
                                 <span class="badge badge-warning">Partially Cancellable</span>
                                 
                                 <ul class="amenities-ul">
+                                    <li>{{isset($options['BoardType'])? $options['BoardType']:'' }}</li>
+                                    <li>After {{date('d-m-Y')}} 23:59, Cancellation charge of GBP {{$options['TotalPrice']}} will be applied.</li>
+                                    
                                     <!-- <li>After 03/09/2021 17:59, Cancellation charge of GBP 40.14 will be applied.</li> -->
                                     <!-- <li>Unlimited usage of internet <a href="#">+ 7 More</a></li> -->
                                 </ul>
