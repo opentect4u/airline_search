@@ -13,6 +13,8 @@ use App\Models\UserLogin;
 use Illuminate\Support\Facades\Hash;
 use DB;
 use Session;
+use PDF;
+use Mail;
 
 class PaymentController extends Controller
 {
@@ -418,6 +420,11 @@ class PaymentController extends Controller
                 }
                 // end add details database
                 $guestdetails=HotelGuestRoomDetails::where('booking_reference',$bookdetails[0]['BookingReference'])->get();
+
+                // start mail send code here
+
+                // end mail send code here
+
                 return view('hotel.confirm-booking',[
                     'bookdetails'=>$bookdetails,
                     'guestdetails'=>$guestdetails,
@@ -589,6 +596,11 @@ class PaymentController extends Controller
                 }
                 // end add details database
                 $guestdetails=HotelGuestRoomDetails::where('booking_reference',$bookdetails[0]['BookingReference'])->get();
+                
+                // start mail send code here
+                
+                // end mail send code here
+                
                 return view('hotel.confirm-booking',[
                     'bookdetails'=>$bookdetails,
                     'guestdetails'=>$guestdetails,

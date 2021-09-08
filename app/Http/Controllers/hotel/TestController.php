@@ -9,6 +9,9 @@ use App\Models\HotelGuestDetails;
 use App\Models\HotelGuestRoom;
 use App\Models\HotelPaymentDetails;
 use App\Models\HotelGuestRoomDetails;
+use Mail;
+use DB;
+use PDF;
 
 class TestController extends Controller
 {
@@ -170,5 +173,23 @@ class TestController extends Controller
         //     'bookdetails'=>$bookdetails,
         //     'searched'=>[]
         // ]);
+    }
+
+
+    public function Send()
+    {
+        $data["email"] = "cmaity905@gmail.com";
+        $data["title"] = "For Testing";
+        $data["body"] = "This is Demo";
+  
+        $pdf = PDF::loadView('emails.testmail', $data);
+  
+        Mail::send('emails.testmail', $data, function($message)use($data, $pdf) {
+            $message->to($data["email"])
+                    ->subject($data["title"])
+                    ->attachData($pdf->output(), "text.pdf");
+        });
+  
+        dd('Mail sent successfully');
     }
 }

@@ -104,3 +104,6 @@ Route::get('/testhotel',[App\Http\Controllers\hotel\TestController::class,'Test'
     Route::get('/resetpassword/{emailid?}',[App\Http\Controllers\user\LoginController::class,'ShowReset'])->name('resetpassword');
     Route::post('/resetpassword',[App\Http\Controllers\user\LoginController::class,'Reset'])->name('resetpassword');
     
+
+//        send Mail 
+Route::get('/sendmail',[App\Http\Controllers\user\TestController::class,'Send'])->name('sendmail');
