@@ -9,7 +9,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Booking Manage</h1>
+            <h1>Booking History</h1>
           </div>
           <!-- <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -27,9 +27,9 @@
         <div class="row">
           <div class="col-12">
             <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">All Booking Details</h3>
-              </div>
+              <!-- <div class="card-header">
+                <h3 class="card-title">All Booking History</h3>
+              </div> -->
              
               <!-- /.card-header -->
               <div class="card-body">
