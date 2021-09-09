@@ -37,7 +37,7 @@ class HotelBookinInvoiceEmail extends Mailable
         $from_email='info@puriurbanruralcoop.com';
         return $this->from($from_email)
                     ->subject('Cloud Travel - Login Details and Invoice')
-                    ->view('emails.testmail')
+                    ->view('emails.hotel.register-invoice')
                     ->attachData($this->pdf->output(), 'invoice.pdf', [
                         'mime' => 'application/pdf',
                     ]);
