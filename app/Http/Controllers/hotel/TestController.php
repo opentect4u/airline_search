@@ -57,9 +57,11 @@ class TestController extends Controller
             // return $bookdetails[0];
             
         }
+        // $s = substr(str_shuffle(str_repeat("0123456789abcdefghijklmnopqrstuvwxyz", 6)), 0, 6);
+        // return $s;
         // return uniqid('pass_');
         // return $bookdetails[0];
-        // return $bookdetails;
+        return $bookdetails;
         $guestdetails=HotelGuestRoomDetails::where('booking_reference',$bookdetails[0]['BookingReference'])->get();
 
         $data["bookdetails"] = $bookdetails[0];
@@ -69,7 +71,7 @@ class TestController extends Controller
         // 'bookdetails'=>$bookdetails,
         // 'guestdetails'=>$guestdetails,
         // 'searched'=>$request
-        return $data;
+        // return $data;
 
         // HotelGuestDetails
         // HotelGuestRoom

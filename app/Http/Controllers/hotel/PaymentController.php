@@ -281,7 +281,7 @@ class PaymentController extends Controller
                         // $user_details1=UserLogin::where('id',Session::get('user_details')[0]['id'])->get();
                         $user_id=Session::get('user_details')[0]['id'];
                     }else{
-                        $passwords=uniqid('pass_');
+                        $passwords=substr(str_shuffle(str_repeat("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ", 6)), 0, 6);
 
                         UserLogin::create(array(
                             'user_id'=>$email,
