@@ -4,6 +4,8 @@
     <title>Testing</title>
 </head>
 <body>
+
+    <h1>Body Text Here</h1>
     <h1>{{ $title }}</h1>
     <p>{{ $body }}</p>
      
