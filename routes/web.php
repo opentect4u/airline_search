@@ -106,4 +106,4 @@ Route::get('/testhotel',[App\Http\Controllers\hotel\TestController::class,'Test'
     
 
 //        send Mail 
-Route::get('/sendmail',[App\Http\Controllers\user\TestController::class,'Send'])->name('sendmail');
+Route::get('/sendmail',[App\Http\Controllers\hotel\TestController::class,'Send'])->name('sendmail');
