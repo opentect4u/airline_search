@@ -187,7 +187,7 @@ class TestController extends Controller
         $body="This is Demo";
   
         $pdf = PDF::loadView('emails.testmail', $data);
-        Mail::to($data["email"])->send(new HotelBookinInvoiceEmail($title,$body,$pdf));
+        Mail::to($data["emailto"])->send(new HotelBookinInvoiceEmail($title,$body,$pdf));
         
         // HotelBookinInvoiceEmail
         // Mail::send('emails.testmail', $data, function($message)use($data, $pdf) {
