@@ -7,21 +7,24 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use DB;
+use PDF;
 
 class HotelBookinInvoiceEmail extends Mailable
 {
     use Queueable, SerializesModels;
-    public $user_name;
-    public $remarks;
+    public $title;
+    public $body;
+    public $pdf;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($user_name,$remarks)
+    public function __construct($title,$body,$pdf)
     {
-        $this->user_name=$user_name;
-        $this->remarks=$remarks;
+        $this->title=$title;
+        $this->body=$body;
+        $this->pdf=$pdf;
     }
 
     /**
@@ -31,9 +34,12 @@ class HotelBookinInvoiceEmail extends Mailable
      */
     public function build()
     {
-        $from_email=DB::table('md_params')->where('sl_no','6')->value('param_value');
+        $from_email='info@puriurbanruralcoop.com';
         return $this->from($from_email)
-                    ->subject('SCM - Account Play')
-                    ->view('emails.account-play');
+                    ->subject('Cloud Travel - Login Details and Invoice')
+                    ->view('emails.testmail')
+                    ->attachData($this->pdf, 'invoice.pdf', [
+                        'mime' => 'application/pdf',
+                    ]);
     }
 }

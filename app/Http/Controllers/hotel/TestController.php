@@ -12,6 +12,7 @@ use App\Models\HotelGuestRoomDetails;
 use Mail;
 use DB;
 use PDF;
+use App\Mail\HotelBookinInvoiceEmail;
 
 class TestController extends Controller
 {
@@ -182,14 +183,18 @@ class TestController extends Controller
         $data["email"] = "cmaity905@gmail.com";
         $data["title"] = "For Testing";
         $data["body"] = "This is Demo";
+        $title="For Testing";
+        $body="This is Demo";
   
         $pdf = PDF::loadView('emails.testmail', $data);
-  
-        Mail::send('emails.testmail', $data, function($message)use($data, $pdf) {
-            $message->to($data["email"])
-                    ->subject($data["title"])
-                    ->attachData($pdf->output(), "text.pdf");
-        });
+        Mail::to($data["email"])->send(new HotelBookinInvoiceEmail($title,$body,$pdf));
+        
+        // HotelBookinInvoiceEmail
+        // Mail::send('emails.testmail', $data, function($message)use($data, $pdf) {
+        //     $message->to($data["email"])
+        //             ->subject($data["title"])
+        //             ->attachData($pdf->output(), "text.pdf");
+        // });
   
         dd('Mail sent successfully');
     }
