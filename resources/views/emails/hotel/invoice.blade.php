@@ -43,7 +43,7 @@
                                             </tr>
                                             <tr>
                                                 <td><b>Booking Reference &nbsp;&nbsp;&nbsp;: </b></td>
-                                                <td class="text-left"> &nbsp;{{$pdfdata['bookdetails']['BookingReference']}}</td>
+                                                <td class="text-left"> &nbsp;{{$bookdetails['BookingReference']}}</td>
                                             </tr>
                                             <!-- <tr>
                                                 <td><b>Client ID &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </b> </td>
@@ -55,9 +55,9 @@
                                 <div class="row mt-5">
                                     <div class="col-md-8 col-6">
                                         <h3>To</h3>
-                                        <p>{{$pdfdata['bookdetails']['LeaderName']}}<br>
-                                            {{$pdfdata->add_1}} {{$pdfdata->add_2}}<br>{{$pdfdata->city}}<br>{{$pdfdata->state}}<br>
-                                            {{$pdfdata->post_code}}<br><b>TEL:</b>{{$pdfdata->contact_no}} 
+                                        <p>{{$bookdetails['LeaderName']}}<br>
+                                            {{$add_1}} {{$add_2}}<br>{{$city}}<br>{{$state}}<br>
+                                            {{$post_code}}<br><b>TEL:</b>{{$contact_no}} 
                                     </div>
                                     <div class="col-md-4 col-6">
                                         <h3>Issued By</h3>
@@ -67,7 +67,6 @@
                                         </p>
                                     </div>
                                 </div>
-                                <!-- {{$pdfdata['bookdetails']['LeaderName']}} -->
                                 <div class="row hide_div1">
                                     <div class="col-md-12">
                                         <h2 class="p-3 bg-light-blue d-inline-block">Hotel</h2>
@@ -90,11 +89,11 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <?php $p=explode(" ",$pdfdata['bookdetails']['LeaderName']);
+                                                    <?php $p=explode(" ",$bookdetails['LeaderName']);
                                                         // print_r($p);
                                                         $count=1;
                                                     ?>
-                                                    @foreach($pdfdata['guestdetails'] as $guest)
+                                                    @foreach($guestdetails as $guest)
                                                     <tr>
                                                         <td>{{$count++}}</td>
                                                         <td>{{$guest->pax_type}}</td>
@@ -111,7 +110,7 @@
                                     <div class="col-md-12">
                                         <h4 class="mt-3"><b>HOTEL DETAILS </b></h4>
                                         <p>
-                                            Booking Reference: {{$pdfdata['bookdetails']['BookingReference']}}
+                                            Booking Reference: {{$bookdetails['BookingReference']}}
                                             <!-- <span class="noprint">
                                                 | &nbsp;
                                             </span>
@@ -121,9 +120,9 @@
 
                                             | PNR : 6C4ZKY | &nbsp;&nbsp;UN PNR :IBE10363947 &nbsp;&nbsp;  -->
                                             | &nbsp;&nbsp;
-                                            BOOKING DATE : {{ \Carbon\Carbon::parse($pdfdata['bookdetails']['BookingTime'])->format('d-m-Y H:i:s')}}
+                                            BOOKING DATE : {{ \Carbon\Carbon::parse($bookdetails['BookingTime'])->format('d-m-Y H:i:s')}}
                                             &nbsp;&nbsp;
-                                            | &nbsp;&nbsp; Booking Status : {{$pdfdata['bookdetails']['BookingStatus']}}
+                                            | &nbsp;&nbsp; Booking Status : {{$bookdetails['BookingStatus']}}
                                         </p>
                                     </div>
                                     <div class="col-md-12">
@@ -147,22 +146,22 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @if(isset($pdfdata['bookdetails']['Rooms']['Room']['RoomName']))
+                                                    @if(isset($bookdetails['Rooms']['Room']['RoomName']))
                                                     <tr>
-                                                        <td>{{$pdfdata['bookdetails']['HotelName']}} 
+                                                        <td>{{$bookdetails['HotelName']}} 
                                                             <br>
-                                                            City :- {{$pdfdata['bookdetails']['City']}}
+                                                            City :- {{$bookdetails['City']}}
                                                             <br>
-                                                            HOTEL ID :- {{$pdfdata['bookdetails']['HotelId']}}
+                                                            HOTEL ID :- {{$bookdetails['HotelId']}}
                                                         </td>
-                                                        <td>{{$pdfdata['bookdetails']['Rooms']['Room']['RoomName']}}</td>
-                                                        <td>{{ \Carbon\Carbon::parse($pdfdata['bookdetails']['CheckInDate'])->format('d-m-Y')}}<br>
+                                                        <td>{{$bookdetails['Rooms']['Room']['RoomName']}}</td>
+                                                        <td>{{ \Carbon\Carbon::parse($bookdetails['CheckInDate'])->format('d-m-Y')}}<br>
                                                         </td>
-                                                        <td>{{ \Carbon\Carbon::parse($pdfdata['bookdetails']['CheckOutDate'])->format('d-m-Y')}}<br>
+                                                        <td>{{ \Carbon\Carbon::parse($bookdetails['CheckOutDate'])->format('d-m-Y')}}<br>
                                                         </td>
                                                         <td> 1</td>
-                                                        <td>{{$pdfdata['bookdetails']['Rooms']['Room']['NumAdults']}}</td>
-                                                        <td>{{$pdfdata['bookdetails']['Rooms']['Room']['NumChildren']}}</td>
+                                                        <td>{{$bookdetails['Rooms']['Room']['NumAdults']}}</td>
+                                                        <td>{{$bookdetails['Rooms']['Room']['NumChildren']}}</td>
                                                     </tr>
                                                     @else
                                                         <?php 
@@ -170,7 +169,7 @@
                                                             $num_adults=0;
                                                             $num_children=0;
                                                          ?>
-                                                        @foreach($pdfdata['bookdetails']['Rooms']['Room'] as $rooms)
+                                                        @foreach($bookdetails['Rooms']['Room'] as $rooms)
                                                         <?php 
                                                             $namecount++; 
                                                             $num_adults=$num_adults + $rooms['NumAdults'];
@@ -179,16 +178,16 @@
                                                         ?>
                                                         @endforeach
                                                         <tr>
-                                                            <td>{{$pdfdata['bookdetails']['HotelName']}} 
+                                                            <td>{{$bookdetails['HotelName']}} 
                                                                 <br>
-                                                                City :- {{$pdfdata['bookdetails']['City']}}
+                                                                City :- {{$bookdetails['City']}}
                                                                 <br>
-                                                                HOTEL ID :- {{$pdfdata['bookdetails']['HotelId']}}
+                                                                HOTEL ID :- {{$bookdetails['HotelId']}}
                                                             </td>
                                                             <td>{{$rooms['RoomName']}}</td>
-                                                            <td>{{ \Carbon\Carbon::parse($pdfdata['bookdetails']['CheckInDate'])->format('d-m-Y')}}<br>
+                                                            <td>{{ \Carbon\Carbon::parse($bookdetails['CheckInDate'])->format('d-m-Y')}}<br>
                                                             </td>
-                                                            <td>{{ \Carbon\Carbon::parse($pdfdata['bookdetails']['CheckOutDate'])->format('d-m-Y')}}<br>
+                                                            <td>{{ \Carbon\Carbon::parse($bookdetails['CheckOutDate'])->format('d-m-Y')}}<br>
                                                             </td>
                                                             <td>{{$namecount}}</td>
                                                             <td>{{$num_adults}}</td>
@@ -207,9 +206,9 @@
                                             <b class="float-right">
                                                 <b>Room Charges (GST Extra): </b>
                                                 <span class="text-light-blue"><?php 
-                                                    echo $val=DB::table('hotel_currency')->where('currency',$pdfdata->currency)->value('icon');
+                                                    echo $val=DB::table('hotel_currency')->where('currency',$currency)->value('icon');
                                                     echo " ";
-                                                ?>{{ number_format($pdfdata['bookdetails']['TotalPrice'] ,2) }}</span>
+                                                ?>{{ number_format($bookdetails['TotalPrice'] ,2) }}</span>
                                             </b>
                                         </h4>
                                     </div>
@@ -218,9 +217,9 @@
                                             <b class="float-right">
                                                 <b>GST on Room Charges: </b>
                                                 <span class="text-light-blue"><?php 
-                                                    echo $val=DB::table('hotel_currency')->where('currency',$pdfdata->currency)->value('icon');
+                                                    echo $val=DB::table('hotel_currency')->where('currency',$currency)->value('icon');
                                                     echo " ";
-                                                ?>{{ number_format($pdfdata->GST ,2) }}</span>
+                                                ?>{{ number_format($GST ,2) }}</span>
                                             </b>
                                         </h4>
                                     </div>
@@ -229,9 +228,9 @@
                                             <b class="float-right">
                                                 <b>Convenience Fees: </b>
                                                 <span class="text-light-blue"><?php 
-                                                    echo $val=DB::table('hotel_currency')->where('currency',$pdfdata->currency)->value('icon');
+                                                    echo $val=DB::table('hotel_currency')->where('currency',$currency)->value('icon');
                                                     echo " ";
-                                                ?>{{ number_format($pdfdata->Convenience_Fees ,2) }}</span>
+                                                ?>{{ number_format($Convenience_Fees ,2) }}</span>
                                             </b>
                                         </h4>
                                     </div>
@@ -240,9 +239,9 @@
                                             <b class="float-right">
                                                 <b>Taxes & Fees: </b>
                                                 <span class="text-light-blue"><?php 
-                                                    echo $val=DB::table('hotel_currency')->where('currency',$pdfdata->currency)->value('icon');
+                                                    echo $val=DB::table('hotel_currency')->where('currency',$currency)->value('icon');
                                                     echo " ";
-                                                ?>{{ number_format($pdfdata->Taxes_and_Fees,2) }}</span>
+                                                ?>{{ number_format($Taxes_and_Fees,2) }}</span>
                                             </b>
                                         </h4>
                                     </div>
@@ -261,11 +260,11 @@
                                             </div>
                                             <div class="" style="display:inline-block;">
                                                 <p class="mb-1"> <?php 
-                                                    echo $val=DB::table('hotel_currency')->where('currency',$pdfdata->currency)->value('icon');
+                                                    echo $val=DB::table('hotel_currency')->where('currency',$currency)->value('icon');
                                                     echo " ";
                                                 ?>
 
-                                                {{number_format(($pdfdata['bookdetails']['TotalPrice'] + $pdfdata->GST + $pdfdata->Convenience_Fees + $pdfdata->Taxes_and_Fees),2)}}
+                                                {{number_format(($bookdetails['TotalPrice'] + $GST + $Convenience_Fees + $Taxes_and_Fees),2)}}
                                                 </p>
                                             </div>
 
@@ -276,9 +275,9 @@
                                             </div>
                                             <div class="" style="display:inline-block;">
                                             <?php 
-                                                echo $val=DB::table('hotel_currency')->where('currency',$pdfdata->currency)->value('icon');
+                                                echo $val=DB::table('hotel_currency')->where('currency',$currency)->value('icon');
                                                 echo " ";
-                                            ?> {{number_format(($pdfdata['bookdetails']['TotalPrice'] + $pdfdata->GST + $pdfdata->Convenience_Fees + $pdfdata->Taxes_and_Fees),2)}} </div>
+                                            ?> {{number_format(($bookdetails['TotalPrice'] + $GST + $Convenience_Fees + $Taxes_and_Fees),2)}} </div>
                                         </div>
 
 
@@ -297,23 +296,23 @@
                                             <p>Terms and Conditions<br />
                                                 <span class="style1"><strong>Notes:</strong></span>
                                             </p>
-                                            @if(isset($pdfdata['bookdetails']['Alerts']['Alert']))
-                                            @if(is_array($pdfdata['bookdetails']['Alerts']['Alert']))
+                                            @if(isset($bookdetails['Alerts']['Alert']))
+                                            @if(is_array($bookdetails['Alerts']['Alert']))
                                             <ul type="disc">
-                                                <!-- <li class="style1"><strong>Cancellation Deadline: {{$pdfdata['bookdetails']['CancellationDeadline']}}</strong>&nbsp;&nbsp; </li> -->
-                                                @foreach($pdfdata['bookdetails']['Alerts']['Alert'] as $alert)
+                                                <!-- <li class="style1"><strong>Cancellation Deadline: {{$bookdetails['CancellationDeadline']}}</strong>&nbsp;&nbsp; </li> -->
+                                                @foreach($bookdetails['Alerts']['Alert'] as $alert)
                                                 <li class="style1">{{$alert}}</li>
                                                 @endforeach
                                             </ul>
                                             @else
                                             <ul type="disc">
-                                                <li class="style1">{{$pdfdata['bookdetails']['Alerts']['Alert']}}</li>
+                                                <li class="style1">{{$bookdetails['Alerts']['Alert']}}</li>
                                             </ul>
                                             @endif
                                             @endif
                                            
                                             <p>
-                                                <?php //echo $pdfdata['bookdetails']['Alerts']['Alert'];?>
+                                                <?php //echo $bookdetails['Alerts']['Alert'];?>
 
                                                 </br> </br> </br>
                                                 <span class="style1"><strong>Note/Disclaimer: It is the sole
