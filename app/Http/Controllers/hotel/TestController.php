@@ -186,7 +186,7 @@ class TestController extends Controller
         $pdf = PDF::loadView('emails.testmail', $data);
   
         Mail::send('emails.testmail', $data, function($message)use($data, $pdf) {
-            $message->to($data["email"],$data["emailto"])
+            $message->to($data["email"])
                     ->subject($data["title"])
                     ->attachData($pdf->output(), "text.pdf");
         });
