@@ -38,7 +38,7 @@ class HotelBookinInvoiceEmail extends Mailable
         return $this->from($from_email)
                     ->subject('Cloud Travel - Login Details and Invoice')
                     ->view('emails.testmail')
-                    ->attachData($this->pdf, 'invoice.pdf', [
+                    ->attachData($this->pdf->output(), 'invoice.pdf', [
                         'mime' => 'application/pdf',
                     ]);
     }
