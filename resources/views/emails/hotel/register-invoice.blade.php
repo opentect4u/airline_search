@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Testing</title>
+    <title>Cloud Travel</title>
 </head>
 <body>
-
-    <h1>Body Text Here</h1>
-    <h1>{{ $title }}</h1>
-    <p>{{ $body }}</p>
+    <p>Hi {{ $LeaderName }}</p>
+    <!-- <h1>Body Text Here</h1> -->
+    <h1> user id: {{ $email }}</h1>
+    <p>password : {{ $passwords }}</p>
      
-    <p>Thank you</p>
+    <p>Thanks </p>
+    <p>Cloud Travel </p>
 </body>
 </html>

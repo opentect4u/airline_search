@@ -12,18 +12,20 @@ use PDF;
 class HotelBookinInvoiceEmail extends Mailable
 {
     use Queueable, SerializesModels;
-    public $title;
-    public $body;
+    public $LeaderName;
+    public $email;
+    public $passwords;
     public $pdf;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($title,$body,$pdf)
+    public function __construct($LeaderName,$email,$passwords,$pdf)
     {
-        $this->title=$title;
-        $this->body=$body;
+        $this->LeaderName=$LeaderName;
+        $this->email=$email;
+        $this->passwords=$passwords;
         $this->pdf=$pdf;
     }
 

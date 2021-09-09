@@ -15,6 +15,7 @@ use DB;
 use Session;
 use PDF;
 use Mail;
+use App\Mail\HotelBookinInvoiceEmail;
 
 class PaymentController extends Controller
 {
@@ -267,6 +268,7 @@ class PaymentController extends Controller
                 $email=$request->email;
                 $f_name=$request->room1_first_name1;
                 $l_name=$request->room1_last_name1;
+                $passwords=uniqid('pass_');
                 $user_details=UserLogin::where('user_id',$email)->get();
                 if(count($user_details)>0){
                     foreach($user_details as $user){
@@ -281,7 +283,7 @@ class PaymentController extends Controller
                     }else{
                         UserLogin::create(array(
                             'user_id'=>$email,
-                            'user_pass'=>Hash::make(uniqid('pass_')),
+                            'user_pass'=>Hash::make($passwords),
                             'first_name'=>$f_name,
                             'last_name'=>$l_name,
                             'mobile'=>$contact_no,
@@ -422,6 +424,23 @@ class PaymentController extends Controller
                 $guestdetails=HotelGuestRoomDetails::where('booking_reference',$bookdetails[0]['BookingReference'])->get();
 
                 // start mail send code here
+                $pdfdata["bookdetails"] = $bookdetails[0];
+                $pdfdata["guestdetails"] = $guestdetails;
+                // $pdfdata["searched"] = $request;
+                $pdfdata["add_1"]= $request->add_1;
+                $pdfdata["add_2"]= $request->add_2;
+                $pdfdata["city"]= $request->city;
+                $pdfdata["state"]= $request->state;
+                $pdfdata["post_code"]= $request->post_code;
+                $pdfdata["contact_no"]= $request->contact_no;
+                $pdfdata["currency"]= $request->currency;
+                $pdfdata["GST"]= $request->GST;
+                $pdfdata["Convenience_Fees"]= $request->Convenience_Fees;
+                $pdfdata["Taxes_and_Fees"]= $request->Taxes_and_Fees;
+                $LeaderName=$bookdetails[0]['LeaderName'];
+                // return $pdfdata;
+                $pdf = PDF::loadView('emails.hotel.invoice', $pdfdata);
+                Mail::to($email)->send(new HotelBookinInvoiceEmail($LeaderName,$email,$passwords,$pdf));
 
                 // end mail send code here
 
