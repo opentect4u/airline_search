@@ -268,7 +268,7 @@ class PaymentController extends Controller
                 $email=$request->email;
                 $f_name=$request->room1_first_name1;
                 $l_name=$request->room1_last_name1;
-                $passwords=uniqid('pass_');
+                $passwords='';
                 $user_details=UserLogin::where('user_id',$email)->get();
                 if(count($user_details)>0){
                     foreach($user_details as $user){
@@ -281,6 +281,8 @@ class PaymentController extends Controller
                         // $user_details1=UserLogin::where('id',Session::get('user_details')[0]['id'])->get();
                         $user_id=Session::get('user_details')[0]['id'];
                     }else{
+                        $passwords=uniqid('pass_');
+
                         UserLogin::create(array(
                             'user_id'=>$email,
                             'user_pass'=>Hash::make($passwords),
