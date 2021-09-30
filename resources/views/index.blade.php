@@ -54,6 +54,7 @@
             <div id="flight" class="tab-pane active">
                 <form name="myform" method="post" action="{{route('flights')}}">
                     @csrf
+                    <input type="text" hidden id="country_nameInp" name="country_nameInp" value="" />
                     <div class="form-group">
                         <ul class="cld__selectors">
                             <li><a href="javascript:void(0)" class="active" id="one_way">One way</a></li>
@@ -805,6 +806,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.4/jquery-confirm.min.css" />
 @endsection
 @section('script')
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.4/jquery-confirm.min.js"></script>
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script> -->
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script>  -->
@@ -1146,6 +1148,72 @@
             }
         });
         // return false;
+    }
+</script>
+
+    <!-- start google location api -->
+    
+<!-- <script src="https://maps.google.com/maps/api/js?key=AIzaSyA28RYBfIFyPx-KwhyFWXdicFqJTcZ8eOc"></script> -->
+<script src="https://maps.google.com/maps/api/js?key=<?php echo app('App\Http\Controllers\GoogleAPIController')->GoogleAPIKey();?>"></script>
+<script>
+    $( document ).ready(function() {
+        getLocation();
+    });
+
+    var x = document.getElementById("demo");
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition, showError);
+        } else { 
+            x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+    }
+
+    function showPosition(position) {
+        var lat = position.coords.latitude;
+        var long = position.coords.longitude;
+        // alert("lat : "+lat);
+        // alert("long : "+long);
+        var point = new google.maps.LatLng(lat, long);
+        new google.maps.Geocoder().geocode( {'latLng': point}, 
+        function (results, status) { 
+            // alert(results)
+            // var obj=JSON.parse(results);
+            var obj=JSON.stringify(results);
+            
+            // alert(obj)
+            // console.log(obj)
+            for(i=0; i < results.length; i++){
+                    for(var j=0;j < results[i].address_components.length; j++){
+                        for(var k=0; k < results[i].address_components[j].types.length; k++){
+                            if(results[i].address_components[j].types[k] == "country"){
+                                country_name = results[i].address_components[j].long_name;
+                                // $("#country_name").val('');
+                                // $("#country_name").val(country_name);
+                            }
+                        }
+                    }
+            }
+            alert(country_name);
+            $("#country_nameInp").val('');
+            $("#country_nameInp").val(country_name);
+        });
+    }
+    function showError(error) {
+        switch(error.code) {
+            case error.PERMISSION_DENIED:
+            x.innerHTML = "User denied the request for Geolocation."
+            break;
+            case error.POSITION_UNAVAILABLE:
+            x.innerHTML = "Location information is unavailable."
+            break;
+            case error.TIMEOUT:
+            x.innerHTML = "The request to get user location timed out."
+            break;
+            case error.UNKNOWN_ERROR:
+            x.innerHTML = "An unknown error occurred."
+            break;
+        }
     }
 </script>
 

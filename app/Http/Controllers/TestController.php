@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Hash;
 class TestController extends Controller
 {
 
-public function Test(){
+public function Test11(){
   // return Hash::make('ADT1');
     $TARGETBRANCH = 'P7141733';
     $CREDENTIALS = 'Universal API/uAPI4648209292-e1e4ba84:9Jw*C+4c/5';
@@ -628,7 +628,7 @@ EOM;
         // }
 }
    
-public function Test1(){
+public function Test(){
     $TARGETBRANCH = 'P7141733';
     $CREDENTIALS = 'Universal API/uAPI4648209292-e1e4ba84:9Jw*C+4c/5';
 $Provider = '1G';//1G/1V/1P/ACH
@@ -676,7 +676,12 @@ $message = <<<EOM
                <com:Provider Code="$Provider"/>
             </air:PreferredProviders>
          </air:AirSearchModifiers>
-		 <com:SearchPassenger BookingTravelerRef="1" Code="ADT" xmlns:com="http://www.travelport.com/schema/common_v42_0"/>
+		  <com:SearchPassenger BookingTravelerRef="1" Code="ADT" xmlns:com="http://www.travelport.com/schema/common_v42_0"/>
+      <AirPricingModifiers FaresIndicator="PublicFaresOnly" CurrencyType="INR">
+      <AccountCodes>
+        <AccountCode xmlns="http://www.travelport.com/schema/common_v42_0" Code="-" />
+      </AccountCodes>
+      </AirPricingModifiers>
       </air:LowFareSearchReq>
    </soapenv:Body>
 </soapenv:Envelope>
