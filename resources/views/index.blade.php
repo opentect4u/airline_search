@@ -1153,7 +1153,6 @@
 
     <!-- start google location api -->
     
-<!-- <script src="https://maps.google.com/maps/api/js?key=AIzaSyA28RYBfIFyPx-KwhyFWXdicFqJTcZ8eOc"></script> -->
 <script src="https://maps.google.com/maps/api/js?key=<?php echo app('App\Http\Controllers\GoogleAPIController')->GoogleAPIKey();?>"></script>
 <script>
     $( document ).ready(function() {
@@ -1184,17 +1183,18 @@
             // alert(obj)
             // console.log(obj)
             for(i=0; i < results.length; i++){
-                    for(var j=0;j < results[i].address_components.length; j++){
-                        for(var k=0; k < results[i].address_components[j].types.length; k++){
-                            if(results[i].address_components[j].types[k] == "country"){
-                                country_name = results[i].address_components[j].long_name;
-                                // $("#country_name").val('');
-                                // $("#country_name").val(country_name);
-                            }
+                for(var j=0;j < results[i].address_components.length; j++){
+                    for(var k=0; k < results[i].address_components[j].types.length; k++){
+                        if(results[i].address_components[j].types[k] == "country"){
+                            country_name = results[i].address_components[j].short_name;
+                            // country_name = results[i].address_components[j].long_name;
+                            // $("#country_name").val('');
+                            // $("#country_name").val(country_name);
                         }
                     }
+                }
             }
-            alert(country_name);
+            // alert(country_name);
             $("#country_nameInp").val('');
             $("#country_nameInp").val(country_name);
         });
