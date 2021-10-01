@@ -8,6 +8,8 @@ use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Orchestra\Parser\Xml\Facade as XmlParser;
 use Illuminate\Support\Arr;
+use DB;
+
 class FlightController extends Controller
 {
     public function search(Request $request){
@@ -41,6 +43,9 @@ class FlightController extends Controller
         $var_adults=$request->adults;
         $var_children=$request->children;
         $var_infant=$request->infant;
+        $var_country_code=$request->country_code;
+        $var_currency_code=DB::table('countries')->where('country_code',$var_country_code)->value('currency_code');
+        // return $var_currency_code;
 
         if($request->returning_date != null) {
             $new_return_flight=collect();
@@ -50,7 +55,7 @@ class FlightController extends Controller
             $flightTo=$var_flightFrom;
             $SearchPreferredDate=$var_PreferredDate;
             $SearchDate=$var_returnDate;
-            $xmldata=app('App\Http\Controllers\UtilityController')->Universal_API_SearchXMLReturn($travel_class,$flightFrom,$flightTo,$SearchPreferredDate,$SearchDate,$var_adults,$var_children,$var_infant);
+            $xmldata=app('App\Http\Controllers\UtilityController')->Universal_API_SearchXMLReturn($travel_class,$flightFrom,$flightTo,$SearchPreferredDate,$SearchDate,$var_adults,$var_children,$var_infant,$var_currency_code);
             $api_url = "https://apac.universal-api.pp.travelport.com/B2BGateway/connect/uAPI/AirService";
             $return_return =app('App\Http\Controllers\UtilityController')->universal_API($xmldata,$api_url);
             if($return_return==null){
@@ -167,7 +172,7 @@ class FlightController extends Controller
             $flightFrom=$var_flightFrom;
             $flightTo=$var_flightTo;
             $SearchDate=$var_PreferredDate;
-            $xmldata=app('App\Http\Controllers\UtilityController')->Universal_API_SearchXML($travel_class,$flightFrom,$flightTo,$SearchDate,$var_adults,$var_children,$var_infant);
+            $xmldata=app('App\Http\Controllers\UtilityController')->Universal_API_SearchXML($travel_class,$flightFrom,$flightTo,$SearchDate,$var_adults,$var_children,$var_infant,$var_currency_code);
             // return $xmldata;
             $api_url = "https://apac.universal-api.pp.travelport.com/B2BGateway/connect/uAPI/AirService";
             $return =app('App\Http\Controllers\UtilityController')->universal_API($xmldata,$api_url);
@@ -584,6 +589,16 @@ class FlightController extends Controller
         $var_adults=$request->adults;
         $var_children=$request->children;
         $var_infant=$request->infant;
+        $var_country_code=$request->country_code;
+        $var_currency_code=DB::table('countries')->where('country_code',$var_country_code)->value('currency_code');
+        $currency_xml='';
+        if($var_currency_code!=''){
+            $currency_xml='<air:AirPricingModifiers FaresIndicator="PublicFaresOnly" CurrencyType="'.$var_currency_code.'">
+            <air:BrandModifiers ModifierType="FareFamilyDisplay" />
+            </air:AirPricingModifiers>';
+        }else{
+            $currency_xml='<air:AirPricingModifiers/>'; 
+        }
         // return $flights;
         // echo count($flights[0]);
         $datasegment='';
@@ -596,9 +611,13 @@ class FlightController extends Controller
         // return $travel_details;
         // foreach($flights[1] as $prices){
         // }
-        $TARGETBRANCH = 'P7141733';
-        $CREDENTIALS = 'Universal API/uAPI4648209292-e1e4ba84:9Jw*C+4c/5';
-        $Provider = '1G'; // Any provider you want to use like 1G/1P/1V/ACH
+        // $TARGETBRANCH = 'P7141733';CREDENTIALS
+        // $CREDENTIALS = 'Universal API/uAPI4648209292-e1e4ba84:9Jw*C+4c/5';
+        $CREDENTIALS = app('App\Http\Controllers\UniversalConfigAPIController')->CREDENTIALS();
+        $Provider =app('App\Http\Controllers\UniversalConfigAPIController')->Provider();
+        $TARGETBRANCH =app('App\Http\Controllers\UniversalConfigAPIController')->TARGETBRANCH();
+        
+        // $Provider = '1G'; // Any provider you want to use like 1G/1P/1V/ACH
         $returnSearch = '';
         $searchLegModifier = '';
         // $PreferredDate = Carbon::parse($request->departure_date)->format('Y-m-d');
@@ -610,8 +629,7 @@ class FlightController extends Controller
               <air:AirItinerary>
                 '.$datasegment.'
               </air:AirItinerary>
-              <air:AirPricingModifiers/>
-              '.$travel_details.'
+              '.$currency_xml.$travel_details.'
               <air:AirPricingCommand/>
            </air:AirPriceReq>
         </soap:Body>

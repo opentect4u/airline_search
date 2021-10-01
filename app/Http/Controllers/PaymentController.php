@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Session;
+use DB;
 
 class PaymentController extends Controller
 {
@@ -52,10 +53,25 @@ class PaymentController extends Controller
         $var_infant=$request->infant;
         $travel_details=app('App\Http\Controllers\UtilityController')->TravelDetailsDatasagment($var_adults,$var_children,$var_infant);
         // return $travel_details;
+        $var_country_code=$request->country_code;
+        $var_currency_code=DB::table('countries')->where('country_code',$var_country_code)->value('currency_code');
+        $currency_xml='';
+        if($var_currency_code!=''){
+            $currency_xml='<air:AirPricingModifiers FaresIndicator="PublicFaresOnly" CurrencyType="'.$var_currency_code.'">
+            <air:BrandModifiers ModifierType="FareFamilyDisplay" />
+            </air:AirPricingModifiers>';
+        }else{
+            $currency_xml='<air:AirPricingModifiers/>'; 
+        }
 
-        $TARGETBRANCH = 'P7141733';
-        $CREDENTIALS = 'Universal API/uAPI4648209292-e1e4ba84:9Jw*C+4c/5';
-        $Provider = '1G'; // Any provider you want to use like 1G/1P/1V/ACH
+
+        $CREDENTIALS = app('App\Http\Controllers\UniversalConfigAPIController')->CREDENTIALS();
+        $Provider =app('App\Http\Controllers\UniversalConfigAPIController')->Provider();
+        $TARGETBRANCH =app('App\Http\Controllers\UniversalConfigAPIController')->TARGETBRANCH();
+        
+        // $TARGETBRANCH = 'P7141733';
+        // $CREDENTIALS = 'Universal API/uAPI4648209292-e1e4ba84:9Jw*C+4c/5';
+        // $Provider = '1G'; // Any provider you want to use like 1G/1P/1V/ACH
         $returnSearch = '';
         $searchLegModifier = '';
         // $PreferredDate = Carbon::parse($request->departure_date)->format('Y-m-d');
@@ -68,8 +84,7 @@ class PaymentController extends Controller
               <air:AirItinerary>
                 '.$datasegment.'
               </air:AirItinerary>
-              <air:AirPricingModifiers/>
-              '.$travel_details.'
+              '.$currency_xml.$travel_details.'
               <air:AirPricingCommand/>
            </air:AirPriceReq>
         </soap:Body>
@@ -3470,6 +3485,18 @@ EOM;
         // return $flight;
         // return $flight[2];
         // return $flight[2]['price']['TotalPrice'];
+
+        $var_country_code=$request->country_code;
+        $var_currency_code=DB::table('countries')->where('country_code',$var_country_code)->value('currency_code');
+        $currency_xml='';
+        if($var_currency_code!=''){
+            $currency_xml='<air:AirPricingModifiers FaresIndicator="PublicFaresOnly" CurrencyType="'.$var_currency_code.'">
+            <air:BrandModifiers ModifierType="FareFamilyDisplay" />
+            </air:AirPricingModifiers>';
+        }else{
+            // $currency_xml='<air:AirPricingModifiers/>'; 
+        }
+        
         $datasegment='';
         foreach($flight[0] as $journeys){
             for ($i=0; $i < count($journeys); $i++) {
@@ -3578,7 +3605,8 @@ EOM;
                                     } 
                                 }
                                 $var2='</air:AirPricingInfo>';
-                                $var_AirPricingInfo_FareInfo_FareRuleKey_BookingInfo.=$var1.$fare_info.$var_adtcount.$var2;
+                                // $var_AirPricingInfo_FareInfo_FareRuleKey_BookingInfo.=$var1.$fare_info.$var_adtcount.$var2;
+                                $var_AirPricingInfo_FareInfo_FareRuleKey_BookingInfo.=$var1.$fare_info.$var_adtcount.$currency_xml.$var2;
                             }else{
                                 $var1='<air:AirPricingInfo PricingMethod="Auto" Key="'.$AirPricingInfo[$i]['Key'].'" TotalPrice="'.$AirPricingInfo[$i]['TotalPrice'].'" BasePrice="'.$AirPricingInfo[$i]['BasePrice'].'" ApproximateTotalPrice="'.$AirPricingInfo[$i]['ApproximateTotalPrice'].'" ApproximateBasePrice="'.$AirPricingInfo[$i]['ApproximateBasePrice'].'" Taxes="'.$AirPricingInfo[$i]['Taxes'].'" ProviderCode="'.$AirPricingInfo[$i]['ProviderCode'].'">
                                 <air:FareInfo PromotionalFare="false" Key="'.$FareInfo[$i]['Key'].'" FareFamily="Economy Saver" DepartureDate="'.$FareInfo[$i]['DepartureDate'].'" Amount="'.$FareInfo[$i]['Amount'].'" EffectiveDate="'.$FareInfo[$i]['EffectiveDate'].'" Destination="'.$FareInfo[$i]['Destination'].'" Origin="'.$FareInfo[$i]['Origin'].'" PassengerTypeCode="'.$FareInfo[$i]['PassengerTypeCode'].'" FareBasis="'.$FareInfo[$i]['FareBasis'].'">
@@ -3603,7 +3631,8 @@ EOM;
                                     } 
                                 }
                                 $var2='</air:AirPricingInfo>';
-                                $var_AirPricingInfo_FareInfo_FareRuleKey_BookingInfo.=$var1.$var_adtcount.$var2;
+                                // $var_AirPricingInfo_FareInfo_FareRuleKey_BookingInfo.=$var1.$var_adtcount.$var2;
+                                $var_AirPricingInfo_FareInfo_FareRuleKey_BookingInfo.=$var1.$var_adtcount.$currency_xml.$var2;
                             }
                         }
                     }
@@ -3734,9 +3763,15 @@ EOM;
         } 
         // return $booking_traveler_details;
         // return $datasegment;
-        $TARGETBRANCH = 'P7141733';
-        $CREDENTIALS = 'Universal API/uAPI4648209292-e1e4ba84:9Jw*C+4c/5';
-        $Provider = '1G'; // Any provider you want to use like 1G/1P/1V/ACH
+
+
+        $CREDENTIALS = app('App\Http\Controllers\UniversalConfigAPIController')->CREDENTIALS();
+        $Provider =app('App\Http\Controllers\UniversalConfigAPIController')->Provider();
+        $TARGETBRANCH =app('App\Http\Controllers\UniversalConfigAPIController')->TARGETBRANCH();
+        
+        // $TARGETBRANCH = 'P7141733';
+        // $CREDENTIALS = 'Universal API/uAPI4648209292-e1e4ba84:9Jw*C+4c/5';
+        // $Provider = '1G'; // Any provider you want to use like 1G/1P/1V/ACH
         $returnSearch = '';
         $searchLegModifier = '';
         // $PreferredDate = Carbon::parse($request->departure_date)->format('Y-m-d');

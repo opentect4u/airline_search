@@ -54,7 +54,7 @@
             <div id="flight" class="tab-pane active">
                 <form name="myform" method="post" action="{{route('flights')}}">
                     @csrf
-                    <input type="text" hidden id="country_nameInp" name="country_nameInp" value="" />
+                    <input type="text" hidden id="country_code" name="country_code" value="" />
                     <div class="form-group">
                         <ul class="cld__selectors">
                             <li><a href="javascript:void(0)" class="active" id="one_way">One way</a></li>
@@ -1159,7 +1159,7 @@
         getLocation();
     });
 
-    var x = document.getElementById("demo");
+    var x = document.getElementById("googleerrorcode");
     function getLocation() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(showPosition, showError);
@@ -1195,8 +1195,8 @@
                 }
             }
             // alert(country_name);
-            $("#country_nameInp").val('');
-            $("#country_nameInp").val(country_name);
+            $("#country_code").val('');
+            $("#country_code").val(country_name);
         });
     }
     function showError(error) {

@@ -527,6 +527,8 @@ EOM;
 
     public function FlightDetails(Request $request){
         $count=$request->count;
+        $currency_code=$request->currency_code;
+        
         // $flights=$request->flights;
          // $flights=json_decode($request->flights);
         // $flights=json_decode($request->input('flights'));
@@ -548,6 +550,16 @@ EOM;
        
         // return  $flightss;
         // echo count($flights[0]);
+        $currency_xml='';
+        if($currency_code!=''){
+            $currency_xml='<air:AirPricingModifiers FaresIndicator="PublicFaresOnly" CurrencyType="'.$currency_code.'">
+            <air:BrandModifiers ModifierType="FareFamilyDisplay" />
+            </air:AirPricingModifiers>';
+        }else{
+            $currency_xml='<air:AirPricingModifiers/>'; 
+        }
+
+
         $datasegment='';
         foreach($flights[0] as $journeys){
             for ($i=0; $i < count($journeys); $i++) {
@@ -566,9 +578,13 @@ EOM;
         // return $datasegment;
         // foreach($flights[1] as $prices){
         // }
-        $TARGETBRANCH = 'P7141733';
-        $CREDENTIALS = 'Universal API/uAPI4648209292-e1e4ba84:9Jw*C+4c/5';
-        $Provider = '1G'; // Any provider you want to use like 1G/1P/1V/ACH
+        $CREDENTIALS = app('App\Http\Controllers\UniversalConfigAPIController')->CREDENTIALS();
+        $Provider =app('App\Http\Controllers\UniversalConfigAPIController')->Provider();
+        $TARGETBRANCH =app('App\Http\Controllers\UniversalConfigAPIController')->TARGETBRANCH();
+        
+        // $TARGETBRANCH = 'P7141733';
+        // $CREDENTIALS = 'Universal API/uAPI4648209292-e1e4ba84:9Jw*C+4c/5';
+        // $Provider = '1G'; // Any provider you want to use like 1G/1P/1V/ACH
         $returnSearch = '';
         $searchLegModifier = '';
         // $PreferredDate = Carbon::parse($request->departure_date)->format('Y-m-d');
@@ -580,7 +596,7 @@ EOM;
               <air:AirItinerary>
                 '.$datasegment.'
               </air:AirItinerary>
-              <air:AirPricingModifiers/>
+              '.$currency_xml.'
               <com:SearchPassenger Key="1" Code="ADT" xmlns:com="http://www.travelport.com/schema/common_v42_0"/>
               <air:AirPricingCommand/>
            </air:AirPriceReq>

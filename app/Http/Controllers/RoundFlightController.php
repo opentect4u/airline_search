@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Orchestra\Parser\Xml\Facade as XmlParser;
 use Illuminate\Support\Arr;
+use DB;
 
 class RoundFlightController extends Controller
 {
@@ -22,6 +23,18 @@ class RoundFlightController extends Controller
         $var_infant=$request->infant;
         $travel_class =app('App\Http\Controllers\UtilityController')->TravelDetailsDatasagment($var_adults,$var_children,$var_infant);
         // return $travel_class;
+
+        $var_country_code=$request->country_code;
+        $var_currency_code=DB::table('countries')->where('country_code',$var_country_code)->value('currency_code');
+        $currency_xml='';
+        if($var_currency_code!=''){
+            $currency_xml='<air:AirPricingModifiers FaresIndicator="PublicFaresOnly" CurrencyType="'.$var_currency_code.'">
+            <air:BrandModifiers ModifierType="FareFamilyDisplay" />
+            </air:AirPricingModifiers>';
+        }else{
+            $currency_xml='<air:AirPricingModifiers/>'; 
+        }
+
         $datasegment='';
         $alldatasegment='';
         foreach($flights_outbound as $journeys){
@@ -48,9 +61,15 @@ class RoundFlightController extends Controller
         //     }
         // }
         // return $datasegment;
-        $TARGETBRANCH = 'P7141733';
-        $CREDENTIALS = 'Universal API/uAPI4648209292-e1e4ba84:9Jw*C+4c/5';
-        $Provider = '1G'; // Any provider you want to use like 1G/1P/1V/ACH
+
+        $CREDENTIALS = app('App\Http\Controllers\UniversalConfigAPIController')->CREDENTIALS();
+        $Provider =app('App\Http\Controllers\UniversalConfigAPIController')->Provider();
+        $TARGETBRANCH =app('App\Http\Controllers\UniversalConfigAPIController')->TARGETBRANCH();
+        
+
+        // $TARGETBRANCH = 'P7141733';
+        // $CREDENTIALS = 'Universal API/uAPI4648209292-e1e4ba84:9Jw*C+4c/5';
+        // $Provider = '1G'; // Any provider you want to use like 1G/1P/1V/ACH
         $returnSearch = '';
         $searchLegModifier = '';
         // $PreferredDate = Carbon::parse($request->departure_date)->format('Y-m-d');
@@ -105,7 +124,7 @@ class RoundFlightController extends Controller
                 '.$alldatasegment.'
               </air:AirItinerary>
               <air:AirPricingModifiers/>
-              '.$travel_class.'
+              '.$currency_xml.$travel_class.'
               <air:AirPricingCommand/>
            </air:AirPriceReq>
         </soap:Body>
@@ -574,7 +593,19 @@ EOM;
     public function FlightDetailsAJax(Request $request){
         $count=$request->count;
         $flights_outbound=$request->flights;
+        $currency_code=$request->currency_code;
         // $flights_outbound=json_decode($request->flights_outbound,true);
+
+
+        $currency_xml='';
+        if($currency_code!=''){
+            $currency_xml='<air:AirPricingModifiers FaresIndicator="PublicFaresOnly" CurrencyType="'.$currency_code.'">
+            <air:BrandModifiers ModifierType="FareFamilyDisplay" />
+            </air:AirPricingModifiers>';
+        }else{
+            $currency_xml='<air:AirPricingModifiers/>'; 
+        }
+
 
         $datasegment='';
         $alldatasegment='';
@@ -586,9 +617,15 @@ EOM;
                 $alldatasegment.= '<air:AirSegment Key="'.$journeys[$i]['Key'][0].'" Group="'.$journeys[$i]['Group'][0].'" Carrier="'.$journeys[$i]['Airline'][0].'" FlightNumber="'.$journeys[$i]['Flight'][0].'" Origin="'.$journeys[$i]['From'][0].'" Destination="'.$journeys[$i]['To'][0].'" DepartureTime="'.$journeys[$i]['Depart'][0].'" ArrivalTime="'.$journeys[$i]['Arrive'][0].'" FlightTime="'.$journeys[$i]['FlightTime'][0].'" Distance="'.$journeys[$i]['Distance'][0].'" ETicketability="Yes" ProviderCode="1G" ></air:AirSegment>';
             }
         }
-        $TARGETBRANCH = 'P7141733';
-        $CREDENTIALS = 'Universal API/uAPI4648209292-e1e4ba84:9Jw*C+4c/5';
-        $Provider = '1G'; // Any provider you want to use like 1G/1P/1V/ACH
+
+        $CREDENTIALS = app('App\Http\Controllers\UniversalConfigAPIController')->CREDENTIALS();
+        $Provider =app('App\Http\Controllers\UniversalConfigAPIController')->Provider();
+        $TARGETBRANCH =app('App\Http\Controllers\UniversalConfigAPIController')->TARGETBRANCH();
+        
+
+        // $TARGETBRANCH = 'P7141733';
+        // $CREDENTIALS = 'Universal API/uAPI4648209292-e1e4ba84:9Jw*C+4c/5';
+        // $Provider = '1G'; // Any provider you want to use like 1G/1P/1V/ACH
         $returnSearch = '';
         $searchLegModifier = '';
         $query1 = '<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
@@ -598,7 +635,7 @@ EOM;
               <air:AirItinerary>
                 '.$alldatasegment.'
               </air:AirItinerary>
-              <air:AirPricingModifiers/>
+              '.$currency_xml.'
               <com:SearchPassenger Key="1" Code="ADT" xmlns:com="http://www.travelport.com/schema/common_v42_0"/>
               <air:AirPricingCommand/>
            </air:AirPriceReq>

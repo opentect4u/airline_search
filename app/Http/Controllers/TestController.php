@@ -677,11 +677,11 @@ $message = <<<EOM
             </air:PreferredProviders>
          </air:AirSearchModifiers>
 		  <com:SearchPassenger BookingTravelerRef="1" Code="ADT" xmlns:com="http://www.travelport.com/schema/common_v42_0"/>
-      <AirPricingModifiers FaresIndicator="PublicFaresOnly" CurrencyType="INR">
-      <AccountCodes>
-        <AccountCode xmlns="http://www.travelport.com/schema/common_v42_0" Code="-" />
-      </AccountCodes>
-      </AirPricingModifiers>
+      <air:AirPricingModifiers FaresIndicator="PublicFaresOnly" CurrencyType="USD">
+      <air:AccountCodes>
+        <com:AccountCode xmlns="http://www.travelport.com/schema/common_v42_0" Code="-" />
+      </air:AccountCodes>
+      </air:AirPricingModifiers>
       </air:LowFareSearchReq>
    </soapenv:Body>
 </soapenv:Envelope>

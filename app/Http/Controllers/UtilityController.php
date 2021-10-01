@@ -177,7 +177,7 @@ class UtilityController extends Controller
         return $return;
     }
 
-    public function Universal_API_SearchXML($travel_class,$flightFrom,$flightTo,$SearchDate,$var_adults,$var_children,$var_infant){
+    public function Universal_API_SearchXML($travel_class,$flightFrom,$flightTo,$SearchDate,$var_adults,$var_children,$var_infant,$var_currency_code){
         $Provider =app('App\Http\Controllers\UniversalConfigAPIController')->Provider();
         $TARGETBRANCH =app('App\Http\Controllers\UniversalConfigAPIController')->TARGETBRANCH();
         
@@ -195,6 +195,15 @@ class UtilityController extends Controller
         }
         for ($i=1; $i <= $var_infant; $i++) { 
             $travel_details.='<com:SearchPassenger BookingTravelerRef="INF'.$i.'" Code="INF" xmlns:com="http://www.travelport.com/schema/common_v42_0"/>';
+        }
+
+        $currency_xml='';
+        if($var_currency_code!=''){
+            $currency_xml='<air:AirPricingModifiers FaresIndicator="PublicFaresOnly" CurrencyType="'.$var_currency_code.'">
+            <air:AccountCodes>
+                <com:AccountCode xmlns="http://www.travelport.com/schema/common_v42_0" Code="-" />
+            </air:AccountCodes>
+            </air:AirPricingModifiers>';
         }
              
       $message = <<<EOM
@@ -219,6 +228,7 @@ class UtilityController extends Controller
                </air:PreferredProviders>
             </air:AirSearchModifiers>   
             $travel_details
+            $currency_xml
             </air:LowFareSearchReq>
       </soapenv:Body>
    </soapenv:Envelope>
@@ -228,7 +238,7 @@ EOM;
 
     }
 
-    public function Universal_API_SearchXMLReturn($travel_class,$flightFrom,$flightTo,$SearchPreferredDate,$SearchDate,$var_adults,$var_children,$var_infant){
+    public function Universal_API_SearchXMLReturn($travel_class,$flightFrom,$flightTo,$SearchPreferredDate,$SearchDate,$var_adults,$var_children,$var_infant,$var_currency_code){
         $Provider =app('App\Http\Controllers\UniversalConfigAPIController')->Provider();
         $TARGETBRANCH =app('App\Http\Controllers\UniversalConfigAPIController')->TARGETBRANCH();
         
@@ -241,6 +251,15 @@ EOM;
         }
         for ($i=1; $i <= $var_infant; $i++) { 
             $travel_details.='<com:SearchPassenger BookingTravelerRef="INF'.$i.'" Code="INF" xmlns:com="http://www.travelport.com/schema/common_v42_0"/>';
+        }
+
+        $currency_xml='';
+        if($var_currency_code!=''){
+            $currency_xml='<air:AirPricingModifiers FaresIndicator="PublicFaresOnly" CurrencyType="'.$var_currency_code.'">
+            <air:AccountCodes>
+                <com:AccountCode xmlns="http://www.travelport.com/schema/common_v42_0" Code="-" />
+            </air:AccountCodes>
+            </air:AirPricingModifiers>';
         }
 
         $searchLegModifier = ' <air:AirLegModifiers>
@@ -283,6 +302,7 @@ EOM;
                </air:PreferredProviders>
             </air:AirSearchModifiers> 
             $travel_details  
+            $currency_xml
          </air:LowFareSearchReq>
       </soapenv:Body>
    </soapenv:Envelope>

@@ -1,6 +1,15 @@
 @extends('common.master')
 @section('content')
 
+
+<?php 
+    $country_code=$searched->country_code;
+    if($country_code==''){
+        $country_code='GB'; 
+    }
+    $currency_code=DB::table('countries')->where('country_code',$country_code)->value('currency_code');
+    $currency_symbal=DB::table('countries')->where('country_code',$country_code)->value('currency_symbal');
+?>
 <div class="middle">
     <div class="search-results">
         <div class="container">
@@ -211,35 +220,35 @@
                     <div class="filter-set">
                         <h6 class="font-weight-600">Price Range</h6>
                         @if(isset($searched->price_order))
-                        <label for="onwwayRange" id="amount"><i class="las la-pound-sign"></i>
+                        <label for="onwwayRange" id="amount">{{$currency_symbal}}
                         <?php  
                             foreach($return_flights[(count($return_flights)-1)] as $flight){
                                 $var_total_price=0;
                                 foreach($flight[1] as $prices){ 
-                                    $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->adults);
+                                    $var_total_price+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->adults);
                                 }
                                 if(isset($flight[2])){
-                                    foreach($flight[2] as $prices){ $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->children);} 
+                                    foreach($flight[2] as $prices){ $var_total_price+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->children);} 
                                 }
                                 if(isset($flight[3])){
-                                    foreach($flight[3] as $prices){ $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->infant);} 
+                                    foreach($flight[3] as $prices){ $var_total_price+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->infant);} 
                                 }
                             }
                             echo number_format($var_total_price,2,'.','');
-                            echo ' - <i class="las la-pound-sign"></i>';
+                            echo ' - '.$currency_symbal;
                             if(isset($searched->slider_order)){ 
                                 echo number_format(($searched->slider_order/100),2,'.','') ;
                             }else{ 
                                 $var_total_price1=0;
                                 foreach($return_flights[0] as $flight){
                                     foreach($flight[1] as $prices){ 
-                                        $var_total_price1+=(str_replace('GBP','',$prices['Total Price'])*$searched->adults);
+                                        $var_total_price1+=(str_replace($currency_code,'',$prices['Total Price'])*$searched->adults);
                                     }
                                     if(isset($flight[2])){
-                                    foreach($flight[2] as $prices){ $var_total_price1+= (str_replace('GBP','',$prices['Total Price'])*$searched->children);} 
+                                    foreach($flight[2] as $prices){ $var_total_price1+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->children);} 
                                     }
                                     if(isset($flight[3])){
-                                        foreach($flight[3] as $prices){ $var_total_price1+= (str_replace('GBP','',$prices['Total Price'])*$searched->infant);} 
+                                        foreach($flight[3] as $prices){ $var_total_price1+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->infant);} 
                                     }
                                 }
                                 echo number_format($var_total_price1,2,'.','');
@@ -251,13 +260,13 @@
                             foreach($return_flights[(count($return_flights)-1)] as $flight){
                                 $var_total_price=0;
                                 foreach($flight[1] as $prices){ 
-                                    $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->adults);
+                                    $var_total_price+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->adults);
                                 }
                                 if(isset($flight[2])){
-                                    foreach($flight[2] as $prices){ $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->children);} 
+                                    foreach($flight[2] as $prices){ $var_total_price+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->children);} 
                                 }
                                 if(isset($flight[3])){
-                                    foreach($flight[3] as $prices){ $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->infant);} 
+                                    foreach($flight[3] as $prices){ $var_total_price+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->infant);} 
                                 }
                             }
                             echo (number_format($var_total_price,2,'.','')*100);
@@ -267,13 +276,13 @@
                          $var_total_price1=0;
                          foreach($return_flights[0] as $flight){
                              foreach($flight[1] as $prices){ 
-                                 $var_total_price1+=(str_replace('GBP','',$prices['Total Price'])*$searched->adults);
+                                 $var_total_price1+=(str_replace($currency_code,'',$prices['Total Price'])*$searched->adults);
                              }
                              if(isset($flight[2])){
-                             foreach($flight[2] as $prices){ $var_total_price1+= (str_replace('GBP','',$prices['Total Price'])*$searched->children);} 
+                             foreach($flight[2] as $prices){ $var_total_price1+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->children);} 
                              }
                              if(isset($flight[3])){
-                                 foreach($flight[3] as $prices){ $var_total_price1+= (str_replace('GBP','',$prices['Total Price'])*$searched->infant);} 
+                                 foreach($flight[3] as $prices){ $var_total_price1+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->infant);} 
                              }
                          }
                          echo (number_format($var_total_price1,2,'.','')*100);
@@ -285,13 +294,13 @@
                             $var_total_price1=0;
                             foreach($return_flights[0] as $flight){
                             foreach($flight[1] as $prices){ 
-                                $var_total_price1+=(str_replace('GBP','',$prices['Total Price'])*$searched->adults);
+                                $var_total_price1+=(str_replace($currency_code,'',$prices['Total Price'])*$searched->adults);
                             }
                             if(isset($flight[2])){
-                                foreach($flight[2] as $prices){ $var_total_price1+= (str_replace('GBP','',$prices['Total Price'])*$searched->children);} 
+                                foreach($flight[2] as $prices){ $var_total_price1+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->children);} 
                             }
                             if(isset($flight[3])){
-                                foreach($flight[3] as $prices){ $var_total_price1+= (str_replace('GBP','',$prices['Total Price'])*$searched->infant);} 
+                                foreach($flight[3] as $prices){ $var_total_price1+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->infant);} 
                             }
                             }
                             echo (number_format($var_total_price1,2,'.','')*100);
@@ -302,13 +311,13 @@
                                 foreach($return_flights[(count($return_flights)-1)] as $flight){
                                     $var_total_price=0;
                                     foreach($flight[1] as $prices){ 
-                                        $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->adults);
+                                        $var_total_price+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->adults);
                                     }
                                     if(isset($flight[2])){
-                                        foreach($flight[2] as $prices){ $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->children);} 
+                                        foreach($flight[2] as $prices){ $var_total_price+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->children);} 
                                     }
                                     if(isset($flight[3])){
-                                        foreach($flight[3] as $prices){ $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->infant);} 
+                                        foreach($flight[3] as $prices){ $var_total_price+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->infant);} 
                                     }
                                 }
                                 echo (number_format($var_total_price,2,'.','')*100);
@@ -321,46 +330,46 @@
                                 $var_total_price1=0;
                                 foreach($return_flights[0] as $flight){
                                     foreach($flight[1] as $prices){ 
-                                        $var_total_price1+=(str_replace('GBP','',$prices['Total Price'])*$searched->adults);
+                                        $var_total_price1+=(str_replace($currency_code,'',$prices['Total Price'])*$searched->adults);
                                     }
                                     if(isset($flight[2])){
-                                        foreach($flight[2] as $prices){ $var_total_price1+= (str_replace('GBP','',$prices['Total Price'])*$searched->children);} 
+                                        foreach($flight[2] as $prices){ $var_total_price1+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->children);} 
                                     }
                                     if(isset($flight[3])){
-                                        foreach($flight[3] as $prices){ $var_total_price1+= (str_replace('GBP','',$prices['Total Price'])*$searched->infant);} 
+                                        foreach($flight[3] as $prices){ $var_total_price1+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->infant);} 
                                     }
                                 }
                                 echo (number_format($var_total_price1,2,'.','')*100);
                             }
                         ?>">
                         @else
-                        <label for="onwwayRange" id="amount"><i class="las la-pound-sign"></i>
+                        <label for="onwwayRange" id="amount">{{$currency_symbal}}
                         <?php  
                             $var_total_price1=0;
                             foreach($return_flights[0] as $flight){
                                 foreach($flight[1] as $prices){ 
-                                    $var_total_price1+= (str_replace('GBP','',$prices['Total Price'])*$searched->adults);
+                                    $var_total_price1+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->adults);
                                 }
                                 if(isset($flight[2])){
-                                    foreach($flight[2] as $prices){ $var_total_price1+= (str_replace('GBP','',$prices['Total Price'])*$searched->children);} 
+                                    foreach($flight[2] as $prices){ $var_total_price1+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->children);} 
                                 }
                                 if(isset($flight[3])){
-                                    foreach($flight[3] as $prices){ $var_total_price1+= (str_replace('GBP','',$prices['Total Price'])*$searched->infant);} 
+                                    foreach($flight[3] as $prices){ $var_total_price1+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->infant);} 
                                 }
                             }
                             echo number_format($var_total_price1,2,'.','');
-                            echo ' - <i class="las la-pound-sign"></i>';
+                            echo ' - '.$currency_symbal;
                             if(isset($searched->slider_order)){echo number_format(($searched->slider_order/100),2);}else{
                             foreach($return_flights[(count($return_flights)-1)] as $flight){
                                 $var_total_price=0;
                                     foreach($flight[1] as $prices){ 
-                                        $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->adults);
+                                        $var_total_price+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->adults);
                                     }
                                     if(isset($flight[2])){
-                                        foreach($flight[2] as $prices){ $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->children);} 
+                                        foreach($flight[2] as $prices){ $var_total_price+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->children);} 
                                     }
                                     if(isset($flight[3])){
-                                        foreach($flight[3] as $prices){ $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->infant);} 
+                                        foreach($flight[3] as $prices){ $var_total_price+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->infant);} 
                                     }
                             }
                             echo number_format($var_total_price,2,'.','');
@@ -371,13 +380,13 @@
                         $var_total_price1=0;
                         foreach($return_flights[0] as $flight){
                             foreach($flight[1] as $prices){ 
-                                $var_total_price1+= (str_replace('GBP','',$prices['Total Price'])*$searched->adults);
+                                $var_total_price1+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->adults);
                             }
                             if(isset($flight[2])){
-                                foreach($flight[2] as $prices){ $var_total_price1+= (str_replace('GBP','',$prices['Total Price'])*$searched->children);} 
+                                foreach($flight[2] as $prices){ $var_total_price1+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->children);} 
                                 }
                                 if(isset($flight[3])){
-                                    foreach($flight[3] as $prices){ $var_total_price1+= (str_replace('GBP','',$prices['Total Price'])*$searched->infant);} 
+                                    foreach($flight[3] as $prices){ $var_total_price1+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->infant);} 
                                 }
                         }
                         echo (number_format($var_total_price1,2,'.','')*100);
@@ -386,13 +395,13 @@
                             foreach($return_flights[(count($return_flights)-1)] as $flight){
                                 $var_total_price=0;
                                     foreach($flight[1] as $prices){ 
-                                        $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->adults);
+                                        $var_total_price+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->adults);
                                     }
                                     if(isset($flight[2])){
-                                        foreach($flight[2] as $prices){ $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->children);} 
+                                        foreach($flight[2] as $prices){ $var_total_price+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->children);} 
                                     }
                                     if(isset($flight[3])){
-                                        foreach($flight[3] as $prices){ $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->infant);} 
+                                        foreach($flight[3] as $prices){ $var_total_price+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->infant);} 
                                     }
                             }
                             echo (number_format($var_total_price,2,'.','')*100);
@@ -403,13 +412,13 @@
                             foreach($return_flights[(count($return_flights)-1)] as $flight){
                                 $var_total_price=0;
                                     foreach($flight[1] as $prices){ 
-                                        $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->adults);
+                                        $var_total_price+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->adults);
                                     }
                                     if(isset($flight[2])){
-                                        foreach($flight[2] as $prices){ $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->children);} 
+                                        foreach($flight[2] as $prices){ $var_total_price+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->children);} 
                                     }
                                     if(isset($flight[3])){
-                                        foreach($flight[3] as $prices){ $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->infant);} 
+                                        foreach($flight[3] as $prices){ $var_total_price+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->infant);} 
                                     }
                             }
                             echo (number_format($var_total_price,2,'.','')*100);
@@ -419,13 +428,13 @@
                             $var_total_price1=0;
                             foreach($return_flights[0] as $flight){
                                 foreach($flight[1] as $prices){ 
-                                    $var_total_price1+= (str_replace('GBP','',$prices['Total Price'])*$searched->adults);
+                                    $var_total_price1+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->adults);
                                 }
                                 if(isset($flight[2])){
-                                    foreach($flight[2] as $prices){ $var_total_price1+= (str_replace('GBP','',$prices['Total Price'])*$searched->children);} 
+                                    foreach($flight[2] as $prices){ $var_total_price1+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->children);} 
                                     }
                                     if(isset($flight[3])){
-                                        foreach($flight[3] as $prices){ $var_total_price1+= (str_replace('GBP','',$prices['Total Price'])*$searched->infant);} 
+                                        foreach($flight[3] as $prices){ $var_total_price1+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->infant);} 
                                     }
                             }
                             echo (number_format($var_total_price1,2,'.','')*100);
@@ -434,13 +443,13 @@
                              foreach($return_flights[(count($return_flights)-1)] as $flight){
                                 $var_total_price=0;
                                     foreach($flight[1] as $prices){ 
-                                        $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->adults);
+                                        $var_total_price+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->adults);
                                     }
                                     if(isset($flight[2])){
-                                        foreach($flight[2] as $prices){ $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->children);} 
+                                        foreach($flight[2] as $prices){ $var_total_price+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->children);} 
                                     }
                                     if(isset($flight[3])){
-                                        foreach($flight[3] as $prices){ $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->infant);} 
+                                        foreach($flight[3] as $prices){ $var_total_price+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->infant);} 
                                     }
                             }
                             echo (number_format($var_total_price,2,'.','')*100);
@@ -449,13 +458,13 @@
                              foreach($return_flights[(count($return_flights)-1)] as $flight){
                                 $var_total_price=0;
                                     foreach($flight[1] as $prices){ 
-                                        $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->adults);
+                                        $var_total_price+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->adults);
                                     }
                                     if(isset($flight[2])){
-                                        foreach($flight[2] as $prices){ $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->children);} 
+                                        foreach($flight[2] as $prices){ $var_total_price+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->children);} 
                                     }
                                     if(isset($flight[3])){
-                                        foreach($flight[3] as $prices){ $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->infant);} 
+                                        foreach($flight[3] as $prices){ $var_total_price+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->infant);} 
                                     }
                             }
                             echo (number_format($var_total_price,2,'.','')*100);
@@ -485,12 +494,12 @@
                         foreach($return_flights[(count($return_flights)-1)] as $datas){
                                         
                             $var_total_price_low=0;
-                            foreach($datas[1] as $prices){ $var_total_price_low+= (str_replace('GBP','',$prices['Total Price'])*$searched->adults);} 
+                            foreach($datas[1] as $prices){ $var_total_price_low+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->adults);} 
                             if(isset($datas[2])){
-                            foreach($datas[2] as $prices){ $var_total_price_low+= (str_replace('GBP','',$prices['Total Price'])*$searched->children);} 
+                            foreach($datas[2] as $prices){ $var_total_price_low+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->children);} 
                             }
                             if(isset($datas[3])){
-                                foreach($datas[3] as $prices){ $var_total_price_low+= (str_replace('GBP','',$prices['Total Price'])*$searched->infant);} 
+                                foreach($datas[3] as $prices){ $var_total_price_low+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->infant);} 
                             }
                         }
                         $format_tot_price_low=number_format($var_total_price_low,2,'.','');
@@ -507,12 +516,12 @@
                         foreach($return_flights[0] as $datas){
                                         
                             $var_total_price_low=0;
-                            foreach($datas[1] as $prices){ $var_total_price_low+= (str_replace('GBP','',$prices['Total Price'])*$searched->adults);} 
+                            foreach($datas[1] as $prices){ $var_total_price_low+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->adults);} 
                             if(isset($datas[2])){
-                            foreach($datas[2] as $prices){ $var_total_price_low+= (str_replace('GBP','',$prices['Total Price'])*$searched->children);} 
+                            foreach($datas[2] as $prices){ $var_total_price_low+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->children);} 
                             }
                             if(isset($datas[3])){
-                                foreach($datas[3] as $prices){ $var_total_price_low+= (str_replace('GBP','',$prices['Total Price'])*$searched->infant);} 
+                                foreach($datas[3] as $prices){ $var_total_price_low+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->infant);} 
                             }
                         }
                         $format_tot_price_low=number_format($var_total_price_low,2,'.','');
@@ -564,12 +573,12 @@
                     <?php
                                     
                         $var_total_price=0;
-                        foreach($flight_data[1] as $prices){ $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->adults);} 
+                        foreach($flight_data[1] as $prices){ $var_total_price+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->adults);} 
                         if(isset($flight_data[2])){
-                        foreach($flight_data[2] as $prices){ $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->children);} 
+                        foreach($flight_data[2] as $prices){ $var_total_price+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->children);} 
                         }
                         if(isset($flight_data[3])){
-                            foreach($flight_data[3] as $prices){ $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->infant);} 
+                            foreach($flight_data[3] as $prices){ $var_total_price+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->infant);} 
                         }
                      $format_tot_price=(number_format($var_total_price,2,'.','')*100);
                     //  echo $format_tot_price ." - ". $searched->slider_order;
@@ -602,7 +611,7 @@
                         }
                     ?>
                     
-                        <div id="SortDeparture{{$count}}" class="flight-devider GlobalDiv {{$DepartureSlot}} Airline<?php foreach($flight_data[0] as $datas){ foreach($datas[0] as $datas1){ echo $datas1[0]['Airline']; }} ?> Stops<?php  foreach($flight_data[0] as $datas){ foreach($datas[0] as $datas1){ $var1=count($datas1)-1; } foreach($datas[1] as $datas1){ $var2=count($datas1)-1; } if($var1==$var2){ echo $var1;}else{echo "Others";} } ?> priceRange<?php foreach($flight_data[1] as $prices){ echo (str_replace('GBP','',$prices['Total Price'] )*100); } ?> SortArrival{{$count}} SortDuration{{$count}}" data-GlobalDiv="1" data-TotalpriceDiv="<?php foreach($flight_data[1] as $prices){ echo (str_replace('GBP','',$prices['Total Price'] )*100); } ?>" data-Deprature-time="<?php foreach($flight_data[0] as $datas){foreach($datas[0] as $datas1){echo \Carbon\Carbon::parse($datas1[0]['Depart'])->format('H:i'); }} ?>" data-Arrival-time="<?php foreach($flight_data[0] as $datas){foreach($datas[0] as $datas1){ echo \Carbon\Carbon::parse($datas1[count($datas1)-1]['Arrive'])->format('H:i'); }} ?>" data-Duration-time="<?php foreach($flight_data[0] as $datas){foreach($datas[0] as $datas1){ echo \Carbon\Carbon::parse($datas1[0]['Depart'])->diff(\Carbon\Carbon::parse($datas1[count($datas1)-1]['Arrive']))->format('%d%H%I');}} ?>">
+                        <div id="SortDeparture{{$count}}" class="flight-devider GlobalDiv {{$DepartureSlot}} Airline<?php foreach($flight_data[0] as $datas){ foreach($datas[0] as $datas1){ echo $datas1[0]['Airline']; }} ?> Stops<?php  foreach($flight_data[0] as $datas){ foreach($datas[0] as $datas1){ $var1=count($datas1)-1; } foreach($datas[1] as $datas1){ $var2=count($datas1)-1; } if($var1==$var2){ echo $var1;}else{echo "Others";} } ?> priceRange<?php foreach($flight_data[1] as $prices){ echo (str_replace($currency_code,'',$prices['Total Price'] )*100); } ?> SortArrival{{$count}} SortDuration{{$count}}" data-GlobalDiv="1" data-TotalpriceDiv="<?php foreach($flight_data[1] as $prices){ echo (str_replace($currency_code,'',$prices['Total Price'] )*100); } ?>" data-Deprature-time="<?php foreach($flight_data[0] as $datas){foreach($datas[0] as $datas1){echo \Carbon\Carbon::parse($datas1[0]['Depart'])->format('H:i'); }} ?>" data-Arrival-time="<?php foreach($flight_data[0] as $datas){foreach($datas[0] as $datas1){ echo \Carbon\Carbon::parse($datas1[count($datas1)-1]['Arrive'])->format('H:i'); }} ?>" data-Duration-time="<?php foreach($flight_data[0] as $datas){foreach($datas[0] as $datas1){ echo \Carbon\Carbon::parse($datas1[0]['Depart'])->diff(\Carbon\Carbon::parse($datas1[count($datas1)-1]['Arrive']))->format('%d%H%I');}} ?>">
                             <div class="row align-items-center">
                                 <!-- outbound flight details -->
                                 @foreach($flight_data[0] as $datas1)
@@ -669,14 +678,14 @@
                                     <span class="text-muted">{{$datas[count($datas)-1]['To']}}</span>
                                 </div>
                                 <div class="col-md-3 mt-2 mt-md-0 text-center">
-                                    <h3 class="font-weight-bold"><i class="las la-pound-sign"></i><?php 
+                                    <h3 class="font-weight-bold">{{$currency_symbal}}<?php 
                                     $var_total_price=0;
-                                    foreach($flight_data[1] as $prices){ $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->adults);} 
+                                    foreach($flight_data[1] as $prices){ $var_total_price+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->adults);} 
                                     if(isset($flight_data[2])){
-                                        foreach($flight_data[2] as $prices){ $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->children);} 
+                                        foreach($flight_data[2] as $prices){ $var_total_price+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->children);} 
                                     }
                                     if(isset($flight_data[3])){
-                                        foreach($flight_data[3] as $prices){ $var_total_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->infant);} 
+                                        foreach($flight_data[3] as $prices){ $var_total_price+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->infant);} 
                                     }
                                     echo number_format($var_total_price,2);
                                     ?></h3>
@@ -691,6 +700,7 @@
                                         <input type="text" name="adults" value="{{ $searched->adults }}" hidden>
                                         <input type="text" name="children" value="{{ $searched->children }}" hidden>
                                         <input type="text" name="infant" value="{{ $searched->infant }}" hidden>
+                                <input type="text" name="country_code" value="{{ $searched->country_code }}" hidden>
                                         <button type="submit" class="btn btn-primary" onclick="showLoder();">Book Now</button>
                                     </form>
                                     <br>
@@ -708,10 +718,10 @@
                                         <a class="nav-link" data-toggle="pill" href="#fare_details{{ $count }}">Fare Details</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" data-toggle="pill" href="#baggage_rules{{ $count }}" onclick="BaggageCancelRule({{ $count }},@foreach($flight_data[0] as $flight_datas){{json_encode($flight_datas[0])}}@endforeach);">Baggage Rules</a>
+                                        <a class="nav-link" data-toggle="pill" href="#baggage_rules{{ $count }}" onclick="BaggageCancelRule({{ $count }},@foreach($flight_data[0] as $flight_datas){{json_encode($flight_datas[0])}}@endforeach,'{{$currency_code}}');">Baggage Rules</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" data-toggle="pill" href="#cancellation_rules{{ $count }}" onclick="BaggageCancelRule({{ $count }},@foreach($flight_data[0] as $flight_datas){{json_encode($flight_datas[0])}}@endforeach);">Cancellation Rules</a>
+                                        <a class="nav-link" data-toggle="pill" href="#cancellation_rules{{ $count }}" onclick="BaggageCancelRule({{ $count }},@foreach($flight_data[0] as $flight_datas){{json_encode($flight_datas[0])}}@endforeach,'{{$currency_code}}');">Cancellation Rules</a>
                                     </li>
                                 </ul>
                                 <!-- Tab panes -->
@@ -804,14 +814,14 @@
                                         <table class="table">
                                             <tr>
                                                 <td>Base Fare </td>
-                                                <td><i class="las la-pound-sign"></i> <?php 
+                                                <td>{{$currency_symbal}} <?php 
                                                 $var_app_price=0;
-                                        foreach($flight_data[1] as $prices){ $var_app_price+= (str_replace('GBP','',$prices['Approx Base Price'])*$searched->adults);} 
+                                        foreach($flight_data[1] as $prices){ $var_app_price+= (str_replace($currency_code,'',$prices['Approx Base Price'])*$searched->adults);} 
                                         if(isset($flight_data[2])){
-                                        foreach($flight_data[2] as $prices){ $var_app_price+= (str_replace('GBP','',$prices['Approx Base Price'])*$searched->children);} 
+                                        foreach($flight_data[2] as $prices){ $var_app_price+= (str_replace($currency_code,'',$prices['Approx Base Price'])*$searched->children);} 
                                         }
                                         if(isset($flight_data[3])){
-                                            foreach($flight_data[3] as $prices){ $var_app_price+= (str_replace('GBP','',$prices['Approx Base Price'])*$searched->infant);} 
+                                            foreach($flight_data[3] as $prices){ $var_app_price+= (str_replace($currency_code,'',$prices['Approx Base Price'])*$searched->infant);} 
                                         }
                                         echo number_format($var_app_price,2);
                                                 // foreach($flight_data[1] as $prices){ echo str_replace('GBP','',$prices['Approx Base Price'] );} 
@@ -819,14 +829,14 @@
                                             </tr>
                                             <tr>
                                                 <td>Taxes and Fees </td>
-                                                <td><i class="las la-pound-sign"></i> <?php 
+                                                <td>{{$currency_symbal}} <?php 
                                                 $var_tax_price=0;
-                                                foreach($flight_data[1] as $prices){ $var_tax_price+= (str_replace('GBP','',$prices['Taxes'])*$searched->adults);} 
+                                                foreach($flight_data[1] as $prices){ $var_tax_price+= (str_replace($currency_code,'',$prices['Taxes'])*$searched->adults);} 
                                                 if(isset($flight_data[2])){
-                                                foreach($flight_data[2] as $prices){ $var_tax_price+= (str_replace('GBP','',$prices['Taxes'])*$searched->children);} 
+                                                foreach($flight_data[2] as $prices){ $var_tax_price+= (str_replace($currency_code,'',$prices['Taxes'])*$searched->children);} 
                                                 }
                                                 if(isset($flight_data[3])){
-                                                    foreach($flight_data[3] as $prices){ $var_tax_price+= (str_replace('GBP','',$prices['Taxes'])*$searched->infant);} 
+                                                    foreach($flight_data[3] as $prices){ $var_tax_price+= (str_replace($currency_code,'',$prices['Taxes'])*$searched->infant);} 
                                                 }
                                                 echo number_format($var_tax_price,2);
                                                 // foreach($flight_data[1] as $prices){ echo str_replace('GBP','',$prices['Taxes'] );} 
@@ -834,14 +844,14 @@
                                             </tr>
                                             <tr>
                                                 <td>Total Fare </td>
-                                                <td><i class="las la-pound-sign"></i> <?php 
+                                                <td>{{$currency_symbal}} <?php 
                                                 $var_tot_price=0;
-                                                foreach($flight_data[1] as $prices){ $var_tot_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->adults);} 
+                                                foreach($flight_data[1] as $prices){ $var_tot_price+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->adults);} 
                                                 if(isset($flight_data[2])){
-                                                foreach($flight_data[2] as $prices){ $var_tot_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->children);} 
+                                                foreach($flight_data[2] as $prices){ $var_tot_price+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->children);} 
                                                 }
                                                 if(isset($flight_data[3])){
-                                                    foreach($flight_data[3] as $prices){ $var_tot_price+= (str_replace('GBP','',$prices['Total Price'])*$searched->infant);} 
+                                                    foreach($flight_data[3] as $prices){ $var_tot_price+= (str_replace($currency_code,'',$prices['Total Price'])*$searched->infant);} 
                                                 }
                                                 echo number_format($var_tot_price,2);
                                                 // foreach($flight_data[1] as $prices){ echo str_replace('GBP','',$prices['Total Price'] );} 
@@ -875,7 +885,7 @@
                                                     </tr>
                                                     <tr>
                                                         <td>2-72 hours</td>
-                                                        <td id="cancellation{{$count}}"><i class="las la-pound-sign"></i> 3,500</td>
+                                                        <td id="cancellation{{$count}}">{{$currency_symbal}} 3,500</td>
                                                     </tr>
                                                     <!-- <tr>
                                                         <td>>72 hours</td>
@@ -949,6 +959,10 @@
 <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>   -->
 		
 <script type="text/javascript">
+
+    var currency_code='<?php  echo $currency_code=DB::table('countries')->where('country_code',$country_code)->value('currency_code');?>';
+    var currency_symbal='<?php echo $currency_symbal=DB::table('countries')->where('country_code',$country_code)->value('currency_symbal');?>';
+
     $( document ).ready(function() {
         var slider_order='{{isset($searched->slider_order)?$searched->slider_order:''}}';
         $('onwwayRange').val('');
@@ -1657,7 +1671,7 @@
     });
 
     // baggage_rules
-    function BaggageCancelRule(count,flights){
+    function BaggageCancelRule(count,flights,currency_code){
         // alert(flights);    
         var loading ='<img id="loading-image-small" src="{{ asset('public/loder-small.gif') }}" alt="Loading..." style=" position: absolute;top: 100px;left: 431px;z-index: 100;"/>';
         $('#loading_small').append(loading);
@@ -1669,6 +1683,7 @@
         $("#cabin"+count).empty();
         var count=count;
         var flights=flights;
+        var currency_code=currency_code;
         
         $.ajax({
             type: "POST",
@@ -1676,7 +1691,8 @@
             data: {
                 "_token": "{{ csrf_token() }}",
                 count:count,
-                flights:flights
+                flights:flights,
+                currency_code:currency_code
             },
             success: function(data){
                 // alert(data);
@@ -1685,12 +1701,12 @@
                 $('#loading_small').hide();
                 $('#loading_small').empty();
                 if(obj.changepenalty!=''){
-                    var changepenalty='<i class="las la-pound-sign"></i>'+obj.changepenalty.replace('GBP','');
+                    var changepenalty=currency_symbal+obj.changepenalty.replace(currency_code,'');
                 }else{
                     var changepenalty='';
                 }
                 if(obj.cancelpenalty!=''){
-                    var cancelpenalty='<i class="las la-pound-sign"></i>'+obj.cancelpenalty.replace('GBP','');
+                    var cancelpenalty=currency_symbal+obj.cancelpenalty.replace(currency_code,'');
                 }else{
                     var cancelpenalty='';
                 }
@@ -1742,12 +1758,12 @@
                 $('#loading_small').hide();
                 $('#loading_small').empty();
                 if(obj.changepenalty!=''){
-                    var changepenalty='<i class="las la-pound-sign"></i>'+obj.changepenalty.replace('GBP','');
+                    var changepenalty=currency_symbal+obj.changepenalty.replace(currency_code,'');
                 }else{
                     var changepenalty='';
                 }
                 if(obj.cancelpenalty!=''){
-                    var cancelpenalty='<i class="las la-pound-sign"></i>'+obj.cancelpenalty.replace('GBP','');
+                    var cancelpenalty=currency_symbal+obj.cancelpenalty.replace(currency_code,'');
                 }else{
                     var cancelpenalty='';
                 }
@@ -1792,7 +1808,7 @@
         $("#time_Onward").append(time_Onward);
 
         for (x in pricedata) {
-            var price= pricedata[x]['Total Price'][0].replace('GBP','');
+            var price= pricedata[x]['Total Price'][0].replace(currency_code,'');
         }
         // alert(price);
         var price_Onward="£ "+price;
@@ -1839,7 +1855,7 @@
         $("#time_Return").append(time_Return);
 
         for (x in pricedata) {
-            var price= pricedata[x]['Total Price'][0].replace('GBP','');
+            var price= pricedata[x]['Total Price'][0].replace(currency_code,'');
         }
         // alert(price);
         var price_Onward="£ "+price;
@@ -1894,7 +1910,7 @@
         var min_val=$('#onwwayRange_minprice').val();
         var mix_val=$('#onwwayRange_maxprice').val();
         var cal_min_val=min_val/100;
-        var amount='<i class="las la-pound-sign"></i>'+parseFloat(cal_min_val).toFixed(2)+' - <i class="las la-pound-sign"></i>'+parseFloat(range_val/100).toFixed(2);
+        var amount=currency_symbal+parseFloat(cal_min_val).toFixed(2)+' - '+currency_symbal+' '+parseFloat(range_val/100).toFixed(2);
         $('#amount').empty();
         $('#amount').append(amount);
         // $('#flightSearch').submit();

@@ -1,6 +1,15 @@
 @extends('common.master')
 @section('content')
 
+<?php 
+    $country_code=$per_flight_details->country_code;
+    if($country_code==''){
+        $country_code='GB'; 
+    }
+    $currency_code=DB::table('countries')->where('country_code',$country_code)->value('currency_code');
+    $currency_symbal=DB::table('countries')->where('country_code',$country_code)->value('currency_symbal');
+?>
+
 <section class="search-packages bg-light-gray py-4">
     <div class="container-fluid">
         <div class="row">
@@ -594,6 +603,7 @@
                         <input type="hidden" name="adults" id="adults" value="{{$per_flight_details->adults}}">
                         <input type="hidden" name="children" id="children" value="{{$per_flight_details->children}}">
                         <input type="hidden" name="infant" id="infant" value="{{$per_flight_details->infant}}">
+                        <input type="hidden" name="country_code" id="country_code" value="{{$per_flight_details->country_code}}">
                         <button type="submit" class="btn btn-primary" onclick="showLoder();">Proceed to payment</button>
                         <!-- <a href="payment.php" class="btn btn-primary">Proceed to payment</a> -->
                     </form>
@@ -616,15 +626,15 @@
                         </tr>
                         <tr>
                             <td>Base Fare x {{$per_flight_details->adults}}</td>
-                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$price[$i]['ApproximateBasePrice'])*$per_flight_details->adults),2)}}</td>
+                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace($currency_code,'',$price[$i]['ApproximateBasePrice'])*$per_flight_details->adults),2)}}</td>
                         </tr>
                         <tr>
                             <td>Taxes x {{$per_flight_details->adults}}</td>
-                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$price[$i]['Taxes'])*$per_flight_details->adults),2)}}</td>
+                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace($currency_code,'',$price[$i]['Taxes'])*$per_flight_details->adults),2)}}</td>
                         </tr>
                         <tr class="font-weight-bold bg-light">
                             <td class="text-danger">Price {{$per_flight_details->adults}} adult(s)</td>
-                            <td class="text-right text-danger"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$price[$i]['TotalPrice'])*$per_flight_details->adults),2)}}</td>
+                            <td class="text-right text-danger"><i class="las la-pound-sign"></i>{{number_format((str_replace($currency_code,'',$price[$i]['TotalPrice'])*$per_flight_details->adults),2)}}</td>
                         </tr>
                         @elseif($i==1)
                         <tr class="font-weight-bold bg-light">
@@ -633,15 +643,15 @@
                         </tr>
                         <tr>
                             <td>Base Fare x {{$per_flight_details->children}}</td>
-                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$price[$i]['ApproximateBasePrice'])*$per_flight_details->children),2)}}</td>
+                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace($currency_code,'',$price[$i]['ApproximateBasePrice'])*$per_flight_details->children),2)}}</td>
                         </tr>
                         <tr>
                             <td>Taxes x {{$per_flight_details->children}}</td>
-                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$price[$i]['Taxes'])*$per_flight_details->children),2)}}</td>
+                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace($currency_code,'',$price[$i]['Taxes'])*$per_flight_details->children),2)}}</td>
                         </tr>
                         <tr class="font-weight-bold bg-light">
                             <td class="text-danger">Price {{$per_flight_details->children}} child(s)</td>
-                            <td class="text-right text-danger"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$price[$i]['TotalPrice'])*$per_flight_details->children),2)}}</td>
+                            <td class="text-right text-danger"><i class="las la-pound-sign"></i>{{number_format((str_replace($currency_code,'',$price[$i]['TotalPrice'])*$per_flight_details->children),2)}}</td>
                         </tr>
                         @elseif($i==2)
                         <tr class="font-weight-bold bg-light">
@@ -650,15 +660,15 @@
                         </tr>
                         <tr>
                             <td>Base Fare x {{$per_flight_details->infant}}</td>
-                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$price[$i]['ApproximateBasePrice'])*$per_flight_details->infant),2)}}</td>
+                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace($currency_code,'',$price[$i]['ApproximateBasePrice'])*$per_flight_details->infant),2)}}</td>
                         </tr>
                         <tr>
                             <td>Taxes x {{$per_flight_details->infant}}</td>
-                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$price[$i]['Taxes'])*$per_flight_details->infant),2)}}</td>
+                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace($currency_code,'',$price[$i]['Taxes'])*$per_flight_details->infant),2)}}</td>
                         </tr>
                         <tr class="font-weight-bold bg-light">
                             <td class="text-danger">Price {{$per_flight_details->infant}} infant(s)</td>
-                            <td class="text-right text-danger"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$price[$i]['TotalPrice'])*$per_flight_details->infant),2)}}</td>
+                            <td class="text-right text-danger"><i class="las la-pound-sign"></i>{{number_format((str_replace($currency_code,'',$price[$i]['TotalPrice'])*$per_flight_details->infant),2)}}</td>
                         </tr>
                         @endif
                         @endfor
@@ -669,7 +679,7 @@
                         </tr> -->
                         <tr class="font-weight-bold bg-light">
                             <td class="text-danger">Total Price</td>
-                            <td class="text-right text-danger"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$return_flights[2]['price']['TotalPrice'])),2)}}</td>
+                            <td class="text-right text-danger"><i class="las la-pound-sign"></i>{{number_format((str_replace($currency_code,'',$return_flights[2]['price']['TotalPrice'])),2)}}</td>
                         </tr>
                     </table>
                 </div>
@@ -690,15 +700,15 @@
                         </tr>
                         <tr>
                             <td>Base Fare x {{$per_flight_details->adults}}</td>
-                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$price[$i]['ApproximateBasePrice'])*$per_flight_details->adults),2)}}</td>
+                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace($currency_code,'',$price[$i]['ApproximateBasePrice'])*$per_flight_details->adults),2)}}</td>
                         </tr>
                         <tr>
                             <td>Taxes x {{$per_flight_details->adults}}</td>
-                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$price[$i]['Taxes'])*$per_flight_details->adults),2)}}</td>
+                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace($currency_code,'',$price[$i]['Taxes'])*$per_flight_details->adults),2)}}</td>
                         </tr>
                         <tr class="font-weight-bold bg-light">
                             <td class="text-danger">Price {{$per_flight_details->adults}} adult(s)</td>
-                            <td class="text-right text-danger"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$price[$i]['TotalPrice'])*$per_flight_details->adults),2)}}</td>
+                            <td class="text-right text-danger"><i class="las la-pound-sign"></i>{{number_format((str_replace($currency_code,'',$price[$i]['TotalPrice'])*$per_flight_details->adults),2)}}</td>
                         </tr>
                         @elseif($i==1)
                         <tr class="font-weight-bold bg-light">
@@ -707,15 +717,15 @@
                         </tr>
                         <tr>
                             <td>Base Fare x {{$per_flight_details->children}}</td>
-                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$price[$i]['ApproximateBasePrice'])*$per_flight_details->children),2)}}</td>
+                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace($currency_code,'',$price[$i]['ApproximateBasePrice'])*$per_flight_details->children),2)}}</td>
                         </tr>
                         <tr>
                             <td>Taxes x {{$per_flight_details->children}}</td>
-                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$price[$i]['Taxes'])*$per_flight_details->children),2)}}</td>
+                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace($currency_code,'',$price[$i]['Taxes'])*$per_flight_details->children),2)}}</td>
                         </tr>
                         <tr class="font-weight-bold bg-light">
                             <td class="text-danger">Price {{$per_flight_details->children}} child(s)</td>
-                            <td class="text-right text-danger"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$price[$i]['TotalPrice'])*$per_flight_details->children),2)}}</td>
+                            <td class="text-right text-danger"><i class="las la-pound-sign"></i>{{number_format((str_replace($currency_code,'',$price[$i]['TotalPrice'])*$per_flight_details->children),2)}}</td>
                         </tr>
                         @elseif($i==2)
                         <tr class="font-weight-bold bg-light">
@@ -724,15 +734,15 @@
                         </tr>
                         <tr>
                             <td>Base Fare x {{$per_flight_details->infant}}</td>
-                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$price[$i]['ApproximateBasePrice'])*$per_flight_details->infant),2)}}</td>
+                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace($currency_code,'',$price[$i]['ApproximateBasePrice'])*$per_flight_details->infant),2)}}</td>
                         </tr>
                         <tr>
                             <td>Taxes x {{$per_flight_details->infant}}</td>
-                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$price[$i]['Taxes'])*$per_flight_details->infant),2)}}</td>
+                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace($currency_code,'',$price[$i]['Taxes'])*$per_flight_details->infant),2)}}</td>
                         </tr>
                         <tr class="font-weight-bold bg-light">
                             <td class="text-danger">Price {{$per_flight_details->infant}} infant(s)</td>
-                            <td class="text-right text-danger"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$price[$i]['TotalPrice'])*$per_flight_details->infant),2)}}</td>
+                            <td class="text-right text-danger"><i class="las la-pound-sign"></i>{{number_format((str_replace($currency_code,'',$price[$i]['TotalPrice'])*$per_flight_details->infant),2)}}</td>
                         </tr>
                         @endif
                         @endfor
@@ -743,7 +753,7 @@
                         </tr> -->
                         <tr class="font-weight-bold bg-light">
                             <td class="text-danger">Total Price</td>
-                            <td class="text-right text-danger"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$data[2]['price']['TotalPrice'])),2)}}</td>
+                            <td class="text-right text-danger"><i class="las la-pound-sign"></i>{{number_format((str_replace($currency_code,'',$data[2]['price']['TotalPrice'])),2)}}</td>
                         </tr>
                     </table>
                 </div>

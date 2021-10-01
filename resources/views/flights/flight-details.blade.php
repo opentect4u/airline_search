@@ -1,6 +1,15 @@
 @extends('common.master')
 @section('content')
 
+
+<?php 
+    $country_code=$per_flight_details->country_code;
+    if($country_code==''){
+        $country_code='GB'; 
+    }
+    $currency_code=DB::table('countries')->where('country_code',$country_code)->value('currency_code');
+    $currency_symbal=DB::table('countries')->where('country_code',$country_code)->value('currency_symbal');
+?>
 <div class="middle">
     <section class="search-packages py-3">
         <div class="container-fluid">
@@ -135,7 +144,7 @@
                                 <span class="text-muted">{{$datas[$i]['Destination']}}</span>
                             </div>
                             <div class="col-md-3 text-center">
-                            @if(count($datas)==1)<h3 class="font-weight-bold"><i class="las la-pound-sign"></i>{{str_replace('GBP','',$return_data[2]['price']['TotalPrice'])}}</h3>@endif
+                            @if(count($datas)==1)<h3 class="font-weight-bold">{{$currency_symbal}}{{str_replace($currency_code,'',$return_data[2]['price']['TotalPrice'])}}</h3>@endif
                             </div>
                         </div>
                         <!-- <p class="mt-3"><i class="las la-suitcase-rolling"></i> {{str_replace('K','', isset($return_data[1]['details']['baggageallowanceinfo'])?$return_data[1]['details']['baggageallowanceinfo']:'' )}} Check-In, {{str_replace('K','', isset($data[1]['details']['carryonallowanceinfo'])?$data[1]['details']['carryonallowanceinfo']:'' )}} Cabin</p> -->
@@ -204,15 +213,15 @@
                         </tr>
                         <tr>
                             <td>Base Fare x {{$per_flight_details->adults}}</td>
-                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$price[$i]['ApproximateBasePrice'])*$per_flight_details->adults),2)}}</td>
+                            <td class="text-right">{{$currency_symbal}}{{number_format((str_replace($currency_code,'',$price[$i]['ApproximateBasePrice'])*$per_flight_details->adults),2)}}</td>
                         </tr>
                         <tr>
                             <td>Taxes x {{$per_flight_details->adults}}</td>
-                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$price[$i]['Taxes'])*$per_flight_details->adults),2)}}</td>
+                            <td class="text-right">{{$currency_symbal}}{{number_format((str_replace($currency_code,'',$price[$i]['Taxes'])*$per_flight_details->adults),2)}}</td>
                         </tr>
                         <tr class="font-weight-bold bg-light">
                             <td class="text-danger">Price {{$per_flight_details->adults}} adult(s)</td>
-                            <td class="text-right text-danger"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$price[$i]['TotalPrice'])*$per_flight_details->adults),2)}}</td>
+                            <td class="text-right text-danger">{{$currency_symbal}}{{number_format((str_replace($currency_code,'',$price[$i]['TotalPrice'])*$per_flight_details->adults),2)}}</td>
                         </tr>
                         @elseif($i==1)
                         <tr class="font-weight-bold bg-light">
@@ -221,15 +230,15 @@
                         </tr>
                         <tr>
                             <td>Base Fare x {{$per_flight_details->children}}</td>
-                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$price[$i]['ApproximateBasePrice'])*$per_flight_details->children),2)}}</td>
+                            <td class="text-right">{{$currency_symbal}}{{number_format((str_replace($currency_code,'',$price[$i]['ApproximateBasePrice'])*$per_flight_details->children),2)}}</td>
                         </tr>
                         <tr>
                             <td>Taxes x {{$per_flight_details->children}}</td>
-                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$price[$i]['Taxes'])*$per_flight_details->children),2)}}</td>
+                            <td class="text-right">{{$currency_symbal}}{{number_format((str_replace($currency_code,'',$price[$i]['Taxes'])*$per_flight_details->children),2)}}</td>
                         </tr>
                         <tr class="font-weight-bold bg-light">
                             <td class="text-danger">Price {{$per_flight_details->children}} child(s)</td>
-                            <td class="text-right text-danger"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$price[$i]['TotalPrice'])*$per_flight_details->children),2)}}</td>
+                            <td class="text-right text-danger">{{$currency_symbal}}{{number_format((str_replace($currency_code,'',$price[$i]['TotalPrice'])*$per_flight_details->children),2)}}</td>
                         </tr>
                         @elseif($i==2)
                         <tr class="font-weight-bold bg-light">
@@ -238,15 +247,15 @@
                         </tr>
                         <tr>
                             <td>Base Fare x {{$per_flight_details->infant}}</td>
-                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$price[$i]['ApproximateBasePrice'])*$per_flight_details->infant),2)}}</td>
+                            <td class="text-right">{{$currency_symbal}}{{number_format((str_replace($currency_code,'',$price[$i]['ApproximateBasePrice'])*$per_flight_details->infant),2)}}</td>
                         </tr>
                         <tr>
                             <td>Taxes x {{$per_flight_details->infant}}</td>
-                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$price[$i]['Taxes'])*$per_flight_details->infant),2)}}</td>
+                            <td class="text-right">{{$currency_symbal}}{{number_format((str_replace($currency_code,'',$price[$i]['Taxes'])*$per_flight_details->infant),2)}}</td>
                         </tr>
                         <tr class="font-weight-bold bg-light">
                             <td class="text-danger">Price {{$per_flight_details->infant}} infant(s)</td>
-                            <td class="text-right text-danger"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$price[$i]['TotalPrice'])*$per_flight_details->infant),2)}}</td>
+                            <td class="text-right text-danger">{{$currency_symbal}}{{number_format((str_replace($currency_code,'',$price[$i]['TotalPrice'])*$per_flight_details->infant),2)}}</td>
                         </tr>
                         @endif
                         @endfor
@@ -257,7 +266,7 @@
                         </tr> -->
                         <tr class="font-weight-bold bg-light">
                             <td class="text-danger">Total Price</td>
-                            <td class="text-right text-danger"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$return_data[2]['price']['TotalPrice'])),2)}}</td>
+                            <td class="text-right text-danger">{{$currency_symbal}}{{number_format((str_replace($currency_code,'',$return_data[2]['price']['TotalPrice'])),2)}}</td>
                         </tr>
                     </table>
                     <form action="{{ route('passengerDetails') }}" method="POST">
@@ -276,6 +285,7 @@
                                 <input type="text" name="adults" value="{{ $per_flight_details->adults }}" hidden>
                                 <input type="text" name="children" value="{{ $per_flight_details->children }}" hidden>
                                 <input type="text" name="infant" value="{{ $per_flight_details->infant }}" hidden>
+                                <input type="text" name="country_code" value="{{ $per_flight_details->country_code }}" hidden>
                       <button type="submit" class="btn btn-primary" onclick="showLoder();">Book Now</button>
                     </form>
                     <!-- <a href="{{route('passengerDetails')}}" class="btn btn-primary w-100">Book Now</a> -->
@@ -299,15 +309,15 @@
                         </tr>
                         <tr>
                             <td>Base Fare x {{$per_flight_details->adults}}</td>
-                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$price[$i]['ApproximateBasePrice'])*$per_flight_details->adults),2)}}</td>
+                            <td class="text-right">{{$currency_symbal}}{{number_format((str_replace($currency_code,'',$price[$i]['ApproximateBasePrice'])*$per_flight_details->adults),2)}}</td>
                         </tr>
                         <tr>
                             <td>Taxes x {{$per_flight_details->adults}}</td>
-                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$price[$i]['Taxes'])*$per_flight_details->adults),2)}}</td>
+                            <td class="text-right">{{$currency_symbal}}{{number_format((str_replace($currency_code,'',$price[$i]['Taxes'])*$per_flight_details->adults),2)}}</td>
                         </tr>
                         <tr class="font-weight-bold bg-light">
                             <td class="text-danger">Price {{$per_flight_details->adults}} adult(s)</td>
-                            <td class="text-right text-danger"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$price[$i]['TotalPrice'])*$per_flight_details->adults),2)}}</td>
+                            <td class="text-right text-danger">{{$currency_symbal}}{{number_format((str_replace($currency_code,'',$price[$i]['TotalPrice'])*$per_flight_details->adults),2)}}</td>
                         </tr>
                         @elseif($i==1)
                         <tr class="font-weight-bold bg-light">
@@ -316,15 +326,15 @@
                         </tr>
                         <tr>
                             <td>Base Fare x {{$per_flight_details->children}}</td>
-                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$price[$i]['ApproximateBasePrice'])*$per_flight_details->children),2)}}</td>
+                            <td class="text-right">{{$currency_symbal}}{{number_format((str_replace($currency_code,'',$price[$i]['ApproximateBasePrice'])*$per_flight_details->children),2)}}</td>
                         </tr>
                         <tr>
                             <td>Taxes x {{$per_flight_details->children}}</td>
-                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$price[$i]['Taxes'])*$per_flight_details->children),2)}}</td>
+                            <td class="text-right">{{$currency_symbal}}{{number_format((str_replace($currency_code,'',$price[$i]['Taxes'])*$per_flight_details->children),2)}}</td>
                         </tr>
                         <tr class="font-weight-bold bg-light">
                             <td class="text-danger">Price {{$per_flight_details->children}} child(s)</td>
-                            <td class="text-right text-danger"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$price[$i]['TotalPrice'])*$per_flight_details->children),2)}}</td>
+                            <td class="text-right text-danger">{{$currency_symbal}}{{number_format((str_replace($currency_code,'',$price[$i]['TotalPrice'])*$per_flight_details->children),2)}}</td>
                         </tr>
                         @elseif($i==2)
                         <tr class="font-weight-bold bg-light">
@@ -333,15 +343,15 @@
                         </tr>
                         <tr>
                             <td>Base Fare x {{$per_flight_details->infant}}</td>
-                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$price[$i]['ApproximateBasePrice'])*$per_flight_details->infant),2)}}</td>
+                            <td class="text-right">{{$currency_symbal}}{{number_format((str_replace($currency_code,'',$price[$i]['ApproximateBasePrice'])*$per_flight_details->infant),2)}}</td>
                         </tr>
                         <tr>
                             <td>Taxes x {{$per_flight_details->infant}}</td>
-                            <td class="text-right"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$price[$i]['Taxes'])*$per_flight_details->infant),2)}}</td>
+                            <td class="text-right">{{$currency_symbal}}{{number_format((str_replace($currency_code,'',$price[$i]['Taxes'])*$per_flight_details->infant),2)}}</td>
                         </tr>
                         <tr class="font-weight-bold bg-light">
                             <td class="text-danger">Price {{$per_flight_details->infant}} infant(s)</td>
-                            <td class="text-right text-danger"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$price[$i]['TotalPrice'])*$per_flight_details->infant),2)}}</td>
+                            <td class="text-right text-danger">{{$currency_symbal}}{{number_format((str_replace($currency_code,'',$price[$i]['TotalPrice'])*$per_flight_details->infant),2)}}</td>
                         </tr>
                         @endif
                         @endfor
@@ -352,7 +362,7 @@
                         </tr> -->
                         <tr class="font-weight-bold bg-light">
                             <td class="text-danger">Total Price</td>
-                            <td class="text-right text-danger"><i class="las la-pound-sign"></i>{{number_format((str_replace('GBP','',$data[2]['price']['TotalPrice'])),2)}}</td>
+                            <td class="text-right text-danger">{{$currency_symbal}}{{number_format((str_replace($currency_code,'',$data[2]['price']['TotalPrice'])),2)}}</td>
                         </tr>
                     </table>
                     <form action="{{ route('passengerDetails') }}" method="POST">
@@ -364,6 +374,7 @@
                                 <input type="text" name="adults" value="{{ $per_flight_details->adults }}" hidden>
                                 <input type="text" name="children" value="{{ $per_flight_details->children }}" hidden>
                                 <input type="text" name="infant" value="{{ $per_flight_details->infant }}" hidden>
+                                <input type="text" name="country_code" value="{{ $per_flight_details->country_code }}" hidden>
                       <button type="submit" class="btn btn-primary" onclick="showLoder();">Book Now</button>
                     </form>
                     <!-- <a href="{{route('passengerDetails')}}" class="btn btn-primary w-100">Book Now</a> -->
@@ -402,15 +413,15 @@
             <table class="table table-bordered small">
               <tr>
                 <td>Base Fare (1 Adult)</td>
-                <td><i class="las la-pound-sign"></i> {{str_replace('GBP','',$data[2]['price']['ApproximateBasePrice'])}}</td>
+                <td>{{$currency_symbal}} {{str_replace($currency_code,'',$data[2]['price']['ApproximateBasePrice'])}}</td>
               </tr>
               <tr>
                 <td>Taxes and Fees (1 Adult)</td>
-                <td><i class="las la-pound-sign"></i> {{str_replace('GBP','',$data[2]['price']['Taxes'])}}</td>
+                <td>{{$currency_symbal}} {{str_replace($currency_code,'',$data[2]['price']['Taxes'])}}</td>
               </tr>
               <tr>
                 <td>Total Fare (1 Adult)</td>
-                <td><i class="las la-pound-sign"></i> {{str_replace('GBP','',$data[2]['price']['TotalPrice'])}}</td>
+                <td>{{$currency_symbal}} {{str_replace($currency_code,'',$data[2]['price']['TotalPrice'])}}</td>
               </tr>
             </table>
           </div>
@@ -471,15 +482,15 @@
             <table class="table table-bordered small">
               <tr>
                 <td>Base Fare (1 Adult)</td>
-                <td><i class="las la-pound-sign"></i> {{str_replace('GBP','',$return_data[2]['price']['ApproximateBasePrice'])}}</td>
+                <td>{{$currency_symbal}} {{str_replace($currency_code,'',$return_data[2]['price']['ApproximateBasePrice'])}}</td>
               </tr>
               <tr>
                 <td>Taxes and Fees (1 Adult)</td>
-                <td><i class="las la-pound-sign"></i> {{str_replace('GBP','',$return_data[2]['price']['Taxes'])}}</td>
+                <td>{{$currency_symbal}} {{str_replace($currency_code,'',$return_data[2]['price']['Taxes'])}}</td>
               </tr>
               <tr>
                 <td>Total Fare (1 Adult)</td>
-                <td><i class="las la-pound-sign"></i> {{str_replace('GBP','',$return_data[2]['price']['TotalPrice'])}}</td>
+                <td>{{$currency_symbal}} {{str_replace($currency_code,'',$return_data[2]['price']['TotalPrice'])}}</td>
               </tr>
             </table>
           </div>
@@ -500,8 +511,8 @@
                 <td>Adult</td>
                 <!-- <td>{{str_replace('K','', isset($return_data[1]['details']['baggageallowanceinfo'])?$return_data[1]['details']['baggageallowanceinfo']:'' )}} </td>
                 <td>{{str_replace('K','', isset($return_data[1]['details']['carryonallowanceinfo'])?$return_data[1]['details']['carryonallowanceinfo']:'')}} </td> -->
-                <td>{{ isset($return_data[1]['details']['baggageallowanceinfo'])?$data[1]['details']['baggageallowanceinfo']:'' }} </td>
-                <td>{{isset($return_data[1]['details']['carryonallowanceinfo'])?$data[1]['details']['carryonallowanceinfo']:''}} </td>
+                <td>{{ isset($return_data[1]['details']['baggageallowanceinfo'])?$return_data[1]['details']['baggageallowanceinfo']:'' }} </td>
+                <td>{{isset($return_data[1]['details']['carryonallowanceinfo'])?$return_data[1]['details']['carryonallowanceinfo']:''}} </td>
               </tr>
             </table>
             <small>The baggage information is just for reference. Please Check with airline before check-in. For more information, visit IndiGo Airlines Website.</small>
