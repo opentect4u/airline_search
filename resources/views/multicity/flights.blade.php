@@ -21,7 +21,17 @@
                 </div>
                 <div class="col-md col-6">
                     <small class="text-muted d-block mb-1">To</small>
-                    <h6 class="font-weight-600 mb-0">{{isset($searched->to3)?$searched->to3:isset($searched->to2)?$searched->to2:$searched->to1}}</h6>
+                    <h6 class="font-weight-600 mb-0">
+                        <?php 
+                        if (isset($searched->to3)) {
+                           echo $searched->to3 ;
+                        }else if(isset($searched->to2)){
+                           echo $searched->to2 ;
+                        }else if(isset($searched->to1)){
+                            echo $searched->to1 ;
+                         }
+                        ?>
+                    </h6>
                 </div>
                 <!-- <div class="col-md col-6 my-2 my-md-0">
                     <small class="text-muted d-block mb-1">Departure date</small>
