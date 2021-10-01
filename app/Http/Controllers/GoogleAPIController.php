@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 class GoogleAPIController extends Controller
 {
     public function GoogleAPIKey(){
-        $key='AIzaSyA28RYBfIFyPx-KwhyFWXdicFqJTcZ8eOc';
+        $key='';
         return $key;
     }
 }
