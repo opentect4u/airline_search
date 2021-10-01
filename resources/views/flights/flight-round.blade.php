@@ -700,7 +700,7 @@
                                         <input type="text" name="adults" value="{{ $searched->adults }}" hidden>
                                         <input type="text" name="children" value="{{ $searched->children }}" hidden>
                                         <input type="text" name="infant" value="{{ $searched->infant }}" hidden>
-                                <input type="text" name="country_code" value="{{ $searched->country_code }}" hidden>
+                                        <input type="text" name="country_code" value="{{ $searched->country_code }}" hidden>
                                         <button type="submit" class="btn btn-primary" onclick="showLoder();">Book Now</button>
                                     </form>
                                     <br>

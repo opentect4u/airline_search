@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Orchestra\Parser\Xml\Facade as XmlParser;
 use Illuminate\Support\Arr;
+use DB;
 
 class FlightController extends Controller
 {
@@ -40,6 +41,20 @@ class FlightController extends Controller
         $var_adults=$request->adults;
         $var_children=$request->children;
         $var_infant=$request->infant;
+
+        // return $request;
+        $var_country_code=$request->country_code;
+        $var_currency_code=DB::table('countries')->where('country_code',$var_country_code)->value('currency_code');
+        // return $var_currency_code;
+        $currency_xml='';
+        if($var_currency_code!=''){
+            $currency_xml='<air:AirPricingModifiers FaresIndicator="PublicFaresOnly" CurrencyType="'.$var_currency_code.'">
+            <air:AccountCodes>
+                <com:AccountCode xmlns="http://www.travelport.com/schema/common_v42_0" Code="-" />
+            </air:AccountCodes>
+            </air:AirPricingModifiers>';
+        }
+        
 
         $var_flight0_date = Carbon::parse($request->flight0_date)->format('Y-m-d');
         // $var_flight1_date = Carbon::parse($request->flight1_date)->format('Y-m-d');
@@ -235,7 +250,7 @@ class FlightController extends Controller
                     <com:Provider Code="'.$Provider.'"/>
                  </air:PreferredProviders>
               </air:AirSearchModifiers>
-              '.$travel_details.'
+              '.$travel_details.$currency_xml.'
            </air:LowFareSearchReq>
         </soapenv:Body>
      </soapenv:Envelope>';

@@ -10,6 +10,7 @@
    <div class="cld__book__form search__modify">
         <form name="multicity" id="multicity" method="POST" action="{{route('multicityflight')}}" class="w-100">
             @csrf
+            <input type="text" hidden id="country_code" name="country_code" value="{{isset($searched->country_code)?$searched->country_code:''}}" />
             <div class="row">
                 <div class="col-md-2">
                     <h6 class="text-uppercase text-muted">Flight 1</h6>
@@ -252,6 +253,73 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.4/jquery-confirm.min.css" />
 @endsection
 @section('script')
+
+<!-- start google location api -->
+    
+<script src="https://maps.google.com/maps/api/js?key=<?php echo app('App\Http\Controllers\GoogleAPIController')->GoogleAPIKey();?>"></script>
+<script>
+    $( document ).ready(function() {
+        getLocation();
+    });
+
+    var x = document.getElementById("googleerrorcode");
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition, showError);
+        } else { 
+            x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+    }
+
+    function showPosition(position) {
+        var lat = position.coords.latitude;
+        var long = position.coords.longitude;
+        // alert("lat : "+lat);
+        // alert("long : "+long);
+        var point = new google.maps.LatLng(lat, long);
+        new google.maps.Geocoder().geocode( {'latLng': point}, 
+        function (results, status) { 
+            // alert(results)
+            // var obj=JSON.parse(results);
+            var obj=JSON.stringify(results);
+            
+            // alert(obj)
+            // console.log(obj)
+            for(i=0; i < results.length; i++){
+                for(var j=0;j < results[i].address_components.length; j++){
+                    for(var k=0; k < results[i].address_components[j].types.length; k++){
+                        if(results[i].address_components[j].types[k] == "country"){
+                            country_name = results[i].address_components[j].short_name;
+                            // country_name = results[i].address_components[j].long_name;
+                            // $("#country_name").val('');
+                            // $("#country_name").val(country_name);
+                        }
+                    }
+                }
+            }
+            // alert(country_name);
+            $("#country_code").val('');
+            $("#country_code").val(country_name);
+        });
+    }
+    function showError(error) {
+        switch(error.code) {
+            case error.PERMISSION_DENIED:
+            x.innerHTML = "User denied the request for Geolocation."
+            break;
+            case error.POSITION_UNAVAILABLE:
+            x.innerHTML = "Location information is unavailable."
+            break;
+            case error.TIMEOUT:
+            x.innerHTML = "The request to get user location timed out."
+            break;
+            case error.UNKNOWN_ERROR:
+            x.innerHTML = "An unknown error occurred."
+            break;
+        }
+    }
+</script>
+    <!-- end google location api -->
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script> -->
 <script type="text/javascript">
     $( document ).ready(function() {

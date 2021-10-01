@@ -4,6 +4,7 @@ namespace App\Http\Controllers\multicity;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use DB;
 
 class PaymentController extends Controller
 {
@@ -24,6 +25,17 @@ class PaymentController extends Controller
         $var_infant=$request->infant;
         $travel_class =app('App\Http\Controllers\UtilityController')->TravelDetailsDatasagment($var_adults,$var_children,$var_infant);
         // return $travel_class;
+
+        $var_country_code=$request->country_code;
+        $var_currency_code=DB::table('countries')->where('country_code',$var_country_code)->value('currency_code');
+        $currency_xml='';
+        if($var_currency_code!=''){
+            $currency_xml='<air:AirPricingModifiers FaresIndicator="PublicFaresOnly" CurrencyType="'.$var_currency_code.'">
+            <air:BrandModifiers ModifierType="FareFamilyDisplay" />
+            </air:AirPricingModifiers>';
+        }else{
+            $currency_xml='<air:AirPricingModifiers/>'; 
+        }
        
         foreach($flights1 as $journeys){
             $datasegment1.= '<air:AirSegment Key="'.get_object_vars($journeys->Key)[0].'" Group="'.get_object_vars($journeys->Group)[0].'" Carrier="'.get_object_vars($journeys->Airline)[0].'" FlightNumber="'.get_object_vars($journeys->Flight)[0].'" Origin="'.get_object_vars($journeys->From)[0].'" Destination="'.get_object_vars($journeys->To)[0].'" DepartureTime="'.get_object_vars($journeys->Depart)[0].'" ArrivalTime="'.get_object_vars($journeys->Arrive)[0].'" FlightTime="'.get_object_vars($journeys->FlightTime)[0].'" Distance="'.get_object_vars($journeys->Distance)[0].'" ETicketability="Yes" ProviderCode="1G" ></air:AirSegment>';
@@ -50,8 +62,7 @@ class PaymentController extends Controller
               <air:AirItinerary>
                 '.$datasegment1.'
               </air:AirItinerary>
-              <air:AirPricingModifiers/>
-              '.$travel_class.'
+              '.$currency_xml.$travel_class.'
               <air:AirPricingCommand/>
            </air:AirPriceReq>
         </soap:Body>
@@ -1200,6 +1211,18 @@ EOM;
         // return $flight;
         // return $flight[2];
         // return $flight[2]['price']['TotalPrice'];
+
+        $var_country_code=$request->country_code;
+        $var_currency_code=DB::table('countries')->where('country_code',$var_country_code)->value('currency_code');
+        $currency_xml='';
+        if($var_currency_code!=''){
+            $currency_xml='<air:AirPricingModifiers FaresIndicator="PublicFaresOnly" CurrencyType="'.$var_currency_code.'">
+            <air:BrandModifiers ModifierType="FareFamilyDisplay" />
+            </air:AirPricingModifiers>';
+        }else{
+            // $currency_xml='<air:AirPricingModifiers/>'; 
+        }
+        
         $datasegment='';
         foreach($flight[0] as $journeys){
             for ($i=0; $i < count($journeys); $i++) {
@@ -1284,7 +1307,8 @@ EOM;
                                     } 
                                 }
                                 $var2='</air:AirPricingInfo>';
-                                $var_AirPricingInfo_FareInfo_FareRuleKey_BookingInfo.=$var1.$fare_info.$var_adtcount.$var2;
+                                // $var_AirPricingInfo_FareInfo_FareRuleKey_BookingInfo.=$var1.$fare_info.$var_adtcount.$var2;
+                                $var_AirPricingInfo_FareInfo_FareRuleKey_BookingInfo.=$var1.$fare_info.$var_adtcount.$currency_xml.$var2;
                             }else{
                                 $var1='<air:AirPricingInfo PricingMethod="Auto" Key="'.$AirPricingInfo[$i]['Key'].'" TotalPrice="'.$AirPricingInfo[$i]['TotalPrice'].'" BasePrice="'.$AirPricingInfo[$i]['BasePrice'].'" ApproximateTotalPrice="'.$AirPricingInfo[$i]['ApproximateTotalPrice'].'" ApproximateBasePrice="'.$AirPricingInfo[$i]['ApproximateBasePrice'].'" Taxes="'.$AirPricingInfo[$i]['Taxes'].'" ProviderCode="'.$AirPricingInfo[$i]['ProviderCode'].'">
                                 <air:FareInfo PromotionalFare="false" Key="'.$FareInfo[$i]['Key'].'" FareFamily="Economy Saver" DepartureDate="'.$FareInfo[$i]['DepartureDate'].'" Amount="'.$FareInfo[$i]['Amount'].'" EffectiveDate="'.$FareInfo[$i]['EffectiveDate'].'" Destination="'.$FareInfo[$i]['Destination'].'" Origin="'.$FareInfo[$i]['Origin'].'" PassengerTypeCode="'.$FareInfo[$i]['PassengerTypeCode'].'" FareBasis="'.$FareInfo[$i]['FareBasis'].'">
@@ -1309,7 +1333,8 @@ EOM;
                                     } 
                                 }
                                 $var2='</air:AirPricingInfo>';
-                                $var_AirPricingInfo_FareInfo_FareRuleKey_BookingInfo.=$var1.$var_adtcount.$var2;
+                                // $var_AirPricingInfo_FareInfo_FareRuleKey_BookingInfo.=$var1.$var_adtcount.$var2;
+                                $var_AirPricingInfo_FareInfo_FareRuleKey_BookingInfo.=$var1.$var_adtcount.$currency_xml.$var2;
                             }
                         }
                     }

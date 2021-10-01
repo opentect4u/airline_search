@@ -1216,6 +1216,7 @@
         }
     }
 </script>
+    <!-- end google location api -->
 
         <!-- start hotel section -->
 <script>
