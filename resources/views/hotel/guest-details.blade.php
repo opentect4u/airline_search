@@ -191,7 +191,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Contact No</label>
-                                        <input type="number" required name="contact_no" class="form-control" placeholder="Enter your contact no" max="10">
+                                        <input type="number" required name="contact_no" class="form-control" placeholder="Enter your contact no" max="99999999999">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
