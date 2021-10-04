@@ -442,7 +442,7 @@ class PaymentController extends Controller
                 $LeaderName=$bookdetails[0]['LeaderName'];
                 // return $pdfdata;
                 $pdf = PDF::loadView('emails.hotel.invoice', $pdfdata);
-                Mail::to($email)->send(new HotelBookinInvoiceEmail($LeaderName,$email,$passwords,$pdf));
+                // Mail::to($email)->send(new HotelBookinInvoiceEmail($LeaderName,$email,$passwords,$pdf));
 
                 // end mail send code here
 

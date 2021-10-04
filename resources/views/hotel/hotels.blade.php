@@ -541,6 +541,7 @@
                         </br>
 
                         <div class="MainDiv">
+                            <center><h2 id="msgDiv"></h2></center>
                         <?php $count=1; $pricearray=[]; $datarating=[]; $datahotelname=[]; ?>
                         @foreach($hotels[0] as $hotel)
                         @for ($i=0; $i < count($hotel); $i++)
@@ -1392,15 +1393,17 @@
             else if(sort_by_val=='Hotel_Name_A_to_Z'){
                 // alert(sort_by_val);
                 var datahotelname=[];
-                var datahotelname='<?php 
+                var datahotelname=<?php 
                 $aaa=[];
                 $datahotelname=array_unique(isset($datahotelname)?$datahotelname:[]);
                 foreach($datahotelname as $val1){
                     array_push($aaa,$val1);
                 }
                 echo json_encode($aaa);
-                ?>';
+                ?>;
+                // alert(datahotelname)
                 datahotelname.sort();
+                // alert(datahotelname)
                 // datahotelname.sort(function(a, b){return b-a});
                 // datahotelname.reverse();
                 // alert(datahotelname);
@@ -1417,14 +1420,14 @@
             else if(sort_by_val=='Hotel_Name_Z_to_A'){
                 // alert(sort_by_val);
                 var datahotelname=[];
-                var datahotelname='<?php 
+                var datahotelname=<?php 
                 $aaa=[];
                 $datahotelname=array_unique(isset($datahotelname)?$datahotelname:[]);
                 foreach($datahotelname as $val1){
                     array_push($aaa,$val1);
                 }
                 echo json_encode($aaa);
-                ?>';
+                ?>;
                 datahotelname.sort();
                 // datahotelname.sort(function(a, b){return b-a});
                 datahotelname.reverse();
@@ -1507,6 +1510,7 @@
         // $(".GlobalDiv").attr("data-GlobalDiv", "0")
         var SearchCount=0;
         var count=0;
+        var globalDivshowcount=[];
      
         $(".GlobalDiv").attr("data-GlobalDiv", "0");
         $(".GlobalDiv").hide();
@@ -1545,6 +1549,18 @@
                 if (SearchCount==count) {
                     $("."+this.value).show(); 
                     $("."+this.value).attr("data-GlobalDiv", "1") ; 
+                    // alert(this.value);
+                    // alert(d);
+                    var rating_is=$("."+this.value).attr("data-GlobalDiv") ;
+                    if(rating_is == undefined){
+                        var rating_is=0;
+                        globalDivshowcount.push(rating_is);
+                    }else{
+                        globalDivshowcount.push(rating_is);
+                    }
+                    
+                        
+                    
                 }
                 else if(count>SearchCount) 
                 {
@@ -1555,7 +1571,11 @@
                 }
             });
             $('input[name="'+d+'"]:not(:checked)').each(function() {
-            
+                // alert("hii")
+                // $('#msgDiv').empty();
+                // $('#msgDiv').append("No Hotel Found");
+                var globalDivcount=(globalDivcount + 1);
+                
                 $("."+this.value).attr("data-GlobalDiv", "0")
                 $("."+this.value).hide();
 
@@ -1563,13 +1583,27 @@
             });
           
         });
-        
+        // alert(phpglobaldiv);
+        // alert(globalDivcount);
+        // alert(globalDivshowcount)
+        // var array=[, , ,1];
+        var found = globalDivshowcount.find(element => element == 1);
+        // alert(found)
+        if (found==undefined) {
+            $('#msgDiv').empty();
+            $('#msgDiv').append("No Hotel Found");
+        }else{
+            $('#msgDiv').empty();
+        }
 
-          if(SearchCount==0)
-          {
+
+        if(SearchCount==0)
+        {
+            // alert(SearchCount);
+            $('#msgDiv').empty();
             $(".GlobalDiv").show();
             $(".GlobalDiv").attr("data-GlobalDiv", "1");
-          }
+        }
     }
 
     // function hotelNameFilter(name){

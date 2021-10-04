@@ -37,7 +37,7 @@
                 </div>
                 @endif
                 <div class="col-md col-6">
-                    <small class="text-muted d-block mb-1">Passangers & Class</small>
+                    <small class="text-muted d-block mb-1">Passengers & Class</small>
                     <h6 class="font-weight-600 mb-0">{{ isset($searched->adults)?$searched->adults.'Adult':''}}<?php if($searched->children > 0){echo ', '.$searched->children.'Child';} if($searched->infant > 0){echo ', '.$searched->infant.'Infant';} ?>, {{$searched->travel_class}}</h6>
                 </div>
                 <div class="col-md mt-md-0 col-6">
@@ -99,14 +99,14 @@
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label>Passangers & Class</label>
+                            <label>Passengers & Class</label>
                             <input type="text" id="flight_travel_details" name="" placeholder="<?php if($searched->adults>0){echo $searched->adults." Adult";} if($searched->children>0){echo ", ".$searched->children." Child";} if($searched->infant>0){echo ", ".$searched->infant." Infant";} echo ", ".$searched->travel_class; ?>" class="form-control" onclick="traveller_selection();">
                         
                             <div id="traveller_selection" style="display:none;">
                                 <div class="row m-0">
                                     <div class="col-6 px-2">
                                         <div class="form-group">
-                                            <label>Adults <small>(12+ yrs)</small></label>
+                                            <label>Adults <small>(18+ yrs)</small></label>
                                             <select name="adults" id="adults" class="custom-select">
                                                 <option value="1" <?php if($searched->adults==1){echo "selected";}?>>1</option>
                                                 <option value="2" <?php if($searched->adults==2){echo "selected";}?>>2</option>
@@ -122,7 +122,7 @@
                                     </div>
                                     <div class="col-6 px-2">
                                         <div class="form-group">
-                                            <label>Children <small>(2-15 yrs)</small></label>
+                                            <label>Children <small>(2-17 yrs)</small></label>
                                             <select name="children" id="children" class="custom-select">
                                                 <option >0</option>
                                                 <option value="1" <?php if($searched->children==1){echo "selected";}?>>1</option>

@@ -74,7 +74,7 @@ class FlightController extends Controller
                 $var_returnDate1=date('Y-m-d', strtotime($var_returnDate. ' + 1 days'));
                 // return $old_date1;
                 if($var_PreferredDate1>=date('Y-m-d') && $var_returnDate1>=date('Y-m-d')){
-                    $xmldata=app('App\Http\Controllers\UtilityController')->Universal_API_SearchXMLReturn($travel_class,$flightFrom,$flightTo,$var_PreferredDate1,$var_returnDate1,$var_adults,$var_children,$var_infant);
+                    $xmldata=app('App\Http\Controllers\UtilityController')->Universal_API_SearchXMLReturn($travel_class,$flightFrom,$flightTo,$var_PreferredDate1,$var_returnDate1,$var_adults,$var_children,$var_infant,$var_currency_code);
                     $api_url = "https://apac.universal-api.pp.travelport.com/B2BGateway/connect/uAPI/AirService";
                     $return_return =app('App\Http\Controllers\UtilityController')->universal_API($xmldata,$api_url);
                     $return_content = $this->prettyPrint($return_return);
@@ -89,7 +89,7 @@ class FlightController extends Controller
                 $var_PreferredDate2=date('Y-m-d', strtotime($var_PreferredDate. ' + 1 days'));
                 $var_returnDate2=date('Y-m-d', strtotime($var_returnDate. ' + 2 days'));
                 if($var_PreferredDate2>=date('Y-m-d') && $var_returnDate2>=date('Y-m-d')){
-                    $xmldata=app('App\Http\Controllers\UtilityController')->Universal_API_SearchXMLReturn($travel_class,$flightFrom,$flightTo,$var_PreferredDate2,$var_returnDate2,$var_adults,$var_children,$var_infant);
+                    $xmldata=app('App\Http\Controllers\UtilityController')->Universal_API_SearchXMLReturn($travel_class,$flightFrom,$flightTo,$var_PreferredDate2,$var_returnDate2,$var_adults,$var_children,$var_infant,$var_currency_code);
                     $api_url = "https://apac.universal-api.pp.travelport.com/B2BGateway/connect/uAPI/AirService";
                     $return_return =app('App\Http\Controllers\UtilityController')->universal_API($xmldata,$api_url);
                     $return_content = $this->prettyPrint($return_return);

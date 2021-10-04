@@ -106,14 +106,14 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>Passangers & Class</label>
+                        <label>Passengers & Class</label>
                         <input type="text" name="" id="flight_travel_details" placeholder="1 Adult,  Economy" class="form-control" onclick="traveller_selection();">
                     
                         <div id="traveller_selection" style="display:none;">
                             <div class="row m-0">
                                 <div class="col-6 px-2">
                                     <div class="form-group">
-                                        <label>Adults <small>(12+ yrs)</small></label>
+                                        <label>Adults <small>(18+ yrs)</small></label>
                                         <select name="adults" id="adults" class="custom-select">
                                             <option value="1">1</option>
                                             <option value="2">2</option>
@@ -129,7 +129,7 @@
                                 </div>
                                 <div class="col-6 px-2">
                                     <div class="form-group">
-                                        <label>Children <small>(2-15 yrs)</small></label>
+                                        <label>Children <small>(2-17 yrs)</small></label>
                                         <select name="children" id="children" class="custom-select">
                                             <option selected>0</option>
                                             <option value="1">1</option>
@@ -1581,11 +1581,13 @@
                 }
             }
             // alert(check_in+" - "+check_out)
-            if (check_in==check_out) {
-                alert("Check in date and check out date can not be same");
-                return false;
-            }else if(city_name!='' && check_in!='' && check_out!=''){
-                $('#loading').show();
+            if(check_in!='' && check_out!=''){
+                if (check_in==check_out) {
+                    alert("Check in date and check out date can not be same");
+                    return false;
+                }else if(city_name!='' && check_in!='' && check_out!=''){
+                    $('#loading').show();
+                }
             }
         });
     });

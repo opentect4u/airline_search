@@ -191,7 +191,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Contact No</label>
-                                        <input type="number" required name="contact_no" class="form-control" placeholder="Enter your contact no">
+                                        <input type="number" required name="contact_no" class="form-control" placeholder="Enter your contact no" max="10">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -336,6 +336,10 @@
         $('#loading').hide();
         $('#loading_small').hide();
     });
+
+    // function showLoder(){
+    //     $('#loading').show();
+    // }
 </script>
 @endsection
 
