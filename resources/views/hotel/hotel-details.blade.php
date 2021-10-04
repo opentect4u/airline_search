@@ -302,7 +302,6 @@
                 </div>
                 <div id="rooms-rates" class="mb-5">
                     @if(isset($options['Rooms']['Room']['RoomName']))
-                    <!-- {{isset($options[0]['Rooms']['Room']['RoomName'])?$options[0]['Rooms']['Room']['RoomName']: isset($options['Rooms']['Room']['RoomName'])?$options['Rooms']['Room']['RoomName']:$options[0]['Rooms']['Room'][0]['RoomName']}} -->
                     <div class="card card-body">
                         <div class="row">
                             <!-- {{json_encode($options)}} -->
