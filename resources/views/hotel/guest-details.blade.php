@@ -191,7 +191,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Contact No</label>
-                                        <input type="number" required name="contact_no" class="form-control" placeholder="Enter your contact no" max="99999999999">
+                                        <input type="number" required name="contact_no" class="form-control" placeholder="Enter your contact no" max="9999999999" oninvalid="this.setCustomValidity('Mobile no up to 10 digit')" oninput="this.setCustomValidity('')" />
                                     </div>
                                 </div>
                                 <div class="col-md-6">

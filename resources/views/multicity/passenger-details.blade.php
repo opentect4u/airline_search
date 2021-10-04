@@ -408,7 +408,7 @@
                                 <div class="col-md-6 col-6">
                                     <div class="form-group">
                                         <label>Mobile Number</label>
-                                        <input type="number" name="mob_no" id="mob_no" required placeholder="Enter" class="form-control" max="99999999999"/>
+                                        <input type="number" name="mob_no" id="mob_no" required placeholder="Enter" class="form-control" max="9999999999" oninvalid="this.setCustomValidity('Mobile no up to 10 digit')" oninput="this.setCustomValidity('')"/>
                                     </div>
                                 </div>
                             </div>
