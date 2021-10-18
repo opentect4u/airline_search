@@ -123,7 +123,7 @@ class RoundFlightController extends Controller
               <air:AirItinerary>
                 '.$alldatasegment.'
               </air:AirItinerary>
-              <air:AirPricingModifiers/>
+              
               '.$currency_xml.$travel_class.'
               <air:AirPricingCommand/>
            </air:AirPriceReq>
