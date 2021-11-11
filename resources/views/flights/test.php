@@ -1,143 +1,94 @@
-<AirCreateReservationReq xmlns="http://www.travelport.com/schema/universal_v42_0" TraceId="67b5a2dd-755e-4b8f-9f0c-2a74125b4c40" AuthorizedBy="Travelport" TargetBranch="P7141733" ProviderCode="1G" RetainReservation="Both">
-  <BillingPointOfSaleInfo xmlns="http://www.travelport.com/schema/common_v42_0" OriginApplication="UAPI" />
-  <BookingTraveler xmlns="http://www.travelport.com/schema/common_v42_0" Key="NDlQZ3owQUxKaGpUYVRmZg==" TravelerType="ADT" Age="40" DOB="1981-08-02" Gender="M" Nationality="US">
-    <BookingTravelerName Prefix="Mr" First="John" Last="Smith" />
-    <DeliveryInfo>
-      <ShippingAddress Key="NDlQZ3owQUxKaGpUYVRmZg==">
-        <Street>Via Augusta 59 5</Street>
-        <City>Madrid</City>
-        <State>IA</State>
-        <PostalCode>50156</PostalCode>
-        <Country>US</Country>
-      </ShippingAddress>
-    </DeliveryInfo>
-    <PhoneNumber Location="DEN" CountryCode="1" AreaCode="303" Number="123456789" />
-    <Email EmailID="johnsmith@travelportuniversalapidemo.com" />
-    <SSR Type="DOCS" FreeText="P/GB/S12345678/GB/20JUL76/M/01JAN16/SMITH/JOHN" Carrier="AI" />
-    <Address>
-      <AddressName>DemoSiteAddress</AddressName>
-      <Street>Via Augusta 59 5</Street>
-      <City>Madrid</City>
-      <State>IA</State>
-      <PostalCode>50156</PostalCode>
-      <Country>US</Country>
-    </Address>
-  </BookingTraveler>
-  <BookingTraveler xmlns="http://www.travelport.com/schema/common_v42_0" Key="d1M2bG5wZFI2UmRNdEZFbw==" TravelerType="ADT" Age="40" DOB="1981-08-02" Gender="M" Nationality="US">
-    <BookingTravelerName Prefix="Mr" First="Michael" Last="Scott" />
-    <PhoneNumber Location="DEN" CountryCode="1" AreaCode="303" Number="123456789" />
-    <Email EmailID="MichaelScott@travelportuniversalapidemo.com" />
-    <SSR Type="DOCS" FreeText="P/GB/S12345678/GB/20JUL76/M/01JAN16/SMITH/JOHN" Carrier="BA" />
-    <Address>
-      <AddressName>DemoSiteAddress</AddressName>
-      <Street>Via Augusta 59 5</Street>
-      <City>Madrid</City>
-      <State>IA</State>
-      <PostalCode>50156</PostalCode>
-      <Country>US</Country>
-    </Address>
-  </BookingTraveler>
-  <BookingTraveler xmlns="http://www.travelport.com/schema/common_v42_0" Key="WWF1eHlQZXg0d2lUOW9UNg==" TravelerType="CNN" Age="10" DOB="2011-08-02" Gender="M" Nationality="US">
-    <BookingTravelerName Prefix="MSTR" First="Jack" Last="Bauer" />
-    <PhoneNumber Location="DEN" CountryCode="1" AreaCode="303" Number="123456789" />
-    <Email EmailID="JackBauer@travelportuniversalapidemo.com" />
-    <SSR Type="DOCS" FreeText="P/GB/S12345678/GB/20JUL76/M/01JAN16/SMITH/JOHN" Carrier="BA" />
-    <Address>
-      <AddressName>DemoSiteAddress</AddressName>
-      <Street>Via Augusta 59 5</Street>
-      <City>Madrid</City>
-      <State>IA</State>
-      <PostalCode>50156</PostalCode>
-      <Country>US</Country>
-    </Address>
-  </BookingTraveler>
-  <BookingTraveler xmlns="http://www.travelport.com/schema/common_v42_0" Key="ZlhxYTlxSzJObmFPeWo4dQ==" TravelerType="CNN" Age="10" DOB="2011-08-02" Gender="F" Nationality="US">
-    <BookingTravelerName Prefix="Miss" First="Chloe" Last="Spencer" />
-    <PhoneNumber Location="DEN" CountryCode="1" AreaCode="303" Number="123456789" />
-    <Email EmailID="ChloeSpencer@travelportuniversalapidemo.com" />
-    <SSR Type="DOCS" FreeText="P/GB/S12345678/GB/20JUL76/M/01JAN16/SMITH/JOHN" Carrier="BA" />
-    <Address>
-      <AddressName>DemoSiteAddress</AddressName>
-      <Street>Via Augusta 59 5</Street>
-      <City>Madrid</City>
-      <State>IA</State>
-      <PostalCode>50156</PostalCode>
-      <Country>US</Country>
-    </Address>
-  </BookingTraveler>
-  <BookingTraveler xmlns="http://www.travelport.com/schema/common_v42_0" Key="N1czS0tyMWpJUTBUYmo4Tw==" TravelerType="INF" Age="1" DOB="2020-08-02" Gender="F" Nationality="US">
-    <BookingTravelerName Prefix="Miss" First="Helena" Last="Green" />
-    <PhoneNumber Location="DEN" CountryCode="1" AreaCode="303" Number="123456789" />
-    <Email EmailID="helenaGreen@travelportuniversalapidemo.com" />
-    <SSR Type="DOCS" FreeText="P/GB/S12345678/GB/20JUL76/M/01JAN16/SMITH/JOHN" Carrier="BA" />
-    <Address>
-      <AddressName>DemoSiteAddress</AddressName>
-      <Street>Via Augusta 59 5</Street>
-      <City>Madrid</City>
-      <State>IA</State>
-      <PostalCode>50156</PostalCode>
-      <Country>US</Country>
-    </Address>
-  </BookingTraveler>
-  <BookingTraveler xmlns="http://www.travelport.com/schema/common_v42_0" Key="Tlpmek9uVEI4aGJnQ3IzSA==" TravelerType="INF" Age="1" DOB="2020-08-02" Gender="M" Nationality="US">
-    <BookingTravelerName Prefix="MSTR" First="Trevor" Last="Taylor" />
-    <PhoneNumber Location="DEN" CountryCode="1" AreaCode="303" Number="123456789" />
-    <Email EmailID="TrevorTaylor@travelportuniversalapidemo.com" />
-    <SSR Type="DOCS" FreeText="P/GB/S12345678/GB/20JUL76/M/01JAN16/SMITH/JOHN" Carrier="BA" />
-    <Address>
-      <AddressName>DemoSiteAddress</AddressName>
-      <Street>Via Augusta 59 5</Street>
-      <City>Madrid</City>
-      <State>IA</State>
-      <PostalCode>50156</PostalCode>
-      <Country>US</Country>
-    </Address>
-  </BookingTraveler>
-  <FormOfPayment xmlns="http://www.travelport.com/schema/common_v42_0" Type="Check" Key="1">
-    <Check RoutingNumber="456" AccountNumber="7890" CheckNumber="1234567" />
-  </FormOfPayment>
-  <AirPricingSolution xmlns="http://www.travelport.com/schema/air_v42_0" Key="kbntyrAqWDKAqrvvBAAAAA==" TotalPrice="GBP166.20" BasePrice="INR11800" ApproximateTotalPrice="GBP166.20" ApproximateBasePrice="GBP114.00" EquivalentBasePrice="GBP114.00" Taxes="GBP52.20" Fees="GBP0.00">
-    <AirSegment Key="kbntyrAqWDKAorvvBAAAAA==" OptionalServicesIndicator="false" AvailabilityDisplayType="Fare Specific Fare Quote Unbooked" Group="0" Carrier="AI" FlightNumber="763" Origin="CCU" Destination="DEL" DepartureTime="2021-08-19T06:55:00.000+05:30" ArrivalTime="2021-08-19T09:15:00.000+05:30" FlightTime="140" TravelTime="140" Distance="816" ProviderCode="1G" ClassOfService="S">
-      <CodeshareInfo OperatingCarrier="AI" />
-    </AirSegment>
-    <AirPricingInfo PricingMethod="Auto" Key="kbntyrAqWDKAurvvBAAAAA==" TotalPrice="GBP32.80" BasePrice="INR2175" ApproximateTotalPrice="GBP32.80" ApproximateBasePrice="GBP21.00" Taxes="GBP11.80" ProviderCode="1G">
-      <FareInfo PromotionalFare="false" FareFamily="Economy Saver" DepartureDate="2021-08-19" Amount="" EffectiveDate="2021-08-02T09:04:00.000+01:00" Destination="DEL" Origin="CCU" PassengerTypeCode="ADT" FareBasis="SAP15" Key="kbntyrAqWDKAzrvvBAAAAA==">
-        <FareRuleKey FareInfoRef="kbntyrAqWDKAzrvvBAAAAA==" ProviderCode="1G">6UUVoSldxwhzcL9wm1x5V8bKj3F8T9EyxsqPcXxP0TLGyo9xfE/RMsuWFfXVd1OAly5qxZ3qLwOXLmrFneovA5cuasWd6i8Dly5qxZ3qLwOXLmrFneovA4U/UuC8/Pq3NAF/izIfuYdfHMK8e3nzhqqVEpiDEJh+W8p/DejZvGZSD5QULEHOHYQ/cIQGq8Fm+0KhkaDmkKdLK44Z34QC/sCIbRqMTJch6v9tEaRJgF5C/YIEuJEellfDL+hvTDe08KZ4I8x6i2RJTyB5x9tYSQLWhthMb3jljiXQ9MogEdqHozjE+TmVl2K1o/sIC7faly5qxZ3qLwOXLmrFneovA5cuasWd6i8Dly5qxZ3qLwOXLmrFneovA2+QKPIWaRvq6oxE1UL944DjaSte7T4ddDlN7mTMg9Nh/MRD07d6H8RQr4mpVrHy2h4WExVb316nsNJCJ9ZmkFA=</FareRuleKey>
-      </FareInfo>
-      <BookingInfo BookingCode="S" CabinClass="Economy" FareInfoRef="kbntyrAqWDKAzrvvBAAAAA==" SegmentRef="kbntyrAqWDKAorvvBAAAAA==" HostTokenRef="kbntyrAqWDKArrvvBAAAAA==" />
-      <TaxInfo Amount="GBP6.70" Category="IN" Key="kbntyrAqWDKAvrvvBAAAAA==" />
-      <TaxInfo Amount="GBP1.10" Category="K3" Key="kbntyrAqWDKAwrvvBAAAAA==" />
-      <TaxInfo Amount="GBP2.30" Category="P2" Key="kbntyrAqWDKAxrvvBAAAAA==" />
-      <TaxInfo Amount="GBP1.70" Category="YR" Key="kbntyrAqWDKAyrvvBAAAAA==" />
-      <PassengerType Code="ADT" BookingTravelerRef="NDlQZ3owQUxKaGpUYVRmZg==" />
-      <PassengerType Code="ADT" BookingTravelerRef="d1M2bG5wZFI2UmRNdEZFbw==" />
-    </AirPricingInfo>
-    <AirPricingInfo PricingMethod="Auto" Key="kbntyrAqWDKAIsvvBAAAAA==" TotalPrice="GBP32.80" BasePrice="INR2175" ApproximateTotalPrice="GBP32.80" ApproximateBasePrice="GBP21.00" Taxes="GBP11.80" ProviderCode="1G">
-      <FareInfo PromotionalFare="false" FareFamily="Economy Saver" DepartureDate="2021-08-19" Amount="GBP21.00" EffectiveDate="2021-08-02T09:04:00.000+01:00" Destination="DEL" Origin="CCU" PassengerTypeCode="CNN" FareBasis="SAP15" Key="kbntyrAqWDKANsvvBAAAAA==">
-        <FareRuleKey FareInfoRef="kbntyrAqWDKANsvvBAAAAA==" ProviderCode="1G">6UUVoSldxwhzcL9wm1x5V8bKj3F8T9EyxsqPcXxP0TLGyo9xfE/RMsuWFfXVd1OAly5qxZ3qLwOXLmrFneovA5cuasWd6i8Dly5qxZ3qLwOXLmrFneovA4U/UuC8/Pq3NAF/izIfuYdfHMK8e3nzhqqVEpiDEJh+W8p/DejZvGZSD5QULEHOHYQ/cIQGq8Fm+0KhkaDmkKdLK44Z34QC/sCIbRqMTJch6v9tEaRJgF5aeijkgxpswlfDL+hvTDe08KZ4I8x6i2RJTyB5x9tYSQLWhthMb3jljiXQ9MogEdqHozjE+TmVl9zmrTlbsEo3ly5qxZ3qLwOXLmrFneovA5cuasWd6i8Dly5qxZ3qLwOXLmrFneovA2+QKPIWaRvq6oxE1UL944DjaSte7T4ddN+x1f7ldG8kp0/4zarSgS9Qr4mpVrHy2h4WExVb316nsNJCJ9ZmkFA=</FareRuleKey>
-      </FareInfo>
-      <BookingInfo BookingCode="S" CabinClass="Economy" FareInfoRef="kbntyrAqWDKANsvvBAAAAA==" SegmentRef="kbntyrAqWDKAorvvBAAAAA==" HostTokenRef="kbntyrAqWDKAsrvvBAAAAA==" />
-      <TaxInfo Amount="GBP6.70" Category="IN" Key="kbntyrAqWDKAJsvvBAAAAA==" />
-      <TaxInfo Amount="GBP1.10" Category="K3" Key="kbntyrAqWDKAKsvvBAAAAA==" />
-      <TaxInfo Amount="GBP2.30" Category="P2" Key="kbntyrAqWDKALsvvBAAAAA==" />
-      <TaxInfo Amount="GBP1.70" Category="YR" Key="kbntyrAqWDKAMsvvBAAAAA==" />
-      <PassengerType Code="CNN" Age="10" BookingTravelerRef="WWF1eHlQZXg0d2lUOW9UNg==" />
-      <PassengerType Code="CNN" Age="10" BookingTravelerRef="ZlhxYTlxSzJObmFPeWo4dQ==" />
-    </AirPricingInfo>
-    <AirPricingInfo PricingMethod="Auto" Key="kbntyrAqWDKAisvvBAAAAA==" TotalPrice="GBP17.50" BasePrice="INR1550" ApproximateTotalPrice="GBP17.50" ApproximateBasePrice="GBP15.00" Taxes="GBP2.50" ProviderCode="1G">
-      <FareInfo PromotionalFare="false" FareFamily="Economy Saver" DepartureDate="2021-08-19" Amount="GBP15.00" EffectiveDate="2021-08-02T09:04:00.000+01:00" Destination="DEL" Origin="CCU" PassengerTypeCode="INF" FareBasis="SAP15" Key="kbntyrAqWDKAlsvvBAAAAA==">
-        <FareRuleKey FareInfoRef="kbntyrAqWDKAlsvvBAAAAA==" ProviderCode="1G">6UUVoSldxwhzcL9wm1x5V8bKj3F8T9EyxsqPcXxP0TLGyo9xfE/RMsuWFfXVd1OAly5qxZ3qLwOXLmrFneovA5cuasWd6i8Dly5qxZ3qLwOXLmrFneovA4U/UuC8/Pq3NAF/izIfuYdfHMK8e3nzhqqVEpiDEJh+hy1PNfEljjlSD5QULEHOHYQ/cIQGq8Fm+0KhkaDmkKdLK44Z34QC/sCIbRqMTJch6v9tEaRJgF6N3TEpBNIyglfDL+hvTDe08KZ4I8x6i2RJTyB5x9tYSQLWhthMb3jljiXQ9MogEdoWHbRwrIvT8rAriiVFbcR1ly5qxZ3qLwOXLmrFneovA5cuasWd6i8Dly5qxZ3qLwOXLmrFneovA2+QKPIWaRvq6oxE1UL944DjaSte7T4ddJrb7lXriFx3pOVdrL9lAgBQr4mpVrHy2h4WExVb316nsNJCJ9ZmkFA=</FareRuleKey>
-      </FareInfo>
-      <BookingInfo BookingCode="S" CabinClass="Economy" FareInfoRef="kbntyrAqWDKAlsvvBAAAAA==" SegmentRef="kbntyrAqWDKAorvvBAAAAA==" HostTokenRef="kbntyrAqWDKAtrvvBAAAAA==" />
-      <TaxInfo Amount="GBP0.80" Category="K3" Key="kbntyrAqWDKAjsvvBAAAAA==" />
-      <TaxInfo Amount="GBP1.70" Category="YR" Key="kbntyrAqWDKAksvvBAAAAA==" />
-      <PassengerType Code="INF" Age="1" BookingTravelerRef="N1czS0tyMWpJUTBUYmo4Tw==" />
-      <PassengerType Code="INF" Age="1" BookingTravelerRef="Tlpmek9uVEI4aGJnQ3IzSA==" />
-    </AirPricingInfo>
-    <HostToken xmlns="http://www.travelport.com/schema/common_v42_0" Key="kbntyrAqWDKArrvvBAAAAA==">GFB10101ADT00  01SAP15                                 010001#GFB200010101NADTV3302AI040030000199AL#GFMCSAP302NAI04 AI ADTSAP15</HostToken>
-    <HostToken xmlns="http://www.travelport.com/schema/common_v42_0" Key="kbntyrAqWDKAsrvvBAAAAA==">GFB10202CNN00  01SAP15                                 010001#GFB200020201NCNNV3302AI040030000199100016751AL#GFMCSAP302NAI04DAI CNNSAP15</HostToken>
-    <HostToken xmlns="http://www.travelport.com/schema/common_v42_0" Key="kbntyrAqWDKAtrvvBAAAAA==">GFB10303INF00  01SAP15                                 010001#GFB200030301NINFV3302AI040030000199100602250AL#GFMCSAP302NAI04DAI INFSAP15</HostToken>
-  </AirPricingSolution>
-  <ActionStatus xmlns="http://www.travelport.com/schema/common_v42_0" Type="ACTIVE" TicketDate="T*" ProviderCode="1G" />
-  <Payment xmlns="http://www.travelport.com/schema/common_v42_0" Key="2" Type="Itinerary" FormOfPaymentRef="1" Amount="GBP166.20" />
-</AirCreateReservationReq>
+<soap:envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+        <soap:body>
+            <univ:aircreatereservationreq retainreservation="Both" traceid="trace" targetbranch="P7141733" authorizedby="user" xmlns:univ="http://www.travelport.com/schema/universal_v42_0">
+                <com:billingpointofsaleinfo originapplication="UAPI" xmlns:com="http://www.travelport.com/schema/common_v42_0">
+                <com:bookingtraveler key="ADT1" travelertype="ADT" dob="2021-05-30" gender="F" nationality="IN" xmlns:com="http://www.travelport.com/schema/common_v42_0">
+            <com:bookingtravelername prefix="Mr" first="dfdfrgdr" last="fdgfggf">
+            <com:phonenumber key="" number="545665676" type="Home" text="Abc-Xy">
+            <com:email type="Home" emailid="tgtrtr@edgtyh.gytr">
+            <com:ssr type="DOCS" carrier="AI" freetext="">
+            <com:address>
+                <com:addressname>gtrgtrg</com:addressname>
+                <com:street>trgr</com:street>
+                <com:street>trgr</com:street>
+                <com:city>dffdfg</com:city>
+                <com:state>dffdfdfd</com:state>
+                <com:postalcode>fgfgt</com:postalcode>
+                <com:country>IN</com:country>
+            </com:address>
+            </com:ssr></com:email></com:phonenumber></com:bookingtravelername></com:bookingtraveler><com:bookingtraveler key="CNN1" travelertype="CNN" dob="2021-06-27" gender="F" nationality="IN" xmlns:com="http://www.travelport.com/schema/common_v42_0">
+            <com:bookingtravelername prefix="Mr" first="dffdfdfd" last="dffdffd">
+            <com:phonenumber key="" number="545665676" type="Home" text="Abc-Xy">
+            <com:email type="Home" emailid="tgtrtr@edgtyh.gytr">
+            <com:ssr type="DOCS" carrier="AI" freetext="">
+            <com:address>
+                <com:addressname>gtrgtrg</com:addressname>
+                <com:street>trgr</com:street>
+                <com:street>trgr</com:street>
+                <com:city>dffdfg</com:city>
+                <com:state>dffdfdfd</com:state>
+                <com:postalcode>fgfgt</com:postalcode>
+                <com:country>IN</com:country>
+            </com:address>
+            </com:ssr></com:email></com:phonenumber></com:bookingtravelername></com:bookingtraveler><com:bookingtraveler key="INF1" travelertype="INF" dob="2021-10-26" gender="F" nationality="IN" xmlns:com="http://www.travelport.com/schema/common_v42_0">
+            <com:bookingtravelername prefix="Mr" first="dfdfdfdf" last="dffdfdfd">
+            <com:phonenumber key="" number="545665676" type="Home" text="Abc-Xy">
+            <com:email type="Home" emailid="tgtrtr@edgtyh.gytr">
+            <com:ssr type="DOCS" carrier="AI" freetext="">
+            <com:address>
+                <com:addressname>gtrgtrg</com:addressname>
+                <com:street>trgr</com:street>
+                <com:street>trgr</com:street>
+                <com:city>dffdfg</com:city>
+                <com:state>dffdfdfd</com:state>
+                <com:postalcode>fgfgt</com:postalcode>
+                <com:country>IN</com:country>
+            </com:address>
+            </com:ssr></com:email></com:phonenumber></com:bookingtravelername></com:bookingtraveler>
+                <generalremark useprovidernativemode="true" typeingds="Basic" xmlns="http://www.travelport.com/schema/common_v42_0">
+                    <remarkdata>Booking 1</remarkdata>
+                </generalremark>
+                <com:continuitycheckoverride key="" xmlns:com="http://www.travelport.com/schema/common_v42_0">true</com:continuitycheckoverride>
+                <com:formofpayment key="" type="Credit" xmlns:com="http://www.travelport.com/schema/common_v42_0">
+                    <com:creditcard type="CA" number="5555555555555557" expdate="2022-03" name="JAYA KUMAR" cvv="123" key="">
+                        <com:billingaddress>
+                            <com:addressname>Jan Testora</com:addressname>
+                            <com:street>6901 S. Havana</com:street>
+                            <com:street>Apt 2</com:street>
+                            <com:city>Englewood</com:city>
+                            <com:state>CO</com:state>
+                            <com:postalcode>8011</com:postalcode>
+                            <com:country>AU</com:country>
+                        </com:billingaddress>
+                    </com:creditcard>
+                </com:formofpayment>
+                <air:airpricingsolution key="XobWrzAqWDKAFmy7mAAAAA==" totalprice="GBP758.01" baseprice="GBP292.00" approximatetotalprice="GBP758.01" approximatebaseprice="GBP292.00" taxes="GBP466.01" fees="GBP0.00" approximatetaxes="GBP466.01" quotedate="2021-11-11" xmlns:air="http://www.travelport.com/schema/air_v42_0">
+                    <air:airsegment key="XobWrzAqWDKABmy7mAAAAA==" group="0" carrier="EY" flightnumber="12" providercode="1G" origin="LHR" destination="AUH" departuretime="2021-11-25T08:00:00.000+00:00" arrivaltime="2021-11-25T18:40:00.000+04:00" flighttime="400" traveltime="400" distance="3403" classofservice="E" equipment="E90" changeofplane="false" optionalservicesindicator="false" availabilitysource="S" participantlevel="Secure Sell" linkavailability="true" polledavailabilityoption="O and D cache or polled status used with different local status" availabilitydisplaytype="Fare Specific Fare Quote Unbooked">
+                <air:codeshareinfo operatingcarrier="EY"></air:codeshareinfo>
+                <air:flightdetails key="" origin="LHR" destination="AUH" departuretime="2021-11-25T08:00:00.000+00:00" arrivaltime="2021-11-25T18:40:00.000+04:00" flighttime="400" traveltime="400" distance="3403">
+                </air:flightdetails></air:airsegment>
+                <air:airsegment key="XobWrzAqWDKADmy7mAAAAA==" group="0" carrier="EY" flightnumber="206" providercode="1G" origin="AUH" destination="BOM" departuretime="2021-11-25T20:40:00.000+04:00" arrivaltime="2021-11-26T01:00:00.000+05:30" flighttime="170" traveltime="170" distance="1237" classofservice="E" equipment="E90" changeofplane="false" optionalservicesindicator="false" availabilitysource="S" participantlevel="Secure Sell" linkavailability="true" polledavailabilityoption="O and D cache or polled status used with different local status" availabilitydisplaytype="Fare Specific Fare Quote Unbooked">
+                <air:codeshareinfo operatingcarrier="EY"></air:codeshareinfo>
+                <air:flightdetails key="" origin="AUH" destination="BOM" departuretime="2021-11-25T20:40:00.000+04:00" arrivaltime="2021-11-26T01:00:00.000+05:30" flighttime="170" traveltime="170" distance="1237">
+                </air:flightdetails></air:airsegment>
+                <air:airpricinginfo pricingmethod="Auto" key="XobWrzAqWDKAJmy7mAAAAA==" totalprice="GBP337.87" baseprice="GBP138.00" approximatetotalprice="GBP337.87" approximatebaseprice="GBP138.00" taxes="GBP199.87" providercode="1G"><air:fareinfo promotionalfare="false" key="XobWrzAqWDKARmy7mAAAAA==" farefamily="Economy Saver" departuredate="2021-11-25" amount="GBP138.00" effectivedate="2021-11-11T09:36:00.000+00:00" destination="BOM" origin="LHR" passengertypecode="ADT" farebasis="E15V1GB">
+                                        <air:farerulekey fareinforef="XobWrzAqWDKARmy7mAAAAA==" providercode="1G">6UUVoSldxwi22txxEM/a1MbKj3F8T9EyxsqPcXxP0TLGyo9xfE/RMsuWFfXVd1OAly5qxZ3qLwOXLmrFneovA5cuasWd6i8Dly5qxZ3qLwOXLmrFneovA5WMYhfhErtjxWa1uaqI55k3aSkvhp2ybWUIAL9LtWTCrJ1s0TrQRIjAyGqh8JIaqC8y0G18HuBITK5D2uBlSW1mMrKR8UVjR2LgFn3B9sPdSU8gecfbWEnMU535bvD9TBytUfPkOF003cGgfilcoyjAKVadhXL2OkPFc7ZmQhP+mpBH9wehGMGQjgGIsGAT+0mMhqhqzDrQ/AFKEXb03hK/he9va7VDH7+F729rtUMfv4Xvb2u1Qx+/he9va7VDHxDGJun84l6GmjYuszn207WOnxkQ2WPPHvaVUAnec78/+boJutE2GnEVaZxJD91o4+G1LKFhl6vS/diRr3jbmb8=</air:farerulekey>
+                                    </air:fareinfo>
+                                    <air:bookinginfo bookingcode="E" cabinclass="Economy" fareinforef="XobWrzAqWDKARmy7mAAAAA==" segmentref="XobWrzAqWDKABmy7mAAAAA==" hosttokenref="XobWrzAqWDKAGmy7mAAAAA==">
+                                    <air:bookinginfo bookingcode="E" cabinclass="Economy" fareinforef="XobWrzAqWDKARmy7mAAAAA==" segmentref="XobWrzAqWDKADmy7mAAAAA==" hosttokenref="XobWrzAqWDKAGmy7mAAAAA==">
+                                    </air:bookinginfo></air:bookinginfo></air:airpricinginfo><air:airpricinginfo pricingmethod="Auto" key="XobWrzAqWDKAfny7mAAAAA==" totalprice="GBP337.87" baseprice="GBP138.00" approximatetotalprice="GBP337.87" approximatebaseprice="GBP138.00" taxes="GBP199.87" providercode="1G"><air:fareinfo promotionalfare="false" key="XobWrzAqWDKAnny7mAAAAA==" farefamily="Economy Saver" departuredate="2021-11-25" amount="GBP138.00" effectivedate="2021-11-11T09:36:00.000+00:00" destination="BOM" origin="LHR" passengertypecode="ADT" farebasis="E15V1GB">
+                                        <air:farerulekey fareinforef="XobWrzAqWDKAnny7mAAAAA==" providercode="1G">6UUVoSldxwi22txxEM/a1MbKj3F8T9EyxsqPcXxP0TLGyo9xfE/RMsuWFfXVd1OAly5qxZ3qLwOXLmrFneovA5cuasWd6i8Dly5qxZ3qLwOXLmrFneovA5WMYhfhErtjxWa1uaqI55k3aSkvhp2ybWUIAL9LtWTCrJ1s0TrQRIjAyGqh8JIaqC8y0G18HuBITK5D2uBlSW1mMrKR8UVjR2LgFn3B9sPdSU8gecfbWEnsEf34vHSKShytUfPkOF003cGgfilcoyjAKVadhXL2OkPFc7ZmQhP+mpBH9wehGMGQjgGIsGAT+3uF1fN7hKmH/AFKEXb03hK/he9va7VDH7+F729rtUMfv4Xvb2u1Qx+/he9va7VDHxDGJun84l6GmjYuszn207WOnxkQ2WPPHvaVUAnec78/+boJutE2GnEVaZxJD91o4+G1LKFhl6vS/diRr3jbmb8=</air:farerulekey>
+                                    </air:fareinfo>
+                                    <air:bookinginfo bookingcode="E" cabinclass="Economy" fareinforef="XobWrzAqWDKAnny7mAAAAA==" segmentref="XobWrzAqWDKABmy7mAAAAA==" hosttokenref="XobWrzAqWDKAHmy7mAAAAA==">
+                                    <air:bookinginfo bookingcode="E" cabinclass="Economy" fareinforef="XobWrzAqWDKAnny7mAAAAA==" segmentref="XobWrzAqWDKADmy7mAAAAA==" hosttokenref="XobWrzAqWDKAHmy7mAAAAA==">
+                                    </air:bookinginfo></air:bookinginfo></air:airpricinginfo><air:airpricinginfo pricingmethod="Auto" key="XobWrzAqWDKA1oy7mAAAAA==" totalprice="GBP82.27" baseprice="GBP16.00" approximatetotalprice="GBP82.27" approximatebaseprice="GBP16.00" taxes="GBP66.27" providercode="1G"><air:fareinfo promotionalfare="false" key="XobWrzAqWDKA6oy7mAAAAA==" farefamily="Economy Saver" departuredate="2021-11-25" amount="GBP16.00" effectivedate="2021-11-11T09:36:00.000+00:00" destination="BOM" origin="LHR" passengertypecode="INF" farebasis="E15V1GB">
+                                        <air:farerulekey fareinforef="XobWrzAqWDKA6oy7mAAAAA==" providercode="1G">6UUVoSldxwi22txxEM/a1MbKj3F8T9EyxsqPcXxP0TLGyo9xfE/RMsuWFfXVd1OAly5qxZ3qLwOXLmrFneovA5cuasWd6i8Dly5qxZ3qLwOXLmrFneovA5WMYhfhErtjxWa1uaqI55k3aSkvhp2ybWUIAL9LtWTC93gx8nlYmupN3J3NyYpz6c8MQ5p+Sp5DIwg61o066sh9CtB8FF+ctoX+hNfHEXoxUV3b2b+cmv9JBCYAkTJzwFj2XiB1GHUZhjvLolIuOdSmh+V0nHiDK4MN1QPqv5KjezXeoJAB0LznspXZkeS4uscYaLWRXyVcy5YV9dV3U4CXLmrFneovA5cuasWd6i8Dly5qxZ3qLwOXLmrFneovAzzD4Wdjal2fHna1H5QsLdGaNi6zOfbTtY770mJHGJ8MhMAYZDVedyzNLlk8IZixZ+ghbo0cgC3B+cSUhsHzcNQ=</air:farerulekey>
+                                    </air:fareinfo>
+                                    <air:bookinginfo bookingcode="E" cabinclass="Economy" fareinforef="XobWrzAqWDKA6oy7mAAAAA==" segmentref="XobWrzAqWDKABmy7mAAAAA==" hosttokenref="XobWrzAqWDKAImy7mAAAAA==">
+                                    <air:bookinginfo bookingcode="E" cabinclass="Economy" fareinforef="XobWrzAqWDKA6oy7mAAAAA==" segmentref="XobWrzAqWDKADmy7mAAAAA==" hosttokenref="XobWrzAqWDKAImy7mAAAAA==">
+                                    </air:bookinginfo></air:bookinginfo></air:airpricinginfo><hosttoken key="XobWrzAqWDKAGmy7mAAAAA==" xmlns="http://www.travelport.com/schema/common_v42_0">GFB10101ADT00  01E15V1GB                               0200010002#GFB200010101NADTV3004GBQP001000019977#GFMCPRO004NGBQP EY ADTE15V1GB</hosttoken><hosttoken key="XobWrzAqWDKAHmy7mAAAAA==" xmlns="http://www.travelport.com/schema/common_v42_0">GFB10202CNN00  01E15V1GB                               0200010002#GFB200020201NADTV3004GBQP001000019977#GFMCPRO004NGBQP EY ADTE15V1GB</hosttoken><hosttoken key="XobWrzAqWDKAImy7mAAAAA==" xmlns="http://www.travelport.com/schema/common_v42_0">GFB10303INF00  01E15V1GB                               0200010002#GFB200030301NINFV3004GBQP001000019910002604277#GFMCPRO004NGBQPDEY INFE15V1GB</hosttoken>
+                </air:airpricingsolution>
+                <com:actionstatus ticketdate="T*" type="ACTIVE" providercode="1G" xmlns:com="http://www.travelport.com/schema/common_v42_0">
+            </com:actionstatus></com:billingpointofsaleinfo></univ:aircreatereservationreq>
+        </soap:body>
+    </soap:envelope>

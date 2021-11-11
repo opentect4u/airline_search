@@ -702,3 +702,15 @@ Timings are subject to change, please reconfirming with your airline operator be
     }
 </script>
 @endsection
+
+
+@section('script')
+<script type="text/javascript">
+    $( document ).ready(function() {
+        $('#loading').hide();
+        $('#loading_small').hide();
+
+        
+    });
+</script>
+@endsection

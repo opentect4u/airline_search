@@ -634,6 +634,7 @@ class FlightController extends Controller
            </air:AirPriceReq>
         </soap:Body>
      </soap:Envelope>';
+    // return $query;
             $message = <<<EOM
 $query
 EOM;
