@@ -3060,15 +3060,17 @@ class XMlToParseDataController extends Controller
                                                                             // print_r($jsons19);
                                                                             // echo "<br/><br/><br/>";
                                                                             if($count25==2){
-                                                                                foreach($jsons19 as $cbb => $jsons20){
-                                                                                    // print_r($jsons20);
-                                                                                    // echo "<br/><br/><br/>";
-                                                                                    if(is_string($jsons20)){
-                                                                                        // print_r($cbb."-".$jsons21);
+                                                                                if(is_array($jsons19)){
+                                                                                    foreach($jsons19 as $cbb => $jsons20){
+                                                                                        // print_r($jsons20);
                                                                                         // echo "<br/><br/><br/>";
-                                                                                        if(strcmp($cbb, "$") == 0){	
-                                                                                            $details4["carryonallowanceinfo"]=$jsons20;
-                                                                                        }	
+                                                                                        if(is_string($jsons20)){
+                                                                                            // print_r($cbb."-".$jsons21);
+                                                                                            // echo "<br/><br/><br/>";
+                                                                                            if(strcmp($cbb, "$") == 0){	
+                                                                                                $details4["carryonallowanceinfo"]=$jsons20;
+                                                                                            }	
+                                                                                        }
                                                                                     }
                                                                                 }
                                                                             }
