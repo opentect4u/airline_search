@@ -56,8 +56,12 @@ class FlightController extends Controller
             $SearchPreferredDate=$var_PreferredDate;
             $SearchDate=$var_returnDate;
             $xmldata=app('App\Http\Controllers\UtilityController')->Universal_API_SearchXMLReturn($travel_class,$flightFrom,$flightTo,$SearchPreferredDate,$SearchDate,$var_adults,$var_children,$var_infant,$var_currency_code);
+            // $file='LowFareSearchReqXML';
+            // file_put_contents($file, $xmldata);
             $api_url = "https://apac.universal-api.pp.travelport.com/B2BGateway/connect/uAPI/AirService";
             $return_return =app('App\Http\Controllers\UtilityController')->universal_API($xmldata,$api_url);
+            // $file='LowFareSearchResXML';
+            // file_put_contents($file, $return_return);
             if($return_return==null){
                 // return $return;
                 return redirect()->route('errorPage');

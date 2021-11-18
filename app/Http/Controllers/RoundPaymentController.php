@@ -340,6 +340,8 @@ class RoundPaymentController extends Controller
         </soap:Body>
     </soap:Envelope>';
     // return $query;
+    // $file='AirCreateReservationReq';
+    // file_put_contents($file, $query);
             $message = <<<EOM
 $query
 EOM;
@@ -362,6 +364,8 @@ EOM;
         $return = curl_exec($soap_do);
         curl_close($soap_do);
         // return $return;
+        // $file='AirCreateReservationRes';
+        // file_put_contents($file, $return);
         $object =app('App\Http\Controllers\XMlToParseDataController')->XMlToJSON($return);
         // return $object;
         $data=collect();
@@ -610,6 +614,8 @@ EOM;
         </soap:Body>
     </soap:Envelope>';
     // return $query;
+    // $file='AirTicketingReq';
+    //     file_put_contents($file, $query);
             $message = <<<EOM
 $query
 EOM;
@@ -632,6 +638,8 @@ EOM;
         $return1 = curl_exec($soap_do);
         curl_close($soap_do);
         // return $return1;
+        // $file='AirTicketingRes';
+        // file_put_contents($file, $return1);
         $object1 =app('App\Http\Controllers\XMlToParseDataController')->XMlToJSON($return1);
         // return $object1;
         $alldetails=[];
@@ -640,9 +648,13 @@ EOM;
         // Universal Record RetrieveReq
         $xml_data =app('App\Http\Controllers\UtilityController')->UniversalRecordRetrieveReq($data['UniversalRecord']);
         // return $xml_data;
+        // $file='UniversalRecordRetrieveReq';
+        // file_put_contents($file, $xml_data);
         $api_url='https://apac.universal-api.pp.travelport.com/B2BGateway/connect/uAPI/UniversalRecordService';
         $return2 =app('App\Http\Controllers\UtilityController')->universal_API($xml_data,$api_url);
         // return $return2;
+        // $file='UniversalRecordRetrieveRes';
+        // file_put_contents($file, $file);
         $object2 =app('App\Http\Controllers\XMlToParseDataController')->XMlToJSON($return2);
         $unidata =app('App\Http\Controllers\XMlToParseDataController')->UniversalRecord($object2);
 

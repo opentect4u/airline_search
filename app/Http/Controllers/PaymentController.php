@@ -121,7 +121,7 @@ EOM;
         }else{
         
             // return $returndatasegment;
-            // return $datasegment;
+            // return "hii";
             $query = '<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
             <soap:Body>
                <air:AirPriceReq AuthorizedBy="user" TargetBranch="'.$TARGETBRANCH.'" FareRuleType="long" xmlns:air="http://www.travelport.com/schema/air_v42_0">
@@ -136,6 +136,8 @@ EOM;
             </soap:Body>
          </soap:Envelope>';
         // return $query;
+        // $file='AirpriceReqXML';
+        // file_put_contents($file, $query);
                 $message = <<<EOM
 $query
 EOM;
@@ -158,6 +160,8 @@ EOM;
             $return = curl_exec($soap_do);
             curl_close($soap_do);
             // return $return;
+            // $file='AirpriceResXML';
+            // file_put_contents($file, $return);
             $object =app('App\Http\Controllers\XMlToParseDataController')->XMlToJSON($return);
             // return $object;
             // $flight_data=$this->XMLData_Round($object);
