@@ -91,7 +91,7 @@
                             </div>
                             <div class="d-none d-md-block">
                                 <a href="{{route('contactus')}}" class="btn btn-sm btn-default"><i class="las la-headset"></i> Support</a>
-                                <a href="{{route('login')}}" class="btn btn-sm btn-primary">Sign In</a>
+                                <a href="https://www.cloud-travel.co.uk/software/public/login" class="btn btn-sm btn-primary">Sign In</a>
                             </div>
                         </div>
                     </nav>

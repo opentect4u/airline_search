@@ -16,6 +16,7 @@ use Session;
 use PDF;
 use Mail;
 use App\Mail\HotelBookinInvoiceEmail;
+use App\Mail\SendCredentialsEmail;
 
 use Illuminate\Support\Carbon;
 use App\Models\Leads;
@@ -131,6 +132,11 @@ class PaymentController extends Controller
                 'model_type'=>'App\User',
                 'model_id' => $user->id,
             ]);
+
+            $email=$request->email;
+            $LeaderName=$request->first_name1." ".$request->last_name1;
+            // Mail::to($email)->send(new SendCredentialsEmail($LeaderName,$email));
+
             $client_id=isset($client->id)?$client->id:$client[0]->id;
             // return $client_id;
         }

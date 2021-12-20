@@ -14,6 +14,9 @@ use App\Models\settings;
 use App\Models\Flight;
 use App\Models\Passenger;
 
+use Mail;
+use App\Mail\SendCredentialsEmail;
+
 class RoundPaymentController extends Controller
 {
     public function PaymentCredit(Request $request){
@@ -81,7 +84,12 @@ class RoundPaymentController extends Controller
                 'model_type'=>'App\User',
                 'model_id' => $user->id,
             ]);
-            $client_id=$client->id;
+
+            $email=$request->email;
+            $LeaderName=$request->first_name1." ".$request->last_name1;
+            // Mail::to($email)->send(new SendCredentialsEmail($LeaderName,$email));
+
+            $client_id=isset($client->id)?$client->id:$client[0]->id;
             // return $client_id;
         }
 
