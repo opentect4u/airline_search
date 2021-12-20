@@ -4041,6 +4041,21 @@ class XMlToParseDataController extends Controller
                                     }
                                 }
                             }
+                            if(array_key_exists('universal:ProviderReservationInfo',$unvjson1['universal:UniversalRecordRetrieveRsp']['universal:UniversalRecord'])){
+                                foreach($unvjson1['universal:UniversalRecordRetrieveRsp']['universal:UniversalRecord']['universal:ProviderReservationInfo'] as $key => $value){
+                                    if(is_string($value)){
+                                        if(strcmp($key, "@LocatorCode") == 0){
+                                            $UniversalRecord['LocatorCode']=$value;
+                                        }
+                                        // if(strcmp($key, "@Version") == 0){
+                                        //     $UniversalRecord['Version']=$value;
+                                        // }
+                                        // if(strcmp($key, "@Status") == 0){
+                                        //     $UniversalRecord['Status']=$value;
+                                        // }
+                                    }
+                                }
+                            }
                             $per_details1=collect();
                             $per_details=[];
                             $per_details0=[];
@@ -4540,5 +4555,10 @@ class XMlToParseDataController extends Controller
             }
         }    
         return $unidata;
+    }
+
+    public function DBjsonData($unidata,$currency_code,$currency)
+    {
+        # code...
     }
 }

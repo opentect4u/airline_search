@@ -60,6 +60,7 @@ class FlightController extends Controller
             // file_put_contents($file, $xmldata);
             $api_url = "https://apac.universal-api.pp.travelport.com/B2BGateway/connect/uAPI/AirService";
             $return_return =app('App\Http\Controllers\UtilityController')->universal_API($xmldata,$api_url);
+            // return $return_return ;
             // $file='LowFareSearchResXML';
             // file_put_contents($file, $return_return);
             if($return_return==null){

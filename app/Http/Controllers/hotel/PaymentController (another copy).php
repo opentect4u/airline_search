@@ -25,7 +25,6 @@ use App\Models\User;
 use App\Models\settings;
 use App\Models\Flight;
 use App\Models\Passenger;
-use App\Models\invoiceInfo;
 
 class PaymentController extends Controller
 {
@@ -37,20 +36,19 @@ class PaymentController extends Controller
         if (count($is_has)>0) {
             // return $is_has;
         }else{
-            // return $request;
             // return "hii";
             $lead = new Leads;
             // $lead->user_id = Auth::user()->id;
-            $lead->first_name = $request->room1_first_name1;
-            $lead->last_name = $request->room1_last_name1;
-            $lead->address = $request->add_1.', '.$request->add_2;
+            $lead->first_name = $request->first_name1;
+            $lead->last_name = $request->last_name1;
+            $lead->address = $request->add_1;
             $lead->city = $request->city;
-            // $lead->county = $request->county;
-            $lead->postal_code = $request->post_code;
-            $lead->country = $request->state;
-            $lead->phone = $request->contact_no;
+            $lead->county = $request->county;
+            $lead->postal_code = $request->postcode;
+            $lead->country = $request->country;
+            $lead->phone = $request->mob_no;
             $lead->email = $request->email;
-            // $lead->DOB = date('Y-m-d',strtotime($request->date_of_birth1));
+            $lead->DOB = date('Y-m-d',strtotime($request->date_of_birth1));
             $lead->save();
         }
 
@@ -95,18 +93,18 @@ class PaymentController extends Controller
             
             $client->unique_id = $unique_id;
             // $client->creator_id = Auth::user()->id;
-            $client->first_name = $request->room1_first_name1;
-            $client->last_name = $request->room1_last_name1;
+            $client->first_name = $request->first_name1;
+            $client->last_name = $request->last_name1;
             $client->address = $request->add_1.", ".$request->add_2;
-            $client->postal_code = $request->post_code;
+            $client->postal_code = $request->postcode;
             $client->city = $request->city;
             // $client->county = $request->county;
-            $client->country = $request->state;
-            // $client->DOB = Carbon::parse($request->date_of_birth1)->format('d-m-Y');
+            $client->country = $request->country;
+            $client->DOB = Carbon::parse($request->date_of_birth1)->format('d-m-Y');
             $client->email = $request->email;
-            $client->phone = $request->contact_no;
+            $client->phone = $request->mob_no;
             $client->permanent = 0;
-            // $client->client_type = $request->client_type;
+            $client->client_type = $request->client_type;
             $client->save();
 
             // $request->lead_id  // mean id
@@ -131,7 +129,7 @@ class PaymentController extends Controller
                 'model_type'=>'App\User',
                 'model_id' => $user->id,
             ]);
-            $client_id=isset($client->id)?$client->id:$client[0]->id;
+            $client_id=$client->id;
             // return $client_id;
         }
 
@@ -380,408 +378,85 @@ class PaymentController extends Controller
                 $f_name=$request->room1_first_name1;
                 $l_name=$request->room1_last_name1;
                 $passwords='';
-
-                // db insert
-                $currency_code=$bookdetails[0]['Currency'];
-                $currency=DB::table('hotel_currency')->where('currency',$currency_code)->value('icon');
-                $total=$bookdetails[0]['TotalPrice'];
-                $request->remarks="Non refunded";
-
-                $billing_address='cc\r\nkolkata\r\n700159\r\nhinduism\r\nindia';
-                $invoice = invoice::where('invoice_no', 'CLDI0002778')->get();
-                if ($invoice->count() > 0) {
-                    $latest = invoice::withTrashed()->orderBy('created_at', 'desc')->take(1)->get();
-                    // return $latest;
-                    $invoice_prev_no = $latest[0]->invoice_no;
-                    try {
-                        $invoice_no = 'CLDI000' . (substr($invoice_prev_no, 4, 7) + 1);
-                        // return $invoice_no;
-                    } catch (Exception $e) {
-                        $latest = invoice::withTrashed()->orderBy('created_at', 'desc')->get();
-
-                        $insize = count($latest);
-                        for ($i = 0; $i < $insize; $i++) {
-
-                            $invoice_prev_no = $latest[$i]->invoice_no;
-
-                            if ($invoice_prev_no[3] == "R" or $invoice_prev_no[3] == "C") {
-                                continue;
-                            } else {
-                                $invoice_no = 'CLDI000' . (substr($invoice_prev_no, 4, 7) + 1);
-                                break;
-                            }
-                        }
-
+                $user_details=UserLogin::where('user_id',$email)->get();
+                if(count($user_details)>0){
+                    foreach($user_details as $user){
+                        $user_id=$user->id;
                     }
-
-                    while (1) {
-
-                        $checknumber = invoice::where('invoice_no', '=', $invoice_no)->first();
-                        if ($checknumber === null) {
-                            // checknumber doesn't exist
-                            break;
-                        } else {
-
-                            $invoice_no = 'CLDI000' . (substr($invoice_no, 4, 7) + 1);
-                        }
-
-                    }
-
-                } else {
-                    $invoice_no = 'CLDI0002778';
-                }
-
-                $dt = Carbon::now();
-                $date_today = $dt->timezone('Europe/London');
-                $date = $date_today->toDateString();
-                $invoice = new invoice;
-                $client = client::find($client_id);
-                $invoice->client_id = $client->id;
-                if($request->diff_receiver_name){
-                    $invoice->receiver_name = $request->diff_receiver_name;
-                } else {
-                    $invoice->receiver_name = strtoupper($client->first_name . ' ' . $client->last_name);
-                }
-                $invoice->billing_address = strtoupper($billing_address);
-                $invoice->invoice_date = date('Y-m-d');
-                $invoice->invoice_no = $invoice_no;
-                if (!empty($request->discount)) {
-                    $invoice->discount = str_replace(',', '', $request->discount);
-                } else {
-                    $request->discount = 0.0;
-                }
-                $invoice->currency = $currency;
-                // $invoice->total = str_replace(',', '', $request->total);
-                // $invoice->discounted_total = str_replace(',', '', $total) - str_replace(',', '', $request->discount);
-                $invoice->total = $total;
-                $invoice->discounted_total =  $total -  $request->discount;
-                $invoice->mail_sent = $date;
-                $invoice->remarks = $request->remarks;
-                $invoice->save();
-                $tax = settings::all();
-                if ($tax[0]->enable == 'yes') {
-                    $invoice->VAT_percentage = $tax[0]->tax;
-                    $invoice->VAT_amount = ($tax[0]->tax) / 100 * (str_replace(',', '', $invoice->discounted_total));
-                }
-                // return $invoice;
-                $invoice->paid = 0;
-                $request->credit_amount=$total;
-                // return $request->credit_amount;
-                if ($request->credit_amount != null) {
-                    $invoice->credit = 1;
-                    $invoice->credit_amount = $invoice->credit_amount +  $request->credit_amount;
-                    $invoice->paid = $invoice->paid + $request->credit_amount;
-                }
-                
-
-                $invoice->pending_amount = $invoice->discounted_total + $invoice->VAT_amount - $invoice->paid;
-                $invoice->save();
-                
-               
-                if(isset($bookdetails[0]['Rooms']['Room']['RoomName'])){
-                    // return $bookdetails[0]['Rooms']['Room']['RoomName'];
-                    // HotelGuestRoom::create(array(
-                    //     'booking_reference'=>$bookdetails[0]['BookingReference'],
-                    //     'room_name'=>$bookdetails[0]['Rooms']['Room']['RoomName'],
-                    //     'room_no'=>1,
-                    //     'num_adults'=>$bookdetails[0]['Rooms']['Room']['NumAdults'],
-                    //     'num_children'=>$bookdetails[0]['Rooms']['Room']['NumChildren'],
-                    // ));
-                    $invoice_info = new invoiceInfo;
-                    $invoice_info->invoice_id = $invoice->id;
-                    $invoice_info->receiver_name = $invoice->receiver_name;
-                    $invoice_info->service_name = 'Hotel';
-
-                    $invoice_info->hotel_applicant_name = strtoupper($bookdetails[0]['LeaderName']);
-                    $invoice_info->hotel_city = strtoupper($bookdetails[0]['City']);
-                    $invoice_info->hotel_country = strtoupper($bookdetails[0]['City']);
-                    $invoice_info->hotel_id = $bookdetails[0]['HotelId'];
-                    $invoice_info->hotel_name = strtoupper($bookdetails[0]['HotelName']);
-                    $invoice_info->hotel_room_name = strtoupper($bookdetails[0]['Rooms']['Room']['RoomName']);
-                    $invoice_info->check_in_date = $bookdetails[0]['CheckInDate'];
-                    $invoice_info->check_out_date = $bookdetails[0]['CheckOutDate'];
-                    $invoice_info->no_of_adults = $bookdetails[0]['Rooms']['Room']['NumAdults'];
-                    $invoice_info->no_of_children = $bookdetails[0]['Rooms']['Room']['NumChildren'];
-                    $invoice_info->no_of_rooms = 1;
-                    $invoice_info->hotel_applicant_othername = '';
-                    $invoice_info->hotel_remarks = '';
-                    $invoice_info->hotel_amount = $total;
-                    $invoice_info->hotel_booking_reference_number = $bookdetails[0]['BookingReference'];
-                    if($request->hotel_company_name){
-                        $invoice_info->hotel_company_name = $request->hotel_company_name[$hotel_counter];
-                    }
-                    $invoice_info->save();
-
-
-                    
-
-                    for ($i=1; $i <=$bookdetails[0]['Rooms']['Room']['NumAdults']; $i++) { 
-                        $first_name='room1_first_name'.$i;
-                        $last_name='room1_last_name'.$i;
-                        HotelGuestRoomDetails::create(array(
-                            'booking_reference'=>$bookdetails[0]['BookingReference'],
-                            'pax_type' => 'ADULT',
-                            'room_no' => 1,
-                            'first_name' => $request->$first_name,
-                            'last_name' => $request->$last_name,
-                        ));
-                    }
-                    for ($j=1; $j <=$bookdetails[0]['Rooms']['Room']['NumChildren']; $j++) { 
-                        // room1_child1_first_name
-                        $first_name='room'.$count.'_child'.$j.'_first_name';
-                        $last_name='room'.$count.'_child'.$j.'_last_name';
-                        HotelGuestRoomDetails::create(array(
-                            'booking_reference'=>$bookdetails[0]['BookingReference'],
-                            'pax_type' => 'CHILD',
-                            'room_no' => 1,
-                            'first_name' => $request->$first_name,
-                            'last_name' => $request->$last_name,
-                        ));
-                    }
-                    
+                    session()->flush();
+                    Session::put('user_details', $user_details); 
                 }else{
-                    // return $bookdetails[0]['Rooms']['Room'];
-                    $rooms = $bookdetails[0]['Rooms']['Room'];
-                    $count=1;
-                    $room_no=0;
-                    $num_adults=0;
-                    $num_children=0;
-                    foreach($rooms as $room){
-                        $room_no=$room_no+1;
-                        $num_adults=$num_adults + $room['NumAdults'];
-                        $num_children=$num_children + $room['NumChildren'];
-                        for ($i=1; $i <=$room['NumAdults']; $i++) { 
-                            $first_name='room'.$count.'_first_name'.$i;
-                            $last_name='room'.$count.'_last_name'.$i;
-                            HotelGuestRoomDetails::create(array(
-                                'booking_reference'=>$bookdetails[0]['BookingReference'],
-                                'pax_type' => 'ADULT',
-                                'room_no' => $count,
-                                'first_name' => $request->$first_name,
-                                'last_name' => $request->$last_name,
-                            ));
+                    if(isset(Session::get('user_details')[0]['id'])){
+                        // $user_details1=UserLogin::where('id',Session::get('user_details')[0]['id'])->get();
+                        $user_id=Session::get('user_details')[0]['id'];
+                    }else{
+                        $passwords=substr(str_shuffle(str_repeat("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ", 6)), 0, 6);
+
+                        UserLogin::create(array(
+                            'user_id'=>$email,
+                            'user_pass'=>Hash::make($passwords),
+                            'first_name'=>$f_name,
+                            'last_name'=>$l_name,
+                            'mobile'=>$contact_no,
+                            'user_type'=>'U',
+                            'created_by'=>$f_name,
+                        ));
+                        $user_details1=UserLogin::where('user_id',$email)->get();
+                        // $user_id=1;
+                        foreach($user_details1 as $user){
+                            $user_id=$user->id;
                         }
-                        for ($j=1; $j <=$room['NumChildren']; $j++) { 
-                            // room1_child1_first_name
-                            $first_name='room'.$count.'_child'.$j.'_first_name';
-                            $last_name='room'.$count.'_child'.$j.'_last_name';
-                            HotelGuestRoomDetails::create(array(
-                                'booking_reference'=>$bookdetails[0]['BookingReference'],
-                                'pax_type' => 'CHILD',
-                                'room_no' => $count,
-                                'first_name' => $request->$first_name,
-                                'last_name' => $request->$last_name,
-                            ));
-                        }
-                        $count++;
+                        session()->flush();
+                        Session::put('user_details', $user_details1); 
+                        // $user_id=DB::table('user_login')->where('user_id',$email)->value('id');
                     }
-                    // HotelGuestRoom::create(array(
-                    //     'booking_reference'=>$bookdetails[0]['BookingReference'],
-                    //     'room_name'=>$room['RoomName'],
-                    //     'room_no'=>$room_no,
-                    //     'num_adults'=>$num_adults,
-                    //     'num_children'=>$num_children,
-                    // ));
-                    $invoice_info = new invoiceInfo;
-                    $invoice_info->invoice_id = $invoice->id;
-                    $invoice_info->receiver_name = $invoice->receiver_name;
-                    $invoice_info->service_name = 'Hotel';
-
-                    $invoice_info->hotel_applicant_name = strtoupper($bookdetails[0]['LeaderName']);
-                    $invoice_info->hotel_city = strtoupper($bookdetails[0]['City']);
-                    $invoice_info->hotel_country = strtoupper($bookdetails[0]['City']);
-                    $invoice_info->hotel_id = $bookdetails[0]['HotelId'];
-                    $invoice_info->hotel_name = strtoupper($bookdetails[0]['HotelName']);
-                    $invoice_info->hotel_room_name = strtoupper($room['RoomName']);
-                    $invoice_info->check_in_date = $bookdetails[0]['CheckInDate'];
-                    $invoice_info->check_out_date = $bookdetails[0]['CheckOutDate'];
-                    $invoice_info->no_of_adults = $num_adults;
-                    $invoice_info->no_of_children = $num_children;
-                    $invoice_info->no_of_rooms = $room_no;
-                    $invoice_info->hotel_applicant_othername = '';
-                    $invoice_info->hotel_remarks = '';
-                    $invoice_info->hotel_amount = $total;
-                    $invoice_info->hotel_booking_reference_number = $bookdetails[0]['BookingReference'];
-                    if($request->hotel_company_name){
-                        $invoice_info->hotel_company_name = $request->hotel_company_name[$hotel_counter];
-                    }
-                    $invoice_info->save();
-                }
-                // end add details database
-                $guestdetails=HotelGuestRoomDetails::where('booking_reference',$bookdetails[0]['BookingReference'])->get();
-
-                // start mail send code here
-                $pdfdata["bookdetails"] = $bookdetails[0];
-                $pdfdata["guestdetails"] = $guestdetails;
-                // $pdfdata["searched"] = $request;
-                $pdfdata["add_1"]= $request->add_1;
-                $pdfdata["add_2"]= $request->add_2;
-                $pdfdata["city"]= $request->city;
-                $pdfdata["state"]= $request->state;
-                $pdfdata["post_code"]= $request->post_code;
-                $pdfdata["contact_no"]= $request->contact_no;
-                $pdfdata["currency"]= $request->currency;
-                $pdfdata["GST"]= $request->GST;
-                $pdfdata["Convenience_Fees"]= $request->Convenience_Fees;
-                $pdfdata["Taxes_and_Fees"]= $request->Taxes_and_Fees;
-                $LeaderName=$bookdetails[0]['LeaderName'];
-                // return $pdfdata;
-                $pdf = PDF::loadView('emails.hotel.invoice', $pdfdata);
-                // Mail::to($email)->send(new HotelBookinInvoiceEmail($LeaderName,$email,$passwords,$pdf));
-
-                // end mail send code here
-
-                return view('hotel.confirm-booking',[
-                    'bookdetails'=>$bookdetails,
-                    'guestdetails'=>$guestdetails,
-                    'searched'=>$request,
-                    'invoice_no'=>$invoice_no,
-                    'unique_id'=>$unique_id
-                ]);
-            }else{
-                $xmldata=app('App\Http\Controllers\hotel\UtilityController')->HotelBookingDetails($check_in,$check_out);
-                $returndata=app('App\Http\Controllers\hotel\UtilityController')->Hotel_API($xmldata);
-                $object2 =app('App\Http\Controllers\XMlToParseDataController')->XMlToJSON($returndata);
-                foreach($object2 as $json){
-                    $bookdetails=$json['Body']['Bookings']['HotelBooking'];
-                    // return $bookdetails;
-                }
-                // start add details database
-                $contact_no=$request->contact_no;
-                $email=$request->email;
-                $f_name=$request->room1_first_name1;
-                $l_name=$request->room1_last_name1;
-               
-
-                // db insert
-                $currency_code=$bookdetails[0]['Currency'];
-                $currency=DB::table('hotel_currency')->where('currency',$currency_code)->value('icon');
-                $total=$bookdetails[0]['TotalPrice'];
-                $request->remarks="Non refunded";
-
-                $billing_address='cc\r\nkolkata\r\n700159\r\nhinduism\r\nindia';
-                $invoice = invoice::where('invoice_no', 'CLDI0002778')->get();
-                if ($invoice->count() > 0) {
-                    $latest = invoice::withTrashed()->orderBy('created_at', 'desc')->take(1)->get();
-                    // return $latest;
-                    $invoice_prev_no = $latest[0]->invoice_no;
-                    try {
-                        $invoice_no = 'CLDI000' . (substr($invoice_prev_no, 4, 7) + 1);
-                        // return $invoice_no;
-                    } catch (Exception $e) {
-                        $latest = invoice::withTrashed()->orderBy('created_at', 'desc')->get();
-                        $insize = count($latest);
-                        for ($i = 0; $i < $insize; $i++) {
-
-                            $invoice_prev_no = $latest[$i]->invoice_no;
-
-                            if ($invoice_prev_no[3] == "R" or $invoice_prev_no[3] == "C") {
-                                continue;
-                            } else {
-                                $invoice_no = 'CLDI000' . (substr($invoice_prev_no, 4, 7) + 1);
-                                break;
-                            }
-                        }
-                    }
-                    while (1) {
-
-                        $checknumber = invoice::where('invoice_no', '=', $invoice_no)->first();
-                        if ($checknumber === null) {
-                            // checknumber doesn't exist
-                            break;
-                        } else {
-
-                            $invoice_no = 'CLDI000' . (substr($invoice_no, 4, 7) + 1);
-                        }
-
-                    }
-
-                } else {
-                    $invoice_no = 'CLDI0002778';
                 }
 
-                $dt = Carbon::now();
-                $date_today = $dt->timezone('Europe/London');
-                $date = $date_today->toDateString();
-                $invoice = new invoice;
-                $client = client::find($client_id);
-                $invoice->client_id = $client->id;
-                if($request->diff_receiver_name){
-                    $invoice->receiver_name = $request->diff_receiver_name;
-                } else {
-                    $invoice->receiver_name = strtoupper($client->first_name . ' ' . $client->last_name);
-                }
-                $invoice->billing_address = strtoupper($billing_address);
-                $invoice->invoice_date = date('Y-m-d');
-                $invoice->invoice_no = $invoice_no;
-                if (!empty($request->discount)) {
-                    $invoice->discount = str_replace(',', '', $request->discount);
-                } else {
-                    $request->discount = 0.0;
-                }
-                $invoice->currency = $currency;
-                // $invoice->total = str_replace(',', '', $request->total);
-                // $invoice->discounted_total = str_replace(',', '', $total) - str_replace(',', '', $request->discount);
-                $invoice->total = $total;
-                $invoice->discounted_total =  $total -  $request->discount;
-                $invoice->mail_sent = $date;
-                $invoice->remarks = $request->remarks;
-                $invoice->save();
-                $tax = settings::all();
-                if ($tax[0]->enable == 'yes') {
-                    $invoice->VAT_percentage = $tax[0]->tax;
-                    $invoice->VAT_amount = ($tax[0]->tax) / 100 * (str_replace(',', '', $invoice->discounted_total));
-                }
-                // return $invoice;
-                $invoice->paid = 0;
-                $request->credit_amount=$total;
-                // return $request->credit_amount;
-                if ($request->credit_amount != null) {
-                    $invoice->credit = 1;
-                    $invoice->credit_amount = $invoice->credit_amount +  $request->credit_amount;
-                    $invoice->paid = $invoice->paid + $request->credit_amount;
-                }
+                HotelPaymentDetails::create(array(
+                    'booking_reference' => $bookdetails[0]['BookingReference'],
+                    'payment_id' => 'XMLTEST',
+                    'room_charges'=> $bookdetails[0]['TotalPrice'],
+                    'gst' => $request->GST,
+                    'convenience_fees' => $request->Convenience_Fees,
+                    'taxes_and_fees' => $request->Taxes_and_Fees,
+                ));
                 
-
-                $invoice->pending_amount = $invoice->discounted_total + $invoice->VAT_amount - $invoice->paid;
-                $invoice->save();
-                
-                
-               
+                HotelGuestDetails::create(array(
+                    'user_id'=>$user_id,
+                    'booking_reference'=>$bookdetails[0]['BookingReference'],
+                    'booking_status'=>$bookdetails[0]['BookingStatus'],
+                    'payment_status'=>$bookdetails[0]['PaymentStatus'],
+                    'booking_time'=>$bookdetails[0]['BookingTime'],
+                    'your_reference'=>$bookdetails[0]['YourReference'],
+                    'currency'=>$bookdetails[0]['Currency'],
+                    'total_price'=>$bookdetails[0]['TotalPrice'],
+                    'hotel_id'=>$bookdetails[0]['HotelId'],
+                    'hotel_name'=>$bookdetails[0]['HotelName'],
+                    'city'=>$bookdetails[0]['City'],
+                    'check_in_date'=>$bookdetails[0]['CheckInDate'],
+                    'check_out_date'=>$bookdetails[0]['CheckOutDate'],
+                    'leader_name'=>$bookdetails[0]['LeaderName'],
+                    'nationality'=>$bookdetails[0]['Nationality'],
+                    'board_type'=>$bookdetails[0]['BoardType'],
+                    'cancellation_deadline'=>$bookdetails[0]['CancellationDeadline'],
+                    'post_code'=>$request->post_code,
+                    'add_1'=>$request->add_1,
+                    'add_2'=>$request->add_2,
+                    'guest_city'=>$request->city,
+                    'country'=>$request->state,
+                    'mobile'=>$request->contact_no,
+                    'email'=>$request->email,
+                ));
                 if(isset($bookdetails[0]['Rooms']['Room']['RoomName'])){
                     // return $bookdetails[0]['Rooms']['Room']['RoomName'];
-                    // HotelGuestRoom::create(array(
-                    //     'booking_reference'=>$bookdetails[0]['BookingReference'],
-                    //     'room_name'=>$bookdetails[0]['Rooms']['Room']['RoomName'],
-                    //     'room_no'=>1,
-                    //     'num_adults'=>$bookdetails[0]['Rooms']['Room']['NumAdults'],
-                    //     'num_children'=>$bookdetails[0]['Rooms']['Room']['NumChildren'],
-                    // ));
-                    $invoice_info = new invoiceInfo;
-                    $invoice_info->invoice_id = $invoice->id;
-                    $invoice_info->receiver_name = $invoice->receiver_name;
-                    $invoice_info->service_name = 'Hotel';
-
-                    $invoice_info->hotel_applicant_name = strtoupper($bookdetails[0]['LeaderName']);
-                    $invoice_info->hotel_city = strtoupper($bookdetails[0]['City']);
-                    $invoice_info->hotel_country = strtoupper($bookdetails[0]['City']);
-                    $invoice_info->hotel_id = $bookdetails[0]['HotelId'];
-                    $invoice_info->hotel_name = strtoupper($bookdetails[0]['HotelName']);
-                    $invoice_info->hotel_room_name = strtoupper($bookdetails[0]['Rooms']['Room']['RoomName']);
-                    $invoice_info->check_in_date = $bookdetails[0]['CheckInDate'];
-                    $invoice_info->check_out_date = $bookdetails[0]['CheckOutDate'];
-                    $invoice_info->no_of_adults = $bookdetails[0]['Rooms']['Room']['NumAdults'];
-                    $invoice_info->no_of_children = $bookdetails[0]['Rooms']['Room']['NumChildren'];
-                    $invoice_info->no_of_rooms = 1;
-                    $invoice_info->hotel_applicant_othername = '';
-                    $invoice_info->hotel_remarks = '';
-                    $invoice_info->hotel_amount = $total;
-                    $invoice_info->hotel_booking_reference_number = $bookdetails[0]['BookingReference'];
-                    if($request->hotel_company_name){
-                        $invoice_info->hotel_company_name = $request->hotel_company_name[$hotel_counter];
-                    }
-                    $invoice_info->save();
-
+                    HotelGuestRoom::create(array(
+                        'booking_reference'=>$bookdetails[0]['BookingReference'],
+                        'room_name'=>$bookdetails[0]['Rooms']['Room']['RoomName'],
+                        'room_no'=>1,
+                        'num_adults'=>$bookdetails[0]['Rooms']['Room']['NumAdults'],
+                        'num_children'=>$bookdetails[0]['Rooms']['Room']['NumChildren'],
+                    ));
+                    
                     for ($i=1; $i <=$bookdetails[0]['Rooms']['Room']['NumAdults']; $i++) { 
                         $first_name='room1_first_name'.$i;
                         $last_name='room1_last_name'.$i;
@@ -849,37 +524,206 @@ class PaymentController extends Controller
                         }
                         $count++;
                     }
-                    // HotelGuestRoom::create(array(
-                    //     'booking_reference'=>$bookdetails[0]['BookingReference'],
-                    //     'room_name'=>$room['RoomName'],
-                    //     'room_no'=>$room_no,
-                    //     'num_adults'=>$num_adults,
-                    //     'num_children'=>$num_children,
-                    // ));
-                    $invoice_info = new invoiceInfo;
-                    $invoice_info->invoice_id = $invoice->id;
-                    $invoice_info->receiver_name = $invoice->receiver_name;
-                    $invoice_info->service_name = 'Hotel';
+                    HotelGuestRoom::create(array(
+                        'booking_reference'=>$bookdetails[0]['BookingReference'],
+                        'room_name'=>$room['RoomName'],
+                        'room_no'=>$room_no,
+                        'num_adults'=>$num_adults,
+                        'num_children'=>$num_children,
+                    ));
+                }
+                // end add details database
+                $guestdetails=HotelGuestRoomDetails::where('booking_reference',$bookdetails[0]['BookingReference'])->get();
 
-                    $invoice_info->hotel_applicant_name = strtoupper($bookdetails[0]['LeaderName']);
-                    $invoice_info->hotel_city = strtoupper($bookdetails[0]['City']);
-                    $invoice_info->hotel_country = strtoupper($bookdetails[0]['City']);
-                    $invoice_info->hotel_id = $bookdetails[0]['HotelId'];
-                    $invoice_info->hotel_name = strtoupper($bookdetails[0]['HotelName']);
-                    $invoice_info->hotel_room_name = strtoupper($room['RoomName']);
-                    $invoice_info->check_in_date = $bookdetails[0]['CheckInDate'];
-                    $invoice_info->check_out_date = $bookdetails[0]['CheckOutDate'];
-                    $invoice_info->no_of_adults = $num_adults;
-                    $invoice_info->no_of_children = $num_children;
-                    $invoice_info->no_of_rooms = $room_no;
-                    $invoice_info->hotel_applicant_othername = '';
-                    $invoice_info->hotel_remarks = '';
-                    $invoice_info->hotel_amount = $total;
-                    $invoice_info->hotel_booking_reference_number = $bookdetails[0]['BookingReference'];
-                    if($request->hotel_company_name){
-                        $invoice_info->hotel_company_name = $request->hotel_company_name[$hotel_counter];
+                // start mail send code here
+                $pdfdata["bookdetails"] = $bookdetails[0];
+                $pdfdata["guestdetails"] = $guestdetails;
+                // $pdfdata["searched"] = $request;
+                $pdfdata["add_1"]= $request->add_1;
+                $pdfdata["add_2"]= $request->add_2;
+                $pdfdata["city"]= $request->city;
+                $pdfdata["state"]= $request->state;
+                $pdfdata["post_code"]= $request->post_code;
+                $pdfdata["contact_no"]= $request->contact_no;
+                $pdfdata["currency"]= $request->currency;
+                $pdfdata["GST"]= $request->GST;
+                $pdfdata["Convenience_Fees"]= $request->Convenience_Fees;
+                $pdfdata["Taxes_and_Fees"]= $request->Taxes_and_Fees;
+                $LeaderName=$bookdetails[0]['LeaderName'];
+                // return $pdfdata;
+                $pdf = PDF::loadView('emails.hotel.invoice', $pdfdata);
+                // Mail::to($email)->send(new HotelBookinInvoiceEmail($LeaderName,$email,$passwords,$pdf));
+
+                // end mail send code here
+
+                return view('hotel.confirm-booking',[
+                    'bookdetails'=>$bookdetails,
+                    'guestdetails'=>$guestdetails,
+                    'searched'=>$request
+                ]);
+            }else{
+                $xmldata=app('App\Http\Controllers\hotel\UtilityController')->HotelBookingDetails($check_in,$check_out);
+                $returndata=app('App\Http\Controllers\hotel\UtilityController')->Hotel_API($xmldata);
+                $object2 =app('App\Http\Controllers\XMlToParseDataController')->XMlToJSON($returndata);
+                foreach($object2 as $json){
+                    $bookdetails=$json['Body']['Bookings']['HotelBooking'];
+                    // return $bookdetails;
+                }
+                // start add details database
+                $contact_no=$request->contact_no;
+                $email=$request->email;
+                $f_name=$request->room1_first_name1;
+                $l_name=$request->room1_last_name1;
+                $user_details=UserLogin::where('user_id',$email)->get();
+                if(count($user_details)>0){
+                    foreach($user_details as $user){
+                        $user_id=$user->id;
                     }
-                    $invoice_info->save();
+                    session()->flush();
+                    Session::put('user_details', $user_details); 
+                }else{
+                    if(isset(Session::get('user_details')[0]['id'])){
+                        // $user_details1=UserLogin::where('id',Session::get('user_details')[0]['id'])->get();
+                        $user_id=Session::get('user_details')[0]['id'];
+                    }else{
+                        UserLogin::create(array(
+                            'user_id'=>$email,
+                            'user_pass'=>Hash::make(uniqid('pass_')),
+                            'first_name'=>$f_name,
+                            'last_name'=>$l_name,
+                            'mobile'=>$contact_no,
+                            'user_type'=>'U',
+                            'created_by'=>$f_name,
+                        ));
+                        $user_details1=UserLogin::where('user_id',$email)->get();
+                        // $user_id=1;
+                        foreach($user_details1 as $user){
+                            $user_id=$user->id;
+                        }
+                        session()->flush();
+                        Session::put('user_details', $user_details1); 
+                        // $user_id=DB::table('user_login')->where('user_id',$email)->value('id');
+                    }
+                }
+
+                HotelPaymentDetails::create(array(
+                    'booking_reference' => $bookdetails[0]['BookingReference'],
+                    'payment_id' => 'XMLTEST',
+                    'room_charges'=> $bookdetails[0]['TotalPrice'],
+                    'gst' => $request->GST,
+                    'convenience_fees' => $request->Convenience_Fees,
+                    'taxes_and_fees' => $request->Taxes_and_Fees,
+                ));
+                
+                HotelGuestDetails::create(array(
+                    'user_id'=>$user_id,
+                    'booking_reference'=>$bookdetails[0]['BookingReference'],
+                    'booking_status'=>$bookdetails[0]['BookingStatus'],
+                    'payment_status'=>$bookdetails[0]['PaymentStatus'],
+                    'booking_time'=>$bookdetails[0]['BookingTime'],
+                    'your_reference'=>$bookdetails[0]['YourReference'],
+                    'currency'=>$bookdetails[0]['Currency'],
+                    'total_price'=>$bookdetails[0]['TotalPrice'],
+                    'hotel_id'=>$bookdetails[0]['HotelId'],
+                    'hotel_name'=>$bookdetails[0]['HotelName'],
+                    'city'=>$bookdetails[0]['City'],
+                    'check_in_date'=>$bookdetails[0]['CheckInDate'],
+                    'check_out_date'=>$bookdetails[0]['CheckOutDate'],
+                    'leader_name'=>$bookdetails[0]['LeaderName'],
+                    'nationality'=>$bookdetails[0]['Nationality'],
+                    'board_type'=>$bookdetails[0]['BoardType'],
+                    'cancellation_deadline'=>$bookdetails[0]['CancellationDeadline'],
+                    'post_code'=>$request->post_code,
+                    'add_1'=>$request->add_1,
+                    'add_2'=>$request->add_2,
+                    'guest_city'=>$request->city,
+                    'country'=>$request->state,
+                    'mobile'=>$request->contact_no,
+                    'email'=>$request->email,
+                ));
+                if(isset($bookdetails[0]['Rooms']['Room']['RoomName'])){
+                    // return $bookdetails[0]['Rooms']['Room']['RoomName'];
+                    HotelGuestRoom::create(array(
+                        'booking_reference'=>$bookdetails[0]['BookingReference'],
+                        'room_name'=>$bookdetails[0]['Rooms']['Room']['RoomName'],
+                        'room_no'=>1,
+                        'num_adults'=>$bookdetails[0]['Rooms']['Room']['NumAdults'],
+                        'num_children'=>$bookdetails[0]['Rooms']['Room']['NumChildren'],
+                    ));
+                    for ($i=1; $i <=$bookdetails[0]['Rooms']['Room']['NumAdults']; $i++) { 
+                        $first_name='room1_first_name'.$i;
+                        $last_name='room1_last_name'.$i;
+                        HotelGuestRoomDetails::create(array(
+                            'booking_reference'=>$bookdetails[0]['BookingReference'],
+                            'pax_type' => 'ADULT',
+                            'room_no' => 1,
+                            'first_name' => $request->$first_name,
+                            'last_name' => $request->$last_name,
+                        ));
+                    }
+                    for ($j=1; $j <=$bookdetails[0]['Rooms']['Room']['NumChildren']; $j++) { 
+                        // room1_child1_first_name
+                        $first_name='room'.$count.'_child'.$j.'_first_name';
+                        $last_name='room'.$count.'_child'.$j.'_last_name';
+                        HotelGuestRoomDetails::create(array(
+                            'booking_reference'=>$bookdetails[0]['BookingReference'],
+                            'pax_type' => 'CHILD',
+                            'room_no' => 1,
+                            'first_name' => $request->$first_name,
+                            'last_name' => $request->$last_name,
+                        ));
+                    }
+                    
+                }else{
+                    // return $bookdetails[0]['Rooms']['Room'];
+                    $rooms = $bookdetails[0]['Rooms']['Room'];
+                    $count=1;
+                    $room_no=0;
+                    $num_adults=0;
+                    $num_children=0;
+                    foreach($rooms as $room){
+                        // HotelGuestRoom::create(array(
+                        //     'booking_reference'=>$bookdetails[0]['BookingReference'],
+                        //     'room_name'=>$room['RoomName'],
+                        //     'room_no'=>$count,
+                        //     'num_adults'=>$room['NumAdults'],
+                        //     'num_children'=>$room['NumChildren'],
+                        // ));
+                        $room_no=$room_no+1;
+                        $num_adults=$num_adults + $room['NumAdults'];
+                        $num_children=$num_children + $room['NumChildren'];
+                        for ($i=1; $i <=$room['NumAdults']; $i++) { 
+                            $first_name='room'.$count.'_first_name'.$i;
+                            $last_name='room'.$count.'_last_name'.$i;
+                            HotelGuestRoomDetails::create(array(
+                                'booking_reference'=>$bookdetails[0]['BookingReference'],
+                                'pax_type' => 'ADULT',
+                                'room_no' => $count,
+                                'first_name' => $request->$first_name,
+                                'last_name' => $request->$last_name,
+                            ));
+                        }
+                        for ($j=1; $j <=$room['NumChildren']; $j++) { 
+                            // room1_child1_first_name
+                            $first_name='room'.$count.'_child'.$j.'_first_name';
+                            $last_name='room'.$count.'_child'.$j.'_last_name';
+                            HotelGuestRoomDetails::create(array(
+                                'booking_reference'=>$bookdetails[0]['BookingReference'],
+                                'pax_type' => 'CHILD',
+                                'room_no' => $count,
+                                'first_name' => $request->$first_name,
+                                'last_name' => $request->$last_name,
+                            ));
+                        }
+                        $count++;
+                    }
+                    HotelGuestRoom::create(array(
+                        'booking_reference'=>$bookdetails[0]['BookingReference'],
+                        'room_name'=>$room['RoomName'],
+                        'room_no'=>$room_no,
+                        'num_adults'=>$num_adults,
+                        'num_children'=>$num_children,
+                    ));
                 }
                 // end add details database
                 $guestdetails=HotelGuestRoomDetails::where('booking_reference',$bookdetails[0]['BookingReference'])->get();
@@ -891,9 +735,7 @@ class PaymentController extends Controller
                 return view('hotel.confirm-booking',[
                     'bookdetails'=>$bookdetails,
                     'guestdetails'=>$guestdetails,
-                    'searched'=>$request,
-                    'invoice_no'=>$invoice_no,
-                    'unique_id'=>$unique_id
+                    'searched'=>$request
                 ]);
             }
 

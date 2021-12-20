@@ -57,14 +57,18 @@
                                                 <td><b>Invoice Date :</b> </td>
                                                 <td class="text-left"> &nbsp;{{date('d M Y')}}</td>
                                             </tr>
-                                            <tr>
+                                            <!-- <tr>
                                                 <td><b>Booking Reference &nbsp;&nbsp;&nbsp;: </b></td>
                                                 <td class="text-left"> &nbsp;{{$bookdetails[0]['BookingReference']}}</td>
-                                            </tr>
-                                            <!-- <tr>
-                                                <td><b>Client ID &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </b> </td>
-                                                <td class="text-left">&nbsp;CLDC000169</td>
                                             </tr> -->
+                                            <tr>
+                                                <td><b>Invoice No &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </b> </td>
+                                                <td class="text-left">&nbsp;{{isset($invoice_no)?$invoice_no:''}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Client ID &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </b> </td>
+                                                <td class="text-left">&nbsp;{{isset($unique_id)?$unique_id:''}}</td>
+                                            </tr>
                                         </table>
                                     </div>
                                 </div>
@@ -286,7 +290,7 @@
                                             </div>
 
                                         </div>
-                                        <div class="w-100">
+                                        <!-- <div class="w-100">
                                             <div class="" style="display:inline-block;margin-right:30px;">
                                                 <p class="mb-1"><b>Balance Due:</b></p>
                                             </div>
@@ -295,7 +299,7 @@
                                                 echo $val=DB::table('hotel_currency')->where('currency',$searched->currency)->value('icon');
                                                 echo " ";
                                             ?> {{number_format(($bookdetails[0]['TotalPrice'] + $searched->GST + $searched->Convenience_Fees + $searched->Taxes_and_Fees),2)}} </div>
-                                        </div>
+                                        </div> -->
 
 
                                     </div>

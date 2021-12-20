@@ -1,6 +1,6 @@
 @extends('common.master')
 @section('content')
-
+   
 
 <section class="search-packages bg-light-gray py-4" id="">
     <div class="container-fluid">
@@ -75,11 +75,11 @@
                                             </tr>
                                             <tr>
                                                 <td><b>Invoice No &nbsp;&nbsp;&nbsp;: </b></td>
-                                                <td class="text-left"> &nbsp;CLDI0002971</td>
+                                                <td class="text-left"> &nbsp;{{isset($invoice_no)?$invoice_no:''}}</td>
                                             </tr>
                                             <tr>
                                                 <td><b>Client ID &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </b> </td>
-                                                <td class="text-left">&nbsp;CLDC000169</td>
+                                                <td class="text-left">&nbsp;{{isset($unique_id)?$unique_id:''}}</td>
                                             </tr>
                                         </table>
                                     </div>
@@ -154,7 +154,7 @@
                                             </span>
 
                                             | -->
-                                            PNR : {{$airreservation['UniversalRecord']}} | &nbsp;&nbsp;UN PNR :IBE10363947 &nbsp;&nbsp; | &nbsp;&nbsp;
+                                            PNR : {{$unidata[3]['UniversalRecord']['LocatorCode']}} | &nbsp;&nbsp;UN PNR : {{$airreservation['UniversalRecord']}} &nbsp;&nbsp; | &nbsp;&nbsp;
                                             BOOKING DATE :{{date('d/m/Y')}}
                                         </p>
 
@@ -262,7 +262,7 @@
                                             </div>
 
                                         </div>
-                                        <div class="w-100">
+                                        <!-- <div class="w-100">
                                             <div class="" style="display:inline-block;margin-right:30px;">
                                                 <p class="mb-1"><b>Balance Due:</b></p>
                                             </div>
@@ -280,7 +280,7 @@
                                             }
                                             echo number_format($var_tot,2);
                                             ?> </div>
-                                        </div>
+                                        </div> -->
 
 
                                     </div>
@@ -305,11 +305,11 @@
                                             </tr>
                                             <tr>
                                                 <td><b>Invoice No &nbsp;&nbsp;&nbsp;: </b></td>
-                                                <td class="text-left"> &nbsp;CLDI0002971</td>
+                                                <td class="text-left"> &nbsp;{{isset($invoice_no)?$invoice_no:''}}</td>
                                             </tr>
                                             <tr>
                                                 <td><b>Client ID &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </b> </td>
-                                                <td class="text-left">&nbsp;CLDC000169</td>
+                                                <td class="text-left">&nbsp;{{isset($unique_id)?$unique_id:''}}</td>
                                             </tr>
                                         </table>
                                     </div>
@@ -383,7 +383,7 @@
                                             </span>
 
                                             | -->
-                                            PNR : {{$return_airreservation['UniversalRecord']}} | &nbsp;&nbsp;UN PNR :IBE10363947 &nbsp;&nbsp; | &nbsp;&nbsp;
+                                            PNR : {{$return_unidata[3]['UniversalRecord']['LocatorCode']}} | &nbsp;&nbsp;UN PNR : {{$return_airreservation['UniversalRecord']}} &nbsp;&nbsp; | &nbsp;&nbsp;
                                             BOOKING DATE :{{date('d/m/Y')}}
                                         </p>
 
@@ -496,7 +496,7 @@
                                             </div>
 
                                         </div>
-                                        <div class="w-100">
+                                        <!-- <div class="w-100">
                                             <div class="" style="display:inline-block;margin-right:30px;">
                                                 <p class="mb-1"><b>Balance Due:</b></p>
                                             </div>
@@ -514,7 +514,7 @@
                                             }
                                             echo number_format($var_tot,2);
                                             ?> </div>
-                                        </div>
+                                        </div> -->
 
 
                                     </div>

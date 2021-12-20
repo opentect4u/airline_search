@@ -3,10 +3,99 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Session;
+use DB;
+use Illuminate\Support\Carbon;
+use App\Models\Leads;
+use App\Models\client;
+use App\Models\invoice;
+use App\Models\User;
+use App\Models\settings;
+use App\Models\Flight;
+use App\Models\Passenger;
 
 class RoundPaymentController extends Controller
 {
     public function PaymentCredit(Request $request){
+        // return $request;
+
+        $converted=Leads::where('email',$request->email)->value('converted');
+        if ($converted==1) {
+            // return $converted."  if";
+            $client_id=Leads::where('email',$request->email)->value('client_id');
+            $unique_id = client::where('id',$client_id)->value('unique_id');
+            // return $client_id;
+            // "receiver_name": "304", clients_id
+
+        }else{
+            // return $request;
+            // return $converted."  else";
+            $lead_id=Leads::where('email',$request->email)->value('id');
+            // return $lead_id;
+            $client = new client;
+            
+            $test_client = client::where('unique_id','CLDC0001')->get();
+            if ($test_client->count()>0) {
+                $latest = client::orderBy('id','desc')->take(1)->get();
+                $client_prev_no = $latest[0]->unique_id;
+                $unique_id = 'CLDC000'.(substr($client_prev_no,4,7)+1);
+            }else{
+                $unique_id = 'CLDC0001';
+            }
+            
+            $client->unique_id = $unique_id;
+            // $client->creator_id = Auth::user()->id;
+            $client->first_name = $request->first_name1;
+            $client->last_name = $request->last_name1;
+            $client->address = $request->add_1.", ".$request->add_2;
+            $client->postal_code = $request->postcode;
+            $client->city = $request->city;
+            // $client->county = $request->county;
+            $client->country = $request->country;
+            $client->DOB = Carbon::parse($request->date_of_birth1)->format('d-m-Y');
+            $client->email = $request->email;
+            $client->phone = $request->mob_no;
+            $client->permanent = 0;
+            $client->client_type = $request->client_type;
+            $client->save();
+
+            // $request->lead_id  // mean id
+            $lead = Leads::find($lead_id);
+            $lead->client_id = $client->id;
+            $lead->converted = 1;
+            $lead->save();
+
+            $client = client::where('email',$request->email)->take(1)->get();
+            $user = new User;
+            $user->name = $client[0]->first_name ." ". $client[0]->last_name;
+            $user->email = $client[0]->email;
+            $user->password = bcrypt('pass@123');
+            
+            // $user->assignRole('Client');
+            $user->save();
+            $client[0]->user_id = $user->id;
+            $client[0]->save();
+            // $invite->delete();
+            DB::table('model_has_roles')->insert([
+                'role_id' => 11,
+                'model_type'=>'App\User',
+                'model_id' => $user->id,
+            ]);
+            $client_id=$client->id;
+            // return $client_id;
+        }
+
+        
+        
+
+
+
+
+
+
+
+
+
         // return $request;
         $flight=json_decode($request->return_flight, true);
         // return $flight;
@@ -654,18 +743,367 @@ EOM;
         $return2 =app('App\Http\Controllers\UtilityController')->universal_API($xml_data,$api_url);
         // return $return2;
         // $file='UniversalRecordRetrieveRes';
-        // file_put_contents($file, $file);
+        // file_put_contents($file, $return2);
         $object2 =app('App\Http\Controllers\XMlToParseDataController')->XMlToJSON($return2);
         $unidata =app('App\Http\Controllers\XMlToParseDataController')->UniversalRecord($object2);
 
         // return $unidata;
         // return $data;
         // return $request;
+
+        // db code here
+        $country_code=$request->country_code;
+        if($country_code==''){
+            $country_code='GB'; 
+        }
+
+        $currency_code=DB::table('countries')->where('country_code',$country_code)->value('currency_code');
+        $currency=DB::table('countries')->where('country_code',$country_code)->value('currency_symbal');
+
+        if (count($unidata[1]['journey'])>2) {
+            $journey_stop=["1"];
+        }else{
+            $journey_stop=["0"];
+        }
+        // return $journey_stop;
+        $universal_pnr=$data['UniversalRecord'];
+        $pnr=$unidata[3]['UniversalRecord']['LocatorCode'];
+
+        $segment_one_flight=[];
+        $segment_one_from=[];
+        $segment_one_to=[];
+        $segment_one_carrier=[];
+        $segment_one_class=[];
+        $segment_one_Flight_No=[];
+        $segment_one_departure=[];
+        $segment_one_country_Departure=[];
+        $segment_one_country_Arrival=[];
+        $segment_one_arrival=[];
+        $segment_one_Duration=[];
+        $segment_one_terminal_arrival=[];
+        $segment_one_terminal_departure=[];
+
+        $round_push= count($unidata[1]['journey'])/2;
+
+        $segment_two_flight=[];      
+        $segment_two_from=[];
+        $segment_two_to=[];
+        $segment_two_carrier=[];
+        $segment_two_class=[];
+        $segment_two_Flight_No=[];
+        $segment_two_departure=[];
+        $segment_two_country_Departure=[];
+        $segment_two_country_Arrival=[];
+        $segment_two_arrival=[];
+        $segment_two_Duration=[];
+        $segment_two_terminal_arrival=[];
+        $segment_two_terminal_departure=[];
+        $jcount=1;
+        foreach ($unidata[1]['journey'] as $key => $value) {
+            // return $value;
+            // return $value['Carrier'];
+            if ($jcount>$round_push) {
+                array_push($segment_two_flight,$value['Carrier']);
+                array_push($segment_two_from,$value['Origin']);
+                array_push($segment_two_to,$value['Destination']);
+                array_push($segment_two_carrier,7);  // baggage
+                array_push($segment_two_class,$value['CabinClass']);
+                array_push($segment_two_Flight_No,$value['FlightNumber']);
+                array_push($segment_two_departure,$value['DepartureTime']);
+                array_push($segment_two_country_Departure,'');  //country name
+                array_push($segment_two_country_Arrival,'');//country name
+                array_push($segment_two_arrival,$value['ArrivalTime']);
+                array_push($segment_two_Duration, \Carbon\Carbon::parse($value['DepartureTime'])->diff(\Carbon\Carbon::parse($value['ArrivalTime']))->format('%Hh %Im'));  //duration 
+                array_push($segment_two_terminal_arrival,isset($value['OriginTerminal'])?$value['OriginTerminal']:'');
+                array_push($segment_two_terminal_departure,isset($value['DestinationTerminal'])?$value['DestinationTerminal']:'');
+            }else{
+                array_push($segment_one_flight,$value['Carrier']);
+                array_push($segment_one_from,$value['Origin']);
+                array_push($segment_one_to,$value['Destination']);
+                array_push($segment_one_carrier,7);  // baggage
+                array_push($segment_one_class,$value['CabinClass']);
+                array_push($segment_one_Flight_No,$value['FlightNumber']);
+                array_push($segment_one_departure,$value['DepartureTime']);
+                array_push($segment_one_country_Departure,'');  //country name
+                array_push($segment_one_country_Arrival,'');//country name
+                array_push($segment_one_arrival,$value['ArrivalTime']);
+                array_push($segment_one_Duration, \Carbon\Carbon::parse($value['DepartureTime'])->diff(\Carbon\Carbon::parse($value['ArrivalTime']))->format('%Hh %Im'));  //duration 
+                array_push($segment_one_terminal_arrival,isset($value['OriginTerminal'])?$value['OriginTerminal']:'');
+                array_push($segment_one_terminal_departure,isset($value['DestinationTerminal'])?$value['DestinationTerminal']:'');
+            }
+            $jcount++;
+        }
+
+        $verify=[];
+        $pax_type=[];
+        $first_name=[];
+        $last_name=[];
+        $DOB=[];
+        
+        foreach ($unidata[0]['personal_details'] as $key => $value) {
+            array_push($verify,null);
+            array_push($pax_type,$value['TravelerType']);
+            array_push($first_name,$value['First']);
+            array_push($last_name,$value['Last']);
+            array_push($DOB,$value['DOB']);
+        }
+        
+
+        $segment_one_fare_cost=[];
+        $segment_one_fare_sell=[];
+        foreach ($unidata[2]['price'] as $key => $value) {
+            array_push($segment_one_fare_cost,str_replace($currency_code,'',$value['TotalPrice']));
+            array_push($segment_one_fare_sell,str_replace($currency_code,'',$value['TotalPrice']));
+        }
+
+        $service_name=["Flight"];
+        $journey_type=["RETURN"];
+        $universal_pnr=[$universal_pnr];
+        $pnr=[$pnr];
+        $agency_pcc=[null];
+        $booking_date=[date('Y-m-d')];
+        $airline_ref=[null];
+
+        $jsonData=[];
+        $jsonData['service_name']=$service_name;
+        $jsonData['journey_type']=$journey_type;
+        $jsonData['journey_stop']=$journey_stop;
+        $jsonData['universal_pnr']=$universal_pnr;
+        $jsonData['pnr']=$pnr;
+        $jsonData['agency_pcc']=$agency_pcc;
+        $jsonData['booking_date']=$booking_date;
+        $jsonData['airline_ref']=$airline_ref;
+        $jsonData['segment_one_flight']=$segment_one_flight;  
+        $jsonData['segment_one_from']=$segment_one_from;
+        $jsonData['segment_one_to']=$segment_one_to;
+        $jsonData['segment_one_carrier']=$segment_one_carrier;
+        $jsonData['segment_one_class']=$segment_one_class;
+        $jsonData['segment_one_Flight_No']=$segment_one_Flight_No;
+        $jsonData['segment_one_departure']=$segment_one_departure;
+        $jsonData['segment_one_country_Departure']=$segment_one_country_Departure;
+        $jsonData['segment_one_country_Arrival']=$segment_one_country_Arrival;
+        $jsonData['segment_one_arrival']=$segment_one_arrival;
+        $jsonData['segment_one_Duration']=$segment_one_Duration;
+        $jsonData['segment_one_terminal_arrival']=$segment_one_terminal_arrival;
+        $jsonData['segment_one_terminal_departure']=$segment_one_terminal_departure;
+        $jsonData['segment_two_flight']=$segment_two_flight;  
+        $jsonData['segment_two_from']=$segment_two_from;
+        $jsonData['segment_two_to']=$segment_two_to;
+        $jsonData['segment_two_carrier']=$segment_two_carrier;
+        $jsonData['segment_two_class']=$segment_two_class;
+        $jsonData['segment_two_Flight_No']=$segment_two_Flight_No;
+        $jsonData['segment_two_departure']=$segment_two_departure;
+        $jsonData['segment_two_country_Departure']=$segment_two_country_Departure;
+        $jsonData['segment_two_country_Arrival']=$segment_two_country_Arrival;
+        $jsonData['segment_two_arrival']=$segment_two_arrival;
+        $jsonData['segment_two_Duration']=$segment_two_Duration;
+        $jsonData['segment_two_terminal_arrival']=$segment_two_terminal_arrival;
+        $jsonData['segment_two_terminal_departure']=$segment_two_terminal_departure;
+        $jsonData['verify']=$verify;
+        $jsonData['pax_type']=$pax_type;
+        $jsonData['first_name']=$first_name;
+        $jsonData['last_name']=$last_name;
+        $jsonData['DOB']=$DOB;
+        $jsonData['segment_one_fare_cost']=$segment_one_fare_cost;
+        $jsonData['segment_one_fare_sell']=$segment_one_fare_sell;
+        // $data=[];
+        // return $jsonData;
+
+        $total=0;
+        foreach($unidata[2] as $key => $datas){
+            // return $request;
+            $total+=(str_replace($currency_code,'',$datas[0]['TotalPrice'])*$request->adults);
+            if(isset($datas[1])){
+            $total+=(str_replace($currency_code,'',$datas[1]['TotalPrice'])*$request->children);
+            }
+            if(isset($datas[2])){
+            $total+=(str_replace($currency_code,'',$datas[2]['TotalPrice'])*$request->infant);
+            }
+        }
+        $billing_address='cc\r\nkolkata\r\n700159\r\nhinduism\r\nindia';
+        $invoice = invoice::where('invoice_no', 'CLDI0002778')->get();
+        if ($invoice->count() > 0) {
+            $latest = invoice::withTrashed()->orderBy('created_at', 'desc')->take(1)->get();
+            // return $latest;
+            $invoice_prev_no = $latest[0]->invoice_no;
+            try {
+                $invoice_no = 'CLDI000' . (substr($invoice_prev_no, 4, 7) + 1);
+                // return $invoice_no;
+            } catch (Exception $e) {
+                $latest = invoice::withTrashed()->orderBy('created_at', 'desc')->get();
+
+                $insize = count($latest);
+                for ($i = 0; $i < $insize; $i++) {
+
+                    $invoice_prev_no = $latest[$i]->invoice_no;
+
+                    if ($invoice_prev_no[3] == "R" or $invoice_prev_no[3] == "C") {
+                        continue;
+                    } else {
+                        $invoice_no = 'CLDI000' . (substr($invoice_prev_no, 4, 7) + 1);
+                        break;
+                    }
+                }
+
+            }
+            while (1) {
+
+                $checknumber = invoice::where('invoice_no', '=', $invoice_no)->first();
+                if ($checknumber === null) {
+                    // checknumber doesn't exist
+                    break;
+                } else {
+
+                    $invoice_no = 'CLDI000' . (substr($invoice_no, 4, 7) + 1);
+                }
+
+            }
+
+        } else {
+            $invoice_no = 'CLDI0002778';
+        }
+
+        $dt = Carbon::now();
+        $date_today = $dt->timezone('Europe/London');
+        $date = $date_today->toDateString();
+        $invoice = new invoice;
+        $client = client::find($client_id);
+        $invoice->client_id = $client->id;
+        if($request->diff_receiver_name){
+            $invoice->receiver_name = $request->diff_receiver_name;
+        } else {
+            $invoice->receiver_name = strtoupper($client->first_name . ' ' . $client->last_name);
+        }
+        $invoice->billing_address = strtoupper($billing_address);
+        $invoice->invoice_date = date('Y-m-d');
+        $invoice->invoice_no = $invoice_no;
+        if (!empty($request->discount)) {
+            $invoice->discount = str_replace(',', '', $request->discount);
+        } else {
+            $request->discount = 0.0;
+        }
+        $invoice->currency = $currency;
+        // $invoice->total = str_replace(',', '', $request->total);
+        // $invoice->discounted_total = str_replace(',', '', $total) - str_replace(',', '', $request->discount);
+        $invoice->total = $total;
+        $invoice->discounted_total =  $total -  $request->discount;
+        $invoice->mail_sent = $date;
+        $invoice->remarks = $request->remarks;
+        $invoice->save();
+        $tax = settings::all();
+        if ($tax[0]->enable == 'yes') {
+            $invoice->VAT_percentage = $tax[0]->tax;
+            $invoice->VAT_amount = ($tax[0]->tax) / 100 * (str_replace(',', '', $invoice->discounted_total));
+        }
+        // return $invoice;
+        $invoice->paid = 0;
+        $request->credit_amount=$total;
+        // return $request->credit_amount;
+        if ($request->credit_amount != null) {
+            $invoice->credit = 1;
+            $invoice->credit_amount = $invoice->credit_amount +  $request->credit_amount;
+            $invoice->paid = $invoice->paid + $request->credit_amount;
+        }
+        
+
+        $invoice->pending_amount = $invoice->discounted_total + $invoice->VAT_amount - $invoice->paid;
+        $invoice->save();
+        $flight_counter = 0;
+        $visa_counter = 0;
+        $insurance_counter = 0;
+        $hotel_counter = 0;
+        $local_sight_sceen_counter = 0;
+        $local_transport_counter = 0;
+        $car_rental_counter = 0;
+        $other_facilities_counter = 0;
+
+        // return $unidata[1]['journey'][0];
+        // return $universal_pnr;
+        // return $journey_type[0];
+        $flight = new Flight;
+        $flight->invoice_id = $invoice->id;
+        $flight->universal_pnr = strtoupper($universal_pnr[0]);
+        $flight->booking_date = strtoupper($booking_date[0]);
+        $flight->pnr = strtoupper($pnr[0]);
+        $flight->agency_pcc = strtoupper($agency_pcc[0]);
+        $flight->airline_ref = strtoupper($airline_ref[0]);
+        $flight->total_amount = number_format($total,2);
+        $flight->segment_one_from = strtoupper($unidata[1]['journey'][0]['Origin']);
+        // $round_push
+        $flight->segment_two_from = isset($unidata[1]['journey'][$round_push]['Origin']) ? strtoupper($unidata[1]['journey'][$round_push]['Origin']) : '';
+        $flight->segment_one_to = strtoupper($unidata[1]['journey'][0]['Destination']);
+        $flight->segment_two_to = isset($unidata[1]['journey'][$round_push]['Destination']) ? strtoupper($unidata[1]['journey'][$round_push]['Destination']) : '';
+        $flight->segment_one_carrier = isset($unidata[1]['journey'][0]['segment_one_carrier']) ? strtoupper($unidata[1]['journey'][0]['segment_one_carrier'][0]) : '';
+        $flight->segment_two_carrier = isset($unidata[1]['journey'][$round_push]['segment_one_carrier']) ? strtoupper($unidata[1]['journey'][$round_push]['segment_one_carrier']) : '';
+        $flight->segment_one_flight = strtoupper($unidata[1]['journey'][0]['Carrier']);
+        $flight->segment_two_flight = isset($unidata[1]['journey'][$round_push]['Carrier']) ? strtoupper($unidata[1]['journey'][$round_push]['Carrier']) : '';
+        $flight->segment_one_class = strtoupper($unidata[1]['journey'][0]['CabinClass']);
+        $flight->segment_two_class = isset($unidata[1]['journey'][$round_push]['CabinClass']) ? strtoupper($unidata[1]['journey'][$round_push]['CabinClass']) : '';
+        $flight->segment_one_departure = strtoupper($unidata[1]['journey'][0]['DepartureTime']);
+        $flight->segment_two_departure = isset($unidata[1]['journey'][$round_push]['DepartureTime']) ? strtoupper($unidata[1]['journey'][$round_push]['DepartureTime']) : '';
+        $flight->segment_one_arrival = strtoupper($unidata[1]['journey'][0]['ArrivalTime']);
+        $flight->segment_two_arrival = isset($unidata[1]['journey'][$round_push]['ArrivalTime']) ? strtoupper($unidata[1]['journey'][$round_push]['ArrivalTime']) : '';
+        $flight->json_data = json_encode($jsonData);
+        $flight->journey_type = $journey_type[0];
+        $flight->journey_stop = $journey_stop[0];
+        $flight->save();
+
+        // return $flight;
+        // return $unidata[1]['journey'][0];
+        // return $currency;
+        // return $unidata[2]['price'][0]['TotalPrice'];
+        foreach($unidata[0]['personal_details'] as $key =>$data){
+            // echo  $data['TravelerType'];
+            // return $unidata[2]['price'][0]['TotalPrice'];
+            $passenger = new Passenger;
+            $passenger->flight_id = $flight->id;
+            $passenger->pax_type = $data['TravelerType'];
+            $passenger->first_name = $data['First'];
+            $passenger->last_name = $data['Last'];
+            $passenger->DOB = $data['DOB'];
+            if ($data['TravelerType']=='ADT') {
+                $passenger->segment_one_fare_cost = isset($unidata[2]['price'][0]['TotalPrice']) ? str_replace($currency_code, '', $unidata[2]['price'][0]['TotalPrice']) : '0.00';
+                $passenger->segment_one_fare_sell = isset($unidata[2]['price'][0]['TotalPrice']) ? str_replace($currency_code, '', $unidata[2]['price'][0]['TotalPrice']) : '0.00';
+            }else if ($data['TravelerType']=='CNN') {
+                $passenger->segment_one_fare_cost = isset($unidata[2]['price'][1]['TotalPrice']) ? str_replace($currency_code, '', $unidata[2]['price'][1]['TotalPrice']) : '0.00';
+                $passenger->segment_one_fare_sell = isset($unidata[2]['price'][1]['TotalPrice']) ? str_replace($currency_code, '', $unidata[2]['price'][1]['TotalPrice']) : '0.00';
+            }else if ($data['TravelerType']=='INF') {
+                $passenger->segment_one_fare_cost = isset($unidata[2]['price'][2]['TotalPrice']) ? str_replace($currency_code, '', $unidata[2]['price'][2]['TotalPrice']) : '0.00';
+                $passenger->segment_one_fare_sell = isset($unidata[2]['price'][2]['TotalPrice']) ? str_replace($currency_code, '', $unidata[2]['price'][2]['TotalPrice']) : '0.00';
+            }
+            // $passenger->segment_one_fare_cost = isset($value['segment_one_fare_cost'][$index]) ? str_replace(',', '', $value['segment_one_fare_cost'][$index]) : '0.00';
+            // $passenger->segment_two_fare_cost = isset($value['segment_two_fare_cost'][$index]) ? str_replace(',', '', $value['segment_two_fare_cost'][$index]) : '0.00';
+            // $passenger->segment_one_fare_sell = isset($value['segment_one_fare_sell'][$index]) ? str_replace(',', '', $value['segment_one_fare_sell'][$index]) : '0.00';
+            // $passenger->segment_two_fare_sell = isset($value['segment_two_fare_sell'][$index]) ? str_replace(',', '', $value['segment_two_fare_sell'][$index]) : '0.00';
+            $passenger->save();
+        }
+        foreach (invoice::all() as $inv) {
+            if ($inv->pending_amount < 0) {
+                $inv->advance = 0 - $inv->pending_amount;
+                $inv->pending_amount = 0;
+                $inv->save();
+            }
+            if ($inv->pending_amount == 0) {
+                $inv->status = 1;
+                $inv->save();
+            }
+            if ($inv->pending_amount > 0) {
+                $inv->status = 0;
+                $inv->save();
+            }
+        }
+
+        // return $invoice;
+
+        $invoice_id=$invoice->id;
+
         return view('flights.confirm-booking',[
             'return_searched'=>$request,
             'return_airreservation'=>$data,
             'return_airticketing'=>$alldetails,
-            'return_unidata'=>$unidata
+            'return_unidata'=>$unidata,
+            'invoice_no'=>$invoice_no,
+            'unique_id'=>$unique_id
         ]);
 
     }
