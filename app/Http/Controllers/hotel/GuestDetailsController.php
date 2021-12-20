@@ -109,9 +109,12 @@ class GuestDetailsController extends Controller
 
         $country=Countries::get();
 
-        $GST =2.00;
-        $Convenience_Fees =1.50;
-        $Taxes_and_Fees  =1.50;
+        // $GST =2.00;
+        // $Convenience_Fees =1.50;
+        // $Taxes_and_Fees  =1.50;
+        $GST =0.00;
+        $Convenience_Fees =0.00;
+        $Taxes_and_Fees  =0.00;
 
         return view('hotel.guest-details',[
             'hotelDetails'=>$hotelDetails,
